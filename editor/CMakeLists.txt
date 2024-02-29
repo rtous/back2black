@@ -1,8 +1,10 @@
 set(EXAMPLE_TARGET editor)
 
 add_executable(${EXAMPLE_TARGET}
+    utils.cpp
     main.cpp
     editor.cpp
+
 )
 
 install(TARGETS ${EXAMPLE_TARGET} RUNTIME)

@@ -198,8 +198,8 @@ int main(int, char**)
         }
 
         //My own window
-        if (show_myWindow)
-            myWindow(&show_myWindow);
+        //if (show_myWindow)
+        //    myWindow(&show_myWindow);
 
         //EDITOR CODE
         if (show_editor)
