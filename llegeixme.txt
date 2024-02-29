@@ -82,3 +82,17 @@ When linking your app, use this:
 	target_link_libraries(${EXAMPLE_TARGET} PRIVATE ${OpenCV_LIBS} ${CMAKE_THREAD_LIBS_INIT})
 
 
+ANNEX 2. Windows
+
+(jo tinc MingW installat)
+
+install cmake
+
+
+1) Download windows 64 installer:
+
+https://cmake.org/download/
+
+2) Add to the path, open a PowerShell as admin and type:
+
+setx PATH "$env:path;C:\Program Files\CMake\bin" -m
