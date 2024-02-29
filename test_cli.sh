@@ -1,0 +1,1 @@
+./build_macos/bin/cli -t 16 -i ./img.jpg -m ./checkpoints/ggml-model-f16.bin

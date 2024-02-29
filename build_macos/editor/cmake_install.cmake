@@ -43,17 +43,10 @@ if(CMAKE_INSTALL_COMPONENT STREQUAL "Unspecified" OR NOT CMAKE_INSTALL_COMPONENT
      NOT IS_SYMLINK "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/bin/editor")
     execute_process(COMMAND /usr/bin/install_name_tool
       -delete_rpath "/opt/homebrew/Cellar/sdl2/2.30.0/lib"
-      -delete_rpath "/Users/rtous/dev/back2black/build_macos/bin"
       "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/bin/editor")
     if(CMAKE_INSTALL_DO_STRIP)
       execute_process(COMMAND "/Library/Developer/CommandLineTools/usr/bin/strip" -u -r "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/bin/editor")
     endif()
   endif()
-endif()
-
-if(NOT CMAKE_INSTALL_LOCAL_ONLY)
-  # Include the install script for each subdirectory.
-  include("/Users/rtous/dev/back2black/build_macos/editor/third-party/cmake_install.cmake")
-
 endif()
 

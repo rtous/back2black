@@ -1,80 +1,92 @@
 [
 {
-  "directory": "/Users/rtous/dev/back2black/build_macos",
-  "command": "/Library/Developer/CommandLineTools/usr/bin/c++ -DGGML_SHARED -DGGML_USE_ACCELERATE -Dsam_cpp_EXPORTS -I/Users/rtous/dev/back2black/. -I/Users/rtous/dev/back2black/ggml/src/. -I/Users/rtous/dev/back2black/ggml/src/../include -I/Users/rtous/dev/back2black/ggml/src/../include/ggml -O3 -DNDEBUG -std=gnu++14 -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX14.2.sdk -fPIC -o CMakeFiles/sam.cpp.dir/tools/sam/sam.cpp.o -c /Users/rtous/dev/back2black/tools/sam/sam.cpp",
-  "file": "/Users/rtous/dev/back2black/tools/sam/sam.cpp",
-  "output": "CMakeFiles/sam.cpp.dir/tools/sam/sam.cpp.o"
+  "directory": "/Users/rtous/dev/back2black/build_macos/third-party/imgui",
+  "command": "/Library/Developer/CommandLineTools/usr/bin/c++  -I/Users/rtous/dev/back2black/third-party/imgui/imgui -O3 -DNDEBUG -std=gnu++11 -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX14.2.sdk -o CMakeFiles/imgui.dir/imgui/imgui.cpp.o -c /Users/rtous/dev/back2black/third-party/imgui/imgui/imgui.cpp",
+  "file": "/Users/rtous/dev/back2black/third-party/imgui/imgui/imgui.cpp",
+  "output": "third-party/imgui/CMakeFiles/imgui.dir/imgui/imgui.cpp.o"
 },
 {
-  "directory": "/Users/rtous/dev/back2black/build_macos/ggml/src",
-  "command": "/Library/Developer/CommandLineTools/usr/bin/cc -DGGML_BUILD -DGGML_SHARED -DGGML_USE_ACCELERATE -D_DARWIN_C_SOURCE -D_XOPEN_SOURCE=600 -Dggml_EXPORTS -I/Users/rtous/dev/back2black/ggml/src/. -I/Users/rtous/dev/back2black/ggml/src/../include -I/Users/rtous/dev/back2black/ggml/src/../include/ggml -F/Library/Developer/CommandLineTools/SDKs/MacOSX14.2.sdk/System/Library/Frameworks -O3 -DNDEBUG -std=gnu11 -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX14.2.sdk -fPIC -Wall -Wpedantic -Wformat=2 -Wno-unused -Wstrict-prototypes -Werror=vla -Wunused -Wextra -Wcast-qual -Wdouble-promotion -Wshadow -Wno-unused-function -Wmissing-prototypes -o CMakeFiles/ggml.dir/ggml.c.o -c /Users/rtous/dev/back2black/ggml/src/ggml.c",
-  "file": "/Users/rtous/dev/back2black/ggml/src/ggml.c",
-  "output": "ggml/src/CMakeFiles/ggml.dir/ggml.c.o"
+  "directory": "/Users/rtous/dev/back2black/build_macos/third-party/imgui",
+  "command": "/Library/Developer/CommandLineTools/usr/bin/c++  -I/Users/rtous/dev/back2black/third-party/imgui/imgui -O3 -DNDEBUG -std=gnu++11 -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX14.2.sdk -o CMakeFiles/imgui.dir/imgui/imgui_draw.cpp.o -c /Users/rtous/dev/back2black/third-party/imgui/imgui/imgui_draw.cpp",
+  "file": "/Users/rtous/dev/back2black/third-party/imgui/imgui/imgui_draw.cpp",
+  "output": "third-party/imgui/CMakeFiles/imgui.dir/imgui/imgui_draw.cpp.o"
 },
 {
-  "directory": "/Users/rtous/dev/back2black/build_macos/ggml/src",
-  "command": "/Library/Developer/CommandLineTools/usr/bin/cc -DGGML_BUILD -DGGML_SHARED -DGGML_USE_ACCELERATE -D_DARWIN_C_SOURCE -D_XOPEN_SOURCE=600 -Dggml_EXPORTS -I/Users/rtous/dev/back2black/ggml/src/. -I/Users/rtous/dev/back2black/ggml/src/../include -I/Users/rtous/dev/back2black/ggml/src/../include/ggml -F/Library/Developer/CommandLineTools/SDKs/MacOSX14.2.sdk/System/Library/Frameworks -O3 -DNDEBUG -std=gnu11 -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX14.2.sdk -fPIC -Wall -Wpedantic -Wformat=2 -Wno-unused -Wstrict-prototypes -Werror=vla -Wunused -Wextra -Wcast-qual -Wdouble-promotion -Wshadow -Wno-unused-function -Wmissing-prototypes -o CMakeFiles/ggml.dir/ggml-alloc.c.o -c /Users/rtous/dev/back2black/ggml/src/ggml-alloc.c",
-  "file": "/Users/rtous/dev/back2black/ggml/src/ggml-alloc.c",
-  "output": "ggml/src/CMakeFiles/ggml.dir/ggml-alloc.c.o"
+  "directory": "/Users/rtous/dev/back2black/build_macos/third-party/imgui",
+  "command": "/Library/Developer/CommandLineTools/usr/bin/c++  -I/Users/rtous/dev/back2black/third-party/imgui/imgui -O3 -DNDEBUG -std=gnu++11 -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX14.2.sdk -o CMakeFiles/imgui.dir/imgui/imgui_demo.cpp.o -c /Users/rtous/dev/back2black/third-party/imgui/imgui/imgui_demo.cpp",
+  "file": "/Users/rtous/dev/back2black/third-party/imgui/imgui/imgui_demo.cpp",
+  "output": "third-party/imgui/CMakeFiles/imgui.dir/imgui/imgui_demo.cpp.o"
 },
 {
-  "directory": "/Users/rtous/dev/back2black/build_macos/ggml/src",
-  "command": "/Library/Developer/CommandLineTools/usr/bin/cc -DGGML_BUILD -DGGML_SHARED -DGGML_USE_ACCELERATE -D_DARWIN_C_SOURCE -D_XOPEN_SOURCE=600 -Dggml_EXPORTS -I/Users/rtous/dev/back2black/ggml/src/. -I/Users/rtous/dev/back2black/ggml/src/../include -I/Users/rtous/dev/back2black/ggml/src/../include/ggml -F/Library/Developer/CommandLineTools/SDKs/MacOSX14.2.sdk/System/Library/Frameworks -O3 -DNDEBUG -std=gnu11 -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX14.2.sdk -fPIC -Wall -Wpedantic -Wformat=2 -Wno-unused -Wstrict-prototypes -Werror=vla -Wunused -Wextra -Wcast-qual -Wdouble-promotion -Wshadow -Wno-unused-function -Wmissing-prototypes -o CMakeFiles/ggml.dir/ggml-backend.c.o -c /Users/rtous/dev/back2black/ggml/src/ggml-backend.c",
-  "file": "/Users/rtous/dev/back2black/ggml/src/ggml-backend.c",
-  "output": "ggml/src/CMakeFiles/ggml.dir/ggml-backend.c.o"
+  "directory": "/Users/rtous/dev/back2black/build_macos/third-party/imgui",
+  "command": "/Library/Developer/CommandLineTools/usr/bin/c++  -I/Users/rtous/dev/back2black/third-party/imgui/imgui -O3 -DNDEBUG -std=gnu++11 -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX14.2.sdk -o CMakeFiles/imgui.dir/imgui/imgui_tables.cpp.o -c /Users/rtous/dev/back2black/third-party/imgui/imgui/imgui_tables.cpp",
+  "file": "/Users/rtous/dev/back2black/third-party/imgui/imgui/imgui_tables.cpp",
+  "output": "third-party/imgui/CMakeFiles/imgui.dir/imgui/imgui_tables.cpp.o"
 },
 {
-  "directory": "/Users/rtous/dev/back2black/build_macos/editor_blank",
-  "command": "/Library/Developer/CommandLineTools/usr/bin/c++ -DGGML_SHARED -DGGML_USE_ACCELERATE -I/Users/rtous/dev/back2black/. -I/Users/rtous/dev/back2black/ggml/src/. -I/Users/rtous/dev/back2black/ggml/src/../include -I/Users/rtous/dev/back2black/ggml/src/../include/ggml -I/opt/homebrew/Cellar/sdl2/2.30.0/include -I/Users/rtous/dev/back2black/editor_blank/third-party/imgui/. -isystem /opt/homebrew/Cellar/sdl2/2.30.0/include/SDL2 -O3 -DNDEBUG -std=gnu++14 -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX14.2.sdk -o CMakeFiles/editor_blank.dir/main.cpp.o -c /Users/rtous/dev/back2black/editor_blank/main.cpp",
-  "file": "/Users/rtous/dev/back2black/editor_blank/main.cpp",
-  "output": "editor_blank/CMakeFiles/editor_blank.dir/main.cpp.o"
+  "directory": "/Users/rtous/dev/back2black/build_macos/third-party/imgui",
+  "command": "/Library/Developer/CommandLineTools/usr/bin/c++  -I/Users/rtous/dev/back2black/third-party/imgui/imgui -O3 -DNDEBUG -std=gnu++11 -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX14.2.sdk -o CMakeFiles/imgui.dir/imgui/imgui_widgets.cpp.o -c /Users/rtous/dev/back2black/third-party/imgui/imgui/imgui_widgets.cpp",
+  "file": "/Users/rtous/dev/back2black/third-party/imgui/imgui/imgui_widgets.cpp",
+  "output": "third-party/imgui/CMakeFiles/imgui.dir/imgui/imgui_widgets.cpp.o"
 },
 {
-  "directory": "/Users/rtous/dev/back2black/build_macos/editor_blank/third-party/imgui",
-  "command": "/Library/Developer/CommandLineTools/usr/bin/c++ -Dimgui_EXPORTS -I/Users/rtous/dev/back2black/editor_blank/third-party/imgui/imgui -O3 -DNDEBUG -std=gnu++11 -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX14.2.sdk -fPIC -o CMakeFiles/imgui.dir/imgui/imgui.cpp.o -c /Users/rtous/dev/back2black/editor_blank/third-party/imgui/imgui/imgui.cpp",
-  "file": "/Users/rtous/dev/back2black/editor_blank/third-party/imgui/imgui/imgui.cpp",
-  "output": "editor_blank/third-party/imgui/CMakeFiles/imgui.dir/imgui/imgui.cpp.o"
+  "directory": "/Users/rtous/dev/back2black/build_macos/third-party/imgui",
+  "command": "/Library/Developer/CommandLineTools/usr/bin/c++  -I/opt/homebrew/Cellar/sdl2/2.30.0/include -I/Users/rtous/dev/back2black/third-party/imgui/imgui -I/Users/rtous/dev/back2black/third-party/imgui/imgui/backends -I/Users/rtous/dev/back2black/third-party/imgui/. -F/Library/Developer/CommandLineTools/SDKs/MacOSX14.2.sdk/System/Library/Frameworks -isystem /opt/homebrew/Cellar/sdl2/2.30.0/include/SDL2 -O3 -DNDEBUG -std=gnu++11 -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX14.2.sdk -o CMakeFiles/imgui-sdl2.dir/imgui/backends/imgui_impl_sdl2.cpp.o -c /Users/rtous/dev/back2black/third-party/imgui/imgui/backends/imgui_impl_sdl2.cpp",
+  "file": "/Users/rtous/dev/back2black/third-party/imgui/imgui/backends/imgui_impl_sdl2.cpp",
+  "output": "third-party/imgui/CMakeFiles/imgui-sdl2.dir/imgui/backends/imgui_impl_sdl2.cpp.o"
 },
 {
-  "directory": "/Users/rtous/dev/back2black/build_macos/editor_blank/third-party/imgui",
-  "command": "/Library/Developer/CommandLineTools/usr/bin/c++ -Dimgui_EXPORTS -I/Users/rtous/dev/back2black/editor_blank/third-party/imgui/imgui -O3 -DNDEBUG -std=gnu++11 -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX14.2.sdk -fPIC -o CMakeFiles/imgui.dir/imgui/imgui_draw.cpp.o -c /Users/rtous/dev/back2black/editor_blank/third-party/imgui/imgui/imgui_draw.cpp",
-  "file": "/Users/rtous/dev/back2black/editor_blank/third-party/imgui/imgui/imgui_draw.cpp",
-  "output": "editor_blank/third-party/imgui/CMakeFiles/imgui.dir/imgui/imgui_draw.cpp.o"
+  "directory": "/Users/rtous/dev/back2black/build_macos/third-party/imgui",
+  "command": "/Library/Developer/CommandLineTools/usr/bin/c++  -I/opt/homebrew/Cellar/sdl2/2.30.0/include -I/Users/rtous/dev/back2black/third-party/imgui/imgui -I/Users/rtous/dev/back2black/third-party/imgui/imgui/backends -I/Users/rtous/dev/back2black/third-party/imgui/. -F/Library/Developer/CommandLineTools/SDKs/MacOSX14.2.sdk/System/Library/Frameworks -isystem /opt/homebrew/Cellar/sdl2/2.30.0/include/SDL2 -O3 -DNDEBUG -std=gnu++11 -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX14.2.sdk -o CMakeFiles/imgui-sdl2.dir/imgui/backends/imgui_impl_opengl3.cpp.o -c /Users/rtous/dev/back2black/third-party/imgui/imgui/backends/imgui_impl_opengl3.cpp",
+  "file": "/Users/rtous/dev/back2black/third-party/imgui/imgui/backends/imgui_impl_opengl3.cpp",
+  "output": "third-party/imgui/CMakeFiles/imgui-sdl2.dir/imgui/backends/imgui_impl_opengl3.cpp.o"
 },
 {
-  "directory": "/Users/rtous/dev/back2black/build_macos/editor_blank/third-party/imgui",
-  "command": "/Library/Developer/CommandLineTools/usr/bin/c++ -Dimgui_EXPORTS -I/Users/rtous/dev/back2black/editor_blank/third-party/imgui/imgui -O3 -DNDEBUG -std=gnu++11 -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX14.2.sdk -fPIC -o CMakeFiles/imgui.dir/imgui/imgui_demo.cpp.o -c /Users/rtous/dev/back2black/editor_blank/third-party/imgui/imgui/imgui_demo.cpp",
-  "file": "/Users/rtous/dev/back2black/editor_blank/third-party/imgui/imgui/imgui_demo.cpp",
-  "output": "editor_blank/third-party/imgui/CMakeFiles/imgui.dir/imgui/imgui_demo.cpp.o"
+  "directory": "/Users/rtous/dev/back2black/build_macos/third-party/ggml/src",
+  "command": "/Library/Developer/CommandLineTools/usr/bin/cc -DGGML_USE_ACCELERATE -D_DARWIN_C_SOURCE -D_XOPEN_SOURCE=600 -I/Users/rtous/dev/back2black/third-party/ggml/src/. -I/Users/rtous/dev/back2black/third-party/ggml/src/../include -I/Users/rtous/dev/back2black/third-party/ggml/src/../include/ggml -F/Library/Developer/CommandLineTools/SDKs/MacOSX14.2.sdk/System/Library/Frameworks -O3 -DNDEBUG -std=gnu11 -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX14.2.sdk -Wall -Wpedantic -Wformat=2 -Wno-unused -Wstrict-prototypes -Werror=vla -Wunused -Wextra -Wcast-qual -Wdouble-promotion -Wshadow -Wno-unused-function -Wmissing-prototypes -o CMakeFiles/ggml.dir/ggml.c.o -c /Users/rtous/dev/back2black/third-party/ggml/src/ggml.c",
+  "file": "/Users/rtous/dev/back2black/third-party/ggml/src/ggml.c",
+  "output": "third-party/ggml/src/CMakeFiles/ggml.dir/ggml.c.o"
 },
 {
-  "directory": "/Users/rtous/dev/back2black/build_macos/editor_blank/third-party/imgui",
-  "command": "/Library/Developer/CommandLineTools/usr/bin/c++ -Dimgui_EXPORTS -I/Users/rtous/dev/back2black/editor_blank/third-party/imgui/imgui -O3 -DNDEBUG -std=gnu++11 -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX14.2.sdk -fPIC -o CMakeFiles/imgui.dir/imgui/imgui_tables.cpp.o -c /Users/rtous/dev/back2black/editor_blank/third-party/imgui/imgui/imgui_tables.cpp",
-  "file": "/Users/rtous/dev/back2black/editor_blank/third-party/imgui/imgui/imgui_tables.cpp",
-  "output": "editor_blank/third-party/imgui/CMakeFiles/imgui.dir/imgui/imgui_tables.cpp.o"
+  "directory": "/Users/rtous/dev/back2black/build_macos/third-party/ggml/src",
+  "command": "/Library/Developer/CommandLineTools/usr/bin/cc -DGGML_USE_ACCELERATE -D_DARWIN_C_SOURCE -D_XOPEN_SOURCE=600 -I/Users/rtous/dev/back2black/third-party/ggml/src/. -I/Users/rtous/dev/back2black/third-party/ggml/src/../include -I/Users/rtous/dev/back2black/third-party/ggml/src/../include/ggml -F/Library/Developer/CommandLineTools/SDKs/MacOSX14.2.sdk/System/Library/Frameworks -O3 -DNDEBUG -std=gnu11 -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX14.2.sdk -Wall -Wpedantic -Wformat=2 -Wno-unused -Wstrict-prototypes -Werror=vla -Wunused -Wextra -Wcast-qual -Wdouble-promotion -Wshadow -Wno-unused-function -Wmissing-prototypes -o CMakeFiles/ggml.dir/ggml-alloc.c.o -c /Users/rtous/dev/back2black/third-party/ggml/src/ggml-alloc.c",
+  "file": "/Users/rtous/dev/back2black/third-party/ggml/src/ggml-alloc.c",
+  "output": "third-party/ggml/src/CMakeFiles/ggml.dir/ggml-alloc.c.o"
 },
 {
-  "directory": "/Users/rtous/dev/back2black/build_macos/editor_blank/third-party/imgui",
-  "command": "/Library/Developer/CommandLineTools/usr/bin/c++ -Dimgui_EXPORTS -I/Users/rtous/dev/back2black/editor_blank/third-party/imgui/imgui -O3 -DNDEBUG -std=gnu++11 -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX14.2.sdk -fPIC -o CMakeFiles/imgui.dir/imgui/imgui_widgets.cpp.o -c /Users/rtous/dev/back2black/editor_blank/third-party/imgui/imgui/imgui_widgets.cpp",
-  "file": "/Users/rtous/dev/back2black/editor_blank/third-party/imgui/imgui/imgui_widgets.cpp",
-  "output": "editor_blank/third-party/imgui/CMakeFiles/imgui.dir/imgui/imgui_widgets.cpp.o"
+  "directory": "/Users/rtous/dev/back2black/build_macos/third-party/ggml/src",
+  "command": "/Library/Developer/CommandLineTools/usr/bin/cc -DGGML_USE_ACCELERATE -D_DARWIN_C_SOURCE -D_XOPEN_SOURCE=600 -I/Users/rtous/dev/back2black/third-party/ggml/src/. -I/Users/rtous/dev/back2black/third-party/ggml/src/../include -I/Users/rtous/dev/back2black/third-party/ggml/src/../include/ggml -F/Library/Developer/CommandLineTools/SDKs/MacOSX14.2.sdk/System/Library/Frameworks -O3 -DNDEBUG -std=gnu11 -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX14.2.sdk -Wall -Wpedantic -Wformat=2 -Wno-unused -Wstrict-prototypes -Werror=vla -Wunused -Wextra -Wcast-qual -Wdouble-promotion -Wshadow -Wno-unused-function -Wmissing-prototypes -o CMakeFiles/ggml.dir/ggml-backend.c.o -c /Users/rtous/dev/back2black/third-party/ggml/src/ggml-backend.c",
+  "file": "/Users/rtous/dev/back2black/third-party/ggml/src/ggml-backend.c",
+  "output": "third-party/ggml/src/CMakeFiles/ggml.dir/ggml-backend.c.o"
 },
 {
-  "directory": "/Users/rtous/dev/back2black/build_macos/editor_blank/third-party/imgui",
-  "command": "/Library/Developer/CommandLineTools/usr/bin/c++ -Dimgui_sdl2_EXPORTS -I/opt/homebrew/Cellar/sdl2/2.30.0/include -I/Users/rtous/dev/back2black/editor_blank/third-party/imgui/imgui -I/Users/rtous/dev/back2black/editor_blank/third-party/imgui/imgui-extra -I/Users/rtous/dev/back2black/editor_blank/third-party/imgui/. -F/Library/Developer/CommandLineTools/SDKs/MacOSX14.2.sdk/System/Library/Frameworks -isystem /opt/homebrew/Cellar/sdl2/2.30.0/include/SDL2 -O3 -DNDEBUG -std=gnu++11 -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX14.2.sdk -fPIC -o CMakeFiles/imgui-sdl2.dir/imgui-extra/imgui_impl.cpp.o -c /Users/rtous/dev/back2black/editor_blank/third-party/imgui/imgui-extra/imgui_impl.cpp",
-  "file": "/Users/rtous/dev/back2black/editor_blank/third-party/imgui/imgui-extra/imgui_impl.cpp",
-  "output": "editor_blank/third-party/imgui/CMakeFiles/imgui-sdl2.dir/imgui-extra/imgui_impl.cpp.o"
+  "directory": "/Users/rtous/dev/back2black/build_macos/third-party/sam",
+  "command": "/Library/Developer/CommandLineTools/usr/bin/c++ -DGGML_USE_ACCELERATE -I/Users/rtous/dev/back2black/third-party/sam/. -I/Users/rtous/dev/back2black/third-party/ggml/src/. -I/Users/rtous/dev/back2black/third-party/ggml/src/../include -I/Users/rtous/dev/back2black/third-party/ggml/src/../include/ggml -O3 -DNDEBUG -std=gnu++14 -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX14.2.sdk -o CMakeFiles/sam.dir/sam.cpp.o -c /Users/rtous/dev/back2black/third-party/sam/sam.cpp",
+  "file": "/Users/rtous/dev/back2black/third-party/sam/sam.cpp",
+  "output": "third-party/sam/CMakeFiles/sam.dir/sam.cpp.o"
 },
 {
-  "directory": "/Users/rtous/dev/back2black/build_macos/editor_blank/third-party/imgui",
-  "command": "/Library/Developer/CommandLineTools/usr/bin/c++ -Dimgui_sdl2_EXPORTS -I/opt/homebrew/Cellar/sdl2/2.30.0/include -I/Users/rtous/dev/back2black/editor_blank/third-party/imgui/imgui -I/Users/rtous/dev/back2black/editor_blank/third-party/imgui/imgui-extra -I/Users/rtous/dev/back2black/editor_blank/third-party/imgui/. -F/Library/Developer/CommandLineTools/SDKs/MacOSX14.2.sdk/System/Library/Frameworks -isystem /opt/homebrew/Cellar/sdl2/2.30.0/include/SDL2 -O3 -DNDEBUG -std=gnu++11 -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX14.2.sdk -fPIC -o CMakeFiles/imgui-sdl2.dir/imgui/backends/imgui_impl_sdl2.cpp.o -c /Users/rtous/dev/back2black/editor_blank/third-party/imgui/imgui/backends/imgui_impl_sdl2.cpp",
-  "file": "/Users/rtous/dev/back2black/editor_blank/third-party/imgui/imgui/backends/imgui_impl_sdl2.cpp",
-  "output": "editor_blank/third-party/imgui/CMakeFiles/imgui-sdl2.dir/imgui/backends/imgui_impl_sdl2.cpp.o"
+  "directory": "/Users/rtous/dev/back2black/build_macos/test_opencv",
+  "command": "/Library/Developer/CommandLineTools/usr/bin/c++  -isystem /Users/rtous/dev/opencv/build -isystem /Users/rtous/dev/opencv/include -isystem /Users/rtous/dev/opencv/modules/core/include -isystem /Users/rtous/dev/opencv/modules/flann/include -isystem /Users/rtous/dev/opencv/modules/imgproc/include -isystem /Users/rtous/dev/opencv/modules/ml/include -isystem /Users/rtous/dev/opencv/modules/photo/include -isystem /Users/rtous/dev/opencv/modules/dnn/include -isystem /Users/rtous/dev/opencv/modules/features2d/include -isystem /Users/rtous/dev/opencv/modules/imgcodecs/include -isystem /Users/rtous/dev/opencv/modules/videoio/include -isystem /Users/rtous/dev/opencv/modules/calib3d/include -isystem /Users/rtous/dev/opencv/modules/highgui/include -isystem /Users/rtous/dev/opencv/modules/objdetect/include -isystem /Users/rtous/dev/opencv/modules/stitching/include -isystem /Users/rtous/dev/opencv/modules/ts/include -isystem /Users/rtous/dev/opencv/modules/video/include -isystem /Users/rtous/dev/opencv/modules/gapi/include -O3 -DNDEBUG -std=gnu++11 -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX14.2.sdk -o CMakeFiles/test_opencv.dir/main.cpp.o -c /Users/rtous/dev/back2black/test_opencv/main.cpp",
+  "file": "/Users/rtous/dev/back2black/test_opencv/main.cpp",
+  "output": "test_opencv/CMakeFiles/test_opencv.dir/main.cpp.o"
 },
 {
-  "directory": "/Users/rtous/dev/back2black/build_macos/editor_blank/third-party/imgui",
-  "command": "/Library/Developer/CommandLineTools/usr/bin/c++ -Dimgui_sdl2_EXPORTS -I/opt/homebrew/Cellar/sdl2/2.30.0/include -I/Users/rtous/dev/back2black/editor_blank/third-party/imgui/imgui -I/Users/rtous/dev/back2black/editor_blank/third-party/imgui/imgui-extra -I/Users/rtous/dev/back2black/editor_blank/third-party/imgui/. -F/Library/Developer/CommandLineTools/SDKs/MacOSX14.2.sdk/System/Library/Frameworks -isystem /opt/homebrew/Cellar/sdl2/2.30.0/include/SDL2 -O3 -DNDEBUG -std=gnu++11 -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX14.2.sdk -fPIC -o CMakeFiles/imgui-sdl2.dir/imgui/backends/imgui_impl_opengl3.cpp.o -c /Users/rtous/dev/back2black/editor_blank/third-party/imgui/imgui/backends/imgui_impl_opengl3.cpp",
-  "file": "/Users/rtous/dev/back2black/editor_blank/third-party/imgui/imgui/backends/imgui_impl_opengl3.cpp",
-  "output": "editor_blank/third-party/imgui/CMakeFiles/imgui-sdl2.dir/imgui/backends/imgui_impl_opengl3.cpp.o"
+  "directory": "/Users/rtous/dev/back2black/build_macos/cli",
+  "command": "/Library/Developer/CommandLineTools/usr/bin/c++ -DGGML_USE_ACCELERATE -I/Users/rtous/dev/back2black/third-party/sam/. -I/Users/rtous/dev/back2black/third-party/ggml/src/. -I/Users/rtous/dev/back2black/third-party/ggml/src/../include -I/Users/rtous/dev/back2black/third-party/ggml/src/../include/ggml -O3 -DNDEBUG -std=gnu++14 -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX14.2.sdk -o CMakeFiles/cli.dir/main.cpp.o -c /Users/rtous/dev/back2black/cli/main.cpp",
+  "file": "/Users/rtous/dev/back2black/cli/main.cpp",
+  "output": "cli/CMakeFiles/cli.dir/main.cpp.o"
+},
+{
+  "directory": "/Users/rtous/dev/back2black/build_macos/editor",
+  "command": "/Library/Developer/CommandLineTools/usr/bin/c++ -DGGML_USE_ACCELERATE -I/Users/rtous/dev/back2black/third-party/sam/. -I/Users/rtous/dev/back2black/third-party/ggml/src/. -I/Users/rtous/dev/back2black/third-party/ggml/src/../include -I/Users/rtous/dev/back2black/third-party/ggml/src/../include/ggml -I/opt/homebrew/Cellar/sdl2/2.30.0/include -I/Users/rtous/dev/back2black/third-party/imgui/imgui -I/Users/rtous/dev/back2black/third-party/imgui/imgui/backends -I/Users/rtous/dev/back2black/third-party/imgui/. -isystem /opt/homebrew/Cellar/sdl2/2.30.0/include/SDL2 -O3 -DNDEBUG -std=gnu++14 -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX14.2.sdk -o CMakeFiles/editor.dir/main.cpp.o -c /Users/rtous/dev/back2black/editor/main.cpp",
+  "file": "/Users/rtous/dev/back2black/editor/main.cpp",
+  "output": "editor/CMakeFiles/editor.dir/main.cpp.o"
+},
+{
+  "directory": "/Users/rtous/dev/back2black/build_macos/editor",
+  "command": "/Library/Developer/CommandLineTools/usr/bin/c++ -DGGML_USE_ACCELERATE -I/Users/rtous/dev/back2black/third-party/sam/. -I/Users/rtous/dev/back2black/third-party/ggml/src/. -I/Users/rtous/dev/back2black/third-party/ggml/src/../include -I/Users/rtous/dev/back2black/third-party/ggml/src/../include/ggml -I/opt/homebrew/Cellar/sdl2/2.30.0/include -I/Users/rtous/dev/back2black/third-party/imgui/imgui -I/Users/rtous/dev/back2black/third-party/imgui/imgui/backends -I/Users/rtous/dev/back2black/third-party/imgui/. -isystem /opt/homebrew/Cellar/sdl2/2.30.0/include/SDL2 -O3 -DNDEBUG -std=gnu++14 -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX14.2.sdk -o CMakeFiles/editor.dir/editor.cpp.o -c /Users/rtous/dev/back2black/editor/editor.cpp",
+  "file": "/Users/rtous/dev/back2black/editor/editor.cpp",
+  "output": "editor/CMakeFiles/editor.dir/editor.cpp.o"
 }
 ]

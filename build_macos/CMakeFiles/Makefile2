@@ -63,233 +63,339 @@ CMAKE_BINARY_DIR = /Users/rtous/dev/back2black/build_macos
 # Directory level rules for the build root directory
 
 # The main recursive "all" target.
-all: CMakeFiles/sam.cpp.dir/all
-all: ggml/all
-all: editor_blank/all
+all: third-party/all
+all: test_opencv/all
+all: cli/all
+all: editor/all
 .PHONY : all
 
 # The main recursive "preinstall" target.
-preinstall: ggml/preinstall
-preinstall: editor_blank/preinstall
+preinstall: third-party/preinstall
+preinstall: test_opencv/preinstall
+preinstall: cli/preinstall
+preinstall: editor/preinstall
 .PHONY : preinstall
 
 # The main recursive "clean" target.
-clean: CMakeFiles/sam.cpp.dir/clean
-clean: ggml/clean
-clean: editor_blank/clean
+clean: third-party/clean
+clean: test_opencv/clean
+clean: cli/clean
+clean: editor/clean
 .PHONY : clean
 
 #=============================================================================
-# Directory level rules for directory editor_blank
+# Directory level rules for directory cli
 
 # Recursive "all" directory target.
-editor_blank/all: editor_blank/CMakeFiles/editor_blank.dir/all
-editor_blank/all: editor_blank/third-party/all
-.PHONY : editor_blank/all
+cli/all: cli/CMakeFiles/cli.dir/all
+.PHONY : cli/all
 
 # Recursive "preinstall" directory target.
-editor_blank/preinstall: editor_blank/third-party/preinstall
-.PHONY : editor_blank/preinstall
+cli/preinstall:
+.PHONY : cli/preinstall
 
 # Recursive "clean" directory target.
-editor_blank/clean: editor_blank/CMakeFiles/editor_blank.dir/clean
-editor_blank/clean: editor_blank/third-party/clean
-.PHONY : editor_blank/clean
+cli/clean: cli/CMakeFiles/cli.dir/clean
+.PHONY : cli/clean
 
 #=============================================================================
-# Directory level rules for directory editor_blank/third-party
+# Directory level rules for directory editor
 
 # Recursive "all" directory target.
-editor_blank/third-party/all: editor_blank/third-party/imgui/all
-.PHONY : editor_blank/third-party/all
+editor/all: editor/CMakeFiles/editor.dir/all
+.PHONY : editor/all
 
 # Recursive "preinstall" directory target.
-editor_blank/third-party/preinstall: editor_blank/third-party/imgui/preinstall
-.PHONY : editor_blank/third-party/preinstall
+editor/preinstall:
+.PHONY : editor/preinstall
 
 # Recursive "clean" directory target.
-editor_blank/third-party/clean: editor_blank/third-party/imgui/clean
-.PHONY : editor_blank/third-party/clean
+editor/clean: editor/CMakeFiles/editor.dir/clean
+.PHONY : editor/clean
 
 #=============================================================================
-# Directory level rules for directory editor_blank/third-party/imgui
+# Directory level rules for directory test_opencv
 
 # Recursive "all" directory target.
-editor_blank/third-party/imgui/all: editor_blank/third-party/imgui/CMakeFiles/imgui.dir/all
-editor_blank/third-party/imgui/all: editor_blank/third-party/imgui/CMakeFiles/imgui-sdl2.dir/all
-.PHONY : editor_blank/third-party/imgui/all
+test_opencv/all: test_opencv/CMakeFiles/test_opencv.dir/all
+.PHONY : test_opencv/all
 
 # Recursive "preinstall" directory target.
-editor_blank/third-party/imgui/preinstall:
-.PHONY : editor_blank/third-party/imgui/preinstall
+test_opencv/preinstall:
+.PHONY : test_opencv/preinstall
 
 # Recursive "clean" directory target.
-editor_blank/third-party/imgui/clean: editor_blank/third-party/imgui/CMakeFiles/imgui.dir/clean
-editor_blank/third-party/imgui/clean: editor_blank/third-party/imgui/CMakeFiles/imgui-sdl2.dir/clean
-.PHONY : editor_blank/third-party/imgui/clean
+test_opencv/clean: test_opencv/CMakeFiles/test_opencv.dir/clean
+.PHONY : test_opencv/clean
 
 #=============================================================================
-# Directory level rules for directory ggml
+# Directory level rules for directory third-party
 
 # Recursive "all" directory target.
-ggml/all: ggml/src/all
-.PHONY : ggml/all
+third-party/all: third-party/imgui/all
+third-party/all: third-party/ggml/all
+third-party/all: third-party/sam/all
+.PHONY : third-party/all
 
 # Recursive "preinstall" directory target.
-ggml/preinstall: ggml/src/preinstall
-.PHONY : ggml/preinstall
+third-party/preinstall: third-party/imgui/preinstall
+third-party/preinstall: third-party/ggml/preinstall
+third-party/preinstall: third-party/sam/preinstall
+.PHONY : third-party/preinstall
 
 # Recursive "clean" directory target.
-ggml/clean: ggml/src/clean
-.PHONY : ggml/clean
+third-party/clean: third-party/imgui/clean
+third-party/clean: third-party/ggml/clean
+third-party/clean: third-party/sam/clean
+.PHONY : third-party/clean
 
 #=============================================================================
-# Directory level rules for directory ggml/src
+# Directory level rules for directory third-party/ggml
 
 # Recursive "all" directory target.
-ggml/src/all: ggml/src/CMakeFiles/ggml.dir/all
-.PHONY : ggml/src/all
+third-party/ggml/all: third-party/ggml/src/all
+.PHONY : third-party/ggml/all
 
 # Recursive "preinstall" directory target.
-ggml/src/preinstall:
-.PHONY : ggml/src/preinstall
+third-party/ggml/preinstall: third-party/ggml/src/preinstall
+.PHONY : third-party/ggml/preinstall
 
 # Recursive "clean" directory target.
-ggml/src/clean: ggml/src/CMakeFiles/ggml.dir/clean
-.PHONY : ggml/src/clean
+third-party/ggml/clean: third-party/ggml/src/clean
+.PHONY : third-party/ggml/clean
 
 #=============================================================================
-# Target rules for target CMakeFiles/sam.cpp.dir
+# Directory level rules for directory third-party/ggml/src
+
+# Recursive "all" directory target.
+third-party/ggml/src/all: third-party/ggml/src/CMakeFiles/ggml.dir/all
+.PHONY : third-party/ggml/src/all
+
+# Recursive "preinstall" directory target.
+third-party/ggml/src/preinstall:
+.PHONY : third-party/ggml/src/preinstall
+
+# Recursive "clean" directory target.
+third-party/ggml/src/clean: third-party/ggml/src/CMakeFiles/ggml.dir/clean
+.PHONY : third-party/ggml/src/clean
+
+#=============================================================================
+# Directory level rules for directory third-party/imgui
+
+# Recursive "all" directory target.
+third-party/imgui/all: third-party/imgui/CMakeFiles/imgui.dir/all
+third-party/imgui/all: third-party/imgui/CMakeFiles/imgui-sdl2.dir/all
+.PHONY : third-party/imgui/all
+
+# Recursive "preinstall" directory target.
+third-party/imgui/preinstall:
+.PHONY : third-party/imgui/preinstall
+
+# Recursive "clean" directory target.
+third-party/imgui/clean: third-party/imgui/CMakeFiles/imgui.dir/clean
+third-party/imgui/clean: third-party/imgui/CMakeFiles/imgui-sdl2.dir/clean
+.PHONY : third-party/imgui/clean
+
+#=============================================================================
+# Directory level rules for directory third-party/sam
+
+# Recursive "all" directory target.
+third-party/sam/all: third-party/sam/CMakeFiles/sam.dir/all
+.PHONY : third-party/sam/all
+
+# Recursive "preinstall" directory target.
+third-party/sam/preinstall:
+.PHONY : third-party/sam/preinstall
+
+# Recursive "clean" directory target.
+third-party/sam/clean: third-party/sam/CMakeFiles/sam.dir/clean
+.PHONY : third-party/sam/clean
+
+#=============================================================================
+# Target rules for target third-party/imgui/CMakeFiles/imgui.dir
 
 # All Build rule for target.
-CMakeFiles/sam.cpp.dir/all: ggml/src/CMakeFiles/ggml.dir/all
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sam.cpp.dir/build.make CMakeFiles/sam.cpp.dir/depend
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sam.cpp.dir/build.make CMakeFiles/sam.cpp.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/Users/rtous/dev/back2black/build_macos/CMakeFiles --progress-num=17,18 "Built target sam.cpp"
-.PHONY : CMakeFiles/sam.cpp.dir/all
+third-party/imgui/CMakeFiles/imgui.dir/all:
+	$(MAKE) $(MAKESILENT) -f third-party/imgui/CMakeFiles/imgui.dir/build.make third-party/imgui/CMakeFiles/imgui.dir/depend
+	$(MAKE) $(MAKESILENT) -f third-party/imgui/CMakeFiles/imgui.dir/build.make third-party/imgui/CMakeFiles/imgui.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/Users/rtous/dev/back2black/build_macos/CMakeFiles --progress-num=10,11,12,13,14,15 "Built target imgui"
+.PHONY : third-party/imgui/CMakeFiles/imgui.dir/all
 
 # Build rule for subdir invocation for target.
-CMakeFiles/sam.cpp.dir/rule: cmake_check_build_system
+third-party/imgui/CMakeFiles/imgui.dir/rule: cmake_check_build_system
 	$(CMAKE_COMMAND) -E cmake_progress_start /Users/rtous/dev/back2black/build_macos/CMakeFiles 6
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/sam.cpp.dir/all
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 third-party/imgui/CMakeFiles/imgui.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /Users/rtous/dev/back2black/build_macos/CMakeFiles 0
-.PHONY : CMakeFiles/sam.cpp.dir/rule
+.PHONY : third-party/imgui/CMakeFiles/imgui.dir/rule
 
 # Convenience name for target.
-sam.cpp: CMakeFiles/sam.cpp.dir/rule
-.PHONY : sam.cpp
-
-# clean rule for target.
-CMakeFiles/sam.cpp.dir/clean:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sam.cpp.dir/build.make CMakeFiles/sam.cpp.dir/clean
-.PHONY : CMakeFiles/sam.cpp.dir/clean
-
-#=============================================================================
-# Target rules for target ggml/src/CMakeFiles/ggml.dir
-
-# All Build rule for target.
-ggml/src/CMakeFiles/ggml.dir/all:
-	$(MAKE) $(MAKESILENT) -f ggml/src/CMakeFiles/ggml.dir/build.make ggml/src/CMakeFiles/ggml.dir/depend
-	$(MAKE) $(MAKESILENT) -f ggml/src/CMakeFiles/ggml.dir/build.make ggml/src/CMakeFiles/ggml.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/Users/rtous/dev/back2black/build_macos/CMakeFiles --progress-num=3,4,5,6 "Built target ggml"
-.PHONY : ggml/src/CMakeFiles/ggml.dir/all
-
-# Build rule for subdir invocation for target.
-ggml/src/CMakeFiles/ggml.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /Users/rtous/dev/back2black/build_macos/CMakeFiles 4
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 ggml/src/CMakeFiles/ggml.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /Users/rtous/dev/back2black/build_macos/CMakeFiles 0
-.PHONY : ggml/src/CMakeFiles/ggml.dir/rule
-
-# Convenience name for target.
-ggml: ggml/src/CMakeFiles/ggml.dir/rule
-.PHONY : ggml
-
-# clean rule for target.
-ggml/src/CMakeFiles/ggml.dir/clean:
-	$(MAKE) $(MAKESILENT) -f ggml/src/CMakeFiles/ggml.dir/build.make ggml/src/CMakeFiles/ggml.dir/clean
-.PHONY : ggml/src/CMakeFiles/ggml.dir/clean
-
-#=============================================================================
-# Target rules for target editor_blank/CMakeFiles/editor_blank.dir
-
-# All Build rule for target.
-editor_blank/CMakeFiles/editor_blank.dir/all: CMakeFiles/sam.cpp.dir/all
-editor_blank/CMakeFiles/editor_blank.dir/all: ggml/src/CMakeFiles/ggml.dir/all
-editor_blank/CMakeFiles/editor_blank.dir/all: editor_blank/third-party/imgui/CMakeFiles/imgui.dir/all
-editor_blank/CMakeFiles/editor_blank.dir/all: editor_blank/third-party/imgui/CMakeFiles/imgui-sdl2.dir/all
-	$(MAKE) $(MAKESILENT) -f editor_blank/CMakeFiles/editor_blank.dir/build.make editor_blank/CMakeFiles/editor_blank.dir/depend
-	$(MAKE) $(MAKESILENT) -f editor_blank/CMakeFiles/editor_blank.dir/build.make editor_blank/CMakeFiles/editor_blank.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/Users/rtous/dev/back2black/build_macos/CMakeFiles --progress-num=1,2 "Built target editor_blank"
-.PHONY : editor_blank/CMakeFiles/editor_blank.dir/all
-
-# Build rule for subdir invocation for target.
-editor_blank/CMakeFiles/editor_blank.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /Users/rtous/dev/back2black/build_macos/CMakeFiles 18
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 editor_blank/CMakeFiles/editor_blank.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /Users/rtous/dev/back2black/build_macos/CMakeFiles 0
-.PHONY : editor_blank/CMakeFiles/editor_blank.dir/rule
-
-# Convenience name for target.
-editor_blank: editor_blank/CMakeFiles/editor_blank.dir/rule
-.PHONY : editor_blank
-
-# clean rule for target.
-editor_blank/CMakeFiles/editor_blank.dir/clean:
-	$(MAKE) $(MAKESILENT) -f editor_blank/CMakeFiles/editor_blank.dir/build.make editor_blank/CMakeFiles/editor_blank.dir/clean
-.PHONY : editor_blank/CMakeFiles/editor_blank.dir/clean
-
-#=============================================================================
-# Target rules for target editor_blank/third-party/imgui/CMakeFiles/imgui.dir
-
-# All Build rule for target.
-editor_blank/third-party/imgui/CMakeFiles/imgui.dir/all:
-	$(MAKE) $(MAKESILENT) -f editor_blank/third-party/imgui/CMakeFiles/imgui.dir/build.make editor_blank/third-party/imgui/CMakeFiles/imgui.dir/depend
-	$(MAKE) $(MAKESILENT) -f editor_blank/third-party/imgui/CMakeFiles/imgui.dir/build.make editor_blank/third-party/imgui/CMakeFiles/imgui.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/Users/rtous/dev/back2black/build_macos/CMakeFiles --progress-num=7,8,9,10,11,12 "Built target imgui"
-.PHONY : editor_blank/third-party/imgui/CMakeFiles/imgui.dir/all
-
-# Build rule for subdir invocation for target.
-editor_blank/third-party/imgui/CMakeFiles/imgui.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /Users/rtous/dev/back2black/build_macos/CMakeFiles 6
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 editor_blank/third-party/imgui/CMakeFiles/imgui.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /Users/rtous/dev/back2black/build_macos/CMakeFiles 0
-.PHONY : editor_blank/third-party/imgui/CMakeFiles/imgui.dir/rule
-
-# Convenience name for target.
-imgui: editor_blank/third-party/imgui/CMakeFiles/imgui.dir/rule
+imgui: third-party/imgui/CMakeFiles/imgui.dir/rule
 .PHONY : imgui
 
 # clean rule for target.
-editor_blank/third-party/imgui/CMakeFiles/imgui.dir/clean:
-	$(MAKE) $(MAKESILENT) -f editor_blank/third-party/imgui/CMakeFiles/imgui.dir/build.make editor_blank/third-party/imgui/CMakeFiles/imgui.dir/clean
-.PHONY : editor_blank/third-party/imgui/CMakeFiles/imgui.dir/clean
+third-party/imgui/CMakeFiles/imgui.dir/clean:
+	$(MAKE) $(MAKESILENT) -f third-party/imgui/CMakeFiles/imgui.dir/build.make third-party/imgui/CMakeFiles/imgui.dir/clean
+.PHONY : third-party/imgui/CMakeFiles/imgui.dir/clean
 
 #=============================================================================
-# Target rules for target editor_blank/third-party/imgui/CMakeFiles/imgui-sdl2.dir
+# Target rules for target third-party/imgui/CMakeFiles/imgui-sdl2.dir
 
 # All Build rule for target.
-editor_blank/third-party/imgui/CMakeFiles/imgui-sdl2.dir/all: editor_blank/third-party/imgui/CMakeFiles/imgui.dir/all
-	$(MAKE) $(MAKESILENT) -f editor_blank/third-party/imgui/CMakeFiles/imgui-sdl2.dir/build.make editor_blank/third-party/imgui/CMakeFiles/imgui-sdl2.dir/depend
-	$(MAKE) $(MAKESILENT) -f editor_blank/third-party/imgui/CMakeFiles/imgui-sdl2.dir/build.make editor_blank/third-party/imgui/CMakeFiles/imgui-sdl2.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/Users/rtous/dev/back2black/build_macos/CMakeFiles --progress-num=13,14,15,16 "Built target imgui-sdl2"
-.PHONY : editor_blank/third-party/imgui/CMakeFiles/imgui-sdl2.dir/all
+third-party/imgui/CMakeFiles/imgui-sdl2.dir/all: third-party/imgui/CMakeFiles/imgui.dir/all
+	$(MAKE) $(MAKESILENT) -f third-party/imgui/CMakeFiles/imgui-sdl2.dir/build.make third-party/imgui/CMakeFiles/imgui-sdl2.dir/depend
+	$(MAKE) $(MAKESILENT) -f third-party/imgui/CMakeFiles/imgui-sdl2.dir/build.make third-party/imgui/CMakeFiles/imgui-sdl2.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/Users/rtous/dev/back2black/build_macos/CMakeFiles --progress-num=16,17,18 "Built target imgui-sdl2"
+.PHONY : third-party/imgui/CMakeFiles/imgui-sdl2.dir/all
 
 # Build rule for subdir invocation for target.
-editor_blank/third-party/imgui/CMakeFiles/imgui-sdl2.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /Users/rtous/dev/back2black/build_macos/CMakeFiles 10
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 editor_blank/third-party/imgui/CMakeFiles/imgui-sdl2.dir/all
+third-party/imgui/CMakeFiles/imgui-sdl2.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /Users/rtous/dev/back2black/build_macos/CMakeFiles 9
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 third-party/imgui/CMakeFiles/imgui-sdl2.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /Users/rtous/dev/back2black/build_macos/CMakeFiles 0
-.PHONY : editor_blank/third-party/imgui/CMakeFiles/imgui-sdl2.dir/rule
+.PHONY : third-party/imgui/CMakeFiles/imgui-sdl2.dir/rule
 
 # Convenience name for target.
-imgui-sdl2: editor_blank/third-party/imgui/CMakeFiles/imgui-sdl2.dir/rule
+imgui-sdl2: third-party/imgui/CMakeFiles/imgui-sdl2.dir/rule
 .PHONY : imgui-sdl2
 
 # clean rule for target.
-editor_blank/third-party/imgui/CMakeFiles/imgui-sdl2.dir/clean:
-	$(MAKE) $(MAKESILENT) -f editor_blank/third-party/imgui/CMakeFiles/imgui-sdl2.dir/build.make editor_blank/third-party/imgui/CMakeFiles/imgui-sdl2.dir/clean
-.PHONY : editor_blank/third-party/imgui/CMakeFiles/imgui-sdl2.dir/clean
+third-party/imgui/CMakeFiles/imgui-sdl2.dir/clean:
+	$(MAKE) $(MAKESILENT) -f third-party/imgui/CMakeFiles/imgui-sdl2.dir/build.make third-party/imgui/CMakeFiles/imgui-sdl2.dir/clean
+.PHONY : third-party/imgui/CMakeFiles/imgui-sdl2.dir/clean
+
+#=============================================================================
+# Target rules for target third-party/ggml/src/CMakeFiles/ggml.dir
+
+# All Build rule for target.
+third-party/ggml/src/CMakeFiles/ggml.dir/all:
+	$(MAKE) $(MAKESILENT) -f third-party/ggml/src/CMakeFiles/ggml.dir/build.make third-party/ggml/src/CMakeFiles/ggml.dir/depend
+	$(MAKE) $(MAKESILENT) -f third-party/ggml/src/CMakeFiles/ggml.dir/build.make third-party/ggml/src/CMakeFiles/ggml.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/Users/rtous/dev/back2black/build_macos/CMakeFiles --progress-num=6,7,8,9 "Built target ggml"
+.PHONY : third-party/ggml/src/CMakeFiles/ggml.dir/all
+
+# Build rule for subdir invocation for target.
+third-party/ggml/src/CMakeFiles/ggml.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /Users/rtous/dev/back2black/build_macos/CMakeFiles 4
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 third-party/ggml/src/CMakeFiles/ggml.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /Users/rtous/dev/back2black/build_macos/CMakeFiles 0
+.PHONY : third-party/ggml/src/CMakeFiles/ggml.dir/rule
+
+# Convenience name for target.
+ggml: third-party/ggml/src/CMakeFiles/ggml.dir/rule
+.PHONY : ggml
+
+# clean rule for target.
+third-party/ggml/src/CMakeFiles/ggml.dir/clean:
+	$(MAKE) $(MAKESILENT) -f third-party/ggml/src/CMakeFiles/ggml.dir/build.make third-party/ggml/src/CMakeFiles/ggml.dir/clean
+.PHONY : third-party/ggml/src/CMakeFiles/ggml.dir/clean
+
+#=============================================================================
+# Target rules for target third-party/sam/CMakeFiles/sam.dir
+
+# All Build rule for target.
+third-party/sam/CMakeFiles/sam.dir/all: third-party/ggml/src/CMakeFiles/ggml.dir/all
+	$(MAKE) $(MAKESILENT) -f third-party/sam/CMakeFiles/sam.dir/build.make third-party/sam/CMakeFiles/sam.dir/depend
+	$(MAKE) $(MAKESILENT) -f third-party/sam/CMakeFiles/sam.dir/build.make third-party/sam/CMakeFiles/sam.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/Users/rtous/dev/back2black/build_macos/CMakeFiles --progress-num=19,20 "Built target sam"
+.PHONY : third-party/sam/CMakeFiles/sam.dir/all
+
+# Build rule for subdir invocation for target.
+third-party/sam/CMakeFiles/sam.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /Users/rtous/dev/back2black/build_macos/CMakeFiles 6
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 third-party/sam/CMakeFiles/sam.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /Users/rtous/dev/back2black/build_macos/CMakeFiles 0
+.PHONY : third-party/sam/CMakeFiles/sam.dir/rule
+
+# Convenience name for target.
+sam: third-party/sam/CMakeFiles/sam.dir/rule
+.PHONY : sam
+
+# clean rule for target.
+third-party/sam/CMakeFiles/sam.dir/clean:
+	$(MAKE) $(MAKESILENT) -f third-party/sam/CMakeFiles/sam.dir/build.make third-party/sam/CMakeFiles/sam.dir/clean
+.PHONY : third-party/sam/CMakeFiles/sam.dir/clean
+
+#=============================================================================
+# Target rules for target test_opencv/CMakeFiles/test_opencv.dir
+
+# All Build rule for target.
+test_opencv/CMakeFiles/test_opencv.dir/all:
+	$(MAKE) $(MAKESILENT) -f test_opencv/CMakeFiles/test_opencv.dir/build.make test_opencv/CMakeFiles/test_opencv.dir/depend
+	$(MAKE) $(MAKESILENT) -f test_opencv/CMakeFiles/test_opencv.dir/build.make test_opencv/CMakeFiles/test_opencv.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/Users/rtous/dev/back2black/build_macos/CMakeFiles --progress-num=21,22 "Built target test_opencv"
+.PHONY : test_opencv/CMakeFiles/test_opencv.dir/all
+
+# Build rule for subdir invocation for target.
+test_opencv/CMakeFiles/test_opencv.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /Users/rtous/dev/back2black/build_macos/CMakeFiles 2
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 test_opencv/CMakeFiles/test_opencv.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /Users/rtous/dev/back2black/build_macos/CMakeFiles 0
+.PHONY : test_opencv/CMakeFiles/test_opencv.dir/rule
+
+# Convenience name for target.
+test_opencv: test_opencv/CMakeFiles/test_opencv.dir/rule
+.PHONY : test_opencv
+
+# clean rule for target.
+test_opencv/CMakeFiles/test_opencv.dir/clean:
+	$(MAKE) $(MAKESILENT) -f test_opencv/CMakeFiles/test_opencv.dir/build.make test_opencv/CMakeFiles/test_opencv.dir/clean
+.PHONY : test_opencv/CMakeFiles/test_opencv.dir/clean
+
+#=============================================================================
+# Target rules for target cli/CMakeFiles/cli.dir
+
+# All Build rule for target.
+cli/CMakeFiles/cli.dir/all: third-party/ggml/src/CMakeFiles/ggml.dir/all
+cli/CMakeFiles/cli.dir/all: third-party/sam/CMakeFiles/sam.dir/all
+	$(MAKE) $(MAKESILENT) -f cli/CMakeFiles/cli.dir/build.make cli/CMakeFiles/cli.dir/depend
+	$(MAKE) $(MAKESILENT) -f cli/CMakeFiles/cli.dir/build.make cli/CMakeFiles/cli.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/Users/rtous/dev/back2black/build_macos/CMakeFiles --progress-num=1,2 "Built target cli"
+.PHONY : cli/CMakeFiles/cli.dir/all
+
+# Build rule for subdir invocation for target.
+cli/CMakeFiles/cli.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /Users/rtous/dev/back2black/build_macos/CMakeFiles 8
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 cli/CMakeFiles/cli.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /Users/rtous/dev/back2black/build_macos/CMakeFiles 0
+.PHONY : cli/CMakeFiles/cli.dir/rule
+
+# Convenience name for target.
+cli: cli/CMakeFiles/cli.dir/rule
+.PHONY : cli
+
+# clean rule for target.
+cli/CMakeFiles/cli.dir/clean:
+	$(MAKE) $(MAKESILENT) -f cli/CMakeFiles/cli.dir/build.make cli/CMakeFiles/cli.dir/clean
+.PHONY : cli/CMakeFiles/cli.dir/clean
+
+#=============================================================================
+# Target rules for target editor/CMakeFiles/editor.dir
+
+# All Build rule for target.
+editor/CMakeFiles/editor.dir/all: third-party/imgui/CMakeFiles/imgui.dir/all
+editor/CMakeFiles/editor.dir/all: third-party/imgui/CMakeFiles/imgui-sdl2.dir/all
+editor/CMakeFiles/editor.dir/all: third-party/ggml/src/CMakeFiles/ggml.dir/all
+editor/CMakeFiles/editor.dir/all: third-party/sam/CMakeFiles/sam.dir/all
+	$(MAKE) $(MAKESILENT) -f editor/CMakeFiles/editor.dir/build.make editor/CMakeFiles/editor.dir/depend
+	$(MAKE) $(MAKESILENT) -f editor/CMakeFiles/editor.dir/build.make editor/CMakeFiles/editor.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/Users/rtous/dev/back2black/build_macos/CMakeFiles --progress-num=3,4,5 "Built target editor"
+.PHONY : editor/CMakeFiles/editor.dir/all
+
+# Build rule for subdir invocation for target.
+editor/CMakeFiles/editor.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /Users/rtous/dev/back2black/build_macos/CMakeFiles 18
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 editor/CMakeFiles/editor.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /Users/rtous/dev/back2black/build_macos/CMakeFiles 0
+.PHONY : editor/CMakeFiles/editor.dir/rule
+
+# Convenience name for target.
+editor: editor/CMakeFiles/editor.dir/rule
+.PHONY : editor
+
+# clean rule for target.
+editor/CMakeFiles/editor.dir/clean:
+	$(MAKE) $(MAKESILENT) -f editor/CMakeFiles/editor.dir/build.make editor/CMakeFiles/editor.dir/clean
+.PHONY : editor/CMakeFiles/editor.dir/clean
 
 #=============================================================================
 # Special targets to cleanup operation of make.

@@ -1,7 +1,84 @@
-cd dev/build_macos
 
-cmake ..
+Computer Architecture Department							Ruben Tous
+Universitat Politecnica de Catalunya                       
+                                                              												  
+															  
+													back2black Developer's Manual 
 
-cmake --build .
+1. Building 
 
-./bin/editor -t 16 -i ../img.jpg -m ../checkpoints/ggml-model-f16.bin
+1.1 Prerequisites
+
+- The opencv repo should be located within the same folder that contains this repo's root folder. OpenCV should be built statically within the opencv/build folder (see ANNEX 1)
+	
+	|- some_folder
+		|- back2black
+		|- opencv
+			|- build
+
+1.2 Building
+
+NOTE: The -DBUILD_SHARED_LIBS=OFF flag makes excutable bigger but independent
+
+From the root of the repo (better):
+
+	cmake -DBUILD_SHARED_LIBS=OFF -B build_macos -S .
+	cmake --build build_macos
+
+From the build_macos:
+
+	cd dev/build_macos
+	cmake -DBUILD_SHARED_LIBS=OFF ..
+	cmake --build .
+
+2. Testing
+
+From the root of the repo:
+
+	./build_macos/bin/editor
+
+	./build_macos/bin/cli -t 16 -i ./img.jpg -m ./checkpoints/ggml-model-f16.bin
+
+	./build_macos/bin/test_opencv
+
+From the build_macos folder:
+
+	./bin/editor
+
+	./bin/cli -t 16 -i ../img.jpg -m ../checkpoints/ggml-model-f16.bin
+
+	./bin/test_opencv
+
+
+3. Troubleshooting
+
+TIP: Cannot copy the OpenCV "build" folder to a different place as there are paths within the cmake related files.
+
+TIP: Inspecting cmake variables
+
+	include(CMakePrintHelpers)
+	cmake_print_variables(${CMAKE_CURRENT_SOURCE_DIR})
+
+
+ANNEX 1. OpenCV
+
+Clone OpenCV repo in an independent location
+
+	git clone https://github.com/opencv/opencv.git
+
+Compile OpenCV without dynamic libraries (advice: https://github.com/opencv/opencv/wiki/Compact-build-advice)
+
+	mkdir build
+	cd build
+	cmake -DBUILD_SHARED_LIBS=OFF ..
+	cmake --build .
+
+When linking your app, use this:
+
+	set(EXAMPLE_TARGET test_opencv)
+	...
+	set(OpenCV_DIR "/Users/rtous/dev/opencv/build")
+	find_package(OpenCV REQUIRED) 
+	target_link_libraries(${EXAMPLE_TARGET} PRIVATE ${OpenCV_LIBS} ${CMAKE_THREAD_LIBS_INIT})
+
+

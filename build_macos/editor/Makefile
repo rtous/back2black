@@ -175,6 +175,30 @@ editor/fast:
 	cd /Users/rtous/dev/back2black/build_macos && $(MAKE) $(MAKESILENT) -f editor/CMakeFiles/editor.dir/build.make editor/CMakeFiles/editor.dir/build
 .PHONY : editor/fast
 
+editor.o: editor.cpp.o
+.PHONY : editor.o
+
+# target to build an object file
+editor.cpp.o:
+	cd /Users/rtous/dev/back2black/build_macos && $(MAKE) $(MAKESILENT) -f editor/CMakeFiles/editor.dir/build.make editor/CMakeFiles/editor.dir/editor.cpp.o
+.PHONY : editor.cpp.o
+
+editor.i: editor.cpp.i
+.PHONY : editor.i
+
+# target to preprocess a source file
+editor.cpp.i:
+	cd /Users/rtous/dev/back2black/build_macos && $(MAKE) $(MAKESILENT) -f editor/CMakeFiles/editor.dir/build.make editor/CMakeFiles/editor.dir/editor.cpp.i
+.PHONY : editor.cpp.i
+
+editor.s: editor.cpp.s
+.PHONY : editor.s
+
+# target to generate assembly for a file
+editor.cpp.s:
+	cd /Users/rtous/dev/back2black/build_macos && $(MAKE) $(MAKESILENT) -f editor/CMakeFiles/editor.dir/build.make editor/CMakeFiles/editor.dir/editor.cpp.s
+.PHONY : editor.cpp.s
+
 main.o: main.cpp.o
 .PHONY : main.o
 
@@ -212,6 +236,9 @@ help:
 	@echo "... list_install_components"
 	@echo "... rebuild_cache"
 	@echo "... editor"
+	@echo "... editor.o"
+	@echo "... editor.i"
+	@echo "... editor.s"
 	@echo "... main.o"
 	@echo "... main.i"
 	@echo "... main.s"

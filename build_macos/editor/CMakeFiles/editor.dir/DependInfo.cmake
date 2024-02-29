@@ -8,6 +8,7 @@ set(CMAKE_DEPENDS_LANGUAGES
 
 # The set of dependency files which are needed:
 set(CMAKE_DEPENDS_DEPENDENCY_FILES
+  "/Users/rtous/dev/back2black/editor/editor.cpp" "editor/CMakeFiles/editor.dir/editor.cpp.o" "gcc" "editor/CMakeFiles/editor.dir/editor.cpp.o.d"
   "/Users/rtous/dev/back2black/editor/main.cpp" "editor/CMakeFiles/editor.dir/main.cpp.o" "gcc" "editor/CMakeFiles/editor.dir/main.cpp.o.d"
   )
 

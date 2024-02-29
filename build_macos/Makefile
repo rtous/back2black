@@ -162,45 +162,6 @@ depend:
 .PHONY : depend
 
 #=============================================================================
-# Target rules for targets named sam.cpp
-
-# Build rule for target.
-sam.cpp: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 sam.cpp
-.PHONY : sam.cpp
-
-# fast build rule for target.
-sam.cpp/fast:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sam.cpp.dir/build.make CMakeFiles/sam.cpp.dir/build
-.PHONY : sam.cpp/fast
-
-#=============================================================================
-# Target rules for targets named ggml
-
-# Build rule for target.
-ggml: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 ggml
-.PHONY : ggml
-
-# fast build rule for target.
-ggml/fast:
-	$(MAKE) $(MAKESILENT) -f ggml/src/CMakeFiles/ggml.dir/build.make ggml/src/CMakeFiles/ggml.dir/build
-.PHONY : ggml/fast
-
-#=============================================================================
-# Target rules for targets named editor_blank
-
-# Build rule for target.
-editor_blank: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 editor_blank
-.PHONY : editor_blank
-
-# fast build rule for target.
-editor_blank/fast:
-	$(MAKE) $(MAKESILENT) -f editor_blank/CMakeFiles/editor_blank.dir/build.make editor_blank/CMakeFiles/editor_blank.dir/build
-.PHONY : editor_blank/fast
-
-#=============================================================================
 # Target rules for targets named imgui
 
 # Build rule for target.
@@ -210,7 +171,7 @@ imgui: cmake_check_build_system
 
 # fast build rule for target.
 imgui/fast:
-	$(MAKE) $(MAKESILENT) -f editor_blank/third-party/imgui/CMakeFiles/imgui.dir/build.make editor_blank/third-party/imgui/CMakeFiles/imgui.dir/build
+	$(MAKE) $(MAKESILENT) -f third-party/imgui/CMakeFiles/imgui.dir/build.make third-party/imgui/CMakeFiles/imgui.dir/build
 .PHONY : imgui/fast
 
 #=============================================================================
@@ -223,32 +184,73 @@ imgui-sdl2: cmake_check_build_system
 
 # fast build rule for target.
 imgui-sdl2/fast:
-	$(MAKE) $(MAKESILENT) -f editor_blank/third-party/imgui/CMakeFiles/imgui-sdl2.dir/build.make editor_blank/third-party/imgui/CMakeFiles/imgui-sdl2.dir/build
+	$(MAKE) $(MAKESILENT) -f third-party/imgui/CMakeFiles/imgui-sdl2.dir/build.make third-party/imgui/CMakeFiles/imgui-sdl2.dir/build
 .PHONY : imgui-sdl2/fast
 
-tools/sam/sam.o: tools/sam/sam.cpp.o
-.PHONY : tools/sam/sam.o
+#=============================================================================
+# Target rules for targets named ggml
 
-# target to build an object file
-tools/sam/sam.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sam.cpp.dir/build.make CMakeFiles/sam.cpp.dir/tools/sam/sam.cpp.o
-.PHONY : tools/sam/sam.cpp.o
+# Build rule for target.
+ggml: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 ggml
+.PHONY : ggml
 
-tools/sam/sam.i: tools/sam/sam.cpp.i
-.PHONY : tools/sam/sam.i
+# fast build rule for target.
+ggml/fast:
+	$(MAKE) $(MAKESILENT) -f third-party/ggml/src/CMakeFiles/ggml.dir/build.make third-party/ggml/src/CMakeFiles/ggml.dir/build
+.PHONY : ggml/fast
 
-# target to preprocess a source file
-tools/sam/sam.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sam.cpp.dir/build.make CMakeFiles/sam.cpp.dir/tools/sam/sam.cpp.i
-.PHONY : tools/sam/sam.cpp.i
+#=============================================================================
+# Target rules for targets named sam
 
-tools/sam/sam.s: tools/sam/sam.cpp.s
-.PHONY : tools/sam/sam.s
+# Build rule for target.
+sam: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 sam
+.PHONY : sam
 
-# target to generate assembly for a file
-tools/sam/sam.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sam.cpp.dir/build.make CMakeFiles/sam.cpp.dir/tools/sam/sam.cpp.s
-.PHONY : tools/sam/sam.cpp.s
+# fast build rule for target.
+sam/fast:
+	$(MAKE) $(MAKESILENT) -f third-party/sam/CMakeFiles/sam.dir/build.make third-party/sam/CMakeFiles/sam.dir/build
+.PHONY : sam/fast
+
+#=============================================================================
+# Target rules for targets named test_opencv
+
+# Build rule for target.
+test_opencv: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 test_opencv
+.PHONY : test_opencv
+
+# fast build rule for target.
+test_opencv/fast:
+	$(MAKE) $(MAKESILENT) -f test_opencv/CMakeFiles/test_opencv.dir/build.make test_opencv/CMakeFiles/test_opencv.dir/build
+.PHONY : test_opencv/fast
+
+#=============================================================================
+# Target rules for targets named cli
+
+# Build rule for target.
+cli: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 cli
+.PHONY : cli
+
+# fast build rule for target.
+cli/fast:
+	$(MAKE) $(MAKESILENT) -f cli/CMakeFiles/cli.dir/build.make cli/CMakeFiles/cli.dir/build
+.PHONY : cli/fast
+
+#=============================================================================
+# Target rules for targets named editor
+
+# Build rule for target.
+editor: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 editor
+.PHONY : editor
+
+# fast build rule for target.
+editor/fast:
+	$(MAKE) $(MAKESILENT) -f editor/CMakeFiles/editor.dir/build.make editor/CMakeFiles/editor.dir/build
+.PHONY : editor/fast
 
 # Help Target
 help:
@@ -262,14 +264,13 @@ help:
 	@echo "... install/strip"
 	@echo "... list_install_components"
 	@echo "... rebuild_cache"
-	@echo "... editor_blank"
+	@echo "... cli"
+	@echo "... editor"
 	@echo "... ggml"
 	@echo "... imgui"
 	@echo "... imgui-sdl2"
-	@echo "... sam.cpp"
-	@echo "... tools/sam/sam.o"
-	@echo "... tools/sam/sam.i"
-	@echo "... tools/sam/sam.s"
+	@echo "... sam"
+	@echo "... test_opencv"
 .PHONY : help
 
 

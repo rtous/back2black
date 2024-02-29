@@ -1,6 +1,8 @@
 file(REMOVE_RECURSE
   "../bin/editor"
   "../bin/editor.pdb"
+  "CMakeFiles/editor.dir/editor.cpp.o"
+  "CMakeFiles/editor.dir/editor.cpp.o.d"
   "CMakeFiles/editor.dir/main.cpp.o"
   "CMakeFiles/editor.dir/main.cpp.o.d"
 )
