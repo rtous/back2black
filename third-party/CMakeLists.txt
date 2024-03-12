@@ -2,3 +2,4 @@
 add_subdirectory(imgui)
 add_subdirectory(ggml)
 add_subdirectory(sam)
+add_subdirectory(ImGuiFileDialog)

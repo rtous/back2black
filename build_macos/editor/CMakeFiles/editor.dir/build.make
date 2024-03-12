@@ -111,11 +111,41 @@ editor/CMakeFiles/editor.dir/editor.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/editor.dir/editor.cpp.s"
 	cd /Users/rtous/dev/back2black/build_macos/editor && /Library/Developer/CommandLineTools/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/rtous/dev/back2black/editor/editor.cpp -o CMakeFiles/editor.dir/editor.cpp.s
 
+editor/CMakeFiles/editor.dir/file_dialog.cpp.o: editor/CMakeFiles/editor.dir/flags.make
+editor/CMakeFiles/editor.dir/file_dialog.cpp.o: /Users/rtous/dev/back2black/editor/file_dialog.cpp
+editor/CMakeFiles/editor.dir/file_dialog.cpp.o: editor/CMakeFiles/editor.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/rtous/dev/back2black/build_macos/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object editor/CMakeFiles/editor.dir/file_dialog.cpp.o"
+	cd /Users/rtous/dev/back2black/build_macos/editor && /Library/Developer/CommandLineTools/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT editor/CMakeFiles/editor.dir/file_dialog.cpp.o -MF CMakeFiles/editor.dir/file_dialog.cpp.o.d -o CMakeFiles/editor.dir/file_dialog.cpp.o -c /Users/rtous/dev/back2black/editor/file_dialog.cpp
+
+editor/CMakeFiles/editor.dir/file_dialog.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/editor.dir/file_dialog.cpp.i"
+	cd /Users/rtous/dev/back2black/build_macos/editor && /Library/Developer/CommandLineTools/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/rtous/dev/back2black/editor/file_dialog.cpp > CMakeFiles/editor.dir/file_dialog.cpp.i
+
+editor/CMakeFiles/editor.dir/file_dialog.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/editor.dir/file_dialog.cpp.s"
+	cd /Users/rtous/dev/back2black/build_macos/editor && /Library/Developer/CommandLineTools/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/rtous/dev/back2black/editor/file_dialog.cpp -o CMakeFiles/editor.dir/file_dialog.cpp.s
+
+editor/CMakeFiles/editor.dir/sam_utils.cpp.o: editor/CMakeFiles/editor.dir/flags.make
+editor/CMakeFiles/editor.dir/sam_utils.cpp.o: /Users/rtous/dev/back2black/editor/sam_utils.cpp
+editor/CMakeFiles/editor.dir/sam_utils.cpp.o: editor/CMakeFiles/editor.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/rtous/dev/back2black/build_macos/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object editor/CMakeFiles/editor.dir/sam_utils.cpp.o"
+	cd /Users/rtous/dev/back2black/build_macos/editor && /Library/Developer/CommandLineTools/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT editor/CMakeFiles/editor.dir/sam_utils.cpp.o -MF CMakeFiles/editor.dir/sam_utils.cpp.o.d -o CMakeFiles/editor.dir/sam_utils.cpp.o -c /Users/rtous/dev/back2black/editor/sam_utils.cpp
+
+editor/CMakeFiles/editor.dir/sam_utils.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/editor.dir/sam_utils.cpp.i"
+	cd /Users/rtous/dev/back2black/build_macos/editor && /Library/Developer/CommandLineTools/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/rtous/dev/back2black/editor/sam_utils.cpp > CMakeFiles/editor.dir/sam_utils.cpp.i
+
+editor/CMakeFiles/editor.dir/sam_utils.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/editor.dir/sam_utils.cpp.s"
+	cd /Users/rtous/dev/back2black/build_macos/editor && /Library/Developer/CommandLineTools/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/rtous/dev/back2black/editor/sam_utils.cpp -o CMakeFiles/editor.dir/sam_utils.cpp.s
+
 # Object files for target editor
 editor_OBJECTS = \
 "CMakeFiles/editor.dir/utils.cpp.o" \
 "CMakeFiles/editor.dir/main.cpp.o" \
-"CMakeFiles/editor.dir/editor.cpp.o"
+"CMakeFiles/editor.dir/editor.cpp.o" \
+"CMakeFiles/editor.dir/file_dialog.cpp.o" \
+"CMakeFiles/editor.dir/sam_utils.cpp.o"
 
 # External object files for target editor
 editor_EXTERNAL_OBJECTS =
@@ -123,14 +153,18 @@ editor_EXTERNAL_OBJECTS =
 bin/editor: editor/CMakeFiles/editor.dir/utils.cpp.o
 bin/editor: editor/CMakeFiles/editor.dir/main.cpp.o
 bin/editor: editor/CMakeFiles/editor.dir/editor.cpp.o
+bin/editor: editor/CMakeFiles/editor.dir/file_dialog.cpp.o
+bin/editor: editor/CMakeFiles/editor.dir/sam_utils.cpp.o
 bin/editor: editor/CMakeFiles/editor.dir/build.make
 bin/editor: third-party/sam/libsam.a
 bin/editor: third-party/imgui/libimgui-sdl2.a
+bin/editor: third-party/ImGuiFileDialog/libImGuiFileDialog.a
 bin/editor: third-party/ggml/src/libggml.a
+bin/editor: third-party/imgui/libimgui-sdl2.a
 bin/editor: third-party/imgui/libimgui.a
 bin/editor: /opt/homebrew/Cellar/sdl2/2.30.0/lib/libSDL2.dylib
 bin/editor: editor/CMakeFiles/editor.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/Users/rtous/dev/back2black/build_macos/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Linking CXX executable ../bin/editor"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/Users/rtous/dev/back2black/build_macos/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Linking CXX executable ../bin/editor"
 	cd /Users/rtous/dev/back2black/build_macos/editor && $(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/editor.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.

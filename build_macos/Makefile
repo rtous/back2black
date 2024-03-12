@@ -214,6 +214,19 @@ sam/fast:
 .PHONY : sam/fast
 
 #=============================================================================
+# Target rules for targets named ImGuiFileDialog
+
+# Build rule for target.
+ImGuiFileDialog: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 ImGuiFileDialog
+.PHONY : ImGuiFileDialog
+
+# fast build rule for target.
+ImGuiFileDialog/fast:
+	$(MAKE) $(MAKESILENT) -f third-party/ImGuiFileDialog/CMakeFiles/ImGuiFileDialog.dir/build.make third-party/ImGuiFileDialog/CMakeFiles/ImGuiFileDialog.dir/build
+.PHONY : ImGuiFileDialog/fast
+
+#=============================================================================
 # Target rules for targets named test_opencv
 
 # Build rule for target.
@@ -264,6 +277,7 @@ help:
 	@echo "... install/strip"
 	@echo "... list_install_components"
 	@echo "... rebuild_cache"
+	@echo "... ImGuiFileDialog"
 	@echo "... cli"
 	@echo "... editor"
 	@echo "... ggml"

@@ -38,6 +38,13 @@
 /Users/rtous/dev/back2black/build_macos/third-party/sam/CMakeFiles/install.dir
 /Users/rtous/dev/back2black/build_macos/third-party/sam/CMakeFiles/install/local.dir
 /Users/rtous/dev/back2black/build_macos/third-party/sam/CMakeFiles/install/strip.dir
+/Users/rtous/dev/back2black/build_macos/third-party/ImGuiFileDialog/CMakeFiles/ImGuiFileDialog.dir
+/Users/rtous/dev/back2black/build_macos/third-party/ImGuiFileDialog/CMakeFiles/edit_cache.dir
+/Users/rtous/dev/back2black/build_macos/third-party/ImGuiFileDialog/CMakeFiles/rebuild_cache.dir
+/Users/rtous/dev/back2black/build_macos/third-party/ImGuiFileDialog/CMakeFiles/list_install_components.dir
+/Users/rtous/dev/back2black/build_macos/third-party/ImGuiFileDialog/CMakeFiles/install.dir
+/Users/rtous/dev/back2black/build_macos/third-party/ImGuiFileDialog/CMakeFiles/install/local.dir
+/Users/rtous/dev/back2black/build_macos/third-party/ImGuiFileDialog/CMakeFiles/install/strip.dir
 /Users/rtous/dev/back2black/build_macos/test_opencv/CMakeFiles/test_opencv.dir
 /Users/rtous/dev/back2black/build_macos/test_opencv/CMakeFiles/edit_cache.dir
 /Users/rtous/dev/back2black/build_macos/test_opencv/CMakeFiles/rebuild_cache.dir

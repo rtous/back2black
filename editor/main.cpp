@@ -23,7 +23,11 @@
 #include "../libs/emscripten/emscripten_mainloop_stub.h"
 #endif
 
+#include "state.h"
 #include "editor.h"
+#include "sam.h"
+#include "utils.h"
+#include "sam_utils.h"
 
 void myWindow(bool *show_myWindow)
 {
@@ -122,12 +126,38 @@ int main(int, char**)
     //ImFont* font = io.Fonts->AddFontFromFileTTF("c:\\Windows\\Fonts\\ArialUni.ttf", 18.0f, nullptr, io.Fonts->GetGlyphRangesJapanese());
     //IM_ASSERT(font != nullptr);
 
-    // Our state
+    /***** STATE ******/
     bool show_demo_window = true;
     bool show_another_window = false;
     bool show_myWindow = true;
     bool show_editor = true;
+    bool show_file_dialog = false;
     ImVec4 clear_color = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
+    MyState myState;
+    /*****************/
+
+    /*****************/
+    sam_image_u8 img;
+    bool img_loaded = false;
+    //GLuint tex = createGLTexture(img, GL_RGB);
+    //tex = createGLTexture(new_img, GL_RGB);
+    /********************/
+
+
+    /*****SAM INIT*******/
+    set_params(&myState.params);
+    std::shared_ptr<sam_state> state = sam_load_model(myState.params);
+    if (!state) {
+        fprintf(stderr, "%s: failed to load model\n", __func__);
+        //return 1;
+    } else {
+        myState.a_sam_state = sam_load_model(myState.params);
+    }
+    /***************/
+
+
+    /*****************/
+
 
     // Main loop
     bool done = false;
@@ -153,6 +183,13 @@ int main(int, char**)
                 done = true;
             if (event.type == SDL_WINDOWEVENT && event.window.event == SDL_WINDOWEVENT_CLOSE && event.window.windowID == SDL_GetWindowID(window))
                 done = true;
+            if (event.type == SDL_MOUSEBUTTONDOWN) {
+                if (event.button.button == SDL_BUTTON_LEFT) {
+                    myState.clicked = true;
+                    myState.clickedX = event.button.x;
+                    myState.clickedY = event.button.y;
+                }
+            }
         }
 
         // Start the Dear ImGui frame
@@ -203,7 +240,7 @@ int main(int, char**)
 
         //EDITOR CODE
         if (show_editor)
-            editor(&show_editor);
+            editor(&show_editor, &img, &img_loaded, &show_file_dialog, myState);
         //
 
         // Rendering
@@ -219,6 +256,7 @@ int main(int, char**)
 #endif
 
     // Cleanup
+    sam_deinit(*myState.a_sam_state);
     ImGui_ImplOpenGL3_Shutdown();
     ImGui_ImplSDL2_Shutdown();
     ImGui::DestroyContext();

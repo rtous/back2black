@@ -4,11 +4,12 @@ add_executable(${EXAMPLE_TARGET}
     utils.cpp
     main.cpp
     editor.cpp
-
+    file_dialog.cpp
+    sam_utils.cpp
 )
 
 install(TARGETS ${EXAMPLE_TARGET} RUNTIME)
-target_link_libraries(${EXAMPLE_TARGET} PRIVATE sam imgui-sdl2 ${CMAKE_THREAD_LIBS_INIT})
+target_link_libraries(${EXAMPLE_TARGET} PRIVATE sam imgui-sdl2 ImGuiFileDialog ${CMAKE_THREAD_LIBS_INIT})
 target_compile_features(${EXAMPLE_TARGET} PUBLIC cxx_std_11)
 
 #If Microsoft Visual C++ or similar

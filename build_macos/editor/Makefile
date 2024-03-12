@@ -199,6 +199,30 @@ editor.cpp.s:
 	cd /Users/rtous/dev/back2black/build_macos && $(MAKE) $(MAKESILENT) -f editor/CMakeFiles/editor.dir/build.make editor/CMakeFiles/editor.dir/editor.cpp.s
 .PHONY : editor.cpp.s
 
+file_dialog.o: file_dialog.cpp.o
+.PHONY : file_dialog.o
+
+# target to build an object file
+file_dialog.cpp.o:
+	cd /Users/rtous/dev/back2black/build_macos && $(MAKE) $(MAKESILENT) -f editor/CMakeFiles/editor.dir/build.make editor/CMakeFiles/editor.dir/file_dialog.cpp.o
+.PHONY : file_dialog.cpp.o
+
+file_dialog.i: file_dialog.cpp.i
+.PHONY : file_dialog.i
+
+# target to preprocess a source file
+file_dialog.cpp.i:
+	cd /Users/rtous/dev/back2black/build_macos && $(MAKE) $(MAKESILENT) -f editor/CMakeFiles/editor.dir/build.make editor/CMakeFiles/editor.dir/file_dialog.cpp.i
+.PHONY : file_dialog.cpp.i
+
+file_dialog.s: file_dialog.cpp.s
+.PHONY : file_dialog.s
+
+# target to generate assembly for a file
+file_dialog.cpp.s:
+	cd /Users/rtous/dev/back2black/build_macos && $(MAKE) $(MAKESILENT) -f editor/CMakeFiles/editor.dir/build.make editor/CMakeFiles/editor.dir/file_dialog.cpp.s
+.PHONY : file_dialog.cpp.s
+
 main.o: main.cpp.o
 .PHONY : main.o
 
@@ -222,6 +246,30 @@ main.s: main.cpp.s
 main.cpp.s:
 	cd /Users/rtous/dev/back2black/build_macos && $(MAKE) $(MAKESILENT) -f editor/CMakeFiles/editor.dir/build.make editor/CMakeFiles/editor.dir/main.cpp.s
 .PHONY : main.cpp.s
+
+sam_utils.o: sam_utils.cpp.o
+.PHONY : sam_utils.o
+
+# target to build an object file
+sam_utils.cpp.o:
+	cd /Users/rtous/dev/back2black/build_macos && $(MAKE) $(MAKESILENT) -f editor/CMakeFiles/editor.dir/build.make editor/CMakeFiles/editor.dir/sam_utils.cpp.o
+.PHONY : sam_utils.cpp.o
+
+sam_utils.i: sam_utils.cpp.i
+.PHONY : sam_utils.i
+
+# target to preprocess a source file
+sam_utils.cpp.i:
+	cd /Users/rtous/dev/back2black/build_macos && $(MAKE) $(MAKESILENT) -f editor/CMakeFiles/editor.dir/build.make editor/CMakeFiles/editor.dir/sam_utils.cpp.i
+.PHONY : sam_utils.cpp.i
+
+sam_utils.s: sam_utils.cpp.s
+.PHONY : sam_utils.s
+
+# target to generate assembly for a file
+sam_utils.cpp.s:
+	cd /Users/rtous/dev/back2black/build_macos && $(MAKE) $(MAKESILENT) -f editor/CMakeFiles/editor.dir/build.make editor/CMakeFiles/editor.dir/sam_utils.cpp.s
+.PHONY : sam_utils.cpp.s
 
 utils.o: utils.cpp.o
 .PHONY : utils.o
@@ -263,9 +311,15 @@ help:
 	@echo "... editor.o"
 	@echo "... editor.i"
 	@echo "... editor.s"
+	@echo "... file_dialog.o"
+	@echo "... file_dialog.i"
+	@echo "... file_dialog.s"
 	@echo "... main.o"
 	@echo "... main.i"
 	@echo "... main.s"
+	@echo "... sam_utils.o"
+	@echo "... sam_utils.i"
+	@echo "... sam_utils.s"
 	@echo "... utils.o"
 	@echo "... utils.i"
 	@echo "... utils.s"
