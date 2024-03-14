@@ -84,3 +84,12 @@ When linking your app, use this:
 ANNEX 2. ImGuiFileDialog
 
 	https://github.com/aiekick/ImGuiFileDialog
+	
+	
+	
+ANNEX 3. Windows
+
+1) Install MinGW and CMAKE
+
+./build_windows.bat
+
