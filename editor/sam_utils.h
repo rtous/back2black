@@ -7,6 +7,6 @@
 //void set_params(sam_params * params, std::string img_fname);
 void set_params(sam_params * params);
 
-void compute_masks(sam_image_u8 img, const sam_params & params, sam_state & state, std::vector<GLuint> *maskTextures, int x, int y);
+void compute_masks(sam_image_u8 img, const sam_params & params, sam_state & state, std::vector<GLuint> *maskTextures, int x, int y, std::vector<sam_image_u8> & storedMasks);
 
 #endif

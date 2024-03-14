@@ -13,9 +13,12 @@ class MyState {
     sam_params params; 
     std::shared_ptr<sam_state> a_sam_state;
     std::vector<GLuint> maskTextures;
+    std::vector<sam_image_u8> masks;
     bool clicked;
     int clickedX;
     int clickedY;
+    sam_image_u8 img;
+    bool img_loaded = false;
 };
 
 #endif

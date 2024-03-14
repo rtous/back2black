@@ -30,18 +30,44 @@ void set_params(sam_params * params) {
     //params.fname_out = argv[++i];
 }
 
-/*bool masks_already_in_list(sam_image_u8 mask, std::vector<sam_image_u8> masks) {
- return false;
-}*/
+//for debugging
+void print_mask(sam_image_u8 mask) {
+    for (int i = 0; i < mask.nx; ++i) {
+        for (int j = 0; j < mask.ny; ++j) {
+            printf("%d,",mask.data[i*mask.ny+j]);
+        }
+        printf("\n");
+    }
+}
 
-bool masks_already_in_list(GLuint candidate_mask, std::vector<GLuint> *maskTextures) {
+int masks_already_in_list(sam_image_u8 candidateMask, std::vector<sam_image_u8> masks) {
+    int mask_count = 0;
+    printf("Checking if mask exists.\n");
+    for (auto& mask : masks) {
+        int i;
+        int coincidences = 0;
+        for (i = 0; i < mask.nx*mask.ny; ++i) {
+            if (candidateMask.data[i] != 0 && (candidateMask.data[i] == mask.data[i])) {
+                coincidences++;
+                if (i > 0.25*mask.nx*mask.ny && coincidences/mask.nx*mask.ny > 0.75)
+                    return mask_count;
+            }
+        }
+        mask_count++;
+    }
+    printf("Not any equal.\n");
+    return -1;
+}
+
+/*bool masks_already_in_list(GLuint candidate_mask, std::vector<GLuint> *maskTextures) {
     for (auto& mask : *maskTextures) {
         if (candidate_mask == mask) return true;
     }
     return false;
-}
+}*/
 
-void compute_masks(sam_image_u8 img, const sam_params & params, sam_state & state, std::vector<GLuint> *maskTextures, int x, int y) {
+void compute_masks(sam_image_u8 img, const sam_params & params, sam_state & state, std::vector<GLuint> *maskTextures, int x, int y, std::vector<sam_image_u8> & storedMasks) {
+    printf("compute_masks\n");
     std::vector<sam_image_u8> masks;
     //std::vector<GLuint> maskTextures;
     //float x = 100.f;
@@ -56,17 +82,37 @@ void compute_masks(sam_image_u8 img, const sam_params & params, sam_state & stat
         maskTextures->clear();
     }*/
 
+    std::vector<int> masksToDelete;
     for (auto& mask : masks) {
         sam_image_u8 mask_rgb = { mask.nx, mask.ny, };
-        mask_rgb.data.resize(3*mask.nx*mask.ny);
+        mask_rgb.data.resize(4*mask.nx*mask.ny);
         for (int i = 0; i < mask.nx*mask.ny; ++i) {
-            mask_rgb.data[3*i+0] = mask.data[i];
-            mask_rgb.data[3*i+1] = mask.data[i];
-            mask_rgb.data[3*i+2] = mask.data[i];
+            mask_rgb.data[4*i+0] = mask.data[i];
+            mask_rgb.data[4*i+1] = mask.data[i];
+            mask_rgb.data[4*i+2] = mask.data[i];
+            mask_rgb.data[4*i+3] = mask.data[i];
         }
-        GLuint newGLTexture = createGLTexture(mask_rgb, GL_RGB);
-        if (!masks_already_in_list(newGLTexture, maskTextures)) {
+        int pos = masks_already_in_list(mask, storedMasks);
+        if (pos == -1) {
+            GLuint newGLTexture = createGLTexture(mask_rgb, GL_RGBA);
             maskTextures->push_back(newGLTexture);
+            storedMasks.push_back(mask);
+            printf("Added mask\n");
+            //glGenBuffers(1, &newGLTexture);
+            //printf("%u\n", newGLTexture);
+        } else {
+            printf("Should delete mask %d ", pos);
+            masksToDelete.push_back(pos);
+            //storedMasks.erase(storedMasks.begin() + pos);
+            //maskTextures->erase(maskTextures->begin() + pos);
+            printf("Mask already exist\n");
         }
+        break; //just add 1
     }
+    for(int& i : masksToDelete) {
+        storedMasks.erase(storedMasks.begin() + i);
+        maskTextures->erase(maskTextures->begin() + i);
+    }
+
+
 }

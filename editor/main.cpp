@@ -137,8 +137,8 @@ int main(int, char**)
     /*****************/
 
     /*****************/
-    sam_image_u8 img;
-    bool img_loaded = false;
+    //sam_image_u8 img;
+    //bool img_loaded = false;
     //GLuint tex = createGLTexture(img, GL_RGB);
     //tex = createGLTexture(new_img, GL_RGB);
     /********************/
@@ -184,7 +184,7 @@ int main(int, char**)
             if (event.type == SDL_WINDOWEVENT && event.window.event == SDL_WINDOWEVENT_CLOSE && event.window.windowID == SDL_GetWindowID(window))
                 done = true;
             if (event.type == SDL_MOUSEBUTTONDOWN) {
-                if (event.button.button == SDL_BUTTON_LEFT) {
+                if (event.button.button == SDL_BUTTON_LEFT && myState.img_loaded) {
                     myState.clicked = true;
                     myState.clickedX = event.button.x;
                     myState.clickedY = event.button.y;
@@ -240,7 +240,7 @@ int main(int, char**)
 
         //EDITOR CODE
         if (show_editor)
-            editor(&show_editor, &img, &img_loaded, &show_file_dialog, myState);
+            editor(&show_editor, &show_file_dialog, myState);
         //
 
         // Rendering
