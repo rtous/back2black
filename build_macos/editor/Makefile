@@ -175,6 +175,30 @@ editor/fast:
 	cd /Users/rtous/dev/back2black/build_macos && $(MAKE) $(MAKESILENT) -f editor/CMakeFiles/editor.dir/build.make editor/CMakeFiles/editor.dir/build
 .PHONY : editor/fast
 
+colors.o: colors.cpp.o
+.PHONY : colors.o
+
+# target to build an object file
+colors.cpp.o:
+	cd /Users/rtous/dev/back2black/build_macos && $(MAKE) $(MAKESILENT) -f editor/CMakeFiles/editor.dir/build.make editor/CMakeFiles/editor.dir/colors.cpp.o
+.PHONY : colors.cpp.o
+
+colors.i: colors.cpp.i
+.PHONY : colors.i
+
+# target to preprocess a source file
+colors.cpp.i:
+	cd /Users/rtous/dev/back2black/build_macos && $(MAKE) $(MAKESILENT) -f editor/CMakeFiles/editor.dir/build.make editor/CMakeFiles/editor.dir/colors.cpp.i
+.PHONY : colors.cpp.i
+
+colors.s: colors.cpp.s
+.PHONY : colors.s
+
+# target to generate assembly for a file
+colors.cpp.s:
+	cd /Users/rtous/dev/back2black/build_macos && $(MAKE) $(MAKESILENT) -f editor/CMakeFiles/editor.dir/build.make editor/CMakeFiles/editor.dir/colors.cpp.s
+.PHONY : colors.cpp.s
+
 editor.o: editor.cpp.o
 .PHONY : editor.o
 
@@ -308,6 +332,9 @@ help:
 	@echo "... list_install_components"
 	@echo "... rebuild_cache"
 	@echo "... editor"
+	@echo "... colors.o"
+	@echo "... colors.i"
+	@echo "... colors.s"
 	@echo "... editor.o"
 	@echo "... editor.i"
 	@echo "... editor.s"

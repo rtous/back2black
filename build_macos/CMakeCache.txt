@@ -151,7 +151,7 @@ CMAKE_PROJECT_DESCRIPTION:STATIC=
 CMAKE_PROJECT_HOMEPAGE_URL:STATIC=
 
 //Value Computed by CMake
-CMAKE_PROJECT_NAME:STATIC=imgui example
+CMAKE_PROJECT_NAME:STATIC=back2black
 
 //Value Computed by CMake
 CMAKE_PROJECT_VERSION:STATIC=0.1.0
@@ -317,8 +317,26 @@ OPENGL_gl_LIBRARY:FILEPATH=/Library/Developer/CommandLineTools/SDKs/MacOSX14.2.s
 //GLU library for OS X (usually same as OpenGL library)
 OPENGL_glu_LIBRARY:FILEPATH=/Library/Developer/CommandLineTools/SDKs/MacOSX14.2.sdk/System/Library/Frameworks/OpenGL.framework
 
-//The directory containing a CMake configuration file for SDL2.
-SDL2_DIR:PATH=/opt/homebrew/lib/cmake/SDL2
+//Path to a library.
+SDL2MAIN_LIBRARY:FILEPATH=/opt/homebrew/lib/libSDL2main.a
+
+//SDL2 directory
+SDL2_DIR:PATH=
+
+//Path to a file.
+SDL2_INCLUDE_DIR:PATH=/opt/homebrew/include/SDL2
+
+//Where the SDL Library can be found
+SDL2_LIBRARY:STRING=/opt/homebrew/lib/libSDL2.dylib;-framework Cocoa
+
+//Value Computed by CMake
+back2black_BINARY_DIR:STATIC=/Users/rtous/dev/back2black/build_macos
+
+//Value Computed by CMake
+back2black_IS_TOP_LEVEL:STATIC=ON
+
+//Value Computed by CMake
+back2black_SOURCE_DIR:STATIC=/Users/rtous/dev/back2black
 
 //Value Computed by CMake
 ggml_BINARY_DIR:STATIC=/Users/rtous/dev/back2black/build_macos/third-party/ggml
@@ -331,15 +349,6 @@ ggml_LIB_DEPENDS:STATIC=general;m;general;/Library/Developer/CommandLineTools/SD
 
 //Value Computed by CMake
 ggml_SOURCE_DIR:STATIC=/Users/rtous/dev/back2black/third-party/ggml
-
-//Value Computed by CMake
-imgui example_BINARY_DIR:STATIC=/Users/rtous/dev/back2black/build_macos
-
-//Value Computed by CMake
-imgui example_IS_TOP_LEVEL:STATIC=ON
-
-//Value Computed by CMake
-imgui example_SOURCE_DIR:STATIC=/Users/rtous/dev/back2black
 
 
 ########################
@@ -493,6 +502,8 @@ CMAKE_VERBOSE_MAKEFILE-ADVANCED:INTERNAL=1
 FIND_PACKAGE_MESSAGE_DETAILS_OpenCV:INTERNAL=[/Users/rtous/dev/opencv/build][v4.9.0()]
 //Details about finding OpenGL
 FIND_PACKAGE_MESSAGE_DETAILS_OpenGL:INTERNAL=[/Library/Developer/CommandLineTools/SDKs/MacOSX14.2.sdk/System/Library/Frameworks/OpenGL.framework][/Library/Developer/CommandLineTools/SDKs/MacOSX14.2.sdk/System/Library/Frameworks/OpenGL.framework][c ][v()]
+//Details about finding SDL
+FIND_PACKAGE_MESSAGE_DETAILS_SDL:INTERNAL=[/opt/homebrew/lib/libSDL2.dylib;-framework Cocoa][/opt/homebrew/include/SDL2][v()]
 //Details about finding Threads
 FIND_PACKAGE_MESSAGE_DETAILS_Threads:INTERNAL=[TRUE][v()]
 //ADVANCED property for variable: OPENGL_INCLUDE_DIR
@@ -501,4 +512,6 @@ OPENGL_INCLUDE_DIR-ADVANCED:INTERNAL=1
 OPENGL_gl_LIBRARY-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: OPENGL_glu_LIBRARY
 OPENGL_glu_LIBRARY-ADVANCED:INTERNAL=1
+//Path to a library.
+SDL2_LIBRARY_TEMP:INTERNAL=/opt/homebrew/lib/libSDL2.dylib
 

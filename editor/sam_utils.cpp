@@ -45,14 +45,18 @@ int masks_already_in_list(sam_image_u8 candidateMask, std::vector<sam_image_u8> 
     printf("Checking if mask exists.\n");
     for (auto& mask : masks) {
         int i;
-        int coincidences = 0;
+        float pixels_1_any_of_both_masks = 0;
+        float coincidences = 0;
         for (i = 0; i < mask.nx*mask.ny; ++i) {
-            if (candidateMask.data[i] != 0 && (candidateMask.data[i] == mask.data[i])) {
-                coincidences++;
-                if (i > 0.25*mask.nx*mask.ny && coincidences/mask.nx*mask.ny > 0.75)
-                    return mask_count;
+            if (candidateMask.data[i] != 0 || mask.data[i] != 0) {
+                pixels_1_any_of_both_masks++;
+                if (candidateMask.data[i] == mask.data[i])
+                    coincidences++;
             }
         }
+        printf("coincidences = %f percent", coincidences/pixels_1_any_of_both_masks);
+        if (coincidences/pixels_1_any_of_both_masks > 0.75)
+            return mask_count;
         mask_count++;
     }
     printf("Not any equal.\n");
@@ -66,7 +70,7 @@ int masks_already_in_list(sam_image_u8 candidateMask, std::vector<sam_image_u8> 
     return false;
 }*/
 
-void compute_masks(sam_image_u8 img, const sam_params & params, sam_state & state, std::vector<GLuint> *maskTextures, int x, int y, std::vector<sam_image_u8> & storedMasks) {
+void compute_masks(sam_image_u8 img, const sam_params & params, sam_state & state, std::vector<GLuint> *maskTextures, int x, int y, std::vector<sam_image_u8> & storedMasks, std::vector<int> * mask_colors, int & last_color_id) {
     printf("compute_masks\n");
     std::vector<sam_image_u8> masks;
     //std::vector<GLuint> maskTextures;
@@ -94,9 +98,16 @@ void compute_masks(sam_image_u8 img, const sam_params & params, sam_state & stat
         }
         int pos = masks_already_in_list(mask, storedMasks);
         if (pos == -1) {
+            
+            //assign color
+            int color_id = (last_color_id+1)%256;
+            last_color_id = color_id;
+            printf("Assigned color id: %d\n", color_id);
+            mask_colors->push_back(color_id);
             GLuint newGLTexture = createGLTexture(mask_rgb, GL_RGBA);
             maskTextures->push_back(newGLTexture);
             storedMasks.push_back(mask);
+
             printf("Added mask\n");
             //glGenBuffers(1, &newGLTexture);
             //printf("%u\n", newGLTexture);
@@ -112,6 +123,7 @@ void compute_masks(sam_image_u8 img, const sam_params & params, sam_state & stat
     for(int& i : masksToDelete) {
         storedMasks.erase(storedMasks.begin() + i);
         maskTextures->erase(maskTextures->begin() + i);
+        mask_colors->erase(mask_colors->begin() + i);
     }
 
 

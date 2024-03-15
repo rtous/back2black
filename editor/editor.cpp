@@ -149,7 +149,7 @@ void editor(bool *show_myWindow, bool *show_file_dialog, MyState &myState) //WAR
 
     /******* masks ******/
     if (myState.img_loaded && myState.clicked) {
-        compute_masks(myState.img, myState.params, *myState.a_sam_state, &myState.maskTextures, myState.clickedX, myState.clickedY, myState.masks);
+        compute_masks(myState.img, myState.params, *myState.a_sam_state, &myState.maskTextures, myState.clickedX, myState.clickedY, myState.masks, &myState.masks_colors, myState.last_color_id);
         myState.clicked = false;
     }
     if (myState.img_loaded) {
@@ -167,9 +167,20 @@ void editor(bool *show_myWindow, bool *show_file_dialog, MyState &myState) //WAR
             /*const int r = i == 0 ? 255 : 0;
             const int g = i == 1 ? 255 : 0;
             const int b = i == 2 ? 255 : 0;*/
-            const int r = (125 + i * 50) % 256;
+
+            /*const int r = (125 + i * 50) % 256;
             const int g = (50 + i * 50) % 256;
-            const int b = (200 + i * 50) % 256;
+            const int b = (200 + i * 50) % 256;*/
+
+            int color_id = myState.masks_colors[i];
+
+
+
+            const int r = myState.colors_palette[color_id].r;
+            const int g = myState.colors_palette[color_id].g;
+            const int b = myState.colors_palette[color_id].b;
+
+            
             //draw_list->AddImage((void*)(intptr_t)myState.maskTextures[i], ImVec2(newPos[0], newPos[1]), ImVec2(newPos[0]+myState.img.nx, newPos[1]+myState.img.ny), ImVec2(0,0), ImVec2(1,1), IM_COL32(r, g, b, 172));
             draw_list->AddImage((void*)(intptr_t)myState.maskTextures[i], ImVec2(newPos[0], newPos[1]), ImVec2(newPos[0]+myState.img.nx, newPos[1]+myState.img.ny), ImVec2(0,0), ImVec2(1,1), IM_COL32(r, g, b, 255));
         }

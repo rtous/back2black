@@ -27,6 +27,7 @@
 #include "editor.h"
 #include "sam.h"
 #include "utils.h"
+#include "colors.h"
 #include "sam_utils.h"
 
 void myWindow(bool *show_myWindow)
@@ -134,6 +135,7 @@ int main(int, char**)
     bool show_file_dialog = false;
     ImVec4 clear_color = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
     MyState myState;
+    myState.colors_palette = make_colors_vector(); 
     /*****************/
 
     /*****************/

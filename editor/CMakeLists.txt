@@ -1,6 +1,7 @@
 set(EXAMPLE_TARGET editor)
 
 add_executable(${EXAMPLE_TARGET}
+    colors.cpp
     utils.cpp
     main.cpp
     editor.cpp

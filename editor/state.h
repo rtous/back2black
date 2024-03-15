@@ -3,6 +3,7 @@
 
 #include <string>
 #include "sam.h"
+#include "colors.h"
 #include <SDL_opengl.h>
 
 class MyState {      
@@ -14,11 +15,15 @@ class MyState {
     std::shared_ptr<sam_state> a_sam_state;
     std::vector<GLuint> maskTextures;
     std::vector<sam_image_u8> masks;
+    std::vector<int> masks_colors;
+    t_colors colors_palette;
+    int last_color_id;
     bool clicked;
     int clickedX;
     int clickedY;
     sam_image_u8 img;
     bool img_loaded = false;
+
 };
 
 #endif
