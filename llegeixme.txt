@@ -80,6 +80,18 @@ When linking your app, use this:
 	set(OpenCV_DIR "/Users/rtous/dev/opencv/build")
 	find_package(OpenCV REQUIRED) 
 	target_link_libraries(${EXAMPLE_TARGET} PRIVATE ${OpenCV_LIBS} ${CMAKE_THREAD_LIBS_INIT})
+	
+For Windows compile this way:
+
+	Need MingGW 64 bits: check ANNEX 3
+	
+	mkdir build
+	cd build
+	#cmake -G "MinGW Makefiles" -DCMAKE_CXX_COMPILER=C:/MinGW/bin/g++.exe -DCMAKE_C_COMPILER=C:/MinGW/bin/gcc.exe -DBUILD_SHARED_LIBS=OFF -DCMAKE_CXX_STANDARD=11 -DWITH_MSMF=OFF..
+	cmake -G "MinGW Makefiles" -DCMAKE_CXX_COMPILER=C:/MinGW/bin/g++.exe -DCMAKE_C_COMPILER=C:/MinGW/bin/gcc.exe -DBUILD_SHARED_LIBS=OFF ..
+	cmake --build .
+	
+	check: CXXFLAGS="${CFLAGS} -mno-sse4.1" emerge -av1 opencv
 
 ANNEX 2. ImGuiFileDialog
 
@@ -89,7 +101,14 @@ ANNEX 2. ImGuiFileDialog
 	
 ANNEX 3. Windows
 
-1) Install MinGW and CMAKE
+- Install MinGW and CMAKE
+- type:
 
 ./build_windows.bat
 
+Install MinGW 64: 
+	- Download from https://winlibs.com/ (version with UCRT runtime and POSIX threads)
+	- Unzip
+	- Backup the C:\MinGW folder into C:\MinGW_backup_32
+	- Copy the contents of mingw4 within C:\MinGW
+	- SET PATH=D:\Prog\winlibs64-9.2.0-7.0.0\mingw64\bin;%PATH%
