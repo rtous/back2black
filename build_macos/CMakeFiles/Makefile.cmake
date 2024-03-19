@@ -13,6 +13,7 @@ set(CMAKE_MAKEFILE_DEPENDS
   "CMakeFiles/3.28.3/CMakeCXXCompiler.cmake"
   "CMakeFiles/3.28.3/CMakeSystem.cmake"
   "/Users/rtous/dev/back2black/cli/CMakeLists.txt"
+  "/Users/rtous/dev/back2black/cli_simplify/CMakeLists.txt"
   "/Users/rtous/dev/back2black/editor/CMakeLists.txt"
   "/Users/rtous/dev/back2black/test_opencv/CMakeLists.txt"
   "/Users/rtous/dev/back2black/third-party/CMakeLists.txt"
@@ -75,6 +76,7 @@ set(CMAKE_MAKEFILE_PRODUCTS
   "third-party/ImGuiFileDialog/CMakeFiles/CMakeDirectoryInformation.cmake"
   "test_opencv/CMakeFiles/CMakeDirectoryInformation.cmake"
   "cli/CMakeFiles/CMakeDirectoryInformation.cmake"
+  "cli_simplify/CMakeFiles/CMakeDirectoryInformation.cmake"
   "editor/CMakeFiles/CMakeDirectoryInformation.cmake"
   )
 
@@ -87,5 +89,6 @@ set(CMAKE_DEPEND_INFO_FILES
   "third-party/ImGuiFileDialog/CMakeFiles/ImGuiFileDialog.dir/DependInfo.cmake"
   "test_opencv/CMakeFiles/test_opencv.dir/DependInfo.cmake"
   "cli/CMakeFiles/cli.dir/DependInfo.cmake"
+  "cli_simplify/CMakeFiles/cli_simplify.dir/DependInfo.cmake"
   "editor/CMakeFiles/editor.dir/DependInfo.cmake"
   )

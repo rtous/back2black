@@ -56,7 +56,7 @@ static void ShowExampleAppMainMenuBar(bool *show_file_dialog)
 }
 
 
-
+//Main editor method (called within the main loop)
 void editor(bool *show_myWindow, bool *show_file_dialog, MyState &myState) //WARNING: this is executed within the main loop
 {
     //Main Menu
@@ -69,31 +69,24 @@ void editor(bool *show_myWindow, bool *show_file_dialog, MyState &myState) //WAR
     ImGui::SetNextWindowPos(use_work_area ? viewport->WorkPos : viewport->Pos);
     ImVec2 size = ImVec2(viewport->WorkSize.x * 0.5f, viewport->WorkSize.y);
     ImGui::SetNextWindowSize(use_work_area ? size : viewport->Size);
-
+    //Create EDITOR window
     ImGui::Begin("EDITOR", show_myWindow);   // Pass a pointer to our bool variable (the window will have a closing button that will clear the bool when clicked)
     
     /******* image ******/
-    //load_image_from_file("img.jpg", *img);
     if (myState.img_loaded) {
-        //printf("drawing image\n");
-        
+        //Draw input image (previously loaded)
         GLuint tex = createGLTexture(myState.img, GL_RGB);
         ImDrawList* draw_list = ImGui::GetWindowDrawList();
         draw_list->AddImage((void*)(intptr_t)tex, ImVec2(0,0), ImVec2(myState.img.nx, myState.img.ny));
         draw_list->AddCircleFilled(ImVec2(100, 100), 5, IM_COL32(255, 0, 0, 255));
-
-        /******* check click ******/
-
-        /**************************/
-        
     } else {
-        //printf("not drawing image\n");
+        ImGui::Text("Load an image from the File menu.");
     }
     /********************/
     
     //Show file dialog
     if (*show_file_dialog) {
-            show_file_dialog_f(show_file_dialog, myState);
+        show_file_dialog_f(show_file_dialog, myState);
     }
 
     //Check if opening file
@@ -119,35 +112,19 @@ void editor(bool *show_myWindow, bool *show_file_dialog, MyState &myState) //WAR
                 //return 1;
             } else {
                 printf("t_load_ms = %d ms\n", myState.a_sam_state->t_load_ms);
+                //First SAM computes the embedding of the whole image
                 if (!sam_compute_embd_img(myState.img, myState.params.n_threads, *myState.a_sam_state)) {
                     fprintf(stderr, "%s: failed to compute encoded image\n", __func__);
                     //return 1;
                 }
                 printf("t_compute_img_ms = %d ms\n", myState.a_sam_state->t_compute_img_ms);
-                //compute_masks(myState.img, myState.params, *myState.a_sam_state, &myState.maskTextures, 100, 100);
-                //draw masks
-                //ImGui::Begin("EDITOR", show_myWindow);
-                
-                
-                /*ImGui::Text("MASKS WINDOW");
-                ImDrawList* draw_list = ImGui::GetWindowDrawList();
-                compute_masks(*img, myState.params, *myState.a_sam_state, &myState.maskTextures);
-                for (int i = 0; i < int(myState.maskTextures.size()); ++i) {
-                    printf("Drawing mask.\n");
-                    const int r = i == 0 ? 255 : 0;
-                    const int g = i == 1 ? 255 : 0;
-                    const int b = i == 2 ? 255 : 0;
-                    draw_list->AddImage((void*)(intptr_t)myState.maskTextures[i], ImVec2(0,0), ImVec2(img->nx, img->ny), ImVec2(0,0), ImVec2(1,1), IM_COL32(r, g, b, 172));
-                }*/
-                
-                //ImGui::End();
             }
         }
     }
 
 
 
-    /******* masks ******/
+    /******* masks windows ******/
     if (myState.img_loaded && myState.clicked) {
         compute_masks(myState.img, myState.params, *myState.a_sam_state, &myState.maskTextures, myState.clickedX, myState.clickedY, myState.masks, &myState.masks_colors, myState.last_color_id);
         myState.clicked = false;
@@ -173,9 +150,6 @@ void editor(bool *show_myWindow, bool *show_file_dialog, MyState &myState) //WAR
             const int b = (200 + i * 50) % 256;*/
 
             int color_id = myState.masks_colors[i];
-
-
-
             const int r = myState.colors_palette[color_id].r;
             const int g = myState.colors_palette[color_id].g;
             const int b = myState.colors_palette[color_id].b;
@@ -192,9 +166,9 @@ void editor(bool *show_myWindow, bool *show_file_dialog, MyState &myState) //WAR
     
     /****************************/
 
-    ImGui::Text("Hello from another window!");
-    if (ImGui::Button("Close Me"))
-        *show_myWindow = false;
+    //ImGui::Text("Hello from another window!");
+    //if (ImGui::Button("Close Me"))
+    //    *show_myWindow = false;
     ImGui::End();
 
 }

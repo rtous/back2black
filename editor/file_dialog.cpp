@@ -25,7 +25,7 @@ void show_file_dialog_f(bool *show_file_dialog, MyState & myState)
     //glfwGetFramebufferSize(window, &display_w, &display_h);
     IGFD::FileDialogConfig config;
     config.path = ".";
-    printf("opening dialog..."); 
+    //printf("opening dialog..."); 
 
     //const char *filters = "Source files (*.cpp *.h *.hpp){.cpp,.h,.hpp},Image files (*.png *.gif *.jpg *.jpeg){.png,.gif,.jpg,.jpeg},.md";
     const char *filters = "Image files (*.png *.gif *.jpg *.jpeg){.png,.gif,.jpg,.jpeg},Source files (*.cpp *.h *.hpp){.cpp,.h,.hpp},.md";

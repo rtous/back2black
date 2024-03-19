@@ -2465,6 +2465,7 @@ editor/CMakeFiles/editor.dir/file_dialog.cpp.o: /Users/rtous/dev/back2black/edit
   /Library/Developer/CommandLineTools/usr/lib/clang/15.0.0/include/stdarg.h \
   /Library/Developer/CommandLineTools/usr/lib/clang/15.0.0/include/stddef.h \
   /Library/Developer/CommandLineTools/usr/lib/clang/15.0.0/include/stdint.h \
+  /Users/rtous/dev/back2black/editor/colors.h \
   /Users/rtous/dev/back2black/editor/state.h \
   /Users/rtous/dev/back2black/editor/utils.h \
   /Users/rtous/dev/back2black/third-party/ImGuiFileDialog/ImGuiFileDialog.h \

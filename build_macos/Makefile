@@ -253,6 +253,19 @@ cli/fast:
 .PHONY : cli/fast
 
 #=============================================================================
+# Target rules for targets named cli_simplify
+
+# Build rule for target.
+cli_simplify: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 cli_simplify
+.PHONY : cli_simplify
+
+# fast build rule for target.
+cli_simplify/fast:
+	$(MAKE) $(MAKESILENT) -f cli_simplify/CMakeFiles/cli_simplify.dir/build.make cli_simplify/CMakeFiles/cli_simplify.dir/build
+.PHONY : cli_simplify/fast
+
+#=============================================================================
 # Target rules for targets named editor
 
 # Build rule for target.
@@ -279,6 +292,7 @@ help:
 	@echo "... rebuild_cache"
 	@echo "... ImGuiFileDialog"
 	@echo "... cli"
+	@echo "... cli_simplify"
 	@echo "... editor"
 	@echo "... ggml"
 	@echo "... imgui"
