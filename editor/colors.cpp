@@ -1,5 +1,7 @@
 #include "colors.h"
 
+#include <stdlib.h>
+
 #define NUM_COLORS 256
 
 t_colors make_colors_vector() {

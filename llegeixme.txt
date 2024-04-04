@@ -114,3 +114,12 @@ Install MinGW 64:
 	- Backup the C:\MinGW folder into C:\MinGW_backup_32
 	- Copy the contents of mingw4 within C:\MinGW
 	
+SDL2:
+	#https://github.com/stho01/sdl2-cmake-mingw32-template
+	descarregar els que tenen mingw!
+	
+	And add to cmake:
+	
+	-DCMAKE_PREFIX_PATH=C:/SDL
+	
+	NOTA: He comentat les línies que fan servir Threads

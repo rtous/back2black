@@ -1,6 +1,10 @@
 find_package(SDL2 REQUIRED)
 string(STRIP "${SDL2_LIBRARIES}" SDL2_LIBRARIES)
 
+#set(SDL2_LIBRARIES "C:/SDL/lib/libSDL2.a;C:/SDL/lib/libSDL2main.a;C:/SDL/lib/libSDL2_image.dll.a")
+#message("RUBEN (in imgui CMakeLists.txt) SDL2_LIBRARIES set to ${SDL2_LIBRARIES}")
+
+
 if (APPLE)
     set(ADDITIONAL_LIBRARIES "-framework Cocoa")
 else (APPLE)
