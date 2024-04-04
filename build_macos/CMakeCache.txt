@@ -320,8 +320,8 @@ OPENGL_glu_LIBRARY:FILEPATH=/Library/Developer/CommandLineTools/SDKs/MacOSX14.2.
 //Path to a library.
 SDL2MAIN_LIBRARY:FILEPATH=/opt/homebrew/lib/libSDL2main.a
 
-//SDL2 directory
-SDL2_DIR:PATH=
+//The directory containing a CMake configuration file for SDL2.
+SDL2_DIR:PATH=/opt/homebrew/lib/cmake/SDL2
 
 //Path to a file.
 SDL2_INCLUDE_DIR:PATH=/opt/homebrew/include/SDL2
