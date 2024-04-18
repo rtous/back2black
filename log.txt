@@ -1,0 +1,30 @@
+
+Computer Architecture Department							Ruben Tous
+Universitat Politecnica de Catalunya                       
+                                                              												  
+															  
+													back2black Developer's Log
+
+
+
+18/04/2024
+	- Windows: problem with SDL
+	- cli -> just for testing. Masks from image (works but does not save nothing)
+	- cli_simplify -> simplified masks from masks 
+		- now working on this
+		- input from a folder imported from Lester project
+		- input harcoded: data/example1/masks/001.png
+		- output root
+
+	 mask=N colors (some color with more than 1 region)
+	 for color in colors
+	 	get contours
+	 	simplify contours
+	 	fill contours
+	 WARNING: jpg is lossy!! solved -> output png SOLVED
+	 TODO: mask dilation not working!! SOLVED
+	 TODO: purge small masks before dilation SOLVED
+	 TODO: color dictionary
+	 TODO: parametrize!
+
+	  

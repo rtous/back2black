@@ -6,7 +6,7 @@ CXX_DEFINES = -DGGML_USE_ACCELERATE
 
 CXX_INCLUDES = -I/Users/rtous/dev/back2black/third-party/sam/. -I/Users/rtous/dev/back2black/third-party/ggml/src/. -I/Users/rtous/dev/back2black/third-party/ggml/src/../include -I/Users/rtous/dev/back2black/third-party/ggml/src/../include/ggml -I/opt/homebrew/include/SDL2 -I/Users/rtous/dev/back2black/third-party/imgui/imgui -I/Users/rtous/dev/back2black/third-party/imgui/imgui/backends -I/Users/rtous/dev/back2black/third-party/imgui/. -I/Users/rtous/dev/back2black/third-party/ImGuiFileDialog
 
-CXX_FLAGSarm64 = -O3 -DNDEBUG -std=gnu++14 -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX14.2.sdk -Wno-unknown-pragmas
+CXX_FLAGSarm64 = -O3 -DNDEBUG -std=gnu++14 -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX14.4.sdk -Wno-unknown-pragmas
 
-CXX_FLAGS = -O3 -DNDEBUG -std=gnu++14 -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX14.2.sdk -Wno-unknown-pragmas
+CXX_FLAGS = -O3 -DNDEBUG -std=gnu++14 -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX14.4.sdk -Wno-unknown-pragmas
 

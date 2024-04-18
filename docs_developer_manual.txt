@@ -59,6 +59,9 @@ TIP: Inspecting cmake variables
 	include(CMakePrintHelpers)
 	cmake_print_variables(${CMAKE_CURRENT_SOURCE_DIR})
 
+ERROR: fatal error: 'string.h' file not found mac
+	- Remove the contents of the build folder and retry 
+
 
 ANNEX 1. OpenCV
 
