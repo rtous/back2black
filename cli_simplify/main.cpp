@@ -19,6 +19,15 @@
 #pragma warning(disable: 4244 4267) // possible loss of data
 #endif
 
+/*
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <stdio.h>
+#include <stdlib.h>
+*/
+
+#include <opencv2/core/utils/filesystem.hpp>
+
 static bool load_image_from_file(const std::string & fname, sam_image_u8 & img) {
     int nx, ny, nc;
     auto data = stbi_load(fname.c_str(), &nx, &ny, &nc, 3);
@@ -161,16 +170,36 @@ void dilate_masks(std::map<int,cv::Mat> & unique_colors_map)
     }
 }*/
 
+/*
+int dirExists(const char *path)
+{
+    struct stat info;
+
+    if(stat( path, &info ) != 0)
+        return 0;
+    else if(info.st_mode & S_IFDIR)
+        return 1;
+    else
+        return 0;
+}*/
 
 // Main code
 int main(int argc, char ** argv) 
 {
     printf("CLI SIMPLIFY tool v 0.1\n");
 
+    std::string input_path = "data/example1/masks";
+    std::string output_path = "output/example1";
+
+    if (!cv::utils::fs::exists(output_path)) {
+        printf("Output directory does not exist, creating: %s", output_path.c_str());
+        cv::utils::fs::createDirectories(output_path);
+    }
+
     /****** LOAD IMAGE **********/
     //im = cv2.imread(os.path.join(inputpath, filename))
     //cv::Mat img = cv::imread("img.jpg", cv::IMREAD_GRAYSCALE);
-    cv::Mat img = cv::imread("data/example1/masks/001.png");
+    cv::Mat img = cv::imread(input_path+"/001.png");
     //cv::Mat output = cv::Mat::zeros( img.size(), CV_8UC3 );
     cv::Mat output = cv::Mat::zeros( img.size(), CV_8UC4 ); //includes alpha channel
     
@@ -214,7 +243,7 @@ int main(int argc, char ** argv)
         printf("Writing mask for color %d\n", segment_color);
         if (pixels_per_colour[it->first] > 500) {
             cv::Mat mask = it->second;
-            cv::imwrite("mask"+std::to_string(i)+".jpg", mask);
+            cv::imwrite(output_path+"/mask"+std::to_string(i)+".jpg", mask);
 
             /**** DILATE ****/
             cv::dilate(mask, mask, cv::getStructuringElement(cv::MORPH_RECT, cv::Size(4, 4)), cv::Point(-1, -1), 1, 1, 1);
@@ -234,7 +263,7 @@ int main(int argc, char ** argv)
                 if (cv::contourArea(contours[j]) > 200) {
                     cv::Mat drawing = cv::Mat::zeros( mask.size(), CV_8UC3 );
                     cv::drawContours( drawing, contours, (int)j, color, 2, cv::LINE_8, hierarchy, 0 );
-                    cv::imwrite("mask_contour"+std::to_string(i)+"_"+std::to_string(j)+".jpg", drawing);
+                    cv::imwrite(output_path+"/mask_contour"+std::to_string(i)+"_"+std::to_string(j)+".jpg", drawing);
 
 
                     /**** DILATE ****/
@@ -249,7 +278,7 @@ int main(int argc, char ** argv)
 
                     drawing = cv::Mat::zeros( mask.size(), CV_8UC3 );
                     cv::drawContours(drawing, contours, (int)j, color, 2, cv::LINE_8, hierarchy, 0 );
-                    cv::imwrite("mask_contour_simplified"+std::to_string(i)+"_"+std::to_string(j)+".jpg", drawing);
+                    cv::imwrite(output_path+"/mask_contour_simplified"+std::to_string(i)+"_"+std::to_string(j)+".jpg", drawing);
 
                     /**** FILL ***/
 
@@ -260,39 +289,11 @@ int main(int argc, char ** argv)
                 }
             }
             
-            cv::imwrite("output.png", output);
+            cv::imwrite(output_path+"/output.png", output);
 
             i++;
         }
     }
-       
-
-
-
-    /******* CONTOURS *********/
-    /*
-    cv::Mat canny_output;
-    int thresh = 100;
-    cv::Canny(img_gray, canny_output, thresh, thresh*2 );
-    std::vector<std::vector<cv::Point> > contours;
-    std::vector<cv::Vec4i> hierarchy;
-    //cv:findContours(canny_output, contours, hierarchy, cv::RETR_TREE, cv::CHAIN_APPROX_SIMPLE );
-    cv:findContours(img_gray, contours, hierarchy, cv::RETR_LIST, cv::CHAIN_APPROX_SIMPLE );
-
-    //Draw
-    cv::RNG rng(12345);//random number generator
-    cv::Mat drawing = cv::Mat::zeros( canny_output.size(), CV_8UC3 );
-    for( size_t i = 0; i< contours.size(); i++ )
-    {
-        cv::Scalar color = cv::Scalar( rng.uniform(0, 256), rng.uniform(0,256), rng.uniform(0,256) );
-        cv::drawContours( drawing, contours, (int)i, color, 2, cv::LINE_8, hierarchy, 0 );
-    }
-    //cv::imshow( "Contours", drawing );
-
-    cv::imwrite("output.jpg", drawing);
-
-    */
-
-
+    
     return 0;
 }

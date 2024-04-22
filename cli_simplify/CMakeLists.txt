@@ -13,6 +13,8 @@ install(TARGETS ${EXAMPLE_TARGET} RUNTIME)
 target_link_libraries(${EXAMPLE_TARGET} PRIVATE sam ${OpenCV_LIBS} ${CMAKE_THREAD_LIBS_INIT})
 #target_link_libraries(${EXAMPLE_TARGET} PRIVATE imgui-sdl2 ${CMAKE_THREAD_LIBS_INIT})
 target_compile_features(${EXAMPLE_TARGET} PUBLIC cxx_std_11)
+#target_compile_features(${EXAMPLE_TARGET} PUBLIC cxx_std_23)
+
 
 #If Microsoft Visual C++ or similar
 if(MSVC)
