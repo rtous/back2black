@@ -126,3 +126,6 @@ SDL2:
 	-DCMAKE_PREFIX_PATH=C:/SDL
 	
 	NOTA: He comentat les línies que fan servir Threads
+	
+	-Cal posar a C:/SDL les carpetes bin, include, lib i share que hi ha a dins de SDL2-devel-2.30.2-mingw (no cal l'altra, image...)
+	-Hi ha dues versions, CAL AGAFAR LA x86_64-w64-mingw32 QUE ES LA DE 64 bits!!
