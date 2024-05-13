@@ -17,3 +17,9 @@ target_compile_features(${EXAMPLE_TARGET} PUBLIC cxx_std_11)
 if(MSVC)
     target_compile_definitions(${EXAMPLE_TARGET} PRIVATE -D_CRT_SECURE_NO_WARNINGS=1)
 endif()
+
+add_custom_command(TARGET editor POST_BUILD        # Adds a post-build event to MyTest
+    COMMAND ${CMAKE_COMMAND} -E copy_if_different  # which executes "cmake - E copy_if_different..."
+        "${PROJECT_SOURCE_DIR}/third-party/sdl2/sdl2.dll"      # <--this is in-file
+        $<TARGET_FILE_DIR:editor>)                 # <--this is out-file path
+

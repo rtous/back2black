@@ -16,6 +16,20 @@ Universitat Politecnica de Catalunya
 		|- opencv
 			|- build
 
+- Previously need to generate the GGML's SAM checkpoints file: ggml-model-f16.bin
+	git clone https://github.com/YavorGIvanov/sam.cpp.git
+	cd sam.cpp
+	python -m venv myvenv
+	.\myvenv\Scripts\activate
+	mkdir checkpoints
+	cd checkpoints
+	wget https://dl.fbaipublicfiles.com/segment_anything/sam_vit_b_01ec64.pth
+	cd ..
+	pip install torch
+	pip install numpy
+	python convert-pth-to-ggml.py checkpoints/sam_vit_b_01ec64.pth . 1
+
+
 1.2 Building
 
 NOTE: The -DBUILD_SHARED_LIBS=OFF flag makes excutable bigger but independent
@@ -129,3 +143,5 @@ SDL2:
 	
 	-Cal posar a C:/SDL les carpetes bin, include, lib i share que hi ha a dins de SDL2-devel-2.30.2-mingw (no cal l'altra, image...)
 	-Hi ha dues versions, CAL AGAFAR LA x86_64-w64-mingw32 QUE ES LA DE 64 bits!!
+	
+	- WARNING: SDL2.dll needs to be shipped at the same location of the .exe
