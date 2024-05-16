@@ -18,8 +18,14 @@ if(MSVC)
     target_compile_definitions(${EXAMPLE_TARGET} PRIVATE -D_CRT_SECURE_NO_WARNINGS=1)
 endif()
 
-add_custom_command(TARGET editor POST_BUILD        # Adds a post-build event to MyTest
-    COMMAND ${CMAKE_COMMAND} -E copy_if_different  # which executes "cmake - E copy_if_different..."
-        "${PROJECT_SOURCE_DIR}/third-party/sdl2/sdl2.dll"      # <--this is in-file
-        $<TARGET_FILE_DIR:editor>)                 # <--this is out-file path
+
+if (WIN32)
+# copy the .dll file to the same folder as the executable
+add_custom_command(
+    TARGET ${EXAMPLE_TARGET} POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E copy_if_different
+    "${PROJECT_SOURCE_DIR}/third-party/sdl2/sdl2.dll"
+    $<TARGET_FILE_DIR:${EXAMPLE_TARGET}>
+    VERBATIM)
+endif()
 
