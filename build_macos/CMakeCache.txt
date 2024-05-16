@@ -329,6 +329,9 @@ SDL2_INCLUDE_DIR:PATH=/opt/homebrew/include/SDL2
 //Where the SDL Library can be found
 SDL2_LIBRARY:STRING=/opt/homebrew/lib/libSDL2.dylib;-framework Cocoa
 
+//Disable search SDL2 Library in default path
+SDL2_NO_DEFAULT_PATH:BOOL=ON
+
 //Value Computed by CMake
 back2black_BINARY_DIR:STATIC=/Users/rtous/dev/back2black/build_macos
 
@@ -504,6 +507,10 @@ FIND_PACKAGE_MESSAGE_DETAILS_OpenCV:INTERNAL=[/Users/rtous/dev/opencv/build][v4.
 FIND_PACKAGE_MESSAGE_DETAILS_OpenGL:INTERNAL=[/Library/Developer/CommandLineTools/SDKs/MacOSX14.4.sdk/System/Library/Frameworks/OpenGL.framework][/Library/Developer/CommandLineTools/SDKs/MacOSX14.4.sdk/System/Library/Frameworks/OpenGL.framework][c ][v()]
 //Details about finding SDL
 FIND_PACKAGE_MESSAGE_DETAILS_SDL:INTERNAL=[/opt/homebrew/lib/libSDL2.dylib;-framework Cocoa][/opt/homebrew/include/SDL2][v()]
+//Details about finding SDL2
+FIND_PACKAGE_MESSAGE_DETAILS_SDL2:INTERNAL=[/opt/homebrew/lib/libSDL2.dylib;-framework Cocoa][/opt/homebrew/include/SDL2][v2.30.2()]
+//Details about finding SDL2main
+FIND_PACKAGE_MESSAGE_DETAILS_SDL2main:INTERNAL=[/opt/homebrew/lib/libSDL2main.a][/opt/homebrew/include/SDL2][v2.30.2()]
 //Details about finding Threads
 FIND_PACKAGE_MESSAGE_DETAILS_Threads:INTERNAL=[TRUE][v()]
 //ADVANCED property for variable: OPENGL_INCLUDE_DIR
@@ -512,6 +519,14 @@ OPENGL_INCLUDE_DIR-ADVANCED:INTERNAL=1
 OPENGL_gl_LIBRARY-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: OPENGL_glu_LIBRARY
 OPENGL_glu_LIBRARY-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: SDL2MAIN_LIBRARY
+SDL2MAIN_LIBRARY-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: SDL2_INCLUDE_DIR
+SDL2_INCLUDE_DIR-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: SDL2_LIBRARY
+SDL2_LIBRARY-ADVANCED:INTERNAL=1
 //Path to a library.
 SDL2_LIBRARY_TEMP:INTERNAL=/opt/homebrew/lib/libSDL2.dylib
+//ADVANCED property for variable: SDL2_NO_DEFAULT_PATH
+SDL2_NO_DEFAULT_PATH-ADVANCED:INTERNAL=1
 
