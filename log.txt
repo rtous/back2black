@@ -26,5 +26,7 @@ Universitat Politecnica de Catalunya
 	 TODO: purge small masks before dilation SOLVED
 	 TODO: color dictionary
 	 TODO: parametrize!
-
-	  
+	 
+16/05/2024
+	  - Fixed the prolem with SDL2.dll (add a copy command to the editor CMake file). 
+	  - TODO: propagate masks to an entire folder
