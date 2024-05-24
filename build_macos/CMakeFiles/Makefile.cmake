@@ -13,6 +13,7 @@ set(CMAKE_MAKEFILE_DEPENDS
   "CMakeFiles/3.28.3/CMakeCXXCompiler.cmake"
   "CMakeFiles/3.28.3/CMakeSystem.cmake"
   "/Users/rtous/dev/back2black/cli/CMakeLists.txt"
+  "/Users/rtous/dev/back2black/cli_masks/CMakeLists.txt"
   "/Users/rtous/dev/back2black/cli_simplify/CMakeLists.txt"
   "/Users/rtous/dev/back2black/editor/CMakeLists.txt"
   "/Users/rtous/dev/back2black/test_opencv/CMakeLists.txt"
@@ -78,6 +79,7 @@ set(CMAKE_MAKEFILE_PRODUCTS
   "cli/CMakeFiles/CMakeDirectoryInformation.cmake"
   "cli_simplify/CMakeFiles/CMakeDirectoryInformation.cmake"
   "editor/CMakeFiles/CMakeDirectoryInformation.cmake"
+  "cli_masks/CMakeFiles/CMakeDirectoryInformation.cmake"
   )
 
 # Dependency information for all targets:
@@ -91,4 +93,5 @@ set(CMAKE_DEPEND_INFO_FILES
   "cli/CMakeFiles/cli.dir/DependInfo.cmake"
   "cli_simplify/CMakeFiles/cli_simplify.dir/DependInfo.cmake"
   "editor/CMakeFiles/editor.dir/DependInfo.cmake"
+  "cli_masks/CMakeFiles/cli_masks.dir/DependInfo.cmake"
   )

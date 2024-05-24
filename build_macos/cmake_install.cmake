@@ -44,6 +44,7 @@ if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   include("/Users/rtous/dev/back2black/build_macos/cli/cmake_install.cmake")
   include("/Users/rtous/dev/back2black/build_macos/cli_simplify/cmake_install.cmake")
   include("/Users/rtous/dev/back2black/build_macos/editor/cmake_install.cmake")
+  include("/Users/rtous/dev/back2black/build_macos/cli_masks/cmake_install.cmake")
 
 endif()
 

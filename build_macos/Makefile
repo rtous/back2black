@@ -278,6 +278,19 @@ editor/fast:
 	$(MAKE) $(MAKESILENT) -f editor/CMakeFiles/editor.dir/build.make editor/CMakeFiles/editor.dir/build
 .PHONY : editor/fast
 
+#=============================================================================
+# Target rules for targets named cli_masks
+
+# Build rule for target.
+cli_masks: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 cli_masks
+.PHONY : cli_masks
+
+# fast build rule for target.
+cli_masks/fast:
+	$(MAKE) $(MAKESILENT) -f cli_masks/CMakeFiles/cli_masks.dir/build.make cli_masks/CMakeFiles/cli_masks.dir/build
+.PHONY : cli_masks/fast
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -292,6 +305,7 @@ help:
 	@echo "... rebuild_cache"
 	@echo "... ImGuiFileDialog"
 	@echo "... cli"
+	@echo "... cli_masks"
 	@echo "... cli_simplify"
 	@echo "... editor"
 	@echo "... ggml"

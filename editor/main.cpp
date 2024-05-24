@@ -205,7 +205,7 @@ int main(int, char**)
 
         // 2. Show a simple window that we create ourselves. We use a Begin/End pair to create a named window.
         //{
-        static float f = 0.0f;
+        /*static float f = 0.0f;
         static int counter = 0;
 
         ImGui::Begin("Hello, world Ruben!");                          // Create a window called "Hello, world!" and append into it.
@@ -224,7 +224,7 @@ int main(int, char**)
 
         ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / io.Framerate, io.Framerate);
         ImGui::End();
-        //}
+        //}*/
 
         // 3. Show another simple window.
         if (show_another_window)

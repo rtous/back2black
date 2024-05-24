@@ -62,12 +62,12 @@ void editor(bool *show_myWindow, bool *show_file_dialog, MyState &myState) //WAR
     //Main Menu
     ShowExampleAppMainMenuBar(show_file_dialog);
 
-    //An example window
+    //IMAGE window
     static bool use_work_area = true;
     const ImGuiViewport* viewport = ImGui::GetMainViewport();
     static ImGuiWindowFlags flags = ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoSavedSettings;
     ImGui::SetNextWindowPos(use_work_area ? viewport->WorkPos : viewport->Pos);
-    ImVec2 size = ImVec2(viewport->WorkSize.x * 0.5f, viewport->WorkSize.y);
+    ImVec2 size = ImVec2(viewport->WorkSize.x * 0.5f, viewport->WorkSize.y * 0.5f);
     ImGui::SetNextWindowSize(use_work_area ? size : viewport->Size);
     //Create EDITOR window
     ImGui::Begin("EDITOR", show_myWindow);   // Pass a pointer to our bool variable (the window will have a closing button that will clear the bool when clicked)
@@ -133,7 +133,7 @@ void editor(bool *show_myWindow, bool *show_file_dialog, MyState &myState) //WAR
         static ImGuiWindowFlags flags = ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoSavedSettings;
         ImVec2 newPos = ImVec2(viewport->WorkPos.x + 500, viewport->WorkPos.y + 0);
         ImGui::SetNextWindowPos(newPos);
-        ImVec2 size = ImVec2(viewport->WorkSize.x * 0.5f, viewport->WorkSize.y);
+        ImVec2 size = ImVec2(viewport->WorkSize.x * 0.5f, viewport->WorkSize.y * 0.5f);
         ImGui::SetNextWindowSize(use_work_area ? size : viewport->Size);
         ImGui::Begin("MASKS");
         ImGui::Text("MASKS WINDOW");
@@ -162,6 +162,35 @@ void editor(bool *show_myWindow, bool *show_file_dialog, MyState &myState) //WAR
         ImGui::End();
     }
     /********************/
+
+    /******* frames windows ******/
+    flags = ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoSavedSettings;
+    ImVec2 newPos = ImVec2(viewport->WorkPos.x + 0, viewport->WorkPos.y + 500);
+    ImGui::SetNextWindowPos(newPos);
+    size = ImVec2(viewport->WorkSize.x * 0.5f, viewport->WorkSize.y);
+    ImGui::SetNextWindowSize(use_work_area ? size : viewport->Size);
+    ImGui::Begin("FRAMES");
+    ImGui::Text("FRAMES WINDOW"); 
+
+    const char* items[] = { "AAAA", "BBBB", "CCCC", "DDDD", "EEEE", "FFFF", "GGGG", "HHHH", "IIII", "JJJJ", "KKKK", "LLLLLLL", "MMMM", "OOOOOOO" };
+    static int item_current_idx = 0; // Here we store our selection data as an index.
+    if (ImGui::BeginListBox("listbox 1"))
+    {
+        for (int n = 0; n < IM_ARRAYSIZE(items); n++)
+        {
+            const bool is_selected = (item_current_idx == n);
+            if (ImGui::Selectable(items[n], is_selected))
+                item_current_idx = n;
+
+            // Set the initial focus when opening the combo (scrolling + keyboard navigation focus)
+            if (is_selected)
+                ImGui::SetItemDefaultFocus();
+        }
+        ImGui::EndListBox();
+    }
+
+    ImGui::End();
+    /****************************/
     
     
     /****************************/

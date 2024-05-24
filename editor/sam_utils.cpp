@@ -91,7 +91,7 @@ void compute_masks(sam_image_u8 img, const sam_params & params, sam_state & stat
         maskTextures->clear();
     }*/
 
-    std::vector<int>    ;
+    std::vector<int> masksToDelete;
     for (auto& mask : masks) {
         sam_image_u8 mask_rgb = { mask.nx, mask.ny, };
         mask_rgb.data.resize(4*mask.nx*mask.ny);
