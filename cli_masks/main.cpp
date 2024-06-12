@@ -12,6 +12,9 @@ namespace fs = std::__fs::filesystem; //Maybe a problem of the Mac
 #include "stb_image_write.h"
 
 #include <opencv2/opencv.hpp> 
+#include <opencv2/core/utils/filesystem.hpp>
+
+#include "common1.h"
 
 #if defined(_MSC_VER)
 #pragma warning(disable: 4244 4267) // possible loss of data
@@ -85,6 +88,8 @@ static bool params_parse(int argc, char ** argv, sam_params & params) {
 // Main code
 int main(int argc, char ** argv) 
 {
+    test();
+
     printf("CLI tool v 0.1");
     
     sam_params params;
@@ -96,6 +101,14 @@ int main(int argc, char ** argv)
         params.seed = time(NULL);
     }
     fprintf(stderr, "%s: seed = %d\n", __func__, params.seed);
+
+    std::string input_path = "data/example1/images";
+    std::string output_path = "output/example1/masks";
+
+    if (!fs::exists(output_path)) {
+        printf("Output directory does not exist, creating: %s", output_path.c_str());
+        cv::utils::fs::createDirectories(output_path);
+    }
 
 
     /**********/
@@ -110,17 +123,34 @@ int main(int argc, char ** argv)
     /**********/
     //Traverse the directory
     //std::string path = params.fname_inp;
-    std::string path = "/Users/rtous/dev/back2black/data/example1/images";
-    for (const auto & entry : fs::directory_iterator(path)) {
+    //std::string path = "/Users/rtous/dev/back2black/data/example1/images";
+
+
+    //To traverse the directory alphabetically:
+    //Necessary to process the frames in order
+    std::vector<fs::directory_entry> files_in_directory;
+    std::copy(fs::directory_iterator(input_path), fs::directory_iterator(), std::back_inserter(files_in_directory));
+    std::sort(files_in_directory.begin(), files_in_directory.end());
+
+    sam_point pt { 500, 350};
+    int contour_area = -1;
+    printf("INITIAL POINT: pt.x=%f, pt.y=%f\n", pt.x, pt.y);
+
+    //for (const auto & entry : fs::directory_iterator(input_path)) { //no alphabetical
+    for (const auto & entry : files_in_directory) {
         std::cout << entry.path() << std::endl;
+
+        std::string filename = entry.path().filename();
+        std::string filename_noext = filename.substr(0, filename.find_last_of(".")); 
+
         if (entry.path().extension() == ".jpg" || entry.path().extension() == ".png") {
             // load the image
             sam_image_u8 img0;
             if (!load_image_from_file(entry.path(), img0)) {
-                fprintf(stderr, "%s: failed to load image from '%s'\n", __func__, params.fname_inp.c_str());
+                fprintf(stderr, "%s: failed to load image from '%s'\n", __func__, entry.path().c_str());
                 return 1;
             }
-            fprintf(stderr, "%s: loaded image '%s' (%d x %d)\n", __func__, params.fname_inp.c_str(), img0.nx, img0.ny);
+            fprintf(stderr, "%s: loaded image '%s' (%d x %d)\n", __func__, entry.path().c_str(), img0.nx, img0.ny);
         
             //Compute image
             if (!sam_compute_embd_img(img0, params.n_threads, *state)) {
@@ -131,12 +161,42 @@ int main(int argc, char ** argv)
 
             //compute masks for a given point
             std::vector<sam_image_u8> masks;
-            sam_point pt { 500, 350};
+            
             masks = sam_compute_masks(img0, params.n_threads, pt, *state);
 
+            printf("found %d masks\n", masks.size());
+
             //mask to opencv
+            /*int mask_num = 0;
+            cv::Mat output;
             for (auto& mask : masks) {
                 printf("found mask\n");
+                if (mask_num>0) {
+                    printf("WARNING: MORE THAN ONE MASK FOUND\n");
+                    //break;
+                }
+                //Opencv is y,x (fil, col)
+                if (mask_num)
+                    output = cv::Mat::zeros(mask.ny, mask.nx, CV_8UC1 );
+                for (int i=0; i < output.rows; ++i){
+                    for (int j=0; j < output.cols; ++j){
+                        //output.at<uchar>(j, i) = mask.data[j*mask.nx+i];
+                        output.at<uchar>(i, j) = mask.data[i*mask.nx+j];
+                    }
+                }
+                mask_num++;
+            }*/
+
+
+            //mask to opencv
+            int mask_num = 0;
+            //sam_image_u8 mask = masks[masks.size()-1];
+            for (auto& mask : masks) {
+                printf("found mask\n");
+                if (mask_num>0) {
+                    printf("WARNING: MORE THAN ONE MASK FOUND\n");
+                    //break;
+                }
                 //Opencv is y,x (fil, col)
                 cv::Mat output = cv::Mat::zeros(mask.ny, mask.nx, CV_8UC1 );
                 for (int i=0; i < output.rows; ++i){
@@ -146,13 +206,43 @@ int main(int argc, char ** argv)
                     }
                 }
 
-                /*for (int i = 0; i < mask.nx*mask.ny; i=i+1) {
-                    output.at<uchar>(i, j) = 1;
-                    output[0] = mask.data[i];
-                    output[1] = mask.data[i+1];
-                    output[2] = mask.data[i+2];
-                }*/
-                cv::imwrite("/Users/rtous/dev/back2black/output/sam.png", output);
+                std::vector<std::vector<cv::Point> > contours;
+                std::vector<cv::Vec4i> hierarchy;
+                cv:findContours(output, contours, hierarchy, cv::RETR_LIST, cv::CHAIN_APPROX_SIMPLE );
+
+                //TODO: Multiple contours
+
+                int new_contour_area = cv::contourArea(contours[0]);
+                printf("new_contour_area = %d \n", new_contour_area);
+
+                if (new_contour_area > 1000) {
+
+                    // compute the center of the contour https://pyimagesearch.com/2016/02/01/opencv-center-of-contour/
+                    cv::Moments M = cv::moments(contours[0]);
+                    cv::Point center(M.m10/M.m00, M.m01/M.m00);  
+                    circle(output, center, 5, cv::Scalar(128,0,0), -1);   
+
+                    //contour area
+                    
+                    if (contour_area == -1 || (new_contour_area < contour_area*1.2 && new_contour_area > contour_area*0.8)) {
+                        contour_area = new_contour_area; 
+                        pt.x = center.x;
+                        pt.y = center.y;
+                        printf("UPDATED POINT: pt.x=%f, pt.y=%f\n", pt.x, pt.y);
+                    } else {
+                        printf("POINT NOT UPDATED BECAUSE CONTOUR AREA DIFFERS (BEFORE: %d, NOW: %d) \n", contour_area, new_contour_area);
+                    }
+                    
+                    //for (int i = 0; i < mask.nx*mask.ny; i=i+1) {
+                    //    output.at<uchar>(i, j) = 1;
+                    //    output[0] = mask.data[i];
+                    //    output[1] = mask.data[i+1];
+                    //    output[2] = mask.data[i+2];
+                    //}
+
+                    cv::imwrite(output_path+"/"+filename_noext+"_"+std::to_string(mask_num)+".png", output);
+                    mask_num++; 
+                }
             }
         }   
         

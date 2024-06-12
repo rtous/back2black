@@ -18,6 +18,7 @@ set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 
 add_subdirectory(third-party)
+add_subdirectory(common)
 add_subdirectory(test_opencv)
 add_subdirectory(cli)
 add_subdirectory(cli_simplify)

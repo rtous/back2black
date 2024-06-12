@@ -227,6 +227,19 @@ ImGuiFileDialog/fast:
 .PHONY : ImGuiFileDialog/fast
 
 #=============================================================================
+# Target rules for targets named common
+
+# Build rule for target.
+common: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 common
+.PHONY : common
+
+# fast build rule for target.
+common/fast:
+	$(MAKE) $(MAKESILENT) -f common/CMakeFiles/common.dir/build.make common/CMakeFiles/common.dir/build
+.PHONY : common/fast
+
+#=============================================================================
 # Target rules for targets named test_opencv
 
 # Build rule for target.
@@ -307,6 +320,7 @@ help:
 	@echo "... cli"
 	@echo "... cli_masks"
 	@echo "... cli_simplify"
+	@echo "... common"
 	@echo "... editor"
 	@echo "... ggml"
 	@echo "... imgui"

@@ -40,6 +40,7 @@ endif()
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for each subdirectory.
   include("/Users/rtous/dev/back2black/build_macos/third-party/cmake_install.cmake")
+  include("/Users/rtous/dev/back2black/build_macos/common/cmake_install.cmake")
   include("/Users/rtous/dev/back2black/build_macos/test_opencv/cmake_install.cmake")
   include("/Users/rtous/dev/back2black/build_macos/cli/cmake_install.cmake")
   include("/Users/rtous/dev/back2black/build_macos/cli_simplify/cmake_install.cmake")
