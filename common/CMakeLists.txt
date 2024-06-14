@@ -1,6 +1,6 @@
 set(COMMON_LIB common) 
 
-add_library(${COMMON_LIB} common1.cpp common1.h)
+add_library(${COMMON_LIB} common1.cpp common1.h data_structures.h)
 target_include_directories(${COMMON_LIB} PUBLIC .)
 
 #OpenCV stuff

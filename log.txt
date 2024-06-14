@@ -6,7 +6,6 @@ Universitat Politecnica de Catalunya
 													back2black Developer's Log
 
 
-
 18/04/2024
 	- Windows: problem with SDL
 	- cli -> just for testing. Masks from image (works but does not save nothing)
@@ -30,3 +29,9 @@ Universitat Politecnica de Catalunya
 16/05/2024
 	  - Fixed the prolem with SDL2.dll (add a copy command to the editor CMake file). 
 	  - TODO: propagate masks to an entire folder
+
+14/06/2024
+	- Solved the multiple masks problems, the first is the best
+	- Refactoring: created the "common" library
+	- PROBLEM: The FindSDL... does not work in Macos (removing it solves the problem but need to a solution that also works for windows)
+	- PROBLEM: Trying to put stb_image... within common

@@ -8,12 +8,11 @@ set(CMAKE_DEPENDS_GENERATOR "Unix Makefiles")
 set(CMAKE_MAKEFILE_DEPENDS
   "CMakeCache.txt"
   "/Users/rtous/dev/back2black/CMakeLists.txt"
-  "/Users/rtous/dev/back2black/FindSDL2.cmake"
   "CMakeFiles/3.28.3/CMakeCCompiler.cmake"
   "CMakeFiles/3.28.3/CMakeCXXCompiler.cmake"
   "CMakeFiles/3.28.3/CMakeSystem.cmake"
-  "/Users/rtous/dev/back2black/cli/CMakeLists.txt"
   "/Users/rtous/dev/back2black/cli_masks/CMakeLists.txt"
+  "/Users/rtous/dev/back2black/cli_sam/CMakeLists.txt"
   "/Users/rtous/dev/back2black/cli_simplify/CMakeLists.txt"
   "/Users/rtous/dev/back2black/common/CMakeLists.txt"
   "/Users/rtous/dev/back2black/editor/CMakeLists.txt"
@@ -45,6 +44,7 @@ set(CMAKE_MAKEFILE_DEPENDS
   "/opt/homebrew/Cellar/cmake/3.28.3/share/cmake/Modules/Compiler/CMakeCommonCompilerMacros.cmake"
   "/opt/homebrew/Cellar/cmake/3.28.3/share/cmake/Modules/Compiler/Clang.cmake"
   "/opt/homebrew/Cellar/cmake/3.28.3/share/cmake/Modules/Compiler/GNU.cmake"
+  "/opt/homebrew/Cellar/cmake/3.28.3/share/cmake/Modules/FeatureSummary.cmake"
   "/opt/homebrew/Cellar/cmake/3.28.3/share/cmake/Modules/FindOpenGL.cmake"
   "/opt/homebrew/Cellar/cmake/3.28.3/share/cmake/Modules/FindPackageHandleStandardArgs.cmake"
   "/opt/homebrew/Cellar/cmake/3.28.3/share/cmake/Modules/FindPackageMessage.cmake"
@@ -58,6 +58,8 @@ set(CMAKE_MAKEFILE_DEPENDS
   "/opt/homebrew/Cellar/cmake/3.28.3/share/cmake/Modules/Platform/Darwin-Initialize.cmake"
   "/opt/homebrew/Cellar/cmake/3.28.3/share/cmake/Modules/Platform/Darwin.cmake"
   "/opt/homebrew/Cellar/cmake/3.28.3/share/cmake/Modules/Platform/UnixPaths.cmake"
+  "/opt/homebrew/lib/cmake/SDL2/sdl2-config-version.cmake"
+  "/opt/homebrew/lib/cmake/SDL2/sdl2-config.cmake"
   )
 
 # The corresponding makefile is:
@@ -78,7 +80,7 @@ set(CMAKE_MAKEFILE_PRODUCTS
   "third-party/ImGuiFileDialog/CMakeFiles/CMakeDirectoryInformation.cmake"
   "common/CMakeFiles/CMakeDirectoryInformation.cmake"
   "test_opencv/CMakeFiles/CMakeDirectoryInformation.cmake"
-  "cli/CMakeFiles/CMakeDirectoryInformation.cmake"
+  "cli_sam/CMakeFiles/CMakeDirectoryInformation.cmake"
   "cli_simplify/CMakeFiles/CMakeDirectoryInformation.cmake"
   "editor/CMakeFiles/CMakeDirectoryInformation.cmake"
   "cli_masks/CMakeFiles/CMakeDirectoryInformation.cmake"
@@ -93,7 +95,7 @@ set(CMAKE_DEPEND_INFO_FILES
   "third-party/ImGuiFileDialog/CMakeFiles/ImGuiFileDialog.dir/DependInfo.cmake"
   "common/CMakeFiles/common.dir/DependInfo.cmake"
   "test_opencv/CMakeFiles/test_opencv.dir/DependInfo.cmake"
-  "cli/CMakeFiles/cli.dir/DependInfo.cmake"
+  "cli_sam/CMakeFiles/cli_sam.dir/DependInfo.cmake"
   "cli_simplify/CMakeFiles/cli_simplify.dir/DependInfo.cmake"
   "editor/CMakeFiles/editor.dir/DependInfo.cmake"
   "cli_masks/CMakeFiles/cli_masks.dir/DependInfo.cmake"

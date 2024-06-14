@@ -6,9 +6,16 @@
 #define STB_IMAGE_WRITE_IMPLEMENTATION
 #include "stb_image_write.h"
 
+#include <filesystem>
+namespace fs = std::__fs::filesystem; //Maybe a problem of the Mac
+#include <opencv2/opencv.hpp> 
+#include <opencv2/core/utils/filesystem.hpp>
+
 #if defined(_MSC_VER)
 #pragma warning(disable: 4244 4267) // possible loss of data
 #endif
+
+#include "common1.h"
 
 static bool load_image_from_file(const std::string & fname, sam_image_u8 & img) {
     int nx, ny, nc;
@@ -78,7 +85,7 @@ static bool params_parse(int argc, char ** argv, sam_params & params) {
 // Main code
 int main(int argc, char ** argv) 
 {
-    printf("CLI tool v 0.1");
+    printf("CLI SAM tool v 0.1");
     
     sam_params params;
     if (!params_parse(argc, argv, params)) {
@@ -88,61 +95,54 @@ int main(int argc, char ** argv)
     if (params.seed < 0) {
         params.seed = time(NULL);
     }
-    fprintf(stderr, "%s: seed = %d\n", __func__, params.seed);
+    //fprintf(stderr, "%s: seed = %d\n", __func__, params.seed);
+
+
+    std::string input_path = params.fname_inp;
+    std::string output_path = "output/sam_test";
+
+    if (!fs::exists(output_path)) {
+        printf("Output directory does not exist, creating: %s", output_path.c_str());
+        cv::utils::fs::createDirectories(output_path);
+    }
 
     // load the image
     sam_image_u8 img0;
-    if (!load_image_from_file(params.fname_inp, img0)) {
-        fprintf(stderr, "%s: failed to load image from '%s'\n", __func__, params.fname_inp.c_str());
+    //if (!load_image_samformat_from_file(input_path, img0)) {
+    if (!load_image_from_file(input_path, img0)) {
+        fprintf(stderr, "%s: failed to load image from '%s'\n", __func__, input_path.c_str());
         return 1;
     }
-    fprintf(stderr, "%s: loaded image '%s' (%d x %d)\n", __func__, params.fname_inp.c_str(), img0.nx, img0.ny);
+    fprintf(stderr, "%s: loaded image '%s' (%d x %d)\n", __func__, input_path.c_str(), img0.nx, img0.ny);
 
     std::shared_ptr<sam_state> state = sam_load_model(params);
     if (!state) {
         fprintf(stderr, "%s: failed to load model\n", __func__);
         return 1;
     }
-    printf("t_load_ms = %d ms\n", state->t_load_ms);
+    //printf("t_load_ms = %d ms\n", state->t_load_ms);
 
 
     if (!sam_compute_embd_img(img0, params.n_threads, *state)) {
         fprintf(stderr, "%s: failed to compute encoded image\n", __func__);
         return 1;
     }
-    printf("t_compute_img_ms = %d ms\n", state->t_compute_img_ms);
+    //printf("t_compute_img_ms = %d ms\n", state->t_compute_img_ms);
 
     //int res = main_loop(std::move(img0), params, *state);
 
 
     /********************/
 
-    //compute masks for a given point
-    std::vector<sam_image_u8> masks;
-    sam_point pt { 10, 10};
-    masks = sam_compute_masks(img0, params.n_threads, pt, *state);
+    //get mask at given point 
+    cv::Point point; 
+    point.x = 600;
+    point.y = 450;
+    cv::Mat output = get_best_opencv_mask_at_point(point.x, point.y, img0, *state, params.n_threads);
+    circle(output, point, 5, cv::Scalar(128,0,0), -1);  
+    cv::imwrite(output_path+"/mask.png", output);       
 
-    //process masks
-    /*std::vector<GLuint> maskTextures;
-    for (auto& mask : masks) {
-        sam_image_u8 mask_rgb = { mask.nx, mask.ny, };
-        mask_rgb.data.resize(3*mask.nx*mask.ny);
-        for (int i = 0; i < mask.nx*mask.ny; ++i) {
-            mask_rgb.data[3*i+0] = mask.data[i];
-            mask_rgb.data[3*i+1] = mask.data[i];
-            mask_rgb.data[3*i+2] = mask.data[i];
-        }
-
-        maskTextures.push_back(createGLTexture(mask_rgb, GL_RGB));
-    }*/
-
-
-
-    /*********************/
-
-
-
-
+    //free sam resources
     sam_deinit(*state);
 
     return 0;

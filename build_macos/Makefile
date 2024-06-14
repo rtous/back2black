@@ -253,17 +253,17 @@ test_opencv/fast:
 .PHONY : test_opencv/fast
 
 #=============================================================================
-# Target rules for targets named cli
+# Target rules for targets named cli_sam
 
 # Build rule for target.
-cli: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 cli
-.PHONY : cli
+cli_sam: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 cli_sam
+.PHONY : cli_sam
 
 # fast build rule for target.
-cli/fast:
-	$(MAKE) $(MAKESILENT) -f cli/CMakeFiles/cli.dir/build.make cli/CMakeFiles/cli.dir/build
-.PHONY : cli/fast
+cli_sam/fast:
+	$(MAKE) $(MAKESILENT) -f cli_sam/CMakeFiles/cli_sam.dir/build.make cli_sam/CMakeFiles/cli_sam.dir/build
+.PHONY : cli_sam/fast
 
 #=============================================================================
 # Target rules for targets named cli_simplify
@@ -317,8 +317,8 @@ help:
 	@echo "... list_install_components"
 	@echo "... rebuild_cache"
 	@echo "... ImGuiFileDialog"
-	@echo "... cli"
 	@echo "... cli_masks"
+	@echo "... cli_sam"
 	@echo "... cli_simplify"
 	@echo "... common"
 	@echo "... editor"

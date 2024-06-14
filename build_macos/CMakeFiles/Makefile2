@@ -66,7 +66,7 @@ CMAKE_BINARY_DIR = /Users/rtous/dev/back2black/build_macos
 all: third-party/all
 all: common/all
 all: test_opencv/all
-all: cli/all
+all: cli_sam/all
 all: cli_simplify/all
 all: editor/all
 all: cli_masks/all
@@ -76,7 +76,7 @@ all: cli_masks/all
 preinstall: third-party/preinstall
 preinstall: common/preinstall
 preinstall: test_opencv/preinstall
-preinstall: cli/preinstall
+preinstall: cli_sam/preinstall
 preinstall: cli_simplify/preinstall
 preinstall: editor/preinstall
 preinstall: cli_masks/preinstall
@@ -86,26 +86,11 @@ preinstall: cli_masks/preinstall
 clean: third-party/clean
 clean: common/clean
 clean: test_opencv/clean
-clean: cli/clean
+clean: cli_sam/clean
 clean: cli_simplify/clean
 clean: editor/clean
 clean: cli_masks/clean
 .PHONY : clean
-
-#=============================================================================
-# Directory level rules for directory cli
-
-# Recursive "all" directory target.
-cli/all: cli/CMakeFiles/cli.dir/all
-.PHONY : cli/all
-
-# Recursive "preinstall" directory target.
-cli/preinstall:
-.PHONY : cli/preinstall
-
-# Recursive "clean" directory target.
-cli/clean: cli/CMakeFiles/cli.dir/clean
-.PHONY : cli/clean
 
 #=============================================================================
 # Directory level rules for directory cli_masks
@@ -121,6 +106,21 @@ cli_masks/preinstall:
 # Recursive "clean" directory target.
 cli_masks/clean: cli_masks/CMakeFiles/cli_masks.dir/clean
 .PHONY : cli_masks/clean
+
+#=============================================================================
+# Directory level rules for directory cli_sam
+
+# Recursive "all" directory target.
+cli_sam/all: cli_sam/CMakeFiles/cli_sam.dir/all
+.PHONY : cli_sam/all
+
+# Recursive "preinstall" directory target.
+cli_sam/preinstall:
+.PHONY : cli_sam/preinstall
+
+# Recursive "clean" directory target.
+cli_sam/clean: cli_sam/CMakeFiles/cli_sam.dir/clean
+.PHONY : cli_sam/clean
 
 #=============================================================================
 # Directory level rules for directory cli_simplify
@@ -470,31 +470,34 @@ test_opencv/CMakeFiles/test_opencv.dir/clean:
 .PHONY : test_opencv/CMakeFiles/test_opencv.dir/clean
 
 #=============================================================================
-# Target rules for target cli/CMakeFiles/cli.dir
+# Target rules for target cli_sam/CMakeFiles/cli_sam.dir
 
 # All Build rule for target.
-cli/CMakeFiles/cli.dir/all: third-party/ggml/src/CMakeFiles/ggml.dir/all
-cli/CMakeFiles/cli.dir/all: third-party/sam/CMakeFiles/sam.dir/all
-	$(MAKE) $(MAKESILENT) -f cli/CMakeFiles/cli.dir/build.make cli/CMakeFiles/cli.dir/depend
-	$(MAKE) $(MAKESILENT) -f cli/CMakeFiles/cli.dir/build.make cli/CMakeFiles/cli.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/Users/rtous/dev/back2black/build_macos/CMakeFiles --progress-num=3,4 "Built target cli"
-.PHONY : cli/CMakeFiles/cli.dir/all
+cli_sam/CMakeFiles/cli_sam.dir/all: third-party/imgui/CMakeFiles/imgui.dir/all
+cli_sam/CMakeFiles/cli_sam.dir/all: third-party/imgui/CMakeFiles/imgui-sdl2.dir/all
+cli_sam/CMakeFiles/cli_sam.dir/all: third-party/ggml/src/CMakeFiles/ggml.dir/all
+cli_sam/CMakeFiles/cli_sam.dir/all: third-party/sam/CMakeFiles/sam.dir/all
+cli_sam/CMakeFiles/cli_sam.dir/all: common/CMakeFiles/common.dir/all
+	$(MAKE) $(MAKESILENT) -f cli_sam/CMakeFiles/cli_sam.dir/build.make cli_sam/CMakeFiles/cli_sam.dir/depend
+	$(MAKE) $(MAKESILENT) -f cli_sam/CMakeFiles/cli_sam.dir/build.make cli_sam/CMakeFiles/cli_sam.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/Users/rtous/dev/back2black/build_macos/CMakeFiles --progress-num=5,6 "Built target cli_sam"
+.PHONY : cli_sam/CMakeFiles/cli_sam.dir/all
 
 # Build rule for subdir invocation for target.
-cli/CMakeFiles/cli.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /Users/rtous/dev/back2black/build_macos/CMakeFiles 8
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 cli/CMakeFiles/cli.dir/all
+cli_sam/CMakeFiles/cli_sam.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /Users/rtous/dev/back2black/build_macos/CMakeFiles 19
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 cli_sam/CMakeFiles/cli_sam.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /Users/rtous/dev/back2black/build_macos/CMakeFiles 0
-.PHONY : cli/CMakeFiles/cli.dir/rule
+.PHONY : cli_sam/CMakeFiles/cli_sam.dir/rule
 
 # Convenience name for target.
-cli: cli/CMakeFiles/cli.dir/rule
-.PHONY : cli
+cli_sam: cli_sam/CMakeFiles/cli_sam.dir/rule
+.PHONY : cli_sam
 
 # clean rule for target.
-cli/CMakeFiles/cli.dir/clean:
-	$(MAKE) $(MAKESILENT) -f cli/CMakeFiles/cli.dir/build.make cli/CMakeFiles/cli.dir/clean
-.PHONY : cli/CMakeFiles/cli.dir/clean
+cli_sam/CMakeFiles/cli_sam.dir/clean:
+	$(MAKE) $(MAKESILENT) -f cli_sam/CMakeFiles/cli_sam.dir/build.make cli_sam/CMakeFiles/cli_sam.dir/clean
+.PHONY : cli_sam/CMakeFiles/cli_sam.dir/clean
 
 #=============================================================================
 # Target rules for target cli_simplify/CMakeFiles/cli_simplify.dir
@@ -564,7 +567,7 @@ cli_masks/CMakeFiles/cli_masks.dir/all: third-party/sam/CMakeFiles/sam.dir/all
 cli_masks/CMakeFiles/cli_masks.dir/all: common/CMakeFiles/common.dir/all
 	$(MAKE) $(MAKESILENT) -f cli_masks/CMakeFiles/cli_masks.dir/build.make cli_masks/CMakeFiles/cli_masks.dir/depend
 	$(MAKE) $(MAKESILENT) -f cli_masks/CMakeFiles/cli_masks.dir/build.make cli_masks/CMakeFiles/cli_masks.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/Users/rtous/dev/back2black/build_macos/CMakeFiles --progress-num=5,6 "Built target cli_masks"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/Users/rtous/dev/back2black/build_macos/CMakeFiles --progress-num=3,4 "Built target cli_masks"
 .PHONY : cli_masks/CMakeFiles/cli_masks.dir/all
 
 # Build rule for subdir invocation for target.

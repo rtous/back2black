@@ -15,6 +15,7 @@ namespace fs = std::__fs::filesystem; //Maybe a problem of the Mac
 #include <opencv2/core/utils/filesystem.hpp>
 
 #include "common1.h"
+#include "data_structures.h"
 
 #if defined(_MSC_VER)
 #pragma warning(disable: 4244 4267) // possible loss of data
@@ -85,10 +86,28 @@ static bool params_parse(int argc, char ** argv, sam_params & params) {
     return true;
 }
 
+
+/*
+    propagate_masks
+*/
+void propagate_masks(Frame baseFrame, std::vector<Frame> toFrames) 
+{
+
+    for (Object & anObject : baseFrame.objects) {
+        //for (Contour & aContour : anObject.contours) {
+        //we know the contour center, r
+        printf("\tprocessing object %d...\n", anObject.objectId);
+        for (Frame & aFrame : toFrames) {
+            //obtain mask at reference point
+            //update reference point
+        }
+    }
+
+}
+
 // Main code
 int main(int argc, char ** argv) 
 {
-    test();
 
     printf("CLI tool v 0.1");
     
