@@ -25,8 +25,7 @@
 
 #include "state.h"
 #include "editor.h"
-#include "sam.h"
-#include "utils.h"
+#include "gui_utils.h"
 #include "colors.h"
 #include "sam_utils.h"
 

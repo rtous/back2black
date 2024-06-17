@@ -535,6 +535,7 @@ editor/CMakeFiles/editor.dir/all: third-party/imgui/CMakeFiles/imgui-sdl2.dir/al
 editor/CMakeFiles/editor.dir/all: third-party/ggml/src/CMakeFiles/ggml.dir/all
 editor/CMakeFiles/editor.dir/all: third-party/sam/CMakeFiles/sam.dir/all
 editor/CMakeFiles/editor.dir/all: third-party/ImGuiFileDialog/CMakeFiles/ImGuiFileDialog.dir/all
+editor/CMakeFiles/editor.dir/all: common/CMakeFiles/common.dir/all
 	$(MAKE) $(MAKESILENT) -f editor/CMakeFiles/editor.dir/build.make editor/CMakeFiles/editor.dir/depend
 	$(MAKE) $(MAKESILENT) -f editor/CMakeFiles/editor.dir/build.make editor/CMakeFiles/editor.dir/build
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/Users/rtous/dev/back2black/build_macos/CMakeFiles --progress-num=11,12,13,14,15,16,17 "Built target editor"
@@ -542,7 +543,7 @@ editor/CMakeFiles/editor.dir/all: third-party/ImGuiFileDialog/CMakeFiles/ImGuiFi
 
 # Build rule for subdir invocation for target.
 editor/CMakeFiles/editor.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /Users/rtous/dev/back2black/build_macos/CMakeFiles 24
+	$(CMAKE_COMMAND) -E cmake_progress_start /Users/rtous/dev/back2black/build_macos/CMakeFiles 26
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 editor/CMakeFiles/editor.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /Users/rtous/dev/back2black/build_macos/CMakeFiles 0
 .PHONY : editor/CMakeFiles/editor.dir/rule

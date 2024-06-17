@@ -11,9 +11,9 @@ set(CMAKE_DEPENDS_DEPENDENCY_FILES
   "/Users/rtous/dev/back2black/editor/colors.cpp" "editor/CMakeFiles/editor.dir/colors.cpp.o" "gcc" "editor/CMakeFiles/editor.dir/colors.cpp.o.d"
   "/Users/rtous/dev/back2black/editor/editor.cpp" "editor/CMakeFiles/editor.dir/editor.cpp.o" "gcc" "editor/CMakeFiles/editor.dir/editor.cpp.o.d"
   "/Users/rtous/dev/back2black/editor/file_dialog.cpp" "editor/CMakeFiles/editor.dir/file_dialog.cpp.o" "gcc" "editor/CMakeFiles/editor.dir/file_dialog.cpp.o.d"
+  "/Users/rtous/dev/back2black/editor/gui_utils.cpp" "editor/CMakeFiles/editor.dir/gui_utils.cpp.o" "gcc" "editor/CMakeFiles/editor.dir/gui_utils.cpp.o.d"
   "/Users/rtous/dev/back2black/editor/main.cpp" "editor/CMakeFiles/editor.dir/main.cpp.o" "gcc" "editor/CMakeFiles/editor.dir/main.cpp.o.d"
   "/Users/rtous/dev/back2black/editor/sam_utils.cpp" "editor/CMakeFiles/editor.dir/sam_utils.cpp.o" "gcc" "editor/CMakeFiles/editor.dir/sam_utils.cpp.o.d"
-  "/Users/rtous/dev/back2black/editor/utils.cpp" "editor/CMakeFiles/editor.dir/utils.cpp.o" "gcc" "editor/CMakeFiles/editor.dir/utils.cpp.o.d"
   )
 
 # Targets to which this target links which contain Fortran sources.

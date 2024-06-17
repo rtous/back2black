@@ -11,17 +11,15 @@
 
 #include "common1.h"
 
-
 #include "sam.h"
-/*
+
 #define STB_IMAGE_IMPLEMENTATION
 #include "stb_image.h"
 #define STB_IMAGE_WRITE_IMPLEMENTATION
 #include "stb_image_write.h"
-*/
 
-/*
-static bool load_image_samformat_from_file(const std::string & fname, sam_image_u8 & img) {
+
+bool load_image_samformat_from_file(const std::string & fname, sam_image_u8 & img) {
     int nx, ny, nc;
     auto data = stbi_load(fname.c_str(), &nx, &ny, &nc, 3);
     if (!data) {
@@ -42,7 +40,7 @@ static bool load_image_samformat_from_file(const std::string & fname, sam_image_
 
     return true;
 }
-*/
+
 
 /*
 	given an image (in sam format) get the best mask (in opencv format at a given point 

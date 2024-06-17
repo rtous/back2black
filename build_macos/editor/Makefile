@@ -247,6 +247,30 @@ file_dialog.cpp.s:
 	cd /Users/rtous/dev/back2black/build_macos && $(MAKE) $(MAKESILENT) -f editor/CMakeFiles/editor.dir/build.make editor/CMakeFiles/editor.dir/file_dialog.cpp.s
 .PHONY : file_dialog.cpp.s
 
+gui_utils.o: gui_utils.cpp.o
+.PHONY : gui_utils.o
+
+# target to build an object file
+gui_utils.cpp.o:
+	cd /Users/rtous/dev/back2black/build_macos && $(MAKE) $(MAKESILENT) -f editor/CMakeFiles/editor.dir/build.make editor/CMakeFiles/editor.dir/gui_utils.cpp.o
+.PHONY : gui_utils.cpp.o
+
+gui_utils.i: gui_utils.cpp.i
+.PHONY : gui_utils.i
+
+# target to preprocess a source file
+gui_utils.cpp.i:
+	cd /Users/rtous/dev/back2black/build_macos && $(MAKE) $(MAKESILENT) -f editor/CMakeFiles/editor.dir/build.make editor/CMakeFiles/editor.dir/gui_utils.cpp.i
+.PHONY : gui_utils.cpp.i
+
+gui_utils.s: gui_utils.cpp.s
+.PHONY : gui_utils.s
+
+# target to generate assembly for a file
+gui_utils.cpp.s:
+	cd /Users/rtous/dev/back2black/build_macos && $(MAKE) $(MAKESILENT) -f editor/CMakeFiles/editor.dir/build.make editor/CMakeFiles/editor.dir/gui_utils.cpp.s
+.PHONY : gui_utils.cpp.s
+
 main.o: main.cpp.o
 .PHONY : main.o
 
@@ -295,30 +319,6 @@ sam_utils.cpp.s:
 	cd /Users/rtous/dev/back2black/build_macos && $(MAKE) $(MAKESILENT) -f editor/CMakeFiles/editor.dir/build.make editor/CMakeFiles/editor.dir/sam_utils.cpp.s
 .PHONY : sam_utils.cpp.s
 
-utils.o: utils.cpp.o
-.PHONY : utils.o
-
-# target to build an object file
-utils.cpp.o:
-	cd /Users/rtous/dev/back2black/build_macos && $(MAKE) $(MAKESILENT) -f editor/CMakeFiles/editor.dir/build.make editor/CMakeFiles/editor.dir/utils.cpp.o
-.PHONY : utils.cpp.o
-
-utils.i: utils.cpp.i
-.PHONY : utils.i
-
-# target to preprocess a source file
-utils.cpp.i:
-	cd /Users/rtous/dev/back2black/build_macos && $(MAKE) $(MAKESILENT) -f editor/CMakeFiles/editor.dir/build.make editor/CMakeFiles/editor.dir/utils.cpp.i
-.PHONY : utils.cpp.i
-
-utils.s: utils.cpp.s
-.PHONY : utils.s
-
-# target to generate assembly for a file
-utils.cpp.s:
-	cd /Users/rtous/dev/back2black/build_macos && $(MAKE) $(MAKESILENT) -f editor/CMakeFiles/editor.dir/build.make editor/CMakeFiles/editor.dir/utils.cpp.s
-.PHONY : utils.cpp.s
-
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -341,15 +341,15 @@ help:
 	@echo "... file_dialog.o"
 	@echo "... file_dialog.i"
 	@echo "... file_dialog.s"
+	@echo "... gui_utils.o"
+	@echo "... gui_utils.i"
+	@echo "... gui_utils.s"
 	@echo "... main.o"
 	@echo "... main.i"
 	@echo "... main.s"
 	@echo "... sam_utils.o"
 	@echo "... sam_utils.i"
 	@echo "... sam_utils.s"
-	@echo "... utils.o"
-	@echo "... utils.i"
-	@echo "... utils.s"
 .PHONY : help
 
 

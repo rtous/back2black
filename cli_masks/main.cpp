@@ -6,11 +6,6 @@
 #include <filesystem>
 namespace fs = std::__fs::filesystem; //Maybe a problem of the Mac
 
-#define STB_IMAGE_IMPLEMENTATION
-#include "stb_image.h"
-#define STB_IMAGE_WRITE_IMPLEMENTATION
-#include "stb_image_write.h"
-
 #include <opencv2/opencv.hpp> 
 #include <opencv2/core/utils/filesystem.hpp>
 
@@ -20,28 +15,6 @@ namespace fs = std::__fs::filesystem; //Maybe a problem of the Mac
 #if defined(_MSC_VER)
 #pragma warning(disable: 4244 4267) // possible loss of data
 #endif
-
-static bool load_image_from_file(const std::string & fname, sam_image_u8 & img) {
-    int nx, ny, nc;
-    auto data = stbi_load(fname.c_str(), &nx, &ny, &nc, 3);
-    if (!data) {
-        fprintf(stderr, "%s: failed to load '%s'\n", __func__, fname.c_str());
-        return false;
-    }
-    if (nc != 3) {
-        fprintf(stderr, "%s: '%s' has %d channels (expected 3)\n", __func__, fname.c_str(), nc);
-        return false;
-    }
-
-    img.nx = nx;
-    img.ny = ny;
-    img.data.resize(nx * ny * 3);
-    memcpy(img.data.data(), data, nx * ny * 3);
-
-    stbi_image_free(data);
-
-    return true;
-}
 
 static void print_usage(int argc, char ** argv, const sam_params & params) {
     fprintf(stderr, "usage: %s [options]\n", argv[0]);
@@ -165,7 +138,7 @@ int main(int argc, char ** argv)
         if (entry.path().extension() == ".jpg" || entry.path().extension() == ".png") {
             // load the image
             sam_image_u8 img0;
-            if (!load_image_from_file(entry.path(), img0)) {
+            if (!load_image_samformat_from_file(entry.path(), img0)) {
                 fprintf(stderr, "%s: failed to load image from '%s'\n", __func__, entry.path().c_str());
                 return 1;
             }

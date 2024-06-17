@@ -1,3 +1,8 @@
+/*
+ * Utils mainly related to graphical aspects (though can involve sam-related stuff) 
+ */
+
+
 #include "imgui.h"
 #include "imgui_impl_sdl2.h"
 #include "imgui_impl_opengl3.h"
@@ -8,12 +13,16 @@
 #else
 #include <SDL_opengl.h>
 #endif
+#include "common1.h"
 
+
+/*
 #include "sam.h"
 #define STB_IMAGE_IMPLEMENTATION
 #include "stb_image.h"
 #define STB_IMAGE_WRITE_IMPLEMENTATION
 #include "stb_image_write.h"
+*/
 
 /**
  * Get the size of screen where the SDL window runs in.
@@ -103,32 +112,6 @@ static bool downscale_img_to_screen(sam_image_u8 &img, SDL_Window* window) {
 
     return true;
 }
-
-bool load_image_from_file(const std::string & fname, sam_image_u8 & img) {
-    int nx, ny, nc;
-    auto data = stbi_load(fname.c_str(), &nx, &ny, &nc, 3);
-    if (!data) {
-        fprintf(stderr, "%s: failed to load '%s'\n", __func__, fname.c_str());
-        return false;
-    }
-    if (nc != 3) {
-        fprintf(stderr, "%s: '%s' has %d channels (expected 3)\n", __func__, fname.c_str(), nc);
-        return false;
-    }
-
-    img.nx = nx;
-    img.ny = ny;
-    img.data.resize(nx * ny * 3);
-    memcpy(img.data.data(), data, nx * ny * 3);
-
-    stbi_image_free(data);
-
-    return true;
-}
-
-/*void test(const std::string & fname, sam_image_u8 & img) {
-
-}*/
 
 GLuint createGLTexture(const sam_image_u8 & img, GLint format) {
     GLuint tex;

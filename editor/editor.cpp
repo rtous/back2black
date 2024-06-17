@@ -10,12 +10,13 @@
 #endif
 
 #include "sam.h"
-#include "utils.h"
+#include "gui_utils.h"
 #include "state.h"
 #include "ImGuiFileDialog.h"
 #include "file_dialog.h"
 #include "sam_utils.h"
 #include <string>
+#include "common1.h"
 
 
 //-----------------------------------------------------------------------------
@@ -94,7 +95,7 @@ void editor(bool *show_myWindow, bool *show_file_dialog, MyState &myState) //WAR
         //printf("OPENING FILE\n");
         myState.openFile = false;
         std::string fileName = myState.filePath + "/" + myState.filePathName;
-        if (!load_image_from_file(fileName, myState.img)) {
+        if (!load_image_samformat_from_file(fileName, myState.img)) {
             printf("failed to load image from '%s'\n", fileName.c_str());  
         } else {
             printf("successfully loaded image from '%s'\n", fileName.c_str());

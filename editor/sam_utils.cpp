@@ -1,3 +1,7 @@
+/*
+ * Utils related to the editor (not general) but specific to sam and masks processing.
+ */
+
 #include "imgui.h"
 #include "imgui_impl_sdl2.h"
 #include "imgui_impl_opengl3.h"
@@ -10,16 +14,8 @@
 #endif
 
 #include "sam_utils.h"
-#include "utils.h"
+#include "gui_utils.h"
 
-/*void set_params(sam_params * params, std::string img_fname) {
-    //./bin/editor -t 16 -i ../img.jpg -m ../checkpoints/ggml-model-f16.bin
-    //params->seed = std::stoi(10);
-    params->n_threads = 16;
-    params->model = "checkpoints/ggml-model-f16.bin";
-    params->fname_inp = img_fname;
-    //params.fname_out = argv[++i];
-}*/
 
 void set_params(sam_params * params) {
     //./bin/editor -t 16 -i ../img.jpg -m ../checkpoints/ggml-model-f16.bin
@@ -63,12 +59,6 @@ int masks_already_in_list(sam_image_u8 candidateMask, std::vector<sam_image_u8> 
     return -1;
 }
 
-/*bool masks_already_in_list(GLuint candidate_mask, std::vector<GLuint> *maskTextures) {
-    for (auto& mask : *maskTextures) {
-        if (candidate_mask == mask) return true;
-    }
-    return false;
-}*/
 
 /*
 	After the user clicked the image, compute a mask for that location.

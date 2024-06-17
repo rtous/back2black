@@ -1,147 +1,29 @@
 #include <stdio.h>
-
 #include <opencv2/opencv.hpp> 
-//using namespace cv; 
-
-/*#include <opencv2/core.hpp>
-#include <opencv2/imgcodecs.hpp>
-#include <opencv2/highgui.hpp>
-#include <iostream>*/
-
-#include "sam.h"
-
-#define STB_IMAGE_IMPLEMENTATION
-#include "stb_image.h"
-#define STB_IMAGE_WRITE_IMPLEMENTATION
-#include "stb_image_write.h"
-
-#if defined(_MSC_VER)
-#pragma warning(disable: 4244 4267) // possible loss of data
-#endif
-
-/*
-#include <sys/types.h>
-#include <sys/stat.h>
-#include <stdio.h>
-#include <stdlib.h>
-*/
-
 #include <opencv2/core/utils/filesystem.hpp>
 
-static bool load_image_from_file(const std::string & fname, sam_image_u8 & img) {
-    int nx, ny, nc;
-    auto data = stbi_load(fname.c_str(), &nx, &ny, &nc, 3);
-    if (!data) {
-        fprintf(stderr, "%s: failed to load '%s'\n", __func__, fname.c_str());
-        return false;
-    }
-    if (nc != 3) {
-        fprintf(stderr, "%s: '%s' has %d channels (expected 3)\n", __func__, fname.c_str(), nc);
-        return false;
-    }
-
-    img.nx = nx;
-    img.ny = ny;
-    img.data.resize(nx * ny * 3);
-    memcpy(img.data.data(), data, nx * ny * 3);
-
-    stbi_image_free(data);
-
-    return true;
-}
-
-static void print_usage(int argc, char ** argv, const sam_params & params) {
-    fprintf(stderr, "usage: %s [options]\n", argv[0]);
-    fprintf(stderr, "\n");
-    fprintf(stderr, "options:\n");
-    fprintf(stderr, "  -h, --help            show this help message and exit\n");
-    fprintf(stderr, "  -s SEED, --seed SEED  RNG seed (default: -1)\n");
-    fprintf(stderr, "  -t N, --threads N     number of threads to use during computation (default: %d)\n", params.n_threads);
-    fprintf(stderr, "  -m FNAME, --model FNAME\n");
-    fprintf(stderr, "                        model path (default: %s)\n", params.model.c_str());
-    fprintf(stderr, "  -i FNAME, --inp FNAME\n");
-    fprintf(stderr, "                        input file (default: %s)\n", params.fname_inp.c_str());
-    fprintf(stderr, "  -o FNAME, --out FNAME\n");
-    fprintf(stderr, "                        output file (default: %s)\n", params.fname_out.c_str());
-    fprintf(stderr, "\n");
-}
-
-static bool params_parse(int argc, char ** argv, sam_params & params) {
-    for (int i = 1; i < argc; i++) {
-        std::string arg = argv[i];
-
-        if (arg == "-s" || arg == "--seed") {
-            params.seed = std::stoi(argv[++i]);
-        } else if (arg == "-t" || arg == "--threads") {
-            params.n_threads = std::stoi(argv[++i]);
-        } else if (arg == "-m" || arg == "--model") {
-            params.model = argv[++i];
-        } else if (arg == "-i" || arg == "--inp") {
-            params.fname_inp = argv[++i];
-        } else if (arg == "-o" || arg == "--out") {
-            params.fname_out = argv[++i];
-        } else if (arg == "-h" || arg == "--help") {
-            print_usage(argc, argv, params);
-            exit(0);
-        } else {
-            fprintf(stderr, "error: unknown argument: %s\n", arg.c_str());
-            print_usage(argc, argv, params);
-            exit(0);
-        }
-    }
-
-    return true;
-}
-
-static bool pixel_equal(const cv::Vec3b &a, const cv::Vec3b &b)
-{  
-    return a == b;   
-}
-
-/*
-int unique_colors(cv::Mat img)
-{
-    // partition wants a vector, so we need a copy ;(
-    cv::Vec3b *p = img.ptr<cv::Vec3b>();
-    std::vector<cv::Vec3b> pix(p, p+img.total());
-
-    // now cluster:
-    std::vector<int> labels;
-    int unique = cv::partition(pix, labels, pixel_equal);
-
-    return unique;
-}*/
-
-//unique_colors
-//unique_colors is a map of tuples <color_id, mask matrix>
+/**
+ * Splits a mask in N masks, one for each unique color
+ *
+ * This sum is the arithmetic sum, not some other kind of sum that only
+ * mathematicians have heard of.
+ * @param img_gray one channel image with the mask
+ * @param unique_colors will store the result, a map of tuples <color_id, mask matrix>
+ * @param pixels_per_colour stores the resulting size of each mask in pixels (no used?)
+ * @return the number of unique colors
+ */
 int unique_colors(cv::Mat img_gray, std::map<int,cv::Mat> & unique_colors, std::map<int,int> & pixels_per_colour) 
 {
-    printf("Finding unique colors...\n");
-
-    //std::map<int,int> pixels_per_colour;
-
-    cv::Mat img_smaller;
-    //cv::resize(img_gray, img_smaller, cv::Size(), 0.25, 0.25); 
-    //cv::Mat img_smaller = img_gray;
-
     uchar color;
     int total_colors = 0;
     for(int i=0; i<img_gray.rows; i++) {
         for(int j=0; j<img_gray.cols; j++) {
-            
             color = img_gray.at<uchar>(i,j);
             if (color != 0) {
                 if (unique_colors.find(color) == unique_colors.end()) {
                     //New color detected
                     cv::Mat mask = cv::Mat::zeros(img_gray.size(), img_gray.type());
                     mask.at<uchar>(i,j) = 255;
-                    /**** DILATE ****/
-                    //cv::dilate (InputArray src, OutputArray dst, InputArray kernel, Point anchor=Point(-1,-1), int iterations=1, int borderType=BORDER_CONSTANT, const Scalar &borderValue=morphologyDefaultBorderValue())
-                    //cv::dilate(mask, mask, cv::Mat(), cv::Point(-1, -1), 1, 1, 1);
-                    //cv::dilate(mask, mask, cv::getStructuringElement(cv::MORPH_RECT, cv::Size(4, 4)), cv::Point(-1, -1), 1, 1, 1);
-                    
-
-                    /****************/
                     unique_colors.insert(std::pair<int, cv::Mat>(color, mask));
                     pixels_per_colour.insert(std::pair<int, int>(color, 0));
                     total_colors++;
@@ -151,37 +33,10 @@ int unique_colors(cv::Mat img_gray, std::map<int,cv::Mat> & unique_colors, std::
                     pixels_per_colour[color]++;
                 }
             }
-
         }
-        //printf("\n");
     }
     return total_colors;
 }
-
-/*
-//NOT USED BUT MAYBE
-void dilate_masks(std::map<int,cv::Mat> & unique_colors_map) 
-{
-    printf("Dilating masks...\n");
-    for (std::map<int,cv::Mat>::iterator it=unique_colors_map.begin(); it!=unique_colors_map.end(); ++it) {
-        int segment_color = it->first;
-        cv::Mat mask = it->second;
-        cv::dilate(mask, mask, cv::getStructuringElement(cv::MORPH_RECT, cv::Size(4, 4)), cv::Point(-1, -1), 1, 1, 1);
-    }
-}*/
-
-/*
-int dirExists(const char *path)
-{
-    struct stat info;
-
-    if(stat( path, &info ) != 0)
-        return 0;
-    else if(info.st_mode & S_IFDIR)
-        return 1;
-    else
-        return 0;
-}*/
 
 // Main code
 int main(int argc, char ** argv) 
@@ -217,9 +72,6 @@ int main(int argc, char ** argv)
     cv::Mat img_gray;
     cv::cvtColor(img, img_gray, cv::COLOR_BGR2GRAY);
 
-
-
-
     /******** COLOR SEGMENTS *********/
     //int nc = unique_colors(img);
     std::map<int,cv::Mat> unique_colors_map;//color ids and masks
@@ -234,7 +86,6 @@ int main(int argc, char ** argv)
 
 
     /******** CONTOURS *********/
-
     int i = 0;
     //for each color segment
     cv::RNG rng(12345);//random number generator
