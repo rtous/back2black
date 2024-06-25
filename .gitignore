@@ -1,4 +1,5 @@
 .DS_Store
+imgui.ini
 checkpoints
 build_macos
 build_windows

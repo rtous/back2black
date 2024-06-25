@@ -4,7 +4,10 @@
 #include <string>
 #include <iostream>
 #include <filesystem>
-namespace fs = std::__fs::filesystem; //Maybe a problem of the Mac
+
+#namespace fs = std::__fs::filesystem; //Maybe a problem of the Mac
+//namespace fs = std::experimental::filesystem;
+
 
 #include <opencv2/opencv.hpp> 
 #include <opencv2/core/utils/filesystem.hpp>

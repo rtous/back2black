@@ -2,7 +2,7 @@
 #include "sam.h"
 
 #include <filesystem>
-namespace fs = std::__fs::filesystem; //Maybe a problem of the Mac
+//namespace fs = std::__fs::filesystem; //Maybe a problem of the Mac
 #include <opencv2/opencv.hpp> 
 #include <opencv2/core/utils/filesystem.hpp>
 
@@ -74,7 +74,7 @@ int main(int argc, char ** argv)
     std::string input_path = params.fname_inp;
     std::string output_path = "output/sam_test";
 
-    if (!fs::exists(output_path)) {
+    if (!cv::utils::fs::exists(output_path)) {
         printf("Output directory does not exist, creating: %s", output_path.c_str());
         cv::utils::fs::createDirectories(output_path);
     }
