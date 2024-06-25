@@ -41,6 +41,25 @@ bool load_image_samformat_from_file(const std::string & fname, sam_image_u8 & im
     return true;
 }
 
+/*
+    load and precompute the image
+*/
+bool load_and_precompute_image_from_file(std::string path, sam_image_u8 & img0, sam_state & state, int n_threads) {
+    //Load the image
+    if (!load_image_samformat_from_file(path, img0)) {
+        fprintf(stderr, "%s: failed to load image from '%s'\n", __func__, path.c_str());
+        return false;
+    }
+    fprintf(stderr, "%s: loaded image '%s' (%d x %d)\n", __func__, path.c_str(), img0.nx, img0.ny);
+
+    //Pre-compute the frame 
+    if (!sam_compute_embd_img(img0, n_threads, state)) {
+        fprintf(stderr, "%s: failed to compute encoded image\n", __func__);
+        return false;
+    }
+    printf("t_compute_img_ms = %d ms\n", state.t_compute_img_ms);
+    return true;
+}
 
 /*
 	given an image (in sam format) get the best mask (in opencv format at a given point 
