@@ -82,6 +82,7 @@ static bool params_parse(int argc, char ** argv, sam_params & params) {
 //We assume the first frame has already the objects and the user coordinates
 int propagate_masks(std::vector<Frame> frames, sam_state & state, int n_threads) 
 {
+    int numFrames = frames.size();
     int f = 0;
     //iterate through all frames
     for (Frame & aFrame : frames) {
@@ -94,7 +95,7 @@ int propagate_masks(std::vector<Frame> frames, sam_state & state, int n_threads)
 
         //iterate through all the objects of the frame
         for (Object & anObject : aFrame.objects) {
-            //compute_object(anObject, sam_state & state, int n_threads);
+            compute_object(anObject, img0, state, n_threads);
             
             //if there are previous objects can check if the mask makes sense:
             //bool isMaskConsistent = true; //th first mask is consistent
@@ -103,7 +104,13 @@ int propagate_masks(std::vector<Frame> frames, sam_state & state, int n_threads)
 
             
             //add the object to the next frame with the next coordinates
-            //if (f < numFrames-1)
+            if (f < numFrames-1) {
+                Object newObject;
+                newObject.objectId = anObject.objectId;
+                frames[f+1].objects.push_back(newObject);
+
+                //addObject(new coordinates);
+            }
                   //if isMaskConsistent new coordinates are the mask coordinates
                   //otherwise use given coordinates
             //    frames[f+1].addObject(new coordinates); 

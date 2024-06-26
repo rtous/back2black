@@ -15,6 +15,7 @@
 #include <opencv2/core/utils/filesystem.hpp>
 #include "sam.h"
 
+
 #define STB_IMAGE_IMPLEMENTATION
 #include "stb_image.h"
 #define STB_IMAGE_WRITE_IMPLEMENTATION
@@ -99,51 +100,26 @@ cv::Mat get_best_opencv_mask_at_point(int x, int y, sam_image_u8 img0, sam_state
     return mask_opencv;
 }
 
-/*
-bool compute_object(int x, int y, std::string path, sam_state & state, int n_threads) {
 
-    sam_image_u8 img0;
-
-    if (!load_and_precompute_image_from_file(path, img0, state, n_threads)) {
-        fprintf(stderr, "%s: failed load_and_precompute_image_from_file from '%s'\n", __func__, path.c_str());
-        return false;
-    }
+void compute_object(Object anObject, sam_image_u8 img0, sam_state & state, int n_threads) {
 
     //Compute the frame: Obtain the best mask at the point
-    cv::Mat output = get_best_opencv_mask_at_point(x, y, img0, state, n_threads);
+    cv::Mat output = get_best_opencv_mask_at_point(anObject.mask_computed_at_x, anObject.mask_computed_at_y, img0, state, n_threads);
 
     //Obtain the first contour
-    std::vector<std::vector<cv::Point> > contours;
+    //std::vector<std::vector<cv::Point>> contours;
     std::vector<cv::Vec4i> hierarchy;
-    cv:findContours(output, contours, hierarchy, cv::RETR_LIST, cv::CHAIN_APPROX_SIMPLE );
+    cv:findContours(output, anObject.contours, hierarchy, cv::RETR_LIST, cv::CHAIN_APPROX_SIMPLE );
 
     //TODO: Multiple contours
 
-    int contour_area;
-    int new_contour_area = cv::contourArea(contours[0]);
-    printf("new_contour_area = %d \n", new_contour_area);
+    anObject.mask_contour_size = cv::contourArea(anObject.contours[0]);
+    printf("new_contour_area = %d \n", anObject.mask_contour_size);
 
-    if (new_contour_area > 1000) {
-
-        // compute the center of the contour https://pyimagesearch.com/2016/02/01/opencv-center-of-contour/
-        cv::Moments M = cv::moments(contours[0]);
-        cv::Point center(M.m10/M.m00, M.m01/M.m00);  
-        circle(output, center, 5, cv::Scalar(128,0,0), -1);   
-
-        //contour area
-        
-        if (contour_area == -1 || (new_contour_area < contour_area*1.2 && new_contour_area > contour_area*0.8)) {
-            contour_area = new_contour_area; 
-            pt.x = center.x;
-            pt.y = center.y;
-            printf("UPDATED POINT: pt.x=%f, pt.y=%f\n", pt.x, pt.y);
-        } else {
-            printf("POINT NOT UPDATED BECAUSE CONTOUR AREA DIFFERS (BEFORE: %d, NOW: %d) \n", contour_area, new_contour_area);
-        }
-
-        //cv::imwrite(output_path+"/"+filename_noext+"_.png", output);
-    }
-    return true;
-    
+    // compute the center of the contour https://pyimagesearch.com/2016/02/01/opencv-center-of-contour/
+    cv::Moments M = cv::moments(anObject.contours[0]);
+    cv::Point center(M.m10/M.m00, M.m01/M.m00);  
+    anObject.mask_center_x = center.x;
+    anObject.mask_center_y = center.y;
 } 
-*/
+

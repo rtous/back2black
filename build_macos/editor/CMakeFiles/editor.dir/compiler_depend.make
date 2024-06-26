@@ -1789,6 +1789,7 @@ editor/CMakeFiles/editor.dir/editor.cpp.o: /Users/rtous/dev/back2black/editor/ed
   /Library/Developer/CommandLineTools/usr/lib/clang/15.0.0/include/stddef.h \
   /Library/Developer/CommandLineTools/usr/lib/clang/15.0.0/include/stdint.h \
   /Users/rtous/dev/back2black/common/common1.h \
+  /Users/rtous/dev/back2black/common/data_structures.h \
   /Users/rtous/dev/back2black/editor/colors.h \
   /Users/rtous/dev/back2black/editor/file_dialog.h \
   /Users/rtous/dev/back2black/editor/gui_utils.h \
@@ -3879,6 +3880,7 @@ editor/CMakeFiles/editor.dir/gui_utils.cpp.o: /Users/rtous/dev/back2black/editor
   /Library/Developer/CommandLineTools/usr/lib/clang/15.0.0/include/stddef.h \
   /Library/Developer/CommandLineTools/usr/lib/clang/15.0.0/include/stdint.h \
   /Users/rtous/dev/back2black/common/common1.h \
+  /Users/rtous/dev/back2black/common/data_structures.h \
   /Users/rtous/dev/back2black/third-party/imgui/imgui/backends/imgui_impl_opengl3.h \
   /Users/rtous/dev/back2black/third-party/imgui/imgui/backends/imgui_impl_sdl2.h \
   /Users/rtous/dev/back2black/third-party/imgui/imgui/imconfig.h \
@@ -6071,8 +6073,6 @@ editor/CMakeFiles/editor.dir/sam_utils.cpp.o: /Users/rtous/dev/back2black/editor
 
 /Users/rtous/dev/opencv/modules/stitching/include/opencv2/stitching/detail/camera.hpp:
 
-/Users/rtous/dev/opencv/modules/photo/include/opencv2/photo.hpp:
-
 /Users/rtous/dev/opencv/modules/objdetect/include/opencv2/objdetect/charuco_detector.hpp:
 
 /Users/rtous/dev/opencv/modules/objdetect/include/opencv2/objdetect/barcode.hpp:
@@ -6184,6 +6184,10 @@ editor/CMakeFiles/editor.dir/sam_utils.cpp.o: /Users/rtous/dev/back2black/editor
 /Users/rtous/dev/back2black/editor/sam_utils.h:
 
 /Users/rtous/dev/back2black/editor/gui_utils.h:
+
+/Users/rtous/dev/opencv/modules/photo/include/opencv2/photo.hpp:
+
+/Users/rtous/dev/back2black/common/data_structures.h:
 
 /Users/rtous/dev/opencv/modules/core/include/opencv2/core/fast_math.hpp:
 
