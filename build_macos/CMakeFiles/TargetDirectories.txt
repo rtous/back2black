@@ -87,3 +87,10 @@
 /Users/rtous/dev/back2black/build_macos/cli_masks/CMakeFiles/install.dir
 /Users/rtous/dev/back2black/build_macos/cli_masks/CMakeFiles/install/local.dir
 /Users/rtous/dev/back2black/build_macos/cli_masks/CMakeFiles/install/strip.dir
+/Users/rtous/dev/back2black/build_macos/test_filesystem/CMakeFiles/test_filesystem.dir
+/Users/rtous/dev/back2black/build_macos/test_filesystem/CMakeFiles/edit_cache.dir
+/Users/rtous/dev/back2black/build_macos/test_filesystem/CMakeFiles/rebuild_cache.dir
+/Users/rtous/dev/back2black/build_macos/test_filesystem/CMakeFiles/list_install_components.dir
+/Users/rtous/dev/back2black/build_macos/test_filesystem/CMakeFiles/install.dir
+/Users/rtous/dev/back2black/build_macos/test_filesystem/CMakeFiles/install/local.dir
+/Users/rtous/dev/back2black/build_macos/test_filesystem/CMakeFiles/install/strip.dir

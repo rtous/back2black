@@ -21,6 +21,11 @@ class Object {
     cv::Mat mask;
     int objectId;
     int color;
+    int mask_computed_at_x;  
+    int mask_computed_at_y;
+    int mask_center_x;  
+    int mask_center_y; 
+    int mask_contour_size;
 };
 
 class Frame {      

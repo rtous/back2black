@@ -304,6 +304,19 @@ cli_masks/fast:
 	$(MAKE) $(MAKESILENT) -f cli_masks/CMakeFiles/cli_masks.dir/build.make cli_masks/CMakeFiles/cli_masks.dir/build
 .PHONY : cli_masks/fast
 
+#=============================================================================
+# Target rules for targets named test_filesystem
+
+# Build rule for target.
+test_filesystem: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 test_filesystem
+.PHONY : test_filesystem
+
+# fast build rule for target.
+test_filesystem/fast:
+	$(MAKE) $(MAKESILENT) -f test_filesystem/CMakeFiles/test_filesystem.dir/build.make test_filesystem/CMakeFiles/test_filesystem.dir/build
+.PHONY : test_filesystem/fast
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -326,6 +339,7 @@ help:
 	@echo "... imgui"
 	@echo "... imgui-sdl2"
 	@echo "... sam"
+	@echo "... test_filesystem"
 	@echo "... test_opencv"
 .PHONY : help
 

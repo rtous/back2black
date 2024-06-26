@@ -5,9 +5,7 @@
 #include <iostream>
 #include <filesystem>
 
-#namespace fs = std::__fs::filesystem; //Maybe a problem of the Mac
-//namespace fs = std::experimental::filesystem;
-
+#include "filesystem_header.h"
 
 #include <opencv2/opencv.hpp> 
 #include <opencv2/core/utils/filesystem.hpp>
@@ -81,6 +79,7 @@ static bool params_parse(int argc, char ** argv, sam_params & params) {
 
 }*/
 
+//We assume the first frame has already the objects and the user coordinates
 int propagate_masks(std::vector<Frame> frames, sam_state & state, int n_threads) 
 {
     int f = 0;
@@ -92,16 +91,22 @@ int propagate_masks(std::vector<Frame> frames, sam_state & state, int n_threads)
             fprintf(stderr, "%s: failed load_and_precompute_image_from_file from '%s'\n", __func__, aFrame.filePath.c_str());
             return 1;
         }
-        
-        if (f = 1) {
-            //take given coordinates (from where?)
-        } else {
-            //
-        }
 
         //iterate through all the objects of the frame
         for (Object & anObject : aFrame.objects) {
-            //point x and y
+            //compute_object(anObject, sam_state & state, int n_threads);
+            
+            //if there are previous objects can check if the mask makes sense:
+            //bool isMaskConsistent = true; //th first mask is consistent
+            //if (f > 0)
+            //    isMaskConsistent =  mask contour similar to previous mask contour
+
+            
+            //add the object to the next frame with the next coordinates
+            //if (f < numFrames-1)
+                  //if isMaskConsistent new coordinates are the mask coordinates
+                  //otherwise use given coordinates
+            //    frames[f+1].addObject(new coordinates); 
         }
         f++;
     }
@@ -167,6 +172,7 @@ int main(int argc, char ** argv)
         if (entry.path().extension() == ".jpg" || entry.path().extension() == ".png") {
             sam_image_u8 img0;
 
+            //Precompute the frame
             if (!load_and_precompute_image_from_file(entry.path(), img0, *state, params.n_threads)) {
                 fprintf(stderr, "%s: failed load_and_precompute_image_from_file from '%s'\n", __func__, entry.path().c_str());
                 return 1;
