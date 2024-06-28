@@ -13,7 +13,8 @@ target_link_libraries(${COMMON_LIB} PRIVATE sam imgui-sdl2 ${OpenCV_LIBS} ${CMAK
 
 #disabled:
 #target_link_libraries(${COMMON_LIB} PRIVATE imgui-sdl2 ${CMAKE_THREAD_LIBS_INIT})
-target_compile_features(${COMMON_LIB} PUBLIC cxx_std_11)
+#target_compile_features(${COMMON_LIB} PUBLIC cxx_std_11)
+target_compile_features(${COMMON_LIB} PUBLIC cxx_std_17)
 
 #If Microsoft Visual C++ or similar
 if(MSVC)
