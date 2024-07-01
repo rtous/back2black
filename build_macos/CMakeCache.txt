@@ -317,20 +317,8 @@ OPENGL_gl_LIBRARY:FILEPATH=/Library/Developer/CommandLineTools/SDKs/MacOSX14.4.s
 //GLU library for OS X (usually same as OpenGL library)
 OPENGL_glu_LIBRARY:FILEPATH=/Library/Developer/CommandLineTools/SDKs/MacOSX14.4.sdk/System/Library/Frameworks/OpenGL.framework
 
-//Where the SDL2main library can be found
-SDL2MAIN_LIBRARY:FILEPATH=/opt/homebrew/lib/libSDL2main.a
-
 //The directory containing a CMake configuration file for SDL2.
 SDL2_DIR:PATH=/opt/homebrew/lib/cmake/SDL2
-
-//Where the SDL2 headers can be found
-SDL2_INCLUDE_DIR:PATH=/opt/homebrew/include/SDL2
-
-//Where the SDL2 Library can be found
-SDL2_LIBRARY:FILEPATH=SDL2_LIBRARY-NOTFOUND
-
-//Disable search SDL2 Library in default path
-SDL2_NO_DEFAULT_PATH:BOOL=ON
 
 //Value Computed by CMake
 back2black_BINARY_DIR:STATIC=/Users/rtous/dev/back2black/build_macos
@@ -513,6 +501,4 @@ OPENGL_INCLUDE_DIR-ADVANCED:INTERNAL=1
 OPENGL_gl_LIBRARY-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: OPENGL_glu_LIBRARY
 OPENGL_glu_LIBRARY-ADVANCED:INTERNAL=1
-//Path to a library.
-SDL2_LIBRARY_TEMP:INTERNAL=/opt/homebrew/lib/libSDL2.dylib
 

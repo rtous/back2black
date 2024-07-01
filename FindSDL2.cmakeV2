@@ -162,9 +162,11 @@ because not all systems place things in SDL/ (see FreeBSD).
 #else()
 #  message("RUBEN: NOT APPLE, ASSUMING WINDOWS") 
   
-
+if(APPLE) 
+  message("RUBEN: APPLE DETECTED.") 
+else() 
   set(SDL2_PATH "C:/SDL")
-
+endif()
 
 
 

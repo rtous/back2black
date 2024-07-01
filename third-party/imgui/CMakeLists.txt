@@ -1,4 +1,13 @@
-find_package(SDL2 REQUIRED)
+
+#Locate SDL2
+if (APPLE)
+    find_package(SDL2 NO_MODULE) #To avoid using FindSDL2.cmake 
+    #Note: Without FindSDL2.cmake it finds a config in homebrew dirs
+    #can check with --debug-find option in cmake
+else ()
+    find_package(SDL2 REQUIRED) #To force using FindSDL2.cmake
+endif ()
+
 string(STRIP "${SDL2_LIBRARIES}" SDL2_LIBRARIES)
 
 #set(SDL2_LIBRARIES "C:/SDL/lib/libSDL2.a;C:/SDL/lib/libSDL2main.a;C:/SDL/lib/libSDL2_image.dll.a")
