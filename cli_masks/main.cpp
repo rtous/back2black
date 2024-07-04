@@ -183,7 +183,9 @@ int main(int argc, char ** argv)
 		//std::string extension = entry.path().extension();
 		std::string extension = filename.substr(filename.find_last_of(".")+1); 
 
-        if (extension == ".jpg" || extension == ".png") {
+        std::cout << extension << std::endl;
+
+        if (extension == "jpg" || extension == "png") {
             sam_image_u8 img0;
 
             //Precompute the frame
