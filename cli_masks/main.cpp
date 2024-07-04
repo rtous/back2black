@@ -3,7 +3,7 @@
 
 #include <string>
 #include <iostream>
-#include <filesystem>
+//#include <filesystem>
 
 #include "filesystem_header.h"
 
@@ -154,34 +154,41 @@ int main(int argc, char ** argv)
     printf("t_load_ms = %d ms\n", state->t_load_ms);
 
     /**********/
-    //Traverse the directory
-    //std::string path = params.fname_inp;
-    //std::string path = "/Users/rtous/dev/back2black/data/example1/images";
-
-
+    
     //To traverse the directory alphabetically:
     //Necessary to process the frames in order
-    std::vector<fs::directory_entry> files_in_directory;
+    /*std::vector<fs::directory_entry> files_in_directory;
     std::copy(fs::directory_iterator(input_path), fs::directory_iterator(), std::back_inserter(files_in_directory));
     std::sort(files_in_directory.begin(), files_in_directory.end());
-
+	*/
+	
     sam_point pt { 500, 350};
     int contour_area = -1;
     printf("INITIAL POINT: pt.x=%f, pt.y=%f\n", pt.x, pt.y);
+	
+	std::vector<std::string> filepaths_in_directory;
+	cv::glob(input_path, filepaths_in_directory);
 
     //Iterate all frames
-    for (const auto & entry : files_in_directory) {
-        std::cout << entry.path() << std::endl;
+    //for (const auto & entry : files_in_directory) {
+	for (std::string filepath : filepaths_in_directory) {
+		//std::string filepath = entry.path();
+	
+		
+        std::cout << filepath << std::endl;
 
-        std::string filename = entry.path().filename();
+        //std::string filename = entry.path().filename();
+		std::string filename = filepath.substr(filepath.find_last_of("/\\") + 1);
         std::string filename_noext = filename.substr(0, filename.find_last_of(".")); 
+		//std::string extension = entry.path().extension();
+		std::string extension = filename.substr(filename.find_last_of(".")+1); 
 
-        if (entry.path().extension() == ".jpg" || entry.path().extension() == ".png") {
+        if (extension == ".jpg" || extension == ".png") {
             sam_image_u8 img0;
 
             //Precompute the frame
-            if (!load_and_precompute_image_from_file(entry.path(), img0, *state, params.n_threads)) {
-                fprintf(stderr, "%s: failed load_and_precompute_image_from_file from '%s'\n", __func__, entry.path().c_str());
+            if (!load_and_precompute_image_from_file(filepath, img0, *state, params.n_threads)) {
+                fprintf(stderr, "%s: failed load_and_precompute_image_from_file from '%s'\n", __func__, filepath.c_str());
                 return 1;
             }
 

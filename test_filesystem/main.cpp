@@ -34,12 +34,12 @@ int main(int argc, char ** argv)
     std::sort(files_in_directory.begin(), files_in_directory.end());
 	
 
-    for (const auto & entry : files_in_directory) {
+    /*for (const auto & entry : files_in_directory) {
         std::cout << entry.path() << std::endl;
 		//std::string filename = entry.path().filename();
 		std::string filename = entry.path();
 
-	}
+	}*/
         /*std::string filename = entry.path().filename();
         std::string filename_noext = filename.substr(0, filename.find_last_of(".")); 
 
