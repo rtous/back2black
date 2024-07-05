@@ -100,16 +100,24 @@ cv::Mat get_best_opencv_mask_at_point(int x, int y, sam_image_u8 img0, sam_state
     return mask_opencv;
 }
 
+/*void example_func(Object &anObject) {
+    anObject.objectId = 1000;
 
-void compute_object(Object anObject, sam_image_u8 img0, sam_state & state, int n_threads) {
+}*/
+
+void compute_object(Object & anObject, sam_image_u8 img0, sam_state & state, int n_threads) {
 
     //Compute the frame: Obtain the best mask at the point
-    cv::Mat output = get_best_opencv_mask_at_point(anObject.mask_computed_at_x, anObject.mask_computed_at_y, img0, state, n_threads);
+    //cv::Mat output = get_best_opencv_mask_at_point(anObject.mask_computed_at_x, anObject.mask_computed_at_y, img0, state, n_threads);
+    anObject.mask = get_best_opencv_mask_at_point(anObject.mask_computed_at_x, anObject.mask_computed_at_y, img0, state, n_threads);
+
+    //anObject.mask = output;//DOES NOT WORKK output is a local variable?
+    //cv::imwrite("output/example2/masks/test.png", anObject.mask);
 
     //Obtain the first contour
     //std::vector<std::vector<cv::Point>> contours;
     std::vector<cv::Vec4i> hierarchy;
-    cv:findContours(output, anObject.contours, hierarchy, cv::RETR_LIST, cv::CHAIN_APPROX_SIMPLE );
+    cv:findContours(anObject.mask, anObject.contours, hierarchy, cv::RETR_LIST, cv::CHAIN_APPROX_SIMPLE );
 
     //TODO: Multiple contours
 

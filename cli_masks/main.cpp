@@ -80,12 +80,13 @@ static bool params_parse(int argc, char ** argv, sam_params & params) {
 }*/
 
 //We assume the first frame has already the objects and the user coordinates
-int propagate_masks(std::vector<Frame> frames, sam_state & state, int n_threads) 
+int propagate_masks(std::vector<Frame> & frames, sam_state & state, int n_threads) 
 {
     int numFrames = frames.size();
     int f = 0;
     //iterate through all frames
     for (Frame & aFrame : frames) {
+        printf("PROCESSING FRAME %d \n", f);
         //load the frame
         sam_image_u8 img0;
         if (!load_and_precompute_image_from_file(aFrame.filePath, img0, state, n_threads)) {
@@ -95,6 +96,7 @@ int propagate_masks(std::vector<Frame> frames, sam_state & state, int n_threads)
 
         //iterate through all the objects of the frame
         for (Object & anObject : aFrame.objects) {
+            printf("\tPROCESSING OBJECT %d \n", anObject.objectId);
             compute_object(anObject, img0, state, n_threads);
             
             //if there are previous objects can check if the mask makes sense:
@@ -107,14 +109,16 @@ int propagate_masks(std::vector<Frame> frames, sam_state & state, int n_threads)
             if (f < numFrames-1) {
                 Object newObject;
                 newObject.objectId = anObject.objectId;
+                newObject.mask_computed_at_x = anObject.mask_center_x;
+                newObject.mask_computed_at_y = anObject.mask_center_y; 
                 frames[f+1].objects.push_back(newObject);
-
-                //addObject(new coordinates);
             }
                   //if isMaskConsistent new coordinates are the mask coordinates
                   //otherwise use given coordinates
             //    frames[f+1].addObject(new coordinates); 
+            printf("\tOBJECTS DONE.\n");
         }
+        printf("FRAME DONE.\n");
         f++;
     }
 }
@@ -122,6 +126,12 @@ int propagate_masks(std::vector<Frame> frames, sam_state & state, int n_threads)
 // Main code
 int main(int argc, char ** argv) 
 {
+    //DEBUG TEST
+    /*Object anObject;
+    example_func(anObject);
+    printf("anObject.objectId = %d \n", anObject.objectId);
+    */
+    ///////////
 
     printf("CLI tool v 0.1");
     
@@ -135,8 +145,8 @@ int main(int argc, char ** argv)
     }
     fprintf(stderr, "%s: seed = %d\n", __func__, params.seed);
 
-    std::string input_path = "data/example1/images";
-    std::string output_path = "output/example1/masks";
+    std::string input_path = "data/example2/images";
+    std::string output_path = "output/example2/masks";
 
     if (!fs::exists(output_path)) {
         printf("Output directory does not exist, creating: %s", output_path.c_str());
@@ -153,14 +163,7 @@ int main(int argc, char ** argv)
     }
     printf("t_load_ms = %d ms\n", state->t_load_ms);
 
-    /**********/
     
-    //To traverse the directory alphabetically:
-    //Necessary to process the frames in order
-    /*std::vector<fs::directory_entry> files_in_directory;
-    std::copy(fs::directory_iterator(input_path), fs::directory_iterator(), std::back_inserter(files_in_directory));
-    std::sort(files_in_directory.begin(), files_in_directory.end());
-	*/
 	
     sam_point pt { 500, 350};
     int contour_area = -1;
@@ -169,21 +172,66 @@ int main(int argc, char ** argv)
 	std::vector<std::string> filepaths_in_directory;
 	cv::glob(input_path, filepaths_in_directory);
 
+
+    ///////////////////////////
+    //Create the list of frames with just the filepaths
+    ///////////////////////////
+    std::vector<Frame> frames;
+    for (std::string filepath : filepaths_in_directory) {
+        std::cout << filepath << std::endl;
+        std::string filename = filepath.substr(filepath.find_last_of("/\\") + 1);
+        std::string filename_noext = filename.substr(0, filename.find_last_of(".")); 
+        std::string extension = filename.substr(filename.find_last_of(".")+1); 
+
+        if (extension == "jpg" || extension == "png") {
+            Frame aFrame;
+            aFrame.filePath = filepath;
+            //std::vector<Object> objects;
+            Object anObject;
+            anObject.objectId = 0;
+            anObject.mask_computed_at_x = 500;
+            anObject.mask_computed_at_y = 350;
+            aFrame.objects.push_back(anObject);
+            frames.push_back(aFrame);
+        }
+    }
+    ///////////////////////////
+
+    propagate_masks(frames, *state, params.n_threads);
+
+    printf("ANALYSIS DONE, WRITING IMAGE FILES!\n");
+    /////////////
+    // write masks to files
+    ////////////
+    int f = 0;
+    for (Frame & aFrame : frames) {
+        printf("PROCESSING FRAME %d \n", f);
+        std::string filename = aFrame.filePath.substr(aFrame.filePath.find_last_of("/\\") + 1);
+        std::string filename_noext = filename.substr(0, filename.find_last_of(".")); 
+        int o = 0;
+        for (Object & anObject : aFrame.objects) {
+            printf("PROCESSING OBJECT %d \n", o);
+            std::string path = output_path+"/"+filename_noext+"_"+std::to_string(o)+".png";
+            
+            cv::imwrite(path, anObject.mask);
+            printf("File written: %s\n", path.c_str());
+            o++;
+        }
+        f++;
+    }
+
+
+
+
+
+    /*
     //Iterate all frames
     //for (const auto & entry : files_in_directory) {
 	for (std::string filepath : filepaths_in_directory) {
-		//std::string filepath = entry.path();
-	
-		
         std::cout << filepath << std::endl;
-
-        //std::string filename = entry.path().filename();
 		std::string filename = filepath.substr(filepath.find_last_of("/\\") + 1);
         std::string filename_noext = filename.substr(0, filename.find_last_of(".")); 
-		//std::string extension = entry.path().extension();
 		std::string extension = filename.substr(filename.find_last_of(".")+1); 
-
-        std::cout << extension << std::endl;
 
         if (extension == "jpg" || extension == "png") {
             sam_image_u8 img0;
@@ -231,6 +279,7 @@ int main(int argc, char ** argv)
         }   
         
     }
+    */
 
     sam_deinit(*state);
 
