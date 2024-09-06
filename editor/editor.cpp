@@ -78,11 +78,11 @@ static void frameWindow(MyState &myState, bool *show_myWindow, const ImGuiViewpo
         //printf("Redrawing image\n");
         //opencv_image2sam(myState.img, myState.aVideo.frames[(rand()%6)+1].img);
 
-        GLuint tex = createGLTexture(myState.img, GL_RGB);
+        //GLuint tex = createGLTexture(myState.img, GL_RGB);//Done just once at loading
         ImDrawList* draw_list = ImGui::GetWindowDrawList();
         
         
-        draw_list->AddImage((void*)(intptr_t)tex, ImVec2(0,0), ImVec2(myState.img.nx, myState.img.ny));
+        draw_list->AddImage((void*)(intptr_t)myState.tex, ImVec2(0,0), ImVec2(myState.img.nx, myState.img.ny));
         draw_list->AddCircleFilled(ImVec2(100, 100), 5, IM_COL32(255, 0, 0, 255));
     } else {
         ImGui::Text("Load an image from the File menu.");
@@ -157,6 +157,9 @@ void fileDialog(MyState &myState, bool *show_file_dialog) {
         } else {
             printf("successfully loaded image from '%s'\n", fileName.c_str());
             myState.img_loaded = true;
+            //Create the OpenGL texture here, just once.
+            //Otherwise you will get a memory leak
+            myState.tex = createGLTexture(myState.img, GL_RGB);
             // init SDL video subsystem to get the screen size
             /*if (SDL_Init(SDL_INIT_VIDEO) != 0) {
                 fprintf(stderr, "Error: %s\n", SDL_GetError());
