@@ -30,6 +30,9 @@ void show_file_dialog_f(bool *show_file_dialog, MyState & myState)
     //const char *filters = "Source files (*.cpp *.h *.hpp){.cpp,.h,.hpp},Image files (*.png *.gif *.jpg *.jpeg){.png,.gif,.jpg,.jpeg},.md";
     const char *filters = "Image files (*.png *.gif *.jpg *.jpeg){.png,.gif,.jpg,.jpeg},Source files (*.cpp *.h *.hpp){.cpp,.h,.hpp},.md";
     
+    if (myState.show_file_dialog_video) 
+       filters = "Video files (*.mp4){.mp4}";
+     
     ImGuiFileDialog::Instance()->OpenDialog("ChooseFileDlgKey", "Choose a File", filters, config);
     //ImGuiFileDialog::Instance()->OpenDialog("ChooseFileDlgKey", "Choose File", ".cpp,.h,.hpp,.png,.jpg", config);
     // display

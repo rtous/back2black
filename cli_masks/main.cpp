@@ -79,6 +79,7 @@ static bool params_parse(int argc, char ** argv, sam_params & params) {
 
 }*/
 
+/*
 //We assume the first frame has already the objects and the user coordinates
 int propagate_masks(std::vector<Frame> & frames, sam_state & state, int n_threads) 
 {
@@ -106,7 +107,9 @@ int propagate_masks(std::vector<Frame> & frames, sam_state & state, int n_thread
 
             
             //add the object to the next frame with the next coordinates
+            printf("\tf=%d numFrames=%d.\n", f, numFrames);
             if (f < numFrames-1) {
+                printf("\tADDING OBJECT %d TO FRAME %f.\n", anObject.objectId, f);
                 Object newObject;
                 newObject.objectId = anObject.objectId;
                 newObject.mask_computed_at_x = anObject.mask_center_x;
@@ -122,6 +125,7 @@ int propagate_masks(std::vector<Frame> & frames, sam_state & state, int n_thread
         f++;
     }
 }
+*/
 
 // Main code
 int main(int argc, char ** argv) 
@@ -165,9 +169,10 @@ int main(int argc, char ** argv)
 
     
 	
-    sam_point pt { 500, 350};
+    //sam_point pt { 500, 347}; 539, 309
+    //sam_point pt { 539, 309};
     int contour_area = -1;
-    printf("INITIAL POINT: pt.x=%f, pt.y=%f\n", pt.x, pt.y);
+    //printf("INITIAL POINT: pt.x=%f, pt.y=%f\n", pt.x, pt.y);
 	
 	std::vector<std::string> filepaths_in_directory;
 	cv::glob(input_path, filepaths_in_directory);
@@ -177,6 +182,7 @@ int main(int argc, char ** argv)
     //Create the list of frames with just the filepaths
     ///////////////////////////
     std::vector<Frame> frames;
+    int f = 0;
     for (std::string filepath : filepaths_in_directory) {
         std::cout << filepath << std::endl;
         std::string filename = filepath.substr(filepath.find_last_of("/\\") + 1);
@@ -187,12 +193,30 @@ int main(int argc, char ** argv)
             Frame aFrame;
             aFrame.filePath = filepath;
             //std::vector<Object> objects;
-            Object anObject;
-            anObject.objectId = 0;
-            anObject.mask_computed_at_x = 500;
-            anObject.mask_computed_at_y = 350;
-            aFrame.objects.push_back(anObject);
+
+            if (f == 0) { //only add the objects in the first frame
+                Object anObject;
+                anObject.objectId = 0;
+                //anObject.mask_computed_at_x = 500;
+                //anObject.mask_computed_at_y = 350;
+                anObject.mask_computed_at_x = 539;
+                anObject.mask_computed_at_y = 309;
+                aFrame.objects.push_back(anObject);
+
+                Object anObject2;
+                anObject2.objectId = 1;
+                //anObject.mask_computed_at_x = 500;
+                //anObject.mask_computed_at_y = 350;
+                anObject2.mask_computed_at_x = 500;
+                anObject2.mask_computed_at_y = 347;
+                aFrame.objects.push_back(anObject2);
+
+
+
+            }
             frames.push_back(aFrame);
+            f++;
+            
         }
     }
     ///////////////////////////
@@ -203,7 +227,7 @@ int main(int argc, char ** argv)
     /////////////
     // write masks to files
     ////////////
-    int f = 0;
+    f = 0;
     for (Frame & aFrame : frames) {
         printf("PROCESSING FRAME %d \n", f);
         std::string filename = aFrame.filePath.substr(aFrame.filePath.find_last_of("/\\") + 1);

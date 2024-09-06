@@ -35,3 +35,12 @@ Universitat Politecnica de Catalunya
 	- Refactoring: created the "common" library
 	- PROBLEM: The FindSDL... does not work in Macos (removing it solves the problem but need to a solution that also works for windows)
 	- PROBLEM: Trying to put stb_image... within common
+
+19/07/2024
+	- All previous problems solved
+	- TODO: Time to integrate into the editor
+	- TODO: Need refactoring cli_masks and everything before
+
+05/09/2024
+	- editor: Load video ok
+	- PROBLEM: (editor) Currently the image is displayed at 0,0 of the main window, this is why the compute_masks work. But it should be displayed within the visible window and the clicked point recomputed

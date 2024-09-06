@@ -13,6 +13,8 @@ file(REMOVE_RECURSE
   "CMakeFiles/editor.dir/main.cpp.o.d"
   "CMakeFiles/editor.dir/sam_utils.cpp.o"
   "CMakeFiles/editor.dir/sam_utils.cpp.o.d"
+  "CMakeFiles/editor.dir/video.cpp.o"
+  "CMakeFiles/editor.dir/video.cpp.o.d"
 )
 
 # Per-language clean rules from dependency scanning.

@@ -7,6 +7,7 @@ add_executable(${EXAMPLE_TARGET}
     editor.cpp
     file_dialog.cpp
     sam_utils.cpp
+    video.cpp
 )
 
 #OpenCV stuff

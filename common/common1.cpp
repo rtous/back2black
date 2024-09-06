@@ -21,6 +21,39 @@
 #define STB_IMAGE_WRITE_IMPLEMENTATION
 #include "stb_image_write.h"
 
+void sam_image2opencv(sam_image_u8 & sam_image, cv::Mat & opencv_image) {
+    //TODO: Only works for grayscale image
+    //cv::Mat rows x columns 
+    //sam_image_u8 guarda com si recorre tot per fileres
+    cv::Mat mask_opencv = cv::Mat::zeros(sam_image.ny, sam_image.nx, CV_8UC1 );
+    for (int i=0; i < opencv_image.rows; ++i){
+        for (int j=0; j < opencv_image.cols; ++j){
+            opencv_image.at<uchar>(i, j) = sam_image.data[i*sam_image.nx+j];
+        }
+    }
+}
+
+void opencv_image2sam(sam_image_u8 & sam_image, cv::Mat & opencv_image) {
+    //Convert default OpenCV BGR to RGB
+    cv::cvtColor(opencv_image, opencv_image, cv::COLOR_BGR2RGB);
+
+    //SAM x=width, y=height
+    sam_image.nx = opencv_image.cols;
+    sam_image.ny = opencv_image.rows;
+
+    //TODO IMPROVEMENT: Sequential access to opencv_image.data 
+
+    sam_image.data.clear();
+    for (int i=0; i < opencv_image.rows; ++i){
+        for (int j=0; j < opencv_image.cols; ++j){  
+            cv::Vec3b RGB = opencv_image.at<cv::Vec3b>(i, j);
+            //uchar intensity = opencv_image.at<uchar>(i, j);
+            sam_image.data.push_back(RGB[0]);
+            sam_image.data.push_back(RGB[1]);
+            sam_image.data.push_back(RGB[2]);
+        }
+    }
+}
 
 bool load_image_samformat_from_file(const std::string & fname, sam_image_u8 & img) {
     int nx, ny, nc;
@@ -110,6 +143,9 @@ void compute_object(Object & anObject, sam_image_u8 img0, sam_state & state, int
     //Compute the frame: Obtain the best mask at the point
     //cv::Mat output = get_best_opencv_mask_at_point(anObject.mask_computed_at_x, anObject.mask_computed_at_y, img0, state, n_threads);
     anObject.mask = get_best_opencv_mask_at_point(anObject.mask_computed_at_x, anObject.mask_computed_at_y, img0, state, n_threads);
+    
+    cv::Point center2(anObject.mask_computed_at_x, anObject.mask_computed_at_y); 
+    circle(anObject.mask, center2, 5, cv::Scalar(128,128,0), -1);//DEBUG
 
     //anObject.mask = output;//DOES NOT WORKK output is a local variable?
     //cv::imwrite("output/example2/masks/test.png", anObject.mask);
@@ -129,5 +165,55 @@ void compute_object(Object & anObject, sam_image_u8 img0, sam_state & state, int
     cv::Point center(M.m10/M.m00, M.m01/M.m00);  
     anObject.mask_center_x = center.x;
     anObject.mask_center_y = center.y;
+    circle(anObject.mask, center, 5, cv::Scalar(128,0,0), -1);//DEBUG
 } 
 
+/*void example_func() {
+    int a = 2;
+}*/
+ 
+//We assume the first frame has already the objects and the user coordinates
+int propagate_masks(std::vector<Frame> & frames, sam_state & state, int n_threads) 
+{
+    int numFrames = frames.size();
+    int f = 0;
+    //iterate through all frames
+    for (Frame & aFrame : frames) {
+        printf("PROCESSING FRAME %d \n", f);
+        //load the frame
+        sam_image_u8 img0;
+        if (!load_and_precompute_image_from_file(aFrame.filePath, img0, state, n_threads)) {
+            fprintf(stderr, "%s: failed load_and_precompute_image_from_file from '%s'\n", __func__, aFrame.filePath.c_str());
+            return 1;
+        }
+
+        //iterate through all the objects of the frame
+        for (Object & anObject : aFrame.objects) {
+            printf("\tPROCESSING OBJECT %d \n", anObject.objectId);
+            compute_object(anObject, img0, state, n_threads);
+            
+            //if there are previous objects can check if the mask makes sense:
+            //bool isMaskConsistent = true; //th first mask is consistent
+            //if (f > 0)
+            //    isMaskConsistent =  mask contour similar to previous mask contour
+
+            
+            //add the object to the next frame with the next coordinates
+            printf("\tf=%d numFrames=%d.\n", f, numFrames);
+            if (f < numFrames-1) {
+                printf("\tADDING OBJECT %d TO FRAME %f.\n", anObject.objectId, f);
+                Object newObject;
+                newObject.objectId = anObject.objectId;
+                newObject.mask_computed_at_x = anObject.mask_center_x;
+                newObject.mask_computed_at_y = anObject.mask_center_y; 
+                frames[f+1].objects.push_back(newObject);
+            }
+                  //if isMaskConsistent new coordinates are the mask coordinates
+                  //otherwise use given coordinates
+            //    frames[f+1].addObject(new coordinates); 
+            printf("\tOBJECTS DONE.\n");
+        }
+        printf("FRAME DONE.\n");
+        f++;
+    }
+}

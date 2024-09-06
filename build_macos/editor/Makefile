@@ -319,6 +319,30 @@ sam_utils.cpp.s:
 	cd /Users/rtous/dev/back2black/build_macos && $(MAKE) $(MAKESILENT) -f editor/CMakeFiles/editor.dir/build.make editor/CMakeFiles/editor.dir/sam_utils.cpp.s
 .PHONY : sam_utils.cpp.s
 
+video.o: video.cpp.o
+.PHONY : video.o
+
+# target to build an object file
+video.cpp.o:
+	cd /Users/rtous/dev/back2black/build_macos && $(MAKE) $(MAKESILENT) -f editor/CMakeFiles/editor.dir/build.make editor/CMakeFiles/editor.dir/video.cpp.o
+.PHONY : video.cpp.o
+
+video.i: video.cpp.i
+.PHONY : video.i
+
+# target to preprocess a source file
+video.cpp.i:
+	cd /Users/rtous/dev/back2black/build_macos && $(MAKE) $(MAKESILENT) -f editor/CMakeFiles/editor.dir/build.make editor/CMakeFiles/editor.dir/video.cpp.i
+.PHONY : video.cpp.i
+
+video.s: video.cpp.s
+.PHONY : video.s
+
+# target to generate assembly for a file
+video.cpp.s:
+	cd /Users/rtous/dev/back2black/build_macos && $(MAKE) $(MAKESILENT) -f editor/CMakeFiles/editor.dir/build.make editor/CMakeFiles/editor.dir/video.cpp.s
+.PHONY : video.cpp.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -350,6 +374,9 @@ help:
 	@echo "... sam_utils.o"
 	@echo "... sam_utils.i"
 	@echo "... sam_utils.s"
+	@echo "... video.o"
+	@echo "... video.i"
+	@echo "... video.s"
 .PHONY : help
 
 

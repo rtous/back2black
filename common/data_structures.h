@@ -2,6 +2,7 @@
 #define __DATASTRUCTURES_H__
 
 #include <opencv2/opencv.hpp> 
+#include "sam.h"
 
 /*
 	- A video is composed by frames
@@ -39,11 +40,14 @@ class Frame {
     bool loaded = false;
     std::string filePath;   
     std::vector<Object> objects; 
+    cv::Mat img; //OpenCV format
+    sam_image_u8 img_sam_format;
 };
 
 class Video {      
   public:             
     std::vector<Frame> frames; 
+    bool loaded = false;
 };
 
 #endif

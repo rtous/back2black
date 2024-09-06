@@ -5,10 +5,13 @@
 #include "sam.h"
 #include "colors.h"
 #include <SDL_opengl.h>
+#include "data_structures.h"
 
 class MyState {      
-  public:             
-    bool openFile;    
+  public:       
+    bool show_file_dialog_video = false;      
+    bool openFile;  
+    bool openFileVideo;   
     std::string filePathName;
     std::string filePath;   
     sam_params params; 
@@ -23,6 +26,9 @@ class MyState {
     int clickedY;
     sam_image_u8 img;
     bool img_loaded = false;
+    int displayed_frame_num = -1;
+
+    Video aVideo;
 
 };
 
