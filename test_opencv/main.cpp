@@ -5,6 +5,8 @@
 using namespace cv;
 int main()
 {
+	std::cerr << "Urk!\n";
+	printf("trying to open and image with opencv...\n");
     std::string image_path = samples::findFile("img.jpg");
     Mat img = imread(image_path, IMREAD_COLOR);
     if(img.empty())

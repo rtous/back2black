@@ -42,6 +42,11 @@ void myWindow(bool *show_myWindow)
 // Main code
 int main(int, char**)
 {
+	printf("ROTO by Ruben Tous\n");
+	std::cerr << "ROTO by Ruben Tous\n";
+	std::cerr << "(NOTE: Print to stderr to get output in windows\n";
+	fprintf(stdout, "Hello World!\n");
+
     // Setup SDL
     if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_TIMER | SDL_INIT_GAMECONTROLLER) != 0)
     {
