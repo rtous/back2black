@@ -78,12 +78,15 @@ static void frameWindow(MyState &myState, bool *show_myWindow, const ImGuiViewpo
         //printf("Redrawing image\n");
         //opencv_image2sam(myState.img, myState.aVideo.frames[(rand()%6)+1].img);
 
-        GLuint tex = createGLTexture(myState.img, GL_RGB);
-        ImDrawList* draw_list = ImGui::GetWindowDrawList();
+        //GLuint tex = createGLTexture(myState.img, GL_RGB);
+       
+		ImDrawList* draw_list = ImGui::GetWindowDrawList();
         
         
-        draw_list->AddImage((void*)(intptr_t)tex, ImVec2(0,0), ImVec2(myState.img.nx, myState.img.ny));
-        draw_list->AddCircleFilled(ImVec2(100, 100), 5, IM_COL32(255, 0, 0, 255));
+        //draw_list->AddImage((void*)(intptr_t)tex, ImVec2(0,0), ImVec2(myState.img.nx, myState.img.ny));
+        draw_list->AddImage((void*)(intptr_t)myState.tex, ImVec2(0,0), ImVec2(myState.img.nx, myState.img.ny));
+        
+		draw_list->AddCircleFilled(ImVec2(100, 100), 5, IM_COL32(255, 0, 0, 255));
     } else {
         ImGui::Text("Load an image from the File menu.");
     }
@@ -155,6 +158,7 @@ void fileDialog(MyState &myState, bool *show_file_dialog) {
         if (!load_image_samformat_from_file(fileName, myState.img)) {
             printf("failed to load image from '%s'\n", fileName.c_str());  
         } else {
+			myState.tex = createGLTexture(myState.img, GL_RGB);
             printf("successfully loaded image from '%s'\n", fileName.c_str());
             myState.img_loaded = true;
             // init SDL video subsystem to get the screen size
@@ -264,10 +268,10 @@ void editor(bool *show_myWindow, bool *show_file_dialog, MyState &myState) //WAR
     fileDialog(myState, show_file_dialog);
 
     //MASKS window
-    masksWindow(myState, viewport, flags, size, use_work_area);
+    //masksWindow(myState, viewport, flags, size, use_work_area);
 
     //FRAMES LIST window
-    framesListWindow(myState, viewport, flags, size, use_work_area);
+    //framesListWindow(myState, viewport, flags, size, use_work_area);
     
     //ImGui::End();
 

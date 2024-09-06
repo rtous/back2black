@@ -26,6 +26,7 @@ class MyState {
     int clickedY;
     sam_image_u8 img;
     bool img_loaded = false;
+	GLuint tex;
     int displayed_frame_num = -1;
 
     Video aVideo;
