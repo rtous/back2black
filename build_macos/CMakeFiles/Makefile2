@@ -71,6 +71,7 @@ all: cli_simplify/all
 all: editor/all
 all: cli_masks/all
 all: test_filesystem/all
+all: test_crash/all
 .PHONY : all
 
 # The main recursive "preinstall" target.
@@ -82,6 +83,7 @@ preinstall: cli_simplify/preinstall
 preinstall: editor/preinstall
 preinstall: cli_masks/preinstall
 preinstall: test_filesystem/preinstall
+preinstall: test_crash/preinstall
 .PHONY : preinstall
 
 # The main recursive "clean" target.
@@ -93,6 +95,7 @@ clean: cli_simplify/clean
 clean: editor/clean
 clean: cli_masks/clean
 clean: test_filesystem/clean
+clean: test_crash/clean
 .PHONY : clean
 
 #=============================================================================
@@ -169,6 +172,21 @@ editor/preinstall:
 # Recursive "clean" directory target.
 editor/clean: editor/CMakeFiles/editor.dir/clean
 .PHONY : editor/clean
+
+#=============================================================================
+# Directory level rules for directory test_crash
+
+# Recursive "all" directory target.
+test_crash/all: test_crash/CMakeFiles/crash.dir/all
+.PHONY : test_crash/all
+
+# Recursive "preinstall" directory target.
+test_crash/preinstall:
+.PHONY : test_crash/preinstall
+
+# Recursive "clean" directory target.
+test_crash/clean: test_crash/CMakeFiles/crash.dir/clean
+.PHONY : test_crash/clean
 
 #=============================================================================
 # Directory level rules for directory test_filesystem
@@ -308,7 +326,7 @@ third-party/sam/clean: third-party/sam/CMakeFiles/sam.dir/clean
 third-party/imgui/CMakeFiles/imgui.dir/all:
 	$(MAKE) $(MAKESILENT) -f third-party/imgui/CMakeFiles/imgui.dir/build.make third-party/imgui/CMakeFiles/imgui.dir/depend
 	$(MAKE) $(MAKESILENT) -f third-party/imgui/CMakeFiles/imgui.dir/build.make third-party/imgui/CMakeFiles/imgui.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/Users/rtous/dev/back2black/build_macos/CMakeFiles --progress-num=23,24,25,26,27,28 "Built target imgui"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/Users/rtous/dev/back2black/build_macos/CMakeFiles --progress-num=31,32,33,34,35,36 "Built target imgui"
 .PHONY : third-party/imgui/CMakeFiles/imgui.dir/all
 
 # Build rule for subdir invocation for target.
@@ -334,7 +352,7 @@ third-party/imgui/CMakeFiles/imgui.dir/clean:
 third-party/imgui/CMakeFiles/imgui-sdl2.dir/all: third-party/imgui/CMakeFiles/imgui.dir/all
 	$(MAKE) $(MAKESILENT) -f third-party/imgui/CMakeFiles/imgui-sdl2.dir/build.make third-party/imgui/CMakeFiles/imgui-sdl2.dir/depend
 	$(MAKE) $(MAKESILENT) -f third-party/imgui/CMakeFiles/imgui-sdl2.dir/build.make third-party/imgui/CMakeFiles/imgui-sdl2.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/Users/rtous/dev/back2black/build_macos/CMakeFiles --progress-num=29,30,31 "Built target imgui-sdl2"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/Users/rtous/dev/back2black/build_macos/CMakeFiles --progress-num=37,38,39 "Built target imgui-sdl2"
 .PHONY : third-party/imgui/CMakeFiles/imgui-sdl2.dir/all
 
 # Build rule for subdir invocation for target.
@@ -360,7 +378,7 @@ third-party/imgui/CMakeFiles/imgui-sdl2.dir/clean:
 third-party/ggml/src/CMakeFiles/ggml.dir/all:
 	$(MAKE) $(MAKESILENT) -f third-party/ggml/src/CMakeFiles/ggml.dir/build.make third-party/ggml/src/CMakeFiles/ggml.dir/depend
 	$(MAKE) $(MAKESILENT) -f third-party/ggml/src/CMakeFiles/ggml.dir/build.make third-party/ggml/src/CMakeFiles/ggml.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/Users/rtous/dev/back2black/build_macos/CMakeFiles --progress-num=19,20,21,22 "Built target ggml"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/Users/rtous/dev/back2black/build_macos/CMakeFiles --progress-num=27,28,29,30 "Built target ggml"
 .PHONY : third-party/ggml/src/CMakeFiles/ggml.dir/all
 
 # Build rule for subdir invocation for target.
@@ -386,7 +404,7 @@ third-party/ggml/src/CMakeFiles/ggml.dir/clean:
 third-party/sam/CMakeFiles/sam.dir/all: third-party/ggml/src/CMakeFiles/ggml.dir/all
 	$(MAKE) $(MAKESILENT) -f third-party/sam/CMakeFiles/sam.dir/build.make third-party/sam/CMakeFiles/sam.dir/depend
 	$(MAKE) $(MAKESILENT) -f third-party/sam/CMakeFiles/sam.dir/build.make third-party/sam/CMakeFiles/sam.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/Users/rtous/dev/back2black/build_macos/CMakeFiles --progress-num=32,33 "Built target sam"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/Users/rtous/dev/back2black/build_macos/CMakeFiles --progress-num=40,41 "Built target sam"
 .PHONY : third-party/sam/CMakeFiles/sam.dir/all
 
 # Build rule for subdir invocation for target.
@@ -468,7 +486,7 @@ common/CMakeFiles/common.dir/clean:
 test_opencv/CMakeFiles/test_opencv.dir/all:
 	$(MAKE) $(MAKESILENT) -f test_opencv/CMakeFiles/test_opencv.dir/build.make test_opencv/CMakeFiles/test_opencv.dir/depend
 	$(MAKE) $(MAKESILENT) -f test_opencv/CMakeFiles/test_opencv.dir/build.make test_opencv/CMakeFiles/test_opencv.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/Users/rtous/dev/back2black/build_macos/CMakeFiles --progress-num=36,37 "Built target test_opencv"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/Users/rtous/dev/back2black/build_macos/CMakeFiles --progress-num=44,45 "Built target test_opencv"
 .PHONY : test_opencv/CMakeFiles/test_opencv.dir/all
 
 # Build rule for subdir invocation for target.
@@ -556,7 +574,7 @@ editor/CMakeFiles/editor.dir/all: third-party/ImGuiFileDialog/CMakeFiles/ImGuiFi
 editor/CMakeFiles/editor.dir/all: common/CMakeFiles/common.dir/all
 	$(MAKE) $(MAKESILENT) -f editor/CMakeFiles/editor.dir/build.make editor/CMakeFiles/editor.dir/depend
 	$(MAKE) $(MAKESILENT) -f editor/CMakeFiles/editor.dir/build.make editor/CMakeFiles/editor.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/Users/rtous/dev/back2black/build_macos/CMakeFiles --progress-num=11,12,13,14,15,16,17,18 "Built target editor"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/Users/rtous/dev/back2black/build_macos/CMakeFiles --progress-num=19,20,21,22,23,24,25,26 "Built target editor"
 .PHONY : editor/CMakeFiles/editor.dir/all
 
 # Build rule for subdir invocation for target.
@@ -616,7 +634,7 @@ test_filesystem/CMakeFiles/test_filesystem.dir/all: third-party/sam/CMakeFiles/s
 test_filesystem/CMakeFiles/test_filesystem.dir/all: common/CMakeFiles/common.dir/all
 	$(MAKE) $(MAKESILENT) -f test_filesystem/CMakeFiles/test_filesystem.dir/build.make test_filesystem/CMakeFiles/test_filesystem.dir/depend
 	$(MAKE) $(MAKESILENT) -f test_filesystem/CMakeFiles/test_filesystem.dir/build.make test_filesystem/CMakeFiles/test_filesystem.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/Users/rtous/dev/back2black/build_macos/CMakeFiles --progress-num=34,35 "Built target test_filesystem"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/Users/rtous/dev/back2black/build_macos/CMakeFiles --progress-num=42,43 "Built target test_filesystem"
 .PHONY : test_filesystem/CMakeFiles/test_filesystem.dir/all
 
 # Build rule for subdir invocation for target.
@@ -634,6 +652,37 @@ test_filesystem: test_filesystem/CMakeFiles/test_filesystem.dir/rule
 test_filesystem/CMakeFiles/test_filesystem.dir/clean:
 	$(MAKE) $(MAKESILENT) -f test_filesystem/CMakeFiles/test_filesystem.dir/build.make test_filesystem/CMakeFiles/test_filesystem.dir/clean
 .PHONY : test_filesystem/CMakeFiles/test_filesystem.dir/clean
+
+#=============================================================================
+# Target rules for target test_crash/CMakeFiles/crash.dir
+
+# All Build rule for target.
+test_crash/CMakeFiles/crash.dir/all: third-party/imgui/CMakeFiles/imgui.dir/all
+test_crash/CMakeFiles/crash.dir/all: third-party/imgui/CMakeFiles/imgui-sdl2.dir/all
+test_crash/CMakeFiles/crash.dir/all: third-party/ggml/src/CMakeFiles/ggml.dir/all
+test_crash/CMakeFiles/crash.dir/all: third-party/sam/CMakeFiles/sam.dir/all
+test_crash/CMakeFiles/crash.dir/all: third-party/ImGuiFileDialog/CMakeFiles/ImGuiFileDialog.dir/all
+test_crash/CMakeFiles/crash.dir/all: common/CMakeFiles/common.dir/all
+	$(MAKE) $(MAKESILENT) -f test_crash/CMakeFiles/crash.dir/build.make test_crash/CMakeFiles/crash.dir/depend
+	$(MAKE) $(MAKESILENT) -f test_crash/CMakeFiles/crash.dir/build.make test_crash/CMakeFiles/crash.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/Users/rtous/dev/back2black/build_macos/CMakeFiles --progress-num=11,12,13,14,15,16,17,18 "Built target crash"
+.PHONY : test_crash/CMakeFiles/crash.dir/all
+
+# Build rule for subdir invocation for target.
+test_crash/CMakeFiles/crash.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /Users/rtous/dev/back2black/build_macos/CMakeFiles 27
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 test_crash/CMakeFiles/crash.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /Users/rtous/dev/back2black/build_macos/CMakeFiles 0
+.PHONY : test_crash/CMakeFiles/crash.dir/rule
+
+# Convenience name for target.
+crash: test_crash/CMakeFiles/crash.dir/rule
+.PHONY : crash
+
+# clean rule for target.
+test_crash/CMakeFiles/crash.dir/clean:
+	$(MAKE) $(MAKESILENT) -f test_crash/CMakeFiles/crash.dir/build.make test_crash/CMakeFiles/crash.dir/clean
+.PHONY : test_crash/CMakeFiles/crash.dir/clean
 
 #=============================================================================
 # Special targets to cleanup operation of make.

@@ -317,6 +317,19 @@ test_filesystem/fast:
 	$(MAKE) $(MAKESILENT) -f test_filesystem/CMakeFiles/test_filesystem.dir/build.make test_filesystem/CMakeFiles/test_filesystem.dir/build
 .PHONY : test_filesystem/fast
 
+#=============================================================================
+# Target rules for targets named crash
+
+# Build rule for target.
+crash: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 crash
+.PHONY : crash
+
+# fast build rule for target.
+crash/fast:
+	$(MAKE) $(MAKESILENT) -f test_crash/CMakeFiles/crash.dir/build.make test_crash/CMakeFiles/crash.dir/build
+.PHONY : crash/fast
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -334,6 +347,7 @@ help:
 	@echo "... cli_sam"
 	@echo "... cli_simplify"
 	@echo "... common"
+	@echo "... crash"
 	@echo "... editor"
 	@echo "... ggml"
 	@echo "... imgui"
