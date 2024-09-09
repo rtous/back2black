@@ -131,8 +131,68 @@ static void framesListWindow(MyState &myState, const ImGuiViewport* viewport, Im
                     printf("opencv_image2sam(myState.img, myState.aVideo.frames[%d].img);\n", n);
                     //opencv_image2sam(myState.img, myState.aVideo.frames[n].img);
                     myState.img = myState.aVideo.frames[n].img_sam_format;
+                    myState.tex = createGLTexture(myState.img, GL_RGB);
                     myState.displayed_frame_num = n;
+                    if (!sam_compute_embd_img(myState.img, myState.params.n_threads, *myState.a_sam_state)) {
+                        fprintf(stderr, "%s: failed to compute encoded image\n", __func__);
+                        //return 1;
+                    }
                 }
+            }
+            n++;
+        }
+        ImGui::EndListBox();
+    }
+    ImGui::End();
+}
+
+static void objectsListWindow(MyState &myState, const ImGuiViewport* viewport, ImGuiWindowFlags flags, ImVec2 size, bool use_work_area) 
+{
+    flags = ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoSavedSettings;
+    ImVec2 newPos = ImVec2(viewport->WorkPos.x + 500, viewport->WorkPos.y + 500);
+    ImGui::SetNextWindowPos(newPos);
+    size = ImVec2(viewport->WorkSize.x * 0.5f, viewport->WorkSize.y);
+    ImGui::SetNextWindowSize(use_work_area ? size : viewport->Size);
+    ImGui::Begin("OBJECTS");
+    ImGui::Text("OBJECTS WINDOW"); 
+
+    std::vector<std::string> items; 
+
+    items.push_back("OBJECT 1");
+
+    /*if (myState.aVideo.loaded) {
+        for (Frame & aFrame : myState.aVideo.frames) {
+            items.push_back(std::to_string(aFrame.order));
+            //items[aFrame.order] = std::to_string(aFrame.order);
+        }
+    }*/
+
+    static int item_current_idx = 0; // Here we store our selection data as an index.
+    if (ImGui::BeginListBox("listbox 2"))
+    {
+        int n = 0;
+        for (std::string & item : items)
+        {
+            const bool is_selected = (item_current_idx == n);
+            if (ImGui::Selectable(item.c_str(), is_selected))
+                item_current_idx = n;
+
+            // Set the initial focus when opening the combo (scrolling + keyboard navigation focus)
+            if (is_selected) {
+                ImGui::SetItemDefaultFocus();
+                //printf("Selected item %s\n", item.c_str());
+                /*if (myState.displayed_frame_num != n) {
+                    printf("Changing image %s\n", item.c_str());
+                    printf("opencv_image2sam(myState.img, myState.aVideo.frames[%d].img);\n", n);
+                    //opencv_image2sam(myState.img, myState.aVideo.frames[n].img);
+                    myState.img = myState.aVideo.frames[n].img_sam_format;
+                    myState.tex = createGLTexture(myState.img, GL_RGB);
+                    myState.displayed_frame_num = n;
+                    if (!sam_compute_embd_img(myState.img, myState.params.n_threads, *myState.a_sam_state)) {
+                        fprintf(stderr, "%s: failed to compute encoded image\n", __func__);
+                        //return 1;
+                    }
+                }*/
             }
             n++;
         }
@@ -190,8 +250,13 @@ void fileDialog(MyState &myState, bool *show_file_dialog) {
         read_video(fullPath, myState.aVideo);
         //opencv_image2sam(myState.img, myState.aVideo.frames[0].img);
         myState.img = myState.aVideo.frames[0].img_sam_format;
+        myState.tex = createGLTexture(myState.img, GL_RGB);
         myState.displayed_frame_num = 0;
         myState.img_loaded = true;
+        if (!sam_compute_embd_img(myState.img, myState.params.n_threads, *myState.a_sam_state)) {
+            fprintf(stderr, "%s: failed to compute encoded image\n", __func__);
+            //return 1;
+        }
     }
 }
 
@@ -272,6 +337,10 @@ void editor(bool *show_myWindow, bool *show_file_dialog, MyState &myState) //WAR
     //FRAMES LIST window
     framesListWindow(myState, viewport, flags, size, use_work_area);
     
+    //OBJECTS LIST window
+    objectsListWindow(myState, viewport, flags, size, use_work_area);
+    
+
     //ImGui::End();
 
 }
