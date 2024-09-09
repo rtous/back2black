@@ -198,6 +198,16 @@ static void objectsListWindow(MyState &myState, const ImGuiViewport* viewport, I
         }
         ImGui::EndListBox();
     }
+    //BUTTON
+    static int clicked = 0;
+    if (ImGui::Button("Button"))
+        clicked++;
+    if (clicked & 1)
+    {
+        ImGui::SameLine();
+        ImGui::Text("Thanks for clicking me!");
+    }
+
     ImGui::End();
 }
 
