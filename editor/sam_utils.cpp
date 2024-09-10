@@ -65,7 +65,7 @@ int masks_already_in_list(sam_image_u8 candidateMask, std::vector<sam_image_u8> 
 	If the mask is already in storedMasks (myState.masks) it will be removed.
 
 */
-void compute_masks(sam_image_u8 img, const sam_params & params, sam_state & state, std::vector<GLuint> *maskTextures, int x, int y, std::vector<sam_image_u8> & storedMasks, std::vector<int> * mask_colors, int & last_color_id) {
+/*void compute_masks(sam_image_u8 img, const sam_params & params, sam_state & state, std::vector<GLuint> *maskTextures, int x, int y, std::vector<sam_image_u8> & storedMasks, std::vector<int> * mask_colors, int & last_color_id) {
     printf("compute_masks\n");
     std::vector<sam_image_u8> masks;
     //std::vector<GLuint> maskTextures;
@@ -75,11 +75,6 @@ void compute_masks(sam_image_u8 img, const sam_params & params, sam_state & stat
     printf("pt = (%f, %f)\n", pt.x, pt.y);
 
     masks = sam_compute_masks(img, params.n_threads, pt, state);
-
-    /*if (!maskTextures->empty()) {
-        glDeleteTextures(maskTextures->size(), maskTextures->data());
-        maskTextures->clear();
-    }*/
 
     std::vector<int> masksToDelete;
     for (auto& mask : masks) {
@@ -108,6 +103,58 @@ void compute_masks(sam_image_u8 img, const sam_params & params, sam_state & stat
             //printf("%u\n", newGLTexture);
         } else {
 			//If the mask is already in storedMasks we will delete it
+            printf("Should delete mask %d ", pos);
+            masksToDelete.push_back(pos);            
+            printf("Mask already exist\n");
+        }
+        break; //just add 1
+    }
+    for(int& i : masksToDelete) {
+        storedMasks.erase(storedMasks.begin() + i);
+        maskTextures->erase(maskTextures->begin() + i);
+        mask_colors->erase(mask_colors->begin() + i);
+    }
+
+
+}*/
+void compute_masks(sam_image_u8 img, const sam_params & params, sam_state & state, std::vector<GLuint> *maskTextures, int x, int y, std::vector<sam_image_u8> & storedMasks, std::vector<int> * mask_colors, int & last_color_id) {
+    printf("compute_masks\n");
+    std::vector<sam_image_u8> masks;
+    //std::vector<GLuint> maskTextures;
+    //float x = 100.f;
+    //float y = 100.f;
+    sam_point pt { static_cast<float>(x), static_cast<float>(y)};
+    printf("pt = (%f, %f)\n", pt.x, pt.y);
+
+    masks = sam_compute_masks(img, params.n_threads, pt, state);
+
+    std::vector<int> masksToDelete;
+    for (auto& mask : masks) {
+        sam_image_u8 mask_rgb = { mask.nx, mask.ny, };
+        mask_rgb.data.resize(4*mask.nx*mask.ny);
+        for (int i = 0; i < mask.nx*mask.ny; ++i) {
+            mask_rgb.data[4*i+0] = mask.data[i];
+            mask_rgb.data[4*i+1] = mask.data[i];
+            mask_rgb.data[4*i+2] = mask.data[i];
+            mask_rgb.data[4*i+3] = mask.data[i];
+        }
+        int pos = masks_already_in_list(mask, storedMasks);
+        
+        if (pos == -1) { //the mask is new, not in storedMasks            
+            //assign color
+            int color_id = (last_color_id+1)%256;
+            last_color_id = color_id;
+            printf("Assigned color id: %d\n", color_id);
+            mask_colors->push_back(color_id);
+            GLuint newGLTexture = createGLTexture(mask_rgb, GL_RGBA);
+            maskTextures->push_back(newGLTexture);
+            storedMasks.push_back(mask);
+
+            printf("Added mask\n");
+            //glGenBuffers(1, &newGLTexture);
+            //printf("%u\n", newGLTexture);
+        } else {
+            //If the mask is already in storedMasks we will delete it
             printf("Should delete mask %d ", pos);
             masksToDelete.push_back(pos);            
             printf("Mask already exist\n");

@@ -27,6 +27,7 @@ class MyState {
     sam_image_u8 img;
     bool img_loaded = false;
     int displayed_frame_num = -1;
+    int selected_object = 0;
     Video aVideo;
     GLuint tex; //OpenGL texture for the displayed image (do not load every time!)
 

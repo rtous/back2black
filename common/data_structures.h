@@ -19,9 +19,14 @@ class Contour {
 
 class Object {      
   public:             
-    cv::Mat mask;
+    cv::Mat mask;//old
+    
+    //std::vector<GLuint> maskTextures;//vector of GLtextures of the masks (one for each)
+    std::vector<sam_image_u8> masks; //vector of masks
+    
     int objectId;
-    int color;
+    //int color;
+    float color[4]; //R,G,B,A
     int mask_computed_at_x;  
     int mask_computed_at_y;
     int mask_center_x;  
@@ -45,7 +50,10 @@ class Frame {
 };
 
 class Video {      
-  public:             
+  public:       
+    /*Video(string x) { 
+      std::cout << "Z" << std::endl; 
+    } */     
     std::vector<Frame> frames; 
     bool loaded = false;
 };
