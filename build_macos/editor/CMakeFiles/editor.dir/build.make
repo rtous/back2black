@@ -255,7 +255,7 @@ bin/editor: /Users/rtous/dev/opencv/build/3rdparty/lib/libittnotify.a
 bin/editor: /Users/rtous/dev/opencv/build/3rdparty/lib/libtegra_hal.a
 bin/editor: third-party/imgui/libimgui-sdl2.a
 bin/editor: third-party/imgui/libimgui.a
-bin/editor: /opt/homebrew/Cellar/sdl2/2.30.2/lib/libSDL2.dylib
+bin/editor: /opt/homebrew/Cellar/sdl2/2.30.7/lib/libSDL2.dylib
 bin/editor: editor/CMakeFiles/editor.dir/link.txt
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/Users/rtous/dev/back2black/build_macos/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Linking CXX executable ../bin/editor"
 	cd /Users/rtous/dev/back2black/build_macos/editor && $(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/editor.dir/link.txt --verbose=$(VERBOSE)

@@ -20,6 +20,22 @@
 #include "video.h"
 #include "data_structures.h"
 
+/*
+    MyState &myState contains the state of the editor.
+    myState.aVideo contains the information about frames, objects, masks, etc.
+
+    (for a given frame)
+    A mask = a single binary image but can have multiple segments.
+    An object = set of masks with the same color.
+    The left window is for adding or removing masks for the SELECTED object.
+    When the user clicks on the image masks their related texures are computed, assigned to the SELECTED object and displayed.
+    When the user selects a different object the mask textures of the new object are displayed (but not recomputed)
+    The OpenGL textures of the masks are stored in myState.objectsMaskTextures instead of in the object to avoid adding SDL dependency to projects that use commons.h  
+*/
+
+
+
+
 // Helper to display a little (?) mark which shows a tooltip when hovered.
 // In your own code you may want to display an actual icon if you are using a merged icon fonts (see docs/FONTS.md)
 static void HelpMarker(const char* desc)
@@ -76,6 +92,8 @@ static void ShowExampleAppMainMenuBar(bool *show_file_dialog, MyState &myState)
     }
 }
 
+/*
+//NOT USED. Textures are computed at the same time masks are computed
 void compute_mask_textures(sam_image_u8 img, const sam_params & params, sam_state & state, std::vector<GLuint> *maskTextures, int x, int y, std::vector<sam_image_u8> & storedMasks, std::vector<int> * mask_colors, int & last_color_id) {
     maskTextures->clear();
     for (auto& mask : storedMasks) {
@@ -96,6 +114,42 @@ void compute_mask_textures(sam_image_u8 img, const sam_params & params, sam_stat
         maskTextures->push_back(newGLTexture);
     }
 }
+*/
+
+static void drawAllMasks(MyState &myState, const ImGuiViewport* viewport, ImVec2 newPos) {
+
+    //compute_mask_textures(sam_image_u8 img, const sam_params & params, sam_state & state, std::vector<GLuint> *maskTextures, int x, int y, std::vector<sam_image_u8> & storedMasks, std::vector<int> * mask_colors, int & last_color_id) {
+
+    //DRAW MASKS
+    ImDrawList* draw_list = ImGui::GetWindowDrawList();
+
+    for (int j = 0; j < int(myState.objectsMaskTextures.size()); ++j) {
+        for (int i = 0; i < int(myState.objectsMaskTextures[j].size()); ++i) {
+            //printf("Drawing mask.\n");
+            /*const int r = i == 0 ? 255 : 0;
+            const int g = i == 1 ? 255 : 0;
+            const int b = i == 2 ? 255 : 0;*/
+
+            /*const int r = (125 + i * 50) % 256;
+            const int g = (50 + i * 50) % 256;
+            const int b = (200 + i * 50) % 256;*/
+
+            //int color_id = myState.masks_colors[i];
+            //const int r = myState.colors_palette[color_id].r;
+            //const int g = myState.colors_palette[color_id].g;
+            //const int b = myState.colors_palette[color_id].b;
+
+            const int r = myState.aVideo.frames[myState.selected_frame].objects[j].color[0]*255;
+            const int g = myState.aVideo.frames[myState.selected_frame].objects[j].color[1]*255;
+            const int b = myState.aVideo.frames[myState.selected_frame].objects[j].color[2]*255;
+            //myState.aVideo.frames[0].objects[0].color[3] = 0.0f;/
+
+            //draw_list->AddImage((void*)(intptr_t)myState.maskTextures[i], ImVec2(newPos[0], newPos[1]), ImVec2(newPos[0]+myState.img.nx, newPos[1]+myState.img.ny), ImVec2(0,0), ImVec2(1,1), IM_COL32(r, g, b, 255));
+            draw_list->AddImage((void*)(intptr_t)myState.objectsMaskTextures[j][i], ImVec2(newPos[0], newPos[1]), ImVec2(newPos[0]+myState.img.nx, newPos[1]+myState.img.ny), ImVec2(0,0), ImVec2(1,1), IM_COL32(r, g, b, 255));
+
+        }
+    }
+}
 
 static void drawMasks(MyState &myState, const ImGuiViewport* viewport, ImVec2 newPos) {
 
@@ -103,7 +157,9 @@ static void drawMasks(MyState &myState, const ImGuiViewport* viewport, ImVec2 ne
 
     //DRAW MASKS
     ImDrawList* draw_list = ImGui::GetWindowDrawList();
-    for (int i = 0; i < int(myState.maskTextures.size()); ++i) {
+
+    //for (int i = 0; i < int(myState.maskTextures.size()); ++i) {
+    for (int i = 0; i < int(myState.objectsMaskTextures[myState.selected_object].size()); ++i) {
         //printf("Drawing mask.\n");
         /*const int r = i == 0 ? 255 : 0;
         const int g = i == 1 ? 255 : 0;
@@ -118,17 +174,30 @@ static void drawMasks(MyState &myState, const ImGuiViewport* viewport, ImVec2 ne
         const int g = myState.colors_palette[color_id].g;
         const int b = myState.colors_palette[color_id].b;
 
-        //draw_list->AddImage((void*)(intptr_t)myState.maskTextures[i], ImVec2(newPos[0], newPos[1]), ImVec2(newPos[0]+myState.img.nx, newPos[1]+myState.img.ny), ImVec2(0,0), ImVec2(1,1), IM_COL32(r, g, b, 172));
-        draw_list->AddImage((void*)(intptr_t)myState.maskTextures[i], ImVec2(newPos[0], newPos[1]), ImVec2(newPos[0]+myState.img.nx, newPos[1]+myState.img.ny), ImVec2(0,0), ImVec2(1,1), IM_COL32(r, g, b, 255));
+        //draw_list->AddImage((void*)(intptr_t)myState.maskTextures[i], ImVec2(newPos[0], newPos[1]), ImVec2(newPos[0]+myState.img.nx, newPos[1]+myState.img.ny), ImVec2(0,0), ImVec2(1,1), IM_COL32(r, g, b, 255));
+        draw_list->AddImage((void*)(intptr_t)myState.objectsMaskTextures[myState.selected_object][i], ImVec2(newPos[0], newPos[1]), ImVec2(newPos[0]+myState.img.nx, newPos[1]+myState.img.ny), ImVec2(0,0), ImVec2(1,1), IM_COL32(r, g, b, 255));
+
     }
 }
 
+
 static void frameWindow(MyState &myState, bool *show_myWindow, const ImGuiViewport* viewport, bool use_work_area, ImGuiWindowFlags flags) 
 {
+
+       
+
     ImVec2 size = ImVec2(viewport->WorkSize.x * 0.5f, viewport->WorkSize.y * 0.75f);
     //static bool use_work_area = true;
     //static ImGuiWindowFlags flags = ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoSavedSettings;
-    ImGui::SetNextWindowPos(use_work_area ? viewport->WorkPos : viewport->Pos);
+    
+    //ImVec2 newPos = ImVec2(viewport->WorkPos.x + 0, viewport->WorkPos.y + 0);
+    //ImVec2 newPos = ImVec2(use_work_area ? viewport->WorkPos : viewport->Pos);
+    
+    ImVec2 newPos = ImVec2(use_work_area ? viewport->WorkPos : viewport->Pos);
+    
+
+    ImGui::SetNextWindowPos(newPos);
+    //ImGui::SetNextWindowPos(use_work_area ? viewport->WorkPos : viewport->Pos);
     //ImVec2 size = ImVec2(viewport->WorkSize.x * 0.5f, viewport->WorkSize.y * 0.5f);
     ImGui::SetNextWindowSize(use_work_area ? size : viewport->Size);
     //Create EDITOR window
@@ -150,6 +219,37 @@ static void frameWindow(MyState &myState, bool *show_myWindow, const ImGuiViewpo
         ImGui::Text("Load an image from the File menu.");
     }
     /********************/
+
+    if (myState.img_loaded) {  
+        if (myState.clicked && ImGui::IsWindowFocused()) {
+            printf("Mouse clicked at (%d, %d)\n", myState.clickedX, myState.clickedY);
+            printf("Image x = %d, y = %d\n", myState.img.nx, myState.img.ny);
+
+            //TODO make the position relative to the window (now works because image is displayed at 0,0)
+            if (myState.clickedX > 0 && myState.clickedX < myState.img.nx && myState.clickedY > 0 && myState.clickedY < myState.img.ny) {
+                //compute_masks(myState.img, myState.params, *myState.a_sam_state, &myState.maskTextures, myState.clickedX, myState.clickedY, myState.masks, &myState.masks_colors, myState.last_color_id);
+                compute_masks(myState.img, myState.params, *myState.a_sam_state, &myState.objectsMaskTextures[myState.selected_object], myState.clickedX, myState.clickedY, myState.aVideo.frames[myState.selected_frame].objects[myState.selected_object].masks, &myState.masks_colors, myState.last_color_id);
+                
+                //Compute the textures for the object masks
+                //compute_mask_textures(myState.img, myState.params, *myState.a_sam_state, &myState.objectsMaskTextures[myState.selected_object], myState.clickedX, myState.clickedY, myState.aVideo.frames[myState.selected_frame].objects[myState.selected_object].masks, &myState.masks_colors, myState.last_color_id);
+
+
+            }
+            myState.clicked = false;
+        }
+    
+        //viewport->Pos origin without menu bars, etc.
+        //viewport->WorkPos origin after menu bars, etc.
+        //The window is located in WorkPos
+
+        //Only draw masks of selected object
+        //drawMasks(myState, viewport, viewport->Pos);
+        
+        //Draw all masks
+        drawAllMasks(myState, viewport, viewport->Pos);
+    }
+
+
     ImGui::End();
 }
 
@@ -188,13 +288,13 @@ static void framesListWindow(MyState &myState, const ImGuiViewport* viewport, Im
             if (is_selected) {
                 ImGui::SetItemDefaultFocus();
                 //printf("Selected item %s\n", item.c_str());
-                if (myState.displayed_frame_num != n) {
+                if (myState.selected_frame != n) {
                     printf("Changing image %s\n", item.c_str());
                     printf("opencv_image2sam(myState.img, myState.aVideo.frames[%d].img);\n", n);
                     //opencv_image2sam(myState.img, myState.aVideo.frames[n].img);
                     myState.img = myState.aVideo.frames[n].img_sam_format;
                     myState.tex = createGLTexture(myState.img, GL_RGB);
-                    myState.displayed_frame_num = n;
+                    myState.selected_frame = n;
                     if (!sam_compute_embd_img(myState.img, myState.params.n_threads, *myState.a_sam_state)) {
                         fprintf(stderr, "%s: failed to compute encoded image\n", __func__);
                         //return 1;
@@ -224,7 +324,7 @@ static void objectsListWindow(MyState &myState, const ImGuiViewport* viewport, I
 
     if (myState.aVideo.loaded) {
         int i = 0;
-        for (Object & anObject : myState.aVideo.frames[myState.displayed_frame_num].objects) {
+        for (Object & anObject : myState.aVideo.frames[myState.selected_frame].objects) {
             items.push_back(std::to_string(i));
             //items[aFrame.order] = std::to_string(aFrame.order);
             i++;
@@ -242,8 +342,9 @@ static void objectsListWindow(MyState &myState, const ImGuiViewport* viewport, I
             if (ImGui::Selectable(item.c_str(), is_selected)) {
                 item_current_idx = n;
                 myState.selected_object = item_current_idx;
-                //compute_mask_textures(sam_image_u8 img, const sam_params & params, sam_state & state, std::vector<GLuint> *maskTextures, int x, int y, std::vector<sam_image_u8> & storedMasks, std::vector<int> * mask_colors, int & last_color_id) {
-                compute_mask_textures(myState.img, myState.params, *myState.a_sam_state, &myState.maskTextures, myState.clickedX, myState.clickedY, myState.aVideo.frames[myState.displayed_frame_num].objects[myState.selected_object].masks, &myState.masks_colors, myState.last_color_id);
+
+                //Done after computing the masks
+                //compute_mask_textures(myState.img, myState.params, *myState.a_sam_state, &myState.maskTextures, myState.clickedX, myState.clickedY, myState.aVideo.frames[myState.selected_frame].objects[myState.selected_object].masks, &myState.masks_colors, myState.last_color_id);
 
                 drawMasks(myState, viewport, newPos);
 
@@ -255,19 +356,19 @@ static void objectsListWindow(MyState &myState, const ImGuiViewport* viewport, I
 
 
                 /*//compute_mask_textures(sam_image_u8 img, const sam_params & params, sam_state & state, std::vector<GLuint> *maskTextures, int x, int y, std::vector<sam_image_u8> & storedMasks, std::vector<int> * mask_colors, int & last_color_id) {
-                compute_mask_textures(myState.img, myState.params, *myState.a_sam_state, &myState.maskTextures, myState.clickedX, myState.clickedY, myState.aVideo.frames[myState.displayed_frame_num].objects[myState.selected_object].masks, &myState.masks_colors, myState.last_color_id);
+                compute_mask_textures(myState.img, myState.params, *myState.a_sam_state, &myState.maskTextures, myState.clickedX, myState.clickedY, myState.aVideo.frames[myState.selected_frame].objects[myState.selected_object].masks, &myState.masks_colors, myState.last_color_id);
 
                 drawMasks(myState, viewport, newPos);*/
 
 
                 //printf("Selected item %s\n", item.c_str());
-                /*if (myState.displayed_frame_num != n) {
+                /*if (myState.selected_frame != n) {
                     printf("Changing image %s\n", item.c_str());
                     printf("opencv_image2sam(myState.img, myState.aVideo.frames[%d].img);\n", n);
                     //opencv_image2sam(myState.img, myState.aVideo.frames[n].img);
                     myState.img = myState.aVideo.frames[n].img_sam_format;
                     myState.tex = createGLTexture(myState.img, GL_RGB);
-                    myState.displayed_frame_num = n;
+                    myState.selected_frame = n;
                     if (!sam_compute_embd_img(myState.img, myState.params.n_threads, *myState.a_sam_state)) {
                         fprintf(stderr, "%s: failed to compute encoded image\n", __func__);
                         //return 1;
@@ -279,6 +380,7 @@ static void objectsListWindow(MyState &myState, const ImGuiViewport* viewport, I
         ImGui::EndListBox();
     }
     
+    //ADDING A NEW OBJECT IF THE USER CLICKS +
      if (myState.aVideo.loaded) {
         //BUTTON
         static int clicked = 0;
@@ -293,23 +395,28 @@ static void objectsListWindow(MyState &myState, const ImGuiViewport* viewport, I
             anObject.color[1] = 0.7f;
             anObject.color[2] = 0.0f;
             anObject.color[3] = 0.0f;//
-            myState.aVideo.frames[myState.displayed_frame_num].objects.push_back(anObject);
+            myState.aVideo.frames[myState.selected_frame].objects.push_back(anObject);
+            
+            //Add a vector of textures to the object (not directly in the object to avoid mixing the common lib with SDL)
+            std::vector<GLuint> maskTextures;
+            myState.objectsMaskTextures.push_back(maskTextures);
+
             clicked = false;
         }
 
         //COLOR
         //static float col[4] = { 0.4f, 0.7f, 0.0f, 0.5f };
-        /*col[0] = myState.aVideo.frames[myState.displayed_frame_num].objects[item_current_idx].color[0];
-        col[1] = myState.aVideo.frames[myState.displayed_frame_num].objects[item_current_idx].color[0];
-        col[2] = myState.aVideo.frames[myState.displayed_frame_num].objects[item_current_idx].color[0];
-        col[3] = myState.aVideo.frames[myState.displayed_frame_num].objects[item_current_idx].color[0];
+        /*col[0] = myState.aVideo.frames[myState.selected_frame].objects[item_current_idx].color[0];
+        col[1] = myState.aVideo.frames[myState.selected_frame].objects[item_current_idx].color[0];
+        col[2] = myState.aVideo.frames[myState.selected_frame].objects[item_current_idx].color[0];
+        col[3] = myState.aVideo.frames[myState.selected_frame].objects[item_current_idx].color[0];
         */
         ImGui::SameLine(); HelpMarker(
             "Click on the color square to open a color picker.\n"
             "Click and hold to use drag and drop.\n"
             "Right-click on the color square to show options.\n"
             "CTRL+click on individual component to input value.\n");
-        ImGui::ColorEdit4("color 2", myState.aVideo.frames[myState.displayed_frame_num].objects[item_current_idx].color, ImGuiColorEditFlags_NoInputs | ImGuiColorEditFlags_NoLabel);
+        ImGui::ColorEdit4("color 2", myState.aVideo.frames[myState.selected_frame].objects[item_current_idx].color, ImGuiColorEditFlags_NoInputs | ImGuiColorEditFlags_NoLabel);
         //ImGui::ColorEdit4("MyColor##3", (float*)&color, ImGuiColorEditFlags_NoInputs | ImGuiColorEditFlags_NoLabel | misc_flags);
 
         //ImGui::ColorEdit4("color 2", col);
@@ -323,16 +430,22 @@ static void objectsListWindow(MyState &myState, const ImGuiViewport* viewport, I
 
 static void finishingWindow(MyState &myState, const ImGuiViewport* viewport, ImGuiWindowFlags flags, bool use_work_area) 
 {
-    ImVec2 size = ImVec2(viewport->WorkSize.x * 0.33f, viewport->WorkSize.y * 0.25f);
+    //ImVec2 size = ImVec2(viewport->WorkSize.x * 0.33f, viewport->WorkSize.y * 0.25f);
+    ImVec2 size = ImVec2(viewport->WorkSize.x * 0.5f, viewport->WorkSize.y * 0.75f);
     flags = ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoSavedSettings;
-    ImVec2 newPos = ImVec2(viewport->WorkPos.x + (viewport->WorkSize.x * 0.66f), viewport->WorkPos.y + (viewport->WorkSize.y * 0.75f));
+    //ImVec2 newPos = ImVec2(viewport->WorkPos.x + (viewport->WorkSize.x * 0.66f), viewport->WorkPos.y + (viewport->WorkSize.y * 0.75f));
+    ImVec2 newPos = ImVec2(viewport->WorkPos.x + (viewport->WorkSize.x * 0.5f), viewport->WorkPos.y + 0);
     ImGui::SetNextWindowPos(newPos);
     ImGui::SetNextWindowSize(use_work_area ? size : viewport->Size);
     ImGui::Begin("FINISHING");
     ImGui::Text("FINISHING WINDOW"); 
 
     
-    
+    if (myState.img_loaded) {  
+        //Origin considering the bars 
+        ImVec2 newPos = ImVec2(viewport->Pos.x + (viewport->WorkSize.x * 0.5f), viewport->Pos.y + 0);
+        drawAllMasks(myState, viewport, newPos);
+    }
 
     ImGui::End();
 }
@@ -387,11 +500,15 @@ void fileDialog(MyState &myState, bool *show_file_dialog) {
         //opencv_image2sam(myState.img, myState.aVideo.frames[0].img);
         myState.img = myState.aVideo.frames[0].img_sam_format;
         myState.tex = createGLTexture(myState.img, GL_RGB);
-        myState.displayed_frame_num = 0;
+        myState.selected_frame = 0;
         myState.img_loaded = true;
         //Create a single default object
         Object anObject;
         myState.aVideo.frames[0].objects.push_back(anObject);
+        //Add a vector of textures for this first object
+        std::vector<GLuint> maskTextures;
+        myState.objectsMaskTextures.push_back(maskTextures);
+        //Assign a default color to this first object
         myState.aVideo.frames[0].objects[0].color[0] = 0.4f;
         myState.aVideo.frames[0].objects[0].color[1] = 0.7f;
         myState.aVideo.frames[0].objects[0].color[2] = 0.0f;
@@ -403,12 +520,7 @@ void fileDialog(MyState &myState, bool *show_file_dialog) {
     }
 }
 
-
-
-
-
-
-
+/*
 static void masksWindow(MyState &myState, const ImGuiViewport* viewport, ImGuiWindowFlags flags, bool use_work_area) 
 {
     if (myState.img_loaded) {
@@ -420,24 +532,11 @@ static void masksWindow(MyState &myState, const ImGuiViewport* viewport, ImGuiWi
         ImGui::Begin("MASKS");
         ImGui::Text("MASKS WINDOW");
         
-        //CHECK MOUSE CLICKS
-        if (myState.clicked) {
-            printf("Mouse clicked at (%d, %d)\n", myState.clickedX, myState.clickedY);
-            printf("Image x = %d, y = %d\n", myState.img.nx, myState.img.ny);
-
-            //TODO make the position relative to the window (now works because image is displayed at 0,0)
-            if (myState.clickedX > 0 && myState.clickedX < myState.img.nx && myState.clickedY > 0 && myState.clickedY < myState.img.ny) {
-                //compute_masks(myState.img, myState.params, *myState.a_sam_state, &myState.maskTextures, myState.clickedX, myState.clickedY, myState.masks, &myState.masks_colors, myState.last_color_id);
-                compute_masks(myState.img, myState.params, *myState.a_sam_state, &myState.maskTextures, myState.clickedX, myState.clickedY, myState.aVideo.frames[myState.displayed_frame_num].objects[myState.selected_object].masks, &myState.masks_colors, myState.last_color_id);
-            }
-            myState.clicked = false;
-        }
-
-        drawMasks(myState, viewport, newPos);
         
         ImGui::End();
     }
-}
+}*/
+
 //Main editor method (called within the main loop)
 void editor(bool *show_myWindow, bool *show_file_dialog, MyState &myState) //WARNING: this is executed within the main loop
 {
@@ -461,7 +560,7 @@ void editor(bool *show_myWindow, bool *show_file_dialog, MyState &myState) //WAR
     fileDialog(myState, show_file_dialog);
 
     //MASKS window
-    masksWindow(myState, viewport, flags, use_work_area);
+    //masksWindow(myState, viewport, flags, use_work_area);
 
     //FRAMES LIST window
     framesListWindow(myState, viewport, flags, use_work_area);
@@ -476,8 +575,8 @@ void editor(bool *show_myWindow, bool *show_file_dialog, MyState &myState) //WAR
 
     /* 
         If the user clicks on the image then the masksWindow(...) methods
-        computes the masks and add them to the myState.aVideo.frames[myState.displayed_frame_num].objects[myState.selected_object].masks
+        computes the masks and add them to the myState.aVideo.frames[myState.selected_frame].objects[myState.selected_object].masks
         myState.selected_object=0 by default
-        myState.displayed_frame_num=-1 by default but it's set to zero when the video is loaded
+        myState.selected_frame=-1 by default but it's set to zero when the video is loaded
     */
 }

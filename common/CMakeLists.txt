@@ -1,6 +1,7 @@
 set(COMMON_LIB common) 
 
 add_library(${COMMON_LIB} common1.cpp common1.h data_structures.h)
+
 target_include_directories(${COMMON_LIB} PUBLIC .)
 
 #OpenCV stuff
@@ -20,3 +21,4 @@ target_compile_features(${COMMON_LIB} PUBLIC cxx_std_17)
 if(MSVC)
     target_compile_definitions(${COMMON_LIB} PRIVATE -D_CRT_SECURE_NO_WARNINGS=1)
 endif()
+

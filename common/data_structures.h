@@ -3,6 +3,7 @@
 
 #include <opencv2/opencv.hpp> 
 #include "sam.h"
+//#include <SDL_opengl.h>
 
 /*
 	- A video is composed by frames
@@ -21,7 +22,7 @@ class Object {
   public:             
     cv::Mat mask;//old
     
-    //std::vector<GLuint> maskTextures;//vector of GLtextures of the masks (one for each)
+    //std::vector<GLuint> maskTextures;//vector of GLtextures of the all the masks of the object
     std::vector<sam_image_u8> masks; //vector of masks
     
     int objectId;
