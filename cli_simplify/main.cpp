@@ -2,41 +2,8 @@
 #include <opencv2/opencv.hpp> 
 #include <opencv2/core/utils/filesystem.hpp>
 
-/**
- * Splits a mask in N masks, one for each unique color
- *
- * This sum is the arithmetic sum, not some other kind of sum that only
- * mathematicians have heard of.
- * @param img_gray one channel image with the mask
- * @param unique_colors will store the result, a map of tuples <color_id, mask matrix>
- * @param pixels_per_colour stores the resulting size of each mask in pixels (no used?)
- * @return the number of unique colors
- */
-int unique_colors(cv::Mat img_gray, std::map<int,cv::Mat> & unique_colors, std::map<int,int> & pixels_per_colour) 
-{
-    uchar color;
-    int total_colors = 0;
-    for(int i=0; i<img_gray.rows; i++) {
-        for(int j=0; j<img_gray.cols; j++) {
-            color = img_gray.at<uchar>(i,j);
-            if (color != 0) {
-                if (unique_colors.find(color) == unique_colors.end()) {
-                    //New color detected
-                    cv::Mat mask = cv::Mat::zeros(img_gray.size(), img_gray.type());
-                    mask.at<uchar>(i,j) = 255;
-                    unique_colors.insert(std::pair<int, cv::Mat>(color, mask));
-                    pixels_per_colour.insert(std::pair<int, int>(color, 0));
-                    total_colors++;
-                } else {
-                    cv::Mat mask = unique_colors.at(color);
-                    mask.at<uchar>(i,j) = 255;
-                    pixels_per_colour[color]++;
-                }
-            }
-        }
-    }
-    return total_colors;
-}
+#include "simplify.h"
+
 
 // Main code
 int main(int argc, char ** argv) 
@@ -64,15 +31,16 @@ int main(int argc, char ** argv)
         return -1; 
     } else {
         printf("Image successfully read.\n");
-
-
     }
 
-    /******* TO GRAYSCALE *********/
+    simplify(img, output);
+
+    /*
+    ///////// TO GRAYSCALE /////////
     cv::Mat img_gray;
     cv::cvtColor(img, img_gray, cv::COLOR_BGR2GRAY);
 
-    /******** COLOR SEGMENTS *********/
+    ///////// COLOR SEGMENTS /////////
     //int nc = unique_colors(img);
     std::map<int,cv::Mat> unique_colors_map;//color ids and masks
     std::map<int,int> pixels_per_colour;
@@ -81,11 +49,11 @@ int main(int argc, char ** argv)
     //unique_colors_map contains tuples <color_id, mask matrix>
     printf("Total colors = %d.\n", nc);
 
-    /******* DILATE MASKS *****/
+    ///////// DILATE MASKS /////////
     //dilate_masks(unique_colors_map);
 
 
-    /******** CONTOURS *********/
+    ///////// CONTOURS /////////
     int i = 0;
     //for each color segment
     cv::RNG rng(12345);//random number generator
@@ -96,10 +64,10 @@ int main(int argc, char ** argv)
             cv::Mat mask = it->second;
             cv::imwrite(output_path+"/mask"+std::to_string(i)+".jpg", mask);
 
-            /**** DILATE ****/
+            ///////// DILATE /////////
             cv::dilate(mask, mask, cv::getStructuringElement(cv::MORPH_RECT, cv::Size(4, 4)), cv::Point(-1, -1), 1, 1, 1);
     
-            /******** FIND CONTOURS *********/
+            ///////// FIND CONTOURS /////////
             std::vector<std::vector<cv::Point> > contours;
             std::vector<cv::Vec4i> hierarchy;
             cv:findContours(mask, contours, hierarchy, cv::RETR_LIST, cv::CHAIN_APPROX_SIMPLE );
@@ -117,11 +85,11 @@ int main(int argc, char ** argv)
                     cv::imwrite(output_path+"/mask_contour"+std::to_string(i)+"_"+std::to_string(j)+".jpg", drawing);
 
 
-                    /**** DILATE ****/
+                    ///////// DILATE /////////
 
                     //cv::dilate(img_bw, img_final, Mat(), Point(-1, -1), 2, 1, 1);
 
-                    /**** SIMPLIFY ***/
+                    ///////// SIMPLIFY /////////
 
                     std::vector<cv::Point> contoursOUT;
                     cv::approxPolyDP( cv::Mat(contours[j]), contoursOUT, 4, false );
@@ -131,7 +99,7 @@ int main(int argc, char ** argv)
                     cv::drawContours(drawing, contours, (int)j, color, 2, cv::LINE_8, hierarchy, 0 );
                     cv::imwrite(output_path+"/mask_contour_simplified"+std::to_string(i)+"_"+std::to_string(j)+".jpg", drawing);
 
-                    /**** FILL ***/
+                    ///////// FILL /////////
 
                     //cv2.fillPoly(imcolor, pts =[contour], color=display_color)
                     cv::fillPoly( output, cv::Mat(contours[j]), color_with_alpha);
@@ -144,7 +112,7 @@ int main(int argc, char ** argv)
 
             i++;
         }
-    }
+    }*/
     
     return 0;
 }

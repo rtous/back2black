@@ -266,6 +266,19 @@ cli_sam/fast:
 .PHONY : cli_sam/fast
 
 #=============================================================================
+# Target rules for targets named simplify
+
+# Build rule for target.
+simplify: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 simplify
+.PHONY : simplify
+
+# fast build rule for target.
+simplify/fast:
+	$(MAKE) $(MAKESILENT) -f simplify/CMakeFiles/simplify.dir/build.make simplify/CMakeFiles/simplify.dir/build
+.PHONY : simplify/fast
+
+#=============================================================================
 # Target rules for targets named cli_simplify
 
 # Build rule for target.
@@ -353,6 +366,7 @@ help:
 	@echo "... imgui"
 	@echo "... imgui-sdl2"
 	@echo "... sam"
+	@echo "... simplify"
 	@echo "... test_filesystem"
 	@echo "... test_opencv"
 .PHONY : help

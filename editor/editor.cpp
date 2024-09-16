@@ -19,6 +19,7 @@
 #include "common1.h"
 #include "video.h"
 #include "data_structures.h"
+#include "simplify.h"
 
 /*
     MyState &myState contains the state of the editor.
@@ -180,6 +181,15 @@ static void drawMasks(MyState &myState, const ImGuiViewport* viewport, ImVec2 ne
     }
 }
 
+/*
+static void simplifyMasks(MyState &myState) {
+
+    const int r = myState.aVideo.frames[myState.selected_frame].objects[myState.selected_object].color[0]*255;
+    const int g = myState.aVideo.frames[myState.selected_frame].objects[myState.selected_object].color[1]*255;
+    const int b = myState.aVideo.frames[myState.selected_frame].objects[myState.selected_object].color[2]*255;
+    simplifyColorSegment(mask, output_image, false, r, g, b);
+}
+*/
 
 static void frameWindow(MyState &myState, bool *show_myWindow, const ImGuiViewport* viewport, bool use_work_area, ImGuiWindowFlags flags) 
 {
@@ -228,6 +238,8 @@ static void frameWindow(MyState &myState, bool *show_myWindow, const ImGuiViewpo
             //TODO make the position relative to the window (now works because image is displayed at 0,0)
             if (myState.clickedX > 0 && myState.clickedX < myState.img.nx && myState.clickedY > 0 && myState.clickedY < myState.img.ny) {
                 //compute_masks(myState.img, myState.params, *myState.a_sam_state, &myState.maskTextures, myState.clickedX, myState.clickedY, myState.masks, &myState.masks_colors, myState.last_color_id);
+                
+                //Each time the user clicks we compute the masks and OpenGL textures
                 compute_masks(myState.img, myState.params, *myState.a_sam_state, &myState.objectsMaskTextures[myState.selected_object], myState.clickedX, myState.clickedY, myState.aVideo.frames[myState.selected_frame].objects[myState.selected_object].masks, &myState.masks_colors, myState.last_color_id);
                 
                 //Compute the textures for the object masks

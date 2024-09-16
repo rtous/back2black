@@ -98,38 +98,30 @@ bool load_and_precompute_image_from_file(std::string path, sam_image_u8 & img0, 
 }
 
 /*
+    given an image (in sam format) get the best mask (in sam format at a given point 
+*/
+void get_best_sam_mask_at_point(int x, int y, sam_image_u8 img0, sam_state & state, int n_threads, sam_image_u8 & mask) {
+    //Call sam to compute the mask at the point
+    std::vector<sam_image_u8> masks;
+    sam_point pt {(float)x, (float)y};
+    masks = sam_compute_masks(img0, n_threads, pt, state);
+    printf("[INFO] found %d masks\n", masks.size());
+    mask = masks[0]; //the returned masks are ordered by iou and stability_score
+}
+
+/*
 	given an image (in sam format) get the best mask (in opencv format at a given point 
 */
 cv::Mat get_best_opencv_mask_at_point(int x, int y, sam_image_u8 img0, sam_state & state, int n_threads) {
-	//Call sam to compute the mask at the point
-	std::vector<sam_image_u8> masks;
-	sam_point pt {(float)x, (float)y};
-    masks = sam_compute_masks(img0, n_threads, pt, state);
-    printf("[INFO] found %d masks\n", masks.size());
-    sam_image_u8 mask = masks[0]; //the returned masks are ordered by iou and stability_score
+	
+    //compute mask at given point (pick best one)
+    sam_image_u8 mask;
+    get_best_sam_mask_at_point(x, y, img0, state, n_threads, mask);
     
-    /*std::vector<GLuint> maskTextures;
-    for (auto& mask : masks) {
-        sam_image_u8 mask_rgb = { mask.nx, mask.ny, };
-        mask_rgb.data.resize(3*mask.nx*mask.ny);
-        for (int i = 0; i < mask.nx*mask.ny; ++i) {
-            mask_rgb.data[3*i+0] = mask.data[i];
-            mask_rgb.data[3*i+1] = mask.data[i];
-            mask_rgb.data[3*i+2] = mask.data[i];
-        }
-
-        maskTextures.push_back(createGLTexture(mask_rgb, GL_RGB));
-    }*/
-
 	//convert mask to opencv format
-	//Opencv is y,x (fil, col)
-    cv::Mat mask_opencv = cv::Mat::zeros(mask.ny, mask.nx, CV_8UC1 );
-    for (int i=0; i < mask_opencv.rows; ++i){
-        for (int j=0; j < mask_opencv.cols; ++j){
-            //output.at<uchar>(j, i) = mask.data[j*mask.nx+i];
-            mask_opencv.at<uchar>(i, j) = mask.data[i*mask.nx+j];
-        }
-    }
+    cv::Mat mask_opencv;
+    sam_image2opencv(mask, mask_opencv);
+
     return mask_opencv;
 }
 

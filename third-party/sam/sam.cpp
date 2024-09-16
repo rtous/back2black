@@ -2139,6 +2139,9 @@ std::vector<sam_image_u8> sam_compute_masks(
     state.t_compute_masks_ms = ggml_time_ms() - t_start_ms;
 
     return masks;
+    //Ruben: the returned masks are ordered by iou and stability_score  
+    //just pick the first one this way:
+    //sam_image_u8 mask = masks[0]; 
 }
 
 void sam_deinit(sam_state & state) {

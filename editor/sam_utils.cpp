@@ -15,6 +15,7 @@
 
 #include "sam_utils.h"
 #include "gui_utils.h"
+#include "common1.h"
 
 
 void set_params(sam_params * params) {
@@ -117,6 +118,59 @@ int masks_already_in_list(sam_image_u8 candidateMask, std::vector<sam_image_u8> 
 
 
 }*/
+
+//computes the masks at the given point
+//currently the passed storedMasks are just the masks of one object
+void compute_masks(sam_image_u8 img, const sam_params & params, sam_state & state, std::vector<GLuint> *maskTextures, int x, int y, std::vector<sam_image_u8> & storedMasks, std::vector<int> * mask_colors, int & last_color_id) {
+    printf("compute_masks\n");
+    
+    sam_image_u8 mask;
+    get_best_sam_mask_at_point(x, y, img, state, params.n_threads, mask);
+    
+    std::vector<int> masksToDelete;
+    
+    sam_image_u8 mask_rgb = { mask.nx, mask.ny, };
+    mask_rgb.data.resize(4*mask.nx*mask.ny);
+    for (int i = 0; i < mask.nx*mask.ny; ++i) {
+        mask_rgb.data[4*i+0] = mask.data[i];
+        mask_rgb.data[4*i+1] = mask.data[i];
+        mask_rgb.data[4*i+2] = mask.data[i];
+        mask_rgb.data[4*i+3] = mask.data[i];
+    }
+    int pos = masks_already_in_list(mask, storedMasks);
+    
+    if (pos == -1) { //the mask is new, not in storedMasks            
+        //assign color
+        int color_id = (last_color_id+1)%256;
+        last_color_id = color_id;
+        printf("Assigned color id: %d\n", color_id);
+        mask_colors->push_back(color_id);
+        GLuint newGLTexture = createGLTexture(mask_rgb, GL_RGBA);
+        maskTextures->push_back(newGLTexture);
+        storedMasks.push_back(mask);
+
+        printf("Added mask\n");
+        //glGenBuffers(1, &newGLTexture);
+        //printf("%u\n", newGLTexture);
+    } else {
+        //If the mask is already in storedMasks we will delete it
+        printf("Should delete mask %d ", pos);
+        masksToDelete.push_back(pos);            
+        printf("Mask already exist\n");
+    }
+    
+    for(int& i : masksToDelete) {
+        storedMasks.erase(storedMasks.begin() + i);
+        maskTextures->erase(maskTextures->begin() + i);
+        mask_colors->erase(mask_colors->begin() + i);
+    }
+
+
+}
+
+/*
+//computes the masks at the given point
+//currently the passed storedMasks are just the masks of one object
 void compute_masks(sam_image_u8 img, const sam_params & params, sam_state & state, std::vector<GLuint> *maskTextures, int x, int y, std::vector<sam_image_u8> & storedMasks, std::vector<int> * mask_colors, int & last_color_id) {
     printf("compute_masks\n");
     std::vector<sam_image_u8> masks;
@@ -169,3 +223,4 @@ void compute_masks(sam_image_u8 img, const sam_params & params, sam_state & stat
 
 
 }
+*/

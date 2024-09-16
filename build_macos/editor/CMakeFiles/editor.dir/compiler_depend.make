@@ -1796,6 +1796,7 @@ editor/CMakeFiles/editor.dir/editor.cpp.o: /Users/rtous/dev/back2black/editor/ed
   /Users/rtous/dev/back2black/editor/sam_utils.h \
   /Users/rtous/dev/back2black/editor/state.h \
   /Users/rtous/dev/back2black/editor/video.h \
+  /Users/rtous/dev/back2black/simplify/simplify.h \
   /Users/rtous/dev/back2black/third-party/ImGuiFileDialog/ImGuiFileDialog.h \
   /Users/rtous/dev/back2black/third-party/ImGuiFileDialog/ImGuiFileDialogConfig.h \
   /Users/rtous/dev/back2black/third-party/imgui/imgui/backends/imgui_impl_opengl3.h \
@@ -1834,6 +1835,7 @@ editor/CMakeFiles/editor.dir/editor.cpp.o: /Users/rtous/dev/back2black/editor/ed
   /Users/rtous/dev/opencv/modules/core/include/opencv2/core/traits.hpp \
   /Users/rtous/dev/opencv/modules/core/include/opencv2/core/types.hpp \
   /Users/rtous/dev/opencv/modules/core/include/opencv2/core/utility.hpp \
+  /Users/rtous/dev/opencv/modules/core/include/opencv2/core/utils/filesystem.hpp \
   /Users/rtous/dev/opencv/modules/core/include/opencv2/core/version.hpp \
   /Users/rtous/dev/opencv/modules/core/include/opencv2/core/vsx_utils.hpp \
   /Users/rtous/dev/opencv/modules/dnn/include/opencv2/dnn.hpp \
@@ -5776,6 +5778,7 @@ editor/CMakeFiles/editor.dir/sam_utils.cpp.o: /Users/rtous/dev/back2black/editor
   /Library/Developer/CommandLineTools/SDKs/MacOSX14.4.sdk/usr/include/c++/v1/__thread/this_thread.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX14.4.sdk/usr/include/c++/v1/__thread/thread.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX14.4.sdk/usr/include/c++/v1/__threading_support \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX14.4.sdk/usr/include/c++/v1/__tree \
   /Library/Developer/CommandLineTools/SDKs/MacOSX14.4.sdk/usr/include/c++/v1/__tuple/make_tuple_types.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX14.4.sdk/usr/include/c++/v1/__tuple/pair_like.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX14.4.sdk/usr/include/c++/v1/__tuple/sfinae_helpers.h \
@@ -5954,11 +5957,13 @@ editor/CMakeFiles/editor.dir/sam_utils.cpp.o: /Users/rtous/dev/back2black/editor
   /Library/Developer/CommandLineTools/SDKs/MacOSX14.4.sdk/usr/include/c++/v1/bitset \
   /Library/Developer/CommandLineTools/SDKs/MacOSX14.4.sdk/usr/include/c++/v1/cctype \
   /Library/Developer/CommandLineTools/SDKs/MacOSX14.4.sdk/usr/include/c++/v1/cerrno \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX14.4.sdk/usr/include/c++/v1/cfloat \
   /Library/Developer/CommandLineTools/SDKs/MacOSX14.4.sdk/usr/include/c++/v1/chrono \
   /Library/Developer/CommandLineTools/SDKs/MacOSX14.4.sdk/usr/include/c++/v1/climits \
   /Library/Developer/CommandLineTools/SDKs/MacOSX14.4.sdk/usr/include/c++/v1/clocale \
   /Library/Developer/CommandLineTools/SDKs/MacOSX14.4.sdk/usr/include/c++/v1/cmath \
   /Library/Developer/CommandLineTools/SDKs/MacOSX14.4.sdk/usr/include/c++/v1/compare \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX14.4.sdk/usr/include/c++/v1/complex \
   /Library/Developer/CommandLineTools/SDKs/MacOSX14.4.sdk/usr/include/c++/v1/concepts \
   /Library/Developer/CommandLineTools/SDKs/MacOSX14.4.sdk/usr/include/c++/v1/cstdarg \
   /Library/Developer/CommandLineTools/SDKs/MacOSX14.4.sdk/usr/include/c++/v1/cstddef \
@@ -5970,6 +5975,7 @@ editor/CMakeFiles/editor.dir/sam_utils.cpp.o: /Users/rtous/dev/back2black/editor
   /Library/Developer/CommandLineTools/SDKs/MacOSX14.4.sdk/usr/include/c++/v1/ctype.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX14.4.sdk/usr/include/c++/v1/cwchar \
   /Library/Developer/CommandLineTools/SDKs/MacOSX14.4.sdk/usr/include/c++/v1/cwctype \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX14.4.sdk/usr/include/c++/v1/deque \
   /Library/Developer/CommandLineTools/SDKs/MacOSX14.4.sdk/usr/include/c++/v1/errno.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX14.4.sdk/usr/include/c++/v1/exception \
   /Library/Developer/CommandLineTools/SDKs/MacOSX14.4.sdk/usr/include/c++/v1/execution \
@@ -5977,21 +5983,27 @@ editor/CMakeFiles/editor.dir/sam_utils.cpp.o: /Users/rtous/dev/back2black/editor
   /Library/Developer/CommandLineTools/SDKs/MacOSX14.4.sdk/usr/include/c++/v1/functional \
   /Library/Developer/CommandLineTools/SDKs/MacOSX14.4.sdk/usr/include/c++/v1/initializer_list \
   /Library/Developer/CommandLineTools/SDKs/MacOSX14.4.sdk/usr/include/c++/v1/inttypes.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX14.4.sdk/usr/include/c++/v1/iomanip \
   /Library/Developer/CommandLineTools/SDKs/MacOSX14.4.sdk/usr/include/c++/v1/ios \
   /Library/Developer/CommandLineTools/SDKs/MacOSX14.4.sdk/usr/include/c++/v1/iosfwd \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX14.4.sdk/usr/include/c++/v1/iostream \
   /Library/Developer/CommandLineTools/SDKs/MacOSX14.4.sdk/usr/include/c++/v1/istream \
   /Library/Developer/CommandLineTools/SDKs/MacOSX14.4.sdk/usr/include/c++/v1/iterator \
   /Library/Developer/CommandLineTools/SDKs/MacOSX14.4.sdk/usr/include/c++/v1/limits \
   /Library/Developer/CommandLineTools/SDKs/MacOSX14.4.sdk/usr/include/c++/v1/limits.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX14.4.sdk/usr/include/c++/v1/list \
   /Library/Developer/CommandLineTools/SDKs/MacOSX14.4.sdk/usr/include/c++/v1/locale \
   /Library/Developer/CommandLineTools/SDKs/MacOSX14.4.sdk/usr/include/c++/v1/locale.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX14.4.sdk/usr/include/c++/v1/map \
   /Library/Developer/CommandLineTools/SDKs/MacOSX14.4.sdk/usr/include/c++/v1/math.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX14.4.sdk/usr/include/c++/v1/memory \
   /Library/Developer/CommandLineTools/SDKs/MacOSX14.4.sdk/usr/include/c++/v1/mutex \
   /Library/Developer/CommandLineTools/SDKs/MacOSX14.4.sdk/usr/include/c++/v1/new \
   /Library/Developer/CommandLineTools/SDKs/MacOSX14.4.sdk/usr/include/c++/v1/optional \
   /Library/Developer/CommandLineTools/SDKs/MacOSX14.4.sdk/usr/include/c++/v1/ostream \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX14.4.sdk/usr/include/c++/v1/queue \
   /Library/Developer/CommandLineTools/SDKs/MacOSX14.4.sdk/usr/include/c++/v1/ratio \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX14.4.sdk/usr/include/c++/v1/set \
   /Library/Developer/CommandLineTools/SDKs/MacOSX14.4.sdk/usr/include/c++/v1/sstream \
   /Library/Developer/CommandLineTools/SDKs/MacOSX14.4.sdk/usr/include/c++/v1/stddef.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX14.4.sdk/usr/include/c++/v1/stdexcept \
@@ -6153,6 +6165,8 @@ editor/CMakeFiles/editor.dir/sam_utils.cpp.o: /Users/rtous/dev/back2black/editor
   /Library/Developer/CommandLineTools/usr/lib/clang/15.0.0/include/stdarg.h \
   /Library/Developer/CommandLineTools/usr/lib/clang/15.0.0/include/stddef.h \
   /Library/Developer/CommandLineTools/usr/lib/clang/15.0.0/include/stdint.h \
+  /Users/rtous/dev/back2black/common/common1.h \
+  /Users/rtous/dev/back2black/common/data_structures.h \
   /Users/rtous/dev/back2black/editor/gui_utils.h \
   /Users/rtous/dev/back2black/editor/sam_utils.h \
   /Users/rtous/dev/back2black/third-party/imgui/imgui/backends/imgui_impl_opengl3.h \
@@ -6160,6 +6174,112 @@ editor/CMakeFiles/editor.dir/sam_utils.cpp.o: /Users/rtous/dev/back2black/editor
   /Users/rtous/dev/back2black/third-party/imgui/imgui/imconfig.h \
   /Users/rtous/dev/back2black/third-party/imgui/imgui/imgui.h \
   /Users/rtous/dev/back2black/third-party/sam/sam.h \
+  /Users/rtous/dev/opencv/build/opencv2/opencv_modules.hpp \
+  /Users/rtous/dev/opencv/include/opencv2/opencv.hpp \
+  /Users/rtous/dev/opencv/modules/calib3d/include/opencv2/calib3d.hpp \
+  /Users/rtous/dev/opencv/modules/core/include/opencv2/core.hpp \
+  /Users/rtous/dev/opencv/modules/core/include/opencv2/core/affine.hpp \
+  /Users/rtous/dev/opencv/modules/core/include/opencv2/core/async.hpp \
+  /Users/rtous/dev/opencv/modules/core/include/opencv2/core/base.hpp \
+  /Users/rtous/dev/opencv/modules/core/include/opencv2/core/bufferpool.hpp \
+  /Users/rtous/dev/opencv/modules/core/include/opencv2/core/check.hpp \
+  /Users/rtous/dev/opencv/modules/core/include/opencv2/core/cuda.hpp \
+  /Users/rtous/dev/opencv/modules/core/include/opencv2/core/cuda.inl.hpp \
+  /Users/rtous/dev/opencv/modules/core/include/opencv2/core/cuda_types.hpp \
+  /Users/rtous/dev/opencv/modules/core/include/opencv2/core/cv_cpu_dispatch.h \
+  /Users/rtous/dev/opencv/modules/core/include/opencv2/core/cvdef.h \
+  /Users/rtous/dev/opencv/modules/core/include/opencv2/core/cvstd.hpp \
+  /Users/rtous/dev/opencv/modules/core/include/opencv2/core/cvstd.inl.hpp \
+  /Users/rtous/dev/opencv/modules/core/include/opencv2/core/cvstd_wrapper.hpp \
+  /Users/rtous/dev/opencv/modules/core/include/opencv2/core/fast_math.hpp \
+  /Users/rtous/dev/opencv/modules/core/include/opencv2/core/hal/interface.h \
+  /Users/rtous/dev/opencv/modules/core/include/opencv2/core/mat.hpp \
+  /Users/rtous/dev/opencv/modules/core/include/opencv2/core/mat.inl.hpp \
+  /Users/rtous/dev/opencv/modules/core/include/opencv2/core/matx.hpp \
+  /Users/rtous/dev/opencv/modules/core/include/opencv2/core/neon_utils.hpp \
+  /Users/rtous/dev/opencv/modules/core/include/opencv2/core/operations.hpp \
+  /Users/rtous/dev/opencv/modules/core/include/opencv2/core/optim.hpp \
+  /Users/rtous/dev/opencv/modules/core/include/opencv2/core/ovx.hpp \
+  /Users/rtous/dev/opencv/modules/core/include/opencv2/core/persistence.hpp \
+  /Users/rtous/dev/opencv/modules/core/include/opencv2/core/saturate.hpp \
+  /Users/rtous/dev/opencv/modules/core/include/opencv2/core/traits.hpp \
+  /Users/rtous/dev/opencv/modules/core/include/opencv2/core/types.hpp \
+  /Users/rtous/dev/opencv/modules/core/include/opencv2/core/utility.hpp \
+  /Users/rtous/dev/opencv/modules/core/include/opencv2/core/version.hpp \
+  /Users/rtous/dev/opencv/modules/core/include/opencv2/core/vsx_utils.hpp \
+  /Users/rtous/dev/opencv/modules/dnn/include/opencv2/dnn.hpp \
+  /Users/rtous/dev/opencv/modules/dnn/include/opencv2/dnn/version.hpp \
+  /Users/rtous/dev/opencv/modules/dnn/include/opencv2/dnn/dict.hpp \
+  /Users/rtous/dev/opencv/modules/dnn/include/opencv2/dnn/dnn.hpp \
+  /Users/rtous/dev/opencv/modules/dnn/include/opencv2/dnn/dnn.inl.hpp \
+  /Users/rtous/dev/opencv/modules/dnn/include/opencv2/dnn/layer.hpp \
+  /Users/rtous/dev/opencv/modules/dnn/include/opencv2/dnn/dnn.hpp \
+  /Users/rtous/dev/opencv/modules/dnn/include/opencv2/dnn/utils/inference_engine.hpp \
+  /Users/rtous/dev/opencv/modules/features2d/include/opencv2/features2d.hpp \
+  /Users/rtous/dev/opencv/modules/flann/include/opencv2/flann.hpp \
+  /Users/rtous/dev/opencv/modules/flann/include/opencv2/flann/all_indices.h \
+  /Users/rtous/dev/opencv/modules/flann/include/opencv2/flann/allocator.h \
+  /Users/rtous/dev/opencv/modules/flann/include/opencv2/flann/any.h \
+  /Users/rtous/dev/opencv/modules/flann/include/opencv2/flann/autotuned_index.h \
+  /Users/rtous/dev/opencv/modules/flann/include/opencv2/flann/composite_index.h \
+  /Users/rtous/dev/opencv/modules/flann/include/opencv2/flann/config.h \
+  /Users/rtous/dev/opencv/modules/flann/include/opencv2/flann/defines.h \
+  /Users/rtous/dev/opencv/modules/flann/include/opencv2/flann/dist.h \
+  /Users/rtous/dev/opencv/modules/flann/include/opencv2/flann/dynamic_bitset.h \
+  /Users/rtous/dev/opencv/modules/flann/include/opencv2/flann/flann_base.hpp \
+  /Users/rtous/dev/opencv/modules/flann/include/opencv2/flann/general.h \
+  /Users/rtous/dev/opencv/modules/flann/include/opencv2/flann/ground_truth.h \
+  /Users/rtous/dev/opencv/modules/flann/include/opencv2/flann/heap.h \
+  /Users/rtous/dev/opencv/modules/flann/include/opencv2/flann/hierarchical_clustering_index.h \
+  /Users/rtous/dev/opencv/modules/flann/include/opencv2/flann/index_testing.h \
+  /Users/rtous/dev/opencv/modules/flann/include/opencv2/flann/kdtree_index.h \
+  /Users/rtous/dev/opencv/modules/flann/include/opencv2/flann/kdtree_single_index.h \
+  /Users/rtous/dev/opencv/modules/flann/include/opencv2/flann/kmeans_index.h \
+  /Users/rtous/dev/opencv/modules/flann/include/opencv2/flann/linear_index.h \
+  /Users/rtous/dev/opencv/modules/flann/include/opencv2/flann/logger.h \
+  /Users/rtous/dev/opencv/modules/flann/include/opencv2/flann/lsh_index.h \
+  /Users/rtous/dev/opencv/modules/flann/include/opencv2/flann/lsh_table.h \
+  /Users/rtous/dev/opencv/modules/flann/include/opencv2/flann/matrix.h \
+  /Users/rtous/dev/opencv/modules/flann/include/opencv2/flann/miniflann.hpp \
+  /Users/rtous/dev/opencv/modules/flann/include/opencv2/flann/nn_index.h \
+  /Users/rtous/dev/opencv/modules/flann/include/opencv2/flann/params.h \
+  /Users/rtous/dev/opencv/modules/flann/include/opencv2/flann/random.h \
+  /Users/rtous/dev/opencv/modules/flann/include/opencv2/flann/result_set.h \
+  /Users/rtous/dev/opencv/modules/flann/include/opencv2/flann/sampling.h \
+  /Users/rtous/dev/opencv/modules/flann/include/opencv2/flann/saving.h \
+  /Users/rtous/dev/opencv/modules/flann/include/opencv2/flann/timer.h \
+  /Users/rtous/dev/opencv/modules/highgui/include/opencv2/highgui.hpp \
+  /Users/rtous/dev/opencv/modules/imgcodecs/include/opencv2/imgcodecs.hpp \
+  /Users/rtous/dev/opencv/modules/imgproc/include/opencv2/imgproc/segmentation.hpp \
+  /Users/rtous/dev/opencv/modules/imgproc/include/opencv2/imgproc.hpp \
+  /Users/rtous/dev/opencv/modules/ml/include/opencv2/ml.hpp \
+  /Users/rtous/dev/opencv/modules/ml/include/opencv2/ml/ml.inl.hpp \
+  /Users/rtous/dev/opencv/modules/objdetect/include/opencv2/objdetect.hpp \
+  /Users/rtous/dev/opencv/modules/objdetect/include/opencv2/objdetect/aruco_board.hpp \
+  /Users/rtous/dev/opencv/modules/objdetect/include/opencv2/objdetect/aruco_detector.hpp \
+  /Users/rtous/dev/opencv/modules/objdetect/include/opencv2/objdetect/aruco_dictionary.hpp \
+  /Users/rtous/dev/opencv/modules/objdetect/include/opencv2/objdetect/barcode.hpp \
+  /Users/rtous/dev/opencv/modules/objdetect/include/opencv2/objdetect/charuco_detector.hpp \
+  /Users/rtous/dev/opencv/modules/objdetect/include/opencv2/objdetect/detection_based_tracker.hpp \
+  /Users/rtous/dev/opencv/modules/objdetect/include/opencv2/objdetect/face.hpp \
+  /Users/rtous/dev/opencv/modules/objdetect/include/opencv2/objdetect/graphical_code_detector.hpp \
+  /Users/rtous/dev/opencv/modules/photo/include/opencv2/photo.hpp \
+  /Users/rtous/dev/opencv/modules/stitching/include/opencv2/stitching.hpp \
+  /Users/rtous/dev/opencv/modules/stitching/include/opencv2/stitching/detail/blenders.hpp \
+  /Users/rtous/dev/opencv/modules/stitching/include/opencv2/stitching/detail/camera.hpp \
+  /Users/rtous/dev/opencv/modules/stitching/include/opencv2/stitching/detail/exposure_compensate.hpp \
+  /Users/rtous/dev/opencv/modules/stitching/include/opencv2/stitching/detail/matchers.hpp \
+  /Users/rtous/dev/opencv/modules/stitching/include/opencv2/stitching/detail/motion_estimators.hpp \
+  /Users/rtous/dev/opencv/modules/stitching/include/opencv2/stitching/detail/seam_finders.hpp \
+  /Users/rtous/dev/opencv/modules/stitching/include/opencv2/stitching/detail/util.hpp \
+  /Users/rtous/dev/opencv/modules/stitching/include/opencv2/stitching/detail/util_inl.hpp \
+  /Users/rtous/dev/opencv/modules/stitching/include/opencv2/stitching/detail/warpers.hpp \
+  /Users/rtous/dev/opencv/modules/stitching/include/opencv2/stitching/detail/warpers_inl.hpp \
+  /Users/rtous/dev/opencv/modules/stitching/include/opencv2/stitching/warpers.hpp \
+  /Users/rtous/dev/opencv/modules/video/include/opencv2/video.hpp \
+  /Users/rtous/dev/opencv/modules/video/include/opencv2/video/background_segm.hpp \
+  /Users/rtous/dev/opencv/modules/video/include/opencv2/video/tracking.hpp \
+  /Users/rtous/dev/opencv/modules/videoio/include/opencv2/videoio.hpp \
   /opt/homebrew/Cellar/sdl2/2.30.7/include/SDL2/SDL.h \
   /opt/homebrew/Cellar/sdl2/2.30.7/include/SDL2/SDL_assert.h \
   /opt/homebrew/Cellar/sdl2/2.30.7/include/SDL2/SDL_atomic.h \
@@ -8061,6 +8181,8 @@ editor/CMakeFiles/editor.dir/video.cpp.o: /Users/rtous/dev/back2black/editor/vid
 /Users/rtous/dev/opencv/modules/flann/include/opencv2/flann/logger.h:
 
 /Library/Developer/CommandLineTools/SDKs/MacOSX14.4.sdk/usr/include/c++/v1/memory:
+
+/Users/rtous/dev/back2black/simplify/simplify.h:
 
 /Library/Developer/CommandLineTools/SDKs/MacOSX14.4.sdk/usr/include/c++/v1/__filesystem/path.h:
 
