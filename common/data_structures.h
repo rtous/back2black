@@ -33,7 +33,7 @@ class Object {
     int mask_center_x;  
     int mask_center_y; 
     int mask_contour_size;
-    std::vector<std::vector<cv::Point>> contours;
+    std::vector<std::vector<cv::Point>> contours;//contours of the object masks
 
     Object() {
       printf("Object created!\n");

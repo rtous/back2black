@@ -18,6 +18,7 @@ class MyState {
     std::shared_ptr<sam_state> a_sam_state;
     //std::vector<GLuint> maskTextures;//vector of GLtextures of the masks (one for each)
     std::vector<std::vector<GLuint>> objectsMaskTextures;//vector of GLtextures of the masks (one for each) of each object
+    std::vector<std::vector<GLuint>> objectsSimplifiedMaskTextures;//vector of GLtextures of the simplified masks (one for each) of each object
     std::vector<sam_image_u8> masks; //vector of masks
     std::vector<int> masks_colors;   //vector of the colors IDs of the masks (one for each)
     t_colors colors_palette;
@@ -27,7 +28,7 @@ class MyState {
     int clickedY;
     sam_image_u8 img;
     bool img_loaded = false;
-    int selected_frame = -1;
+    int selected_frame = 0;
     int selected_object = 0;
     Video aVideo;
     GLuint tex; //OpenGL texture for the displayed image (do not load every time!)

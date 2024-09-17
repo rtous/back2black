@@ -13,6 +13,10 @@ void compute_object(Object & anObject, sam_image_u8 img0, sam_state & state, int
 int propagate_masks(std::vector<Frame> & frames, sam_state & state, int n_threads);
 void sam_image2opencv(sam_image_u8 & sam_image, cv::Mat & opencv_image);
 void opencv_image2sam(sam_image_u8 & sam_image, cv::Mat & opencv_image);
+sam_image_u8 sam_image2color(sam_image_u8 & sam_image);
+//void sam_image2opencv_color(sam_image_u8 & sam_image, cv::Mat & opencv_image);
+void sam_image2opencv_color(sam_image_u8 & sam_image, cv::Mat & opencv_image, int R, int G, int B);
+void opencv_image2sam_binarymask(sam_image_u8 & sam_image, cv::Mat & opencv_image);
 
 
 //void example_func();

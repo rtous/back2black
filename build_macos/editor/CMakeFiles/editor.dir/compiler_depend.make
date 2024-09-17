@@ -6169,6 +6169,7 @@ editor/CMakeFiles/editor.dir/sam_utils.cpp.o: /Users/rtous/dev/back2black/editor
   /Users/rtous/dev/back2black/common/data_structures.h \
   /Users/rtous/dev/back2black/editor/gui_utils.h \
   /Users/rtous/dev/back2black/editor/sam_utils.h \
+  /Users/rtous/dev/back2black/simplify/simplify.h \
   /Users/rtous/dev/back2black/third-party/imgui/imgui/backends/imgui_impl_opengl3.h \
   /Users/rtous/dev/back2black/third-party/imgui/imgui/backends/imgui_impl_sdl2.h \
   /Users/rtous/dev/back2black/third-party/imgui/imgui/imconfig.h \
@@ -6205,6 +6206,7 @@ editor/CMakeFiles/editor.dir/sam_utils.cpp.o: /Users/rtous/dev/back2black/editor
   /Users/rtous/dev/opencv/modules/core/include/opencv2/core/traits.hpp \
   /Users/rtous/dev/opencv/modules/core/include/opencv2/core/types.hpp \
   /Users/rtous/dev/opencv/modules/core/include/opencv2/core/utility.hpp \
+  /Users/rtous/dev/opencv/modules/core/include/opencv2/core/utils/filesystem.hpp \
   /Users/rtous/dev/opencv/modules/core/include/opencv2/core/version.hpp \
   /Users/rtous/dev/opencv/modules/core/include/opencv2/core/vsx_utils.hpp \
   /Users/rtous/dev/opencv/modules/dnn/include/opencv2/dnn.hpp \

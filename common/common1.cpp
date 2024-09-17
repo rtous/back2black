@@ -21,11 +21,30 @@
 #define STB_IMAGE_WRITE_IMPLEMENTATION
 #include "stb_image_write.h"
 
+sam_image_u8 sam_image2color(sam_image_u8 & sam_image) {
+    //Replicates the intensity (pressumably 0 or 1) to all channels, including alpha
+    //Used before calling createGLTexture 
+    sam_image_u8 mask_rgb = { sam_image.nx, sam_image.ny, };
+    mask_rgb.data.resize(4*sam_image.nx*sam_image.ny);
+    for (int i = 0; i < sam_image.nx*sam_image.ny; ++i) {
+        mask_rgb.data[4*i+0] = sam_image.data[i];
+        mask_rgb.data[4*i+1] = sam_image.data[i];
+        mask_rgb.data[4*i+2] = sam_image.data[i];
+        mask_rgb.data[4*i+3] = sam_image.data[i];
+        /*if (sam_image.data[i] == 0)
+            mask_rgb.data[4*i+3] = sam_image.data[i];
+        else
+            mask_rgb.data[4*i+3] = 255;
+        */
+    }
+    return mask_rgb;
+}
+
 void sam_image2opencv(sam_image_u8 & sam_image, cv::Mat & opencv_image) {
-    //TODO: Only works for grayscale image
+    //WARNING: Only works for grayscale image (look at sam_image2opencv_color otherwise)
     //cv::Mat rows x columns 
     //sam_image_u8 guarda com si recorre tot per fileres
-    cv::Mat mask_opencv = cv::Mat::zeros(sam_image.ny, sam_image.nx, CV_8UC1 );
+    opencv_image = cv::Mat::zeros(sam_image.ny, sam_image.nx, CV_8UC1 );
     for (int i=0; i < opencv_image.rows; ++i){
         for (int j=0; j < opencv_image.cols; ++j){
             opencv_image.at<uchar>(i, j) = sam_image.data[i*sam_image.nx+j];
@@ -33,6 +52,82 @@ void sam_image2opencv(sam_image_u8 & sam_image, cv::Mat & opencv_image) {
     }
 }
 
+void sam_image2opencv_color(sam_image_u8 & sam_image, cv::Mat & opencv_image, int R, int G, int B) {
+    //Input sam mask (grayscale)
+    //Output OpenCV color 4 channels with the indicated color (when mask>0)
+    
+    //cv::Mat rows x columns 
+    //sam_image_u8 guarda com si recorre tot per fileres
+    opencv_image = cv::Mat::zeros(sam_image.ny, sam_image.nx, CV_8UC4 );
+    
+    //For CV_8UC1: uchar pixelGrayValue = image.at<uchar>(r,c).
+    //For CV_8UC3: cv::Vec3b pixelColor = image.at<cv::Vec3b>(r,c). The cv::Vec3b object represents a triplet of uchar values (integers between 0 and 255).
+
+    for (int i=0; i < opencv_image.rows; ++i){
+        for (int j=0; j < opencv_image.cols; ++j){
+            uchar pixelGrayValue = sam_image.data[i*sam_image.nx+j];
+            cv::Vec4b pixelColor; //typedef Vec<uchar, 3> Vec3b;
+            if (pixelGrayValue>0) {
+                pixelColor[0] = B;
+                pixelColor[1] = G;
+                pixelColor[2] = R;
+            } else {
+                pixelColor[0] = pixelGrayValue;
+                pixelColor[1] = pixelGrayValue;
+                pixelColor[2] = pixelGrayValue;
+            }
+            pixelColor[3] = 255; //alpha = opacity
+            
+            //opencv_image.at<uchar>(i, j) = sam_image.data[i*sam_image.nx+j];
+            opencv_image.at<cv::Vec4b>(i, j) = pixelColor;
+        }
+    }
+}
+
+/*
+void sam_image2opencv_color(sam_image_u8 & sam_image, cv::Mat & opencv_image) {
+    //TODO: Only works for grayscale image
+    //cv::Mat rows x columns 
+    //sam_image_u8 guarda com si recorre tot per fileres
+    //cv::Mat mask_opencv = cv::Mat::zeros(sam_image.ny, sam_image.nx, CV_8UC3);
+    //opencv_image = cv::Mat::zeros(sam_image.ny, sam_image.nx, CV_8UC3 );
+    opencv_image = cv::Mat::zeros(sam_image.ny, sam_image.nx, CV_8UC4);
+
+    for (int i=0; i < opencv_image.rows; ++i){
+        for (int j=0; j < opencv_image.cols; ++j){
+            opencv_image.at<uchar>(i, j) = sam_image.data[i*sam_image.nx+j];
+        }
+    }
+}*/
+
+//Given a grayscale or color OpenCV image, it translates it into a binary mask in sam format
+//Intensities become 0 or 255
+//Used in compute_masks in sam_utils.cpp 
+void opencv_image2sam_binarymask(sam_image_u8 & sam_image, cv::Mat & opencv_image) {
+    
+    //Convert default OpenCV BGR to GRAYSCALE
+    cv::cvtColor(opencv_image, opencv_image, cv::COLOR_BGR2GRAY);
+
+    //SAM x=width, y=height
+    sam_image.nx = opencv_image.cols;
+    sam_image.ny = opencv_image.rows;
+
+    //TODO IMPROVEMENT: Sequential access to opencv_image.data 
+
+    sam_image.data.clear();
+    for (int i=0; i < opencv_image.rows; ++i){
+        for (int j=0; j < opencv_image.cols; ++j){  
+            //cv::Vec3b RGB = opencv_image.at<cv::Vec3b>(i, j);
+            uchar intensity = opencv_image.at<uchar>(i, j);
+            if (intensity > 0)
+                intensity = 255;
+            sam_image.data.push_back(intensity);
+        }
+    }
+}
+
+//Given a color OpenCV image, it translates it into an image in sam format
+//Not used!?!?! not sure if works properly
 void opencv_image2sam(sam_image_u8 & sam_image, cv::Mat & opencv_image) {
     //Convert default OpenCV BGR to RGB
     cv::cvtColor(opencv_image, opencv_image, cv::COLOR_BGR2RGB);
@@ -54,6 +149,7 @@ void opencv_image2sam(sam_image_u8 & sam_image, cv::Mat & opencv_image) {
         }
     }
 }
+
 
 bool load_image_samformat_from_file(const std::string & fname, sam_image_u8 & img) {
     int nx, ny, nc;

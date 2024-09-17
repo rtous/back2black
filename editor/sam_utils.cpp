@@ -16,6 +16,7 @@
 #include "sam_utils.h"
 #include "gui_utils.h"
 #include "common1.h"
+#include "simplify.h"
 
 
 void set_params(sam_params * params) {
@@ -121,7 +122,7 @@ int masks_already_in_list(sam_image_u8 candidateMask, std::vector<sam_image_u8> 
 
 //computes the masks at the given point
 //currently the passed storedMasks are just the masks of one object
-void compute_masks(sam_image_u8 img, const sam_params & params, sam_state & state, std::vector<GLuint> *maskTextures, int x, int y, std::vector<sam_image_u8> & storedMasks, std::vector<int> * mask_colors, int & last_color_id) {
+void compute_masks(sam_image_u8 img, const sam_params & params, sam_state & state, std::vector<GLuint> *maskTextures, int x, int y, std::vector<sam_image_u8> & storedMasks, std::vector<int> * mask_colors, int & last_color_id, int R, int G, int B, std::vector<GLuint> *simplifiedMaskTextures) {
     printf("compute_masks\n");
     
     sam_image_u8 mask;
@@ -129,14 +130,16 @@ void compute_masks(sam_image_u8 img, const sam_params & params, sam_state & stat
     
     std::vector<int> masksToDelete;
     
-    sam_image_u8 mask_rgb = { mask.nx, mask.ny, };
+    /*sam_image_u8 mask_rgb = { mask.nx, mask.ny, };
     mask_rgb.data.resize(4*mask.nx*mask.ny);
     for (int i = 0; i < mask.nx*mask.ny; ++i) {
         mask_rgb.data[4*i+0] = mask.data[i];
         mask_rgb.data[4*i+1] = mask.data[i];
         mask_rgb.data[4*i+2] = mask.data[i];
         mask_rgb.data[4*i+3] = mask.data[i];
-    }
+    }*/
+    
+
     int pos = masks_already_in_list(mask, storedMasks);
     
     if (pos == -1) { //the mask is new, not in storedMasks            
@@ -145,9 +148,30 @@ void compute_masks(sam_image_u8 img, const sam_params & params, sam_state & stat
         last_color_id = color_id;
         printf("Assigned color id: %d\n", color_id);
         mask_colors->push_back(color_id);
+        sam_image_u8 mask_rgb = sam_image2color(mask);
         GLuint newGLTexture = createGLTexture(mask_rgb, GL_RGBA);
         maskTextures->push_back(newGLTexture);
         storedMasks.push_back(mask);
+
+        //Simplify:
+        cv::Mat input_image_opencv;
+        sam_image2opencv(mask, input_image_opencv);//Does initialize the result
+        cv::Mat output_image_opencv = cv::Mat::zeros(input_image_opencv.size(), CV_8UC4);
+        //This one does not initialize the result
+        simplifyColorSegment(input_image_opencv, output_image_opencv, false, R, G, B); 
+        sam_image_u8 mask_simplified;
+        //opencv_image2sam(mask_simplified_rgb, output_image_opencv);
+        opencv_image2sam_binarymask(mask_simplified, output_image_opencv);
+        sam_image_u8 mask_simplified_rgb = sam_image2color(mask_simplified);
+        GLuint newGLTextureSimplified = createGLTexture(mask_simplified_rgb, GL_RGBA);
+        simplifiedMaskTextures->push_back(newGLTextureSimplified);
+
+
+
+        //cv::imwrite("output/delete.png", output_image_opencv);
+        //cv::imwrite("output/delete.png", output_image_opencv);
+
+        //GLuint newGLTexture = createGLTextureFromO(mask_rgb, GL_RGBA);
 
         printf("Added mask\n");
         //glGenBuffers(1, &newGLTexture);
@@ -162,6 +186,7 @@ void compute_masks(sam_image_u8 img, const sam_params & params, sam_state & stat
     for(int& i : masksToDelete) {
         storedMasks.erase(storedMasks.begin() + i);
         maskTextures->erase(maskTextures->begin() + i);
+        simplifiedMaskTextures->erase(simplifiedMaskTextures->begin() + i);
         mask_colors->erase(mask_colors->begin() + i);
     }
 
