@@ -189,9 +189,8 @@ void compute_masks(sam_image_u8 img, const sam_params & params, sam_state & stat
         simplifiedMaskTextures->erase(simplifiedMaskTextures->begin() + i);
         mask_colors->erase(mask_colors->begin() + i);
     }
-
-
 }
+
 
 /*
 //computes the masks at the given point

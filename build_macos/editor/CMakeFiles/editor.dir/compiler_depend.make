@@ -6339,7 +6339,9 @@ editor/CMakeFiles/editor.dir/video.cpp.o: /Users/rtous/dev/back2black/editor/vid
   /Library/Developer/CommandLineTools/SDKs/MacOSX14.4.sdk/usr/include/Availability.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX14.4.sdk/usr/include/AvailabilityInternal.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX14.4.sdk/usr/include/AvailabilityInternalLegacy.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX14.4.sdk/usr/include/AvailabilityMacros.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX14.4.sdk/usr/include/AvailabilityVersions.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX14.4.sdk/usr/include/TargetConditionals.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX14.4.sdk/usr/include/__wctype.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX14.4.sdk/usr/include/_ctermid.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX14.4.sdk/usr/include/_ctype.h \
@@ -7359,7 +7361,13 @@ editor/CMakeFiles/editor.dir/video.cpp.o: /Users/rtous/dev/back2black/editor/vid
   /Users/rtous/dev/opencv/modules/video/include/opencv2/video/background_segm.hpp \
   /Users/rtous/dev/opencv/modules/video/include/opencv2/video/tracking.hpp \
   /Users/rtous/dev/opencv/modules/video/include/opencv2/video/video.hpp \
-  /Users/rtous/dev/opencv/modules/videoio/include/opencv2/videoio.hpp
+  /Users/rtous/dev/opencv/modules/videoio/include/opencv2/videoio.hpp \
+  /opt/homebrew/Cellar/sdl2/2.30.7/include/SDL2/SDL_config.h \
+  /opt/homebrew/Cellar/sdl2/2.30.7/include/SDL2/SDL_opengl.h \
+  /opt/homebrew/Cellar/sdl2/2.30.7/include/SDL2/SDL_opengl_glext.h \
+  /opt/homebrew/Cellar/sdl2/2.30.7/include/SDL2/SDL_platform.h \
+  /opt/homebrew/Cellar/sdl2/2.30.7/include/SDL2/begin_code.h \
+  /opt/homebrew/Cellar/sdl2/2.30.7/include/SDL2/close_code.h
 
 
 /Users/rtous/dev/opencv/modules/video/include/opencv2/video/video.hpp:
