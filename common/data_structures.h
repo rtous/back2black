@@ -21,10 +21,11 @@ class Contour {
 class Object {      
   public:             
     cv::Mat mask;//old
-    
-    std::vector<GLuint> maskTextures;//vector of GLtextures of the all the masks of the object
-    std::vector<GLuint> simplifiedMaskTextures;//vector of GLtextures of the all the masks of the object
-    std::vector<sam_image_u8> masks; //vector of masks
+
+    sam_image_u8 samMask;
+    GLuint maskTexture;
+    GLuint simplifiedMaskTexture;
+  
     
     int objectId;
     //int color;
@@ -53,18 +54,15 @@ class Frame {
     std::vector<Object> objects; 
     cv::Mat img; //OpenCV format
     sam_image_u8 img_sam_format;
+    GLuint tex; //OpenGL texture of the frame
 
     Frame() {     
-      Object anObject;
-      objects.push_back(anObject);
+      //starts with no objects
     }
 };
 
 class Video {      
-  public:       
-    /*Video(string x) { 
-      std::cout << "Z" << std::endl; 
-    } */     
+  public:          
     std::vector<Frame> frames; 
     bool loaded = false;
 };

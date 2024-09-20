@@ -1,0 +1,24 @@
+
+Computer Architecture Department							Ruben Tous
+Universitat Politecnica de Catalunya                       
+                                                              												  
+															  
+													back2black Developer's TODO
+
+
+TODO
+
+- CRITIC: Potser millar que UN OBJECTE = UNA MASCARA (al propagate era axis
+- WARNING: Hi ha un camp mask al object que es fa servir al cli_masks però no a l'editor
+
+
+
+
+- Hi ha vegades que no es pot esborrar la màscara (braç dret)
+- Que es vegi la imatge sencera i no la barra
+- Fer màscares semitransparents
+- Que la llista de colors sempre sigui la mateixa
+- Colors a la dreta del object selector
+- Esborrar objecte
+- Ordre objectes i canviar-lo
+- Si cliques a un lloc en el qual un altre objecte té la màscara? ara pot quedar amagat

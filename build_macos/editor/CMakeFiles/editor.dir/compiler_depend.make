@@ -5076,6 +5076,7 @@ editor/CMakeFiles/editor.dir/main.cpp.o: /Users/rtous/dev/back2black/editor/main
   /Library/Developer/CommandLineTools/usr/lib/clang/15.0.0/include/stdarg.h \
   /Library/Developer/CommandLineTools/usr/lib/clang/15.0.0/include/stddef.h \
   /Library/Developer/CommandLineTools/usr/lib/clang/15.0.0/include/stdint.h \
+  /Users/rtous/dev/back2black/common/common1.h \
   /Users/rtous/dev/back2black/common/data_structures.h \
   /Users/rtous/dev/back2black/editor/colors.h \
   /Users/rtous/dev/back2black/editor/editor.h \
@@ -7071,6 +7072,7 @@ editor/CMakeFiles/editor.dir/video.cpp.o: /Users/rtous/dev/back2black/editor/vid
   /Library/Developer/CommandLineTools/SDKs/MacOSX14.4.sdk/usr/include/c++/v1/float.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX14.4.sdk/usr/include/c++/v1/functional \
   /Library/Developer/CommandLineTools/SDKs/MacOSX14.4.sdk/usr/include/c++/v1/initializer_list \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX14.4.sdk/usr/include/c++/v1/inttypes.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX14.4.sdk/usr/include/c++/v1/iomanip \
   /Library/Developer/CommandLineTools/SDKs/MacOSX14.4.sdk/usr/include/c++/v1/ios \
   /Library/Developer/CommandLineTools/SDKs/MacOSX14.4.sdk/usr/include/c++/v1/iosfwd \
@@ -7117,6 +7119,7 @@ editor/CMakeFiles/editor.dir/video.cpp.o: /Users/rtous/dev/back2black/editor/vid
   /Library/Developer/CommandLineTools/SDKs/MacOSX14.4.sdk/usr/include/ctype.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX14.4.sdk/usr/include/errno.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX14.4.sdk/usr/include/float.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX14.4.sdk/usr/include/inttypes.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX14.4.sdk/usr/include/libkern/_OSByteOrder.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX14.4.sdk/usr/include/libkern/arm/OSByteOrder.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX14.4.sdk/usr/include/limits.h \
@@ -7236,6 +7239,7 @@ editor/CMakeFiles/editor.dir/video.cpp.o: /Users/rtous/dev/back2black/editor/vid
   /Library/Developer/CommandLineTools/SDKs/MacOSX14.4.sdk/usr/include/xlocale.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX14.4.sdk/usr/include/xlocale/__wctype.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX14.4.sdk/usr/include/xlocale/_ctype.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX14.4.sdk/usr/include/xlocale/_inttypes.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX14.4.sdk/usr/include/xlocale/_stdio.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX14.4.sdk/usr/include/xlocale/_stdlib.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX14.4.sdk/usr/include/xlocale/_string.h \
@@ -7246,13 +7250,18 @@ editor/CMakeFiles/editor.dir/video.cpp.o: /Users/rtous/dev/back2black/editor/vid
   /Library/Developer/CommandLineTools/usr/lib/clang/15.0.0/include/arm_bf16.h \
   /Library/Developer/CommandLineTools/usr/lib/clang/15.0.0/include/arm_neon.h \
   /Library/Developer/CommandLineTools/usr/lib/clang/15.0.0/include/float.h \
+  /Library/Developer/CommandLineTools/usr/lib/clang/15.0.0/include/inttypes.h \
   /Library/Developer/CommandLineTools/usr/lib/clang/15.0.0/include/limits.h \
   /Library/Developer/CommandLineTools/usr/lib/clang/15.0.0/include/stdarg.h \
   /Library/Developer/CommandLineTools/usr/lib/clang/15.0.0/include/stddef.h \
   /Library/Developer/CommandLineTools/usr/lib/clang/15.0.0/include/stdint.h \
   /Users/rtous/dev/back2black/common/common1.h \
   /Users/rtous/dev/back2black/common/data_structures.h \
+  /Users/rtous/dev/back2black/editor/gui_utils.h \
   /Users/rtous/dev/back2black/editor/video.h \
+  /Users/rtous/dev/back2black/third-party/imgui/imgui/backends/imgui_impl_sdl2.h \
+  /Users/rtous/dev/back2black/third-party/imgui/imgui/imconfig.h \
+  /Users/rtous/dev/back2black/third-party/imgui/imgui/imgui.h \
   /Users/rtous/dev/back2black/third-party/sam/sam.h \
   /Users/rtous/dev/opencv/build/opencv2/opencv_modules.hpp \
   /Users/rtous/dev/opencv/include/opencv2/opencv.hpp \
@@ -7362,10 +7371,56 @@ editor/CMakeFiles/editor.dir/video.cpp.o: /Users/rtous/dev/back2black/editor/vid
   /Users/rtous/dev/opencv/modules/video/include/opencv2/video/tracking.hpp \
   /Users/rtous/dev/opencv/modules/video/include/opencv2/video/video.hpp \
   /Users/rtous/dev/opencv/modules/videoio/include/opencv2/videoio.hpp \
+  /opt/homebrew/Cellar/sdl2/2.30.7/include/SDL2/SDL.h \
+  /opt/homebrew/Cellar/sdl2/2.30.7/include/SDL2/SDL_assert.h \
+  /opt/homebrew/Cellar/sdl2/2.30.7/include/SDL2/SDL_atomic.h \
+  /opt/homebrew/Cellar/sdl2/2.30.7/include/SDL2/SDL_audio.h \
+  /opt/homebrew/Cellar/sdl2/2.30.7/include/SDL2/SDL_blendmode.h \
+  /opt/homebrew/Cellar/sdl2/2.30.7/include/SDL2/SDL_clipboard.h \
   /opt/homebrew/Cellar/sdl2/2.30.7/include/SDL2/SDL_config.h \
+  /opt/homebrew/Cellar/sdl2/2.30.7/include/SDL2/SDL_cpuinfo.h \
+  /opt/homebrew/Cellar/sdl2/2.30.7/include/SDL2/SDL_endian.h \
+  /opt/homebrew/Cellar/sdl2/2.30.7/include/SDL2/SDL_error.h \
+  /opt/homebrew/Cellar/sdl2/2.30.7/include/SDL2/SDL_events.h \
+  /opt/homebrew/Cellar/sdl2/2.30.7/include/SDL2/SDL_filesystem.h \
+  /opt/homebrew/Cellar/sdl2/2.30.7/include/SDL2/SDL_gamecontroller.h \
+  /opt/homebrew/Cellar/sdl2/2.30.7/include/SDL2/SDL_gesture.h \
+  /opt/homebrew/Cellar/sdl2/2.30.7/include/SDL2/SDL_guid.h \
+  /opt/homebrew/Cellar/sdl2/2.30.7/include/SDL2/SDL_haptic.h \
+  /opt/homebrew/Cellar/sdl2/2.30.7/include/SDL2/SDL_hidapi.h \
+  /opt/homebrew/Cellar/sdl2/2.30.7/include/SDL2/SDL_hints.h \
+  /opt/homebrew/Cellar/sdl2/2.30.7/include/SDL2/SDL_joystick.h \
+  /opt/homebrew/Cellar/sdl2/2.30.7/include/SDL2/SDL_keyboard.h \
+  /opt/homebrew/Cellar/sdl2/2.30.7/include/SDL2/SDL_keycode.h \
+  /opt/homebrew/Cellar/sdl2/2.30.7/include/SDL2/SDL_loadso.h \
+  /opt/homebrew/Cellar/sdl2/2.30.7/include/SDL2/SDL_locale.h \
+  /opt/homebrew/Cellar/sdl2/2.30.7/include/SDL2/SDL_log.h \
+  /opt/homebrew/Cellar/sdl2/2.30.7/include/SDL2/SDL_main.h \
+  /opt/homebrew/Cellar/sdl2/2.30.7/include/SDL2/SDL_messagebox.h \
+  /opt/homebrew/Cellar/sdl2/2.30.7/include/SDL2/SDL_metal.h \
+  /opt/homebrew/Cellar/sdl2/2.30.7/include/SDL2/SDL_misc.h \
+  /opt/homebrew/Cellar/sdl2/2.30.7/include/SDL2/SDL_mouse.h \
+  /opt/homebrew/Cellar/sdl2/2.30.7/include/SDL2/SDL_mutex.h \
   /opt/homebrew/Cellar/sdl2/2.30.7/include/SDL2/SDL_opengl.h \
   /opt/homebrew/Cellar/sdl2/2.30.7/include/SDL2/SDL_opengl_glext.h \
+  /opt/homebrew/Cellar/sdl2/2.30.7/include/SDL2/SDL_pixels.h \
   /opt/homebrew/Cellar/sdl2/2.30.7/include/SDL2/SDL_platform.h \
+  /opt/homebrew/Cellar/sdl2/2.30.7/include/SDL2/SDL_power.h \
+  /opt/homebrew/Cellar/sdl2/2.30.7/include/SDL2/SDL_quit.h \
+  /opt/homebrew/Cellar/sdl2/2.30.7/include/SDL2/SDL_rect.h \
+  /opt/homebrew/Cellar/sdl2/2.30.7/include/SDL2/SDL_render.h \
+  /opt/homebrew/Cellar/sdl2/2.30.7/include/SDL2/SDL_rwops.h \
+  /opt/homebrew/Cellar/sdl2/2.30.7/include/SDL2/SDL_scancode.h \
+  /opt/homebrew/Cellar/sdl2/2.30.7/include/SDL2/SDL_sensor.h \
+  /opt/homebrew/Cellar/sdl2/2.30.7/include/SDL2/SDL_shape.h \
+  /opt/homebrew/Cellar/sdl2/2.30.7/include/SDL2/SDL_stdinc.h \
+  /opt/homebrew/Cellar/sdl2/2.30.7/include/SDL2/SDL_surface.h \
+  /opt/homebrew/Cellar/sdl2/2.30.7/include/SDL2/SDL_system.h \
+  /opt/homebrew/Cellar/sdl2/2.30.7/include/SDL2/SDL_thread.h \
+  /opt/homebrew/Cellar/sdl2/2.30.7/include/SDL2/SDL_timer.h \
+  /opt/homebrew/Cellar/sdl2/2.30.7/include/SDL2/SDL_touch.h \
+  /opt/homebrew/Cellar/sdl2/2.30.7/include/SDL2/SDL_version.h \
+  /opt/homebrew/Cellar/sdl2/2.30.7/include/SDL2/SDL_video.h \
   /opt/homebrew/Cellar/sdl2/2.30.7/include/SDL2/begin_code.h \
   /opt/homebrew/Cellar/sdl2/2.30.7/include/SDL2/close_code.h
 

@@ -7,7 +7,9 @@
 #include <opencv2/core/utils/filesystem.hpp>
 #include <opencv2/video/video.hpp>
 #include "common1.h"
-
+#include "imgui_impl_sdl2.h"
+#include <SDL.h>
+#include "gui_utils.h"
 
 
 
@@ -30,6 +32,9 @@ void read_video(const std::string &videoFilePath, Video &theVideo){//(std::vecto
             aFrame.img = frame;
             opencv_image2sam(aFrame.img_sam_format, frame);
             aFrame.order = frameNum;
+
+            aFrame.tex = createGLTexture(aFrame.img_sam_format, GL_RGB);
+
             theVideo.frames.push_back(aFrame);
             printf("Added frame num %d\n", frameNum);  
         }

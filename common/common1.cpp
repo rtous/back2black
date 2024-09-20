@@ -195,14 +195,20 @@ bool load_and_precompute_image_from_file(std::string path, sam_image_u8 & img0, 
 
 /*
     given an image (in sam format) get the best mask (in sam format at a given point 
+    return false if no mask has been found
 */
-void get_best_sam_mask_at_point(int x, int y, sam_image_u8 img0, sam_state & state, int n_threads, sam_image_u8 & mask) {
+bool get_best_sam_mask_at_point(int x, int y, sam_image_u8 img0, sam_state & state, int n_threads, sam_image_u8 & mask) {
     //Call sam to compute the mask at the point
     std::vector<sam_image_u8> masks;
     sam_point pt {(float)x, (float)y};
     masks = sam_compute_masks(img0, n_threads, pt, state);
     printf("[INFO] found %d masks\n", masks.size());
-    mask = masks[0]; //the returned masks are ordered by iou and stability_score
+    if (masks.size()>0) {
+        mask = masks[0]; //the returned masks are ordered by iou and stability_score
+        return true;
+    } else {
+        return false;
+    }
 }
 
 /*
@@ -261,7 +267,57 @@ void compute_object(Object & anObject, sam_image_u8 img0, sam_state & state, int
 }*/
  
 //We assume the first frame has already the objects and the user coordinates
+//but not the computation
+//frames are in files
 int propagate_masks(std::vector<Frame> & frames, sam_state & state, int n_threads) 
+{
+    int numFrames = frames.size();
+    int f = 0;
+    //iterate through all frames
+    for (Frame & aFrame : frames) {
+        printf("PROCESSING FRAME %d \n", f);
+        //load the frame
+        sam_image_u8 img0;
+        if (!load_and_precompute_image_from_file(aFrame.filePath, img0, state, n_threads)) {
+            fprintf(stderr, "%s: failed load_and_precompute_image_from_file from '%s'\n", __func__, aFrame.filePath.c_str());
+            return 1;
+        }
+
+        //iterate through all the objects of the frame
+        for (Object & anObject : aFrame.objects) {
+            printf("\tPROCESSING OBJECT %d \n", anObject.objectId);
+            compute_object(anObject, img0, state, n_threads);
+            
+            //if there are previous objects can check if the mask makes sense:
+            //bool isMaskConsistent = true; //th first mask is consistent
+            //if (f > 0)
+            //    isMaskConsistent =  mask contour similar to previous mask contour
+
+            
+            //add the object to the next frame with the next coordinates
+            printf("\tf=%d numFrames=%d.\n", f, numFrames);
+            if (f < numFrames-1) {
+                printf("\tADDING OBJECT %d TO FRAME %f.\n", anObject.objectId, f);
+                Object newObject;
+                newObject.objectId = anObject.objectId;
+                newObject.mask_computed_at_x = anObject.mask_center_x;
+                newObject.mask_computed_at_y = anObject.mask_center_y; 
+                frames[f+1].objects.push_back(newObject);
+            }
+                  //if isMaskConsistent new coordinates are the mask coordinates
+                  //otherwise use given coordinates
+            //    frames[f+1].addObject(new coordinates); 
+            printf("\tOBJECTS DONE.\n");
+        }
+        printf("FRAME DONE.\n");
+        f++;
+    }
+}
+
+//We assume the first frame has already the objects and the user coordinates
+//and also the computation 
+//frames are in memory
+int propagate_masks2(std::vector<Frame> & frames, sam_state & state, int n_threads) 
 {
     int numFrames = frames.size();
     int f = 0;
