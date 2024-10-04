@@ -1,0 +1,3 @@
+/Users/rtous/dev/back2black/node_addon/node-gyp-test/cmake-js-tut-01-module-simple/build/CMakeFiles/addon.dir
+/Users/rtous/dev/back2black/node_addon/node-gyp-test/cmake-js-tut-01-module-simple/build/CMakeFiles/edit_cache.dir
+/Users/rtous/dev/back2black/node_addon/node-gyp-test/cmake-js-tut-01-module-simple/build/CMakeFiles/rebuild_cache.dir

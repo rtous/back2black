@@ -72,6 +72,7 @@ all: cli_simplify/all
 all: editor/all
 all: cli_masks/all
 all: test_filesystem/all
+all: api/all
 .PHONY : all
 
 # The main recursive "preinstall" target.
@@ -84,6 +85,7 @@ preinstall: cli_simplify/preinstall
 preinstall: editor/preinstall
 preinstall: cli_masks/preinstall
 preinstall: test_filesystem/preinstall
+preinstall: api/preinstall
 .PHONY : preinstall
 
 # The main recursive "clean" target.
@@ -96,7 +98,23 @@ clean: cli_simplify/clean
 clean: editor/clean
 clean: cli_masks/clean
 clean: test_filesystem/clean
+clean: api/clean
 .PHONY : clean
+
+#=============================================================================
+# Directory level rules for directory api
+
+# Recursive "all" directory target.
+api/all: api/CMakeFiles/lester-api.dir/all
+.PHONY : api/all
+
+# Recursive "preinstall" directory target.
+api/preinstall:
+.PHONY : api/preinstall
+
+# Recursive "clean" directory target.
+api/clean: api/CMakeFiles/lester-api.dir/clean
+.PHONY : api/clean
 
 #=============================================================================
 # Directory level rules for directory cli_masks
@@ -404,7 +422,7 @@ third-party/ggml/src/CMakeFiles/ggml.dir/clean:
 third-party/sam/CMakeFiles/sam.dir/all: third-party/ggml/src/CMakeFiles/ggml.dir/all
 	$(MAKE) $(MAKESILENT) -f third-party/sam/CMakeFiles/sam.dir/build.make third-party/sam/CMakeFiles/sam.dir/depend
 	$(MAKE) $(MAKESILENT) -f third-party/sam/CMakeFiles/sam.dir/build.make third-party/sam/CMakeFiles/sam.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/Users/rtous/dev/back2black/build_macos/CMakeFiles --progress-num=32,33 "Built target sam"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/Users/rtous/dev/back2black/build_macos/CMakeFiles --progress-num=34,35 "Built target sam"
 .PHONY : third-party/sam/CMakeFiles/sam.dir/all
 
 # Build rule for subdir invocation for target.
@@ -457,7 +475,7 @@ third-party/ImGuiFileDialog/CMakeFiles/ImGuiFileDialog.dir/clean:
 test_opencv/CMakeFiles/test_opencv.dir/all:
 	$(MAKE) $(MAKESILENT) -f test_opencv/CMakeFiles/test_opencv.dir/build.make test_opencv/CMakeFiles/test_opencv.dir/depend
 	$(MAKE) $(MAKESILENT) -f test_opencv/CMakeFiles/test_opencv.dir/build.make test_opencv/CMakeFiles/test_opencv.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/Users/rtous/dev/back2black/build_macos/CMakeFiles --progress-num=38,39 "Built target test_opencv"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/Users/rtous/dev/back2black/build_macos/CMakeFiles --progress-num=40,41 "Built target test_opencv"
 .PHONY : test_opencv/CMakeFiles/test_opencv.dir/all
 
 # Build rule for subdir invocation for target.
@@ -542,7 +560,7 @@ cli_sam/CMakeFiles/cli_sam.dir/clean:
 simplify/CMakeFiles/simplify.dir/all:
 	$(MAKE) $(MAKESILENT) -f simplify/CMakeFiles/simplify.dir/build.make simplify/CMakeFiles/simplify.dir/depend
 	$(MAKE) $(MAKESILENT) -f simplify/CMakeFiles/simplify.dir/build.make simplify/CMakeFiles/simplify.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/Users/rtous/dev/back2black/build_macos/CMakeFiles --progress-num=34,35 "Built target simplify"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/Users/rtous/dev/back2black/build_macos/CMakeFiles --progress-num=36,37 "Built target simplify"
 .PHONY : simplify/CMakeFiles/simplify.dir/all
 
 # Build rule for subdir invocation for target.
@@ -662,7 +680,7 @@ test_filesystem/CMakeFiles/test_filesystem.dir/all: third-party/sam/CMakeFiles/s
 test_filesystem/CMakeFiles/test_filesystem.dir/all: common/CMakeFiles/common.dir/all
 	$(MAKE) $(MAKESILENT) -f test_filesystem/CMakeFiles/test_filesystem.dir/build.make test_filesystem/CMakeFiles/test_filesystem.dir/depend
 	$(MAKE) $(MAKESILENT) -f test_filesystem/CMakeFiles/test_filesystem.dir/build.make test_filesystem/CMakeFiles/test_filesystem.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/Users/rtous/dev/back2black/build_macos/CMakeFiles --progress-num=36,37 "Built target test_filesystem"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/Users/rtous/dev/back2black/build_macos/CMakeFiles --progress-num=38,39 "Built target test_filesystem"
 .PHONY : test_filesystem/CMakeFiles/test_filesystem.dir/all
 
 # Build rule for subdir invocation for target.
@@ -680,6 +698,36 @@ test_filesystem: test_filesystem/CMakeFiles/test_filesystem.dir/rule
 test_filesystem/CMakeFiles/test_filesystem.dir/clean:
 	$(MAKE) $(MAKESILENT) -f test_filesystem/CMakeFiles/test_filesystem.dir/build.make test_filesystem/CMakeFiles/test_filesystem.dir/clean
 .PHONY : test_filesystem/CMakeFiles/test_filesystem.dir/clean
+
+#=============================================================================
+# Target rules for target api/CMakeFiles/lester-api.dir
+
+# All Build rule for target.
+api/CMakeFiles/lester-api.dir/all: third-party/imgui/CMakeFiles/imgui.dir/all
+api/CMakeFiles/lester-api.dir/all: third-party/imgui/CMakeFiles/imgui-sdl2.dir/all
+api/CMakeFiles/lester-api.dir/all: third-party/ggml/src/CMakeFiles/ggml.dir/all
+api/CMakeFiles/lester-api.dir/all: third-party/sam/CMakeFiles/sam.dir/all
+api/CMakeFiles/lester-api.dir/all: common/CMakeFiles/common.dir/all
+	$(MAKE) $(MAKESILENT) -f api/CMakeFiles/lester-api.dir/build.make api/CMakeFiles/lester-api.dir/depend
+	$(MAKE) $(MAKESILENT) -f api/CMakeFiles/lester-api.dir/build.make api/CMakeFiles/lester-api.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/Users/rtous/dev/back2black/build_macos/CMakeFiles --progress-num=32,33 "Built target lester-api"
+.PHONY : api/CMakeFiles/lester-api.dir/all
+
+# Build rule for subdir invocation for target.
+api/CMakeFiles/lester-api.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /Users/rtous/dev/back2black/build_macos/CMakeFiles 19
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 api/CMakeFiles/lester-api.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /Users/rtous/dev/back2black/build_macos/CMakeFiles 0
+.PHONY : api/CMakeFiles/lester-api.dir/rule
+
+# Convenience name for target.
+lester-api: api/CMakeFiles/lester-api.dir/rule
+.PHONY : lester-api
+
+# clean rule for target.
+api/CMakeFiles/lester-api.dir/clean:
+	$(MAKE) $(MAKESILENT) -f api/CMakeFiles/lester-api.dir/build.make api/CMakeFiles/lester-api.dir/clean
+.PHONY : api/CMakeFiles/lester-api.dir/clean
 
 #=============================================================================
 # Special targets to cleanup operation of make.

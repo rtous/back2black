@@ -1,0 +1,53 @@
+g++ -framework Accelerate -framework OpenCL -std=c++11 -L/Users/rtous/dev/opencv/build/lib/ \
+-I/Users/rtous/dev/opencv/build \
+-I/Users/rtous/dev/opencv/include \
+-I/Users/rtous/dev/opencv/modules/core/include \
+-I/Users/rtous/dev/opencv/modules/flann/include \
+-I/Users/rtous/dev/opencv/modules/imgproc/include \
+-I/Users/rtous/dev/opencv/modules/ml/include \
+-I/Users/rtous/dev/opencv/modules/photo/include \
+-I/Users/rtous/dev/opencv/modules/dnn/include \
+-I/Users/rtous/dev/opencv/modules/features2d/include \
+-I/Users/rtous/dev/opencv/modules/imgcodecs/include \
+-I/Users/rtous/dev/opencv/modules/features2d/include \
+-I/Users/rtous/dev/opencv/modules/videoio/include \
+-I/Users/rtous/dev/opencv/modules/calib3d/include \
+-I/Users/rtous/dev/opencv/modules/highgui/include \
+-I/Users/rtous/dev/opencv/modules/objdetect/include \
+-I/Users/rtous/dev/opencv/modules/highgui/include \
+-I/Users/rtous/dev/opencv/modules/stitching/include \
+-I/Users/rtous/dev/opencv/modules/ts/include \
+-I/Users/rtous/dev/opencv/modules/video/include \
+-I/Users/rtous/dev/opencv/modules/ts/include \
+-I/Users/rtous/dev/opencv/modules/gapi/include \
+-I/Users/rtous/dev/opencv/3rdparty/carotene/include/carotene \
+-I/Users/rtous/dev/opencv/3rdparty/carotene/hal \
+-lopencv_calib3d \
+-lopencv_core \
+-lopencv_dnn \
+-lopencv_features2d \
+-lopencv_flann \
+-lopencv_gapi \
+-lopencv_highgui \
+-lopencv_imgcodecs \
+-lopencv_imgproc \
+-lopencv_ml \
+-lopencv_objdetect \
+-lopencv_photo \
+-lopencv_stitching \
+-lopencv_video \
+-lopencv_videoio \
+/Users/rtous/dev/opencv/build/3rdparty/lib/libtegra_hal.a \
+/Users/rtous/dev/opencv/build/3rdparty/lib/libzlib.a \
+/Users/rtous/dev/opencv/build/3rdparty/lib/liblibwebp.a \
+/Users/rtous/dev/opencv/build/3rdparty/lib/libade.a \
+/Users/rtous/dev/opencv/build/3rdparty/lib/libIlmImf.a \
+/Users/rtous/dev/opencv/build/3rdparty/lib/libittnotify.a \
+/Users/rtous/dev/opencv/build/3rdparty/lib/liblibjpeg-turbo.a \
+/Users/rtous/dev/opencv/build/3rdparty/lib/liblibopenjp2.a \
+/Users/rtous/dev/opencv/build/3rdparty/lib/liblibprotobuf.a \
+/Users/rtous/dev/opencv/build/3rdparty/lib/liblibtiff.a \
+/Users/rtous/dev/opencv/build/3rdparty/lib/liblibpng.a \
+cpphello.cpp -o cpphello
+
+./cpphello

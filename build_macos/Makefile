@@ -330,6 +330,19 @@ test_filesystem/fast:
 	$(MAKE) $(MAKESILENT) -f test_filesystem/CMakeFiles/test_filesystem.dir/build.make test_filesystem/CMakeFiles/test_filesystem.dir/build
 .PHONY : test_filesystem/fast
 
+#=============================================================================
+# Target rules for targets named lester-api
+
+# Build rule for target.
+lester-api: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 lester-api
+.PHONY : lester-api
+
+# fast build rule for target.
+lester-api/fast:
+	$(MAKE) $(MAKESILENT) -f api/CMakeFiles/lester-api.dir/build.make api/CMakeFiles/lester-api.dir/build
+.PHONY : lester-api/fast
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -351,6 +364,7 @@ help:
 	@echo "... ggml"
 	@echo "... imgui"
 	@echo "... imgui-sdl2"
+	@echo "... lester-api"
 	@echo "... sam"
 	@echo "... simplify"
 	@echo "... test_filesystem"

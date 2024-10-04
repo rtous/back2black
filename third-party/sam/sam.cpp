@@ -1453,6 +1453,8 @@ struct ggml_tensor* sam_decode_mask_transformer_attn(
     const auto & hparams = model.hparams;
     const int n_head = hparams.n_dec_heads;
 
+
+
     struct ggml_tensor * Qcur = {};
     struct ggml_tensor * Kcur = {};
     struct ggml_tensor * Vcur = {};
@@ -1554,15 +1556,15 @@ bool sam_decode_mask(
         // TODO: Sparse prompt embeddings can have more than one point
     }
 
-
     struct ggml_tensor * src = {};
     struct ggml_tensor * pos_src = {};
     int srcNE[4] = { 0, 0, 0, 0 };
     {
         // Expand per-image data in the batch direction to be per-mask
         // ref: https://github.com/facebookresearch/segment-anything/blob/6fdee8f2727f4506cfbbe553e23b895e27956588/segment_anything/modeling/mask_decoder.py#L125
+        if (state.embd_img == NULL)
+            printf("ERROR: You did not precompute the image!\n");
         src = ggml_new_tensor_4d(ctx0, GGML_TYPE_F32, state.embd_img->ne[0], state.embd_img->ne[1], state.embd_img->ne[2], tokens->ne[2]);
-
         src = ggml_add(ctx0,
             ggml_repeat(ctx0,
                 state.embd_img,
@@ -1605,7 +1607,6 @@ bool sam_decode_mask(
                 0),
             1, 0, 2, 3));
     }
-
     struct ggml_tensor * queries = tokens;
     struct ggml_tensor * keys = src;
     {
@@ -1949,7 +1950,6 @@ struct ggml_cgraph  * sam_build_fast_graph(
         fprintf(stderr, "%s: failed to encode prompt\n", __func__);
         return {};
     }
-
     struct ggml_tensor * pe_img_dense = sam_fill_dense_pe(model, ctx0, gf, state);
     if (!pe_img_dense) {
         fprintf(stderr, "%s: failed to get dense positional encoding\n", __func__);
@@ -2071,6 +2071,7 @@ std::vector<sam_image_u8> sam_compute_masks(
         return {};
     }
 
+
     const int64_t t_start_ms = ggml_time_ms();
 
     static size_t buf_size = 256u*1024*1024;
@@ -2091,12 +2092,13 @@ std::vector<sam_image_u8> sam_compute_masks(
 
     st.iou_predictions = ggml_new_tensor_1d(st.ctx_masks, GGML_TYPE_F32, 3);
 
-
     const size_t alignment = ggml_backend_get_alignment(model.backend);
     st.allocr = ggml_allocr_new_measure(alignment);
 
+
     // measure memory requirements for the graph
     struct ggml_cgraph  * gf_measure = sam_build_fast_graph(model, st, img.nx, img.ny, pt);
+    
     if (!gf_measure) {
         fprintf(stderr, "%s: failed to build fast graph to measure\n", __func__);
         return {};

@@ -101,3 +101,10 @@
 /Users/rtous/dev/back2black/build_macos/test_filesystem/CMakeFiles/install.dir
 /Users/rtous/dev/back2black/build_macos/test_filesystem/CMakeFiles/install/local.dir
 /Users/rtous/dev/back2black/build_macos/test_filesystem/CMakeFiles/install/strip.dir
+/Users/rtous/dev/back2black/build_macos/api/CMakeFiles/lester-api.dir
+/Users/rtous/dev/back2black/build_macos/api/CMakeFiles/edit_cache.dir
+/Users/rtous/dev/back2black/build_macos/api/CMakeFiles/rebuild_cache.dir
+/Users/rtous/dev/back2black/build_macos/api/CMakeFiles/list_install_components.dir
+/Users/rtous/dev/back2black/build_macos/api/CMakeFiles/install.dir
+/Users/rtous/dev/back2black/build_macos/api/CMakeFiles/install/local.dir
+/Users/rtous/dev/back2black/build_macos/api/CMakeFiles/install/strip.dir

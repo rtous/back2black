@@ -8,6 +8,7 @@ set(CMAKE_DEPENDS_GENERATOR "Unix Makefiles")
 set(CMAKE_MAKEFILE_DEPENDS
   "CMakeCache.txt"
   "/Users/rtous/dev/back2black/CMakeLists.txt"
+  "/Users/rtous/dev/back2black/api/CMakeLists.txt"
   "CMakeFiles/3.28.3/CMakeCCompiler.cmake"
   "CMakeFiles/3.28.3/CMakeCXXCompiler.cmake"
   "CMakeFiles/3.28.3/CMakeSystem.cmake"
@@ -88,6 +89,7 @@ set(CMAKE_MAKEFILE_PRODUCTS
   "editor/CMakeFiles/CMakeDirectoryInformation.cmake"
   "cli_masks/CMakeFiles/CMakeDirectoryInformation.cmake"
   "test_filesystem/CMakeFiles/CMakeDirectoryInformation.cmake"
+  "api/CMakeFiles/CMakeDirectoryInformation.cmake"
   )
 
 # Dependency information for all targets:
@@ -105,4 +107,5 @@ set(CMAKE_DEPEND_INFO_FILES
   "editor/CMakeFiles/editor.dir/DependInfo.cmake"
   "cli_masks/CMakeFiles/cli_masks.dir/DependInfo.cmake"
   "test_filesystem/CMakeFiles/test_filesystem.dir/DependInfo.cmake"
+  "api/CMakeFiles/lester-api.dir/DependInfo.cmake"
   )

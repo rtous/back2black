@@ -1,0 +1,3 @@
+/Users/rtous/dev/back2black/node_addon/with-cmake-js/cmake-js-helloworld-opencv/build/CMakeFiles/addon.dir
+/Users/rtous/dev/back2black/node_addon/with-cmake-js/cmake-js-helloworld-opencv/build/CMakeFiles/edit_cache.dir
+/Users/rtous/dev/back2black/node_addon/with-cmake-js/cmake-js-helloworld-opencv/build/CMakeFiles/rebuild_cache.dir
