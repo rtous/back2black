@@ -1,3 +1,0 @@
-TODO
-
-- dependencies: https://github.com/nodejs/node-gyp/issues/1255

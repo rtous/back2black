@@ -1,0 +1,9 @@
+{
+  "name": "segment-anything-model",
+  "version": "1.0.10",
+  "main": "main.js",
+  "author": "Ruben Tous",
+  "license": "ISC",
+  "gypfile": true,
+  "description": ""
+}
