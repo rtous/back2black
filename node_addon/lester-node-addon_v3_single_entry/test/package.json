@@ -1,0 +1,5 @@
+{
+  "dependencies": {
+    "segment-anything-model": "^1.0.30"
+  }
+}

@@ -1,0 +1,4 @@
+TODO
+
+- Funciona però si fas un altre npm install esborra el modul. 
+- Windows

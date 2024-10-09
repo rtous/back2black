@@ -123,10 +123,18 @@ void MyObject::precompute_image(const FunctionCallbackInfo<Value>& args) {
 void MyObject::compute_mask(const FunctionCallbackInfo<Value>& args) {
   printf("MyObject::compute_mask...\n");
   Isolate* isolate = args.GetIsolate();
+  Local<Context> context = isolate->GetCurrentContext();
+
+  int x = args[0]->IsUndefined() ?
+        0 : args[0]->NumberValue(context).FromMaybe(0);
+  int y = args[1]->IsUndefined() ?
+        0 : args[1]->NumberValue(context).FromMaybe(0);
+
+
   MyObject* obj = ObjectWrap::Unwrap<MyObject>(args.This());
   cv::Mat output_img;
-  int x = 539;
-  int y = 309;
+  //int x = 539;
+  //int y = 309;
   bool found = obj->anAPIState.compute_mask_opencv(x, y, output_img);
   if (found) {
     printf("Mask found.\n"); 

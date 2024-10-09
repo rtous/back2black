@@ -1,6 +1,7 @@
 {
   "name": "segment-anything-model-win64",
-  "version": "1.0.16",
+  "version": "1.0.20",
+  "main": "main.js",
   "author": "Ruben Tous",
   "license": "ISC",
   "gypfile": true,

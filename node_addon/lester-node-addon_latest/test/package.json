@@ -1,0 +1,5 @@
+{
+  "dependencies": {
+    "segment-anything-model-mac": "^1.0.20"
+  }
+}

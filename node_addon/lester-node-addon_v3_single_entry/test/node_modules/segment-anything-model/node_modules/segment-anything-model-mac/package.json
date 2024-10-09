@@ -1,0 +1,8 @@
+{
+  "name": "segment-anything-model-mac",
+  "version": "1.0.17",
+  "author": "Ruben Tous",
+  "license": "ISC",
+  "gypfile": true,
+  "description": ""
+}

@@ -1,30 +1,78 @@
+USAGE INSTRUCTIONS
+
+0. Explanation
+
+Native addon:
+
+- The native module is specified in the binding.gyp file
+- In specifies source files and also locations of linked libraries and headers
+- It makes use of the "api" library from the main project
+- To be able to keep state among calls, the api uses a C++ object.
+- A "wrapper" object is used to be able to access the C++ object from JS.
+- The result of the build is a single file (lester.node)
+- The native module can be directly used as shown in test1.js and test2.js
+- During build the binary file is copied to the specific platform folder within the publish folder.
+- Also the checkpoints are copied.
+
+Module segment-anything-model:
+
+- With a package.json that specifies a install script in install.js
+- This script retrieves another model, specific for the platform (e.g. segment-anything-model-mac).
+- Tha main module also includes main.js the script that is executed when the module is required by a script. 
+
 1. Setup
 
-LINK: https://github.com/nodejs/node-gyp
+Install Node.js: https://nodejs.org/en/download/package-manager/
+
+Install node-gyp:
 
 npm install -g node-gyp
 
-2. Build
+(LINK: https://github.com/nodejs/node-gyp)
 
-NOTE: The build target is "build" and cannot be changed. After a successful build copy the build folder to, e.g., build_mac. 
+NOTE: Some paths assume you are within the back2black repo. Somo other paths asume you have opencv in a folder at the same level of the back2black repo.
 
-node-gyp configure build
+2. Build and publish
 
-WARNING: If anything changes in a linked library the build is not going to be updated unless you change something in the addon files. Alternativelly you can do:
+From the root (lester-node-addon_latest):
 
 node-gyp rebuild
 
-3. Direct test
+NOTE 1 : Better than configure build because that way if anything changes in a linked library the build is not going to be updated unless you change something in the addon files.
+
+NOTE 2 : The build target is "build" and cannot be changed. It will be overwritten if you build in a different platform but the relevant results are copied to the specific folder within the publish folder. 
+
+cd publish/segment-anything-model
+(change the version in publish/segment-anything-model/package.json)
+npm publish
+
+And now for the specific platform where you are building:
+
+cd publish/segment-anything-model-mac
+(change the version in publish/segment-anything-model-mac/package.json)
+npm publish
+
+NOTE: For publishing you need previously to:
+	
+	- Register here: https://www.npmjs.com/signup
+	- Log into https://registry.npmjs.org/ (rtous, ruben.tous@upc.edu)
+	npm adduser
+
+3. Test the C++ addon directly
 
 node test1.js
 node test2.js
 
-4. Release
+4. Test the published module
 
-- Copy the Release folder from the add-on
+In the test directory remove everything except the test.js and do:
 
+npm install segment-anything-model
+node test.js
 
-5. Publish
+HOWTO INSTRUCTIONS
+
+1. Publishing a module
 
 - Create a package.json file (root of the module)
 	
@@ -42,9 +90,6 @@ node test2.js
 
 	npm publish
 
-6. Usage
-
-	npm install segment-anything-model
 
 7. Troubleshooting
 
