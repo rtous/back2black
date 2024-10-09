@@ -108,9 +108,17 @@ For Windows compile this way:
 	cmake -G "MinGW Makefiles" -DCMAKE_CXX_COMPILER=C:/MinGW/bin/g++.exe -DCMAKE_C_COMPILER=C:/MinGW/bin/gcc.exe -DBUILD_SHARED_LIBS=OFF ..
 	cmake -G "MinGW Makefiles" -DCMAKE_CXX_COMPILER=C:/MinGW/bin/g++.exe -DCMAKE_C_COMPILER=C:/MinGW/bin/gcc.exe -DBUILD_SHARED_LIBS=OFF -D BUILD_opencv_java=OFF -D BUILD_opencv_python=OFF ..
 	
+	(FOR MSVC: cmake -DBUILD_SHARED_LIBS=OFF -D BUILD_opencv_java=OFF -D BUILD_opencv_python=OFF ..)
+	(The build type here is being ignored by MSVC: cmake -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS=OFF -D BUILD_opencv_java=OFF -D BUILD_opencv_python=OFF ..)
+
 	cmake --build .
 	
+	(FOR MSVC: cmake --build . --config Release
+	(FOR MSVC: cmake --build .)
+	
 	check: CXXFLAGS="${CFLAGS} -mno-sse4.1" emerge -av1 opencv
+
+WARNING: Need to copy the build/opencv_ffmpegXXX.dll to the place the .exe is.
 
 ANNEX 2. ImGuiFileDialog
 
@@ -119,6 +127,8 @@ ANNEX 2. ImGuiFileDialog
 	
 	
 ANNEX 3. Windows
+
+3.1 WITH MingW
 
 - Install MinGW and CMAKE
 - type:
@@ -131,7 +141,7 @@ Install MinGW 64:
 	- Backup the C:\MinGW folder into C:\MinGW_backup_32
 	- Copy the contents of mingw4 within C:\MinGW
 	
-SDL2:
+SDL2 (for MINGW):
 	#https://github.com/stho01/sdl2-cmake-mingw32-template
 	descarregar els que tenen mingw!
 	
@@ -145,3 +155,31 @@ SDL2:
 	-Hi ha dues versions, CAL AGAFAR LA x86_64-w64-mingw32 QUE ES LA DE 64 bits!!
 	
 	- WARNING: SDL2.dll needs to be shipped at the same location of the .exe
+
+SDL2 (for MSVC):
+	Descarregar SDL2.Compiler de https://github.com/GlowCheese/SDL2-Setup/releases
+	Descomprimir i moure a C:\SDL
+	(nota, he copiat la carpeta SDL2 que hi havia dins include de la versió de MINGW a l'include de la versió de MSVC)
+
+3.2 WITH MSVC
+
+(nota: estic fent servir el cmake que venia amb MINGW...)
+
+You need to install the latest version of Visual Studio including the "Desktop development with C++" workload (https://github.com/nodejs/node-gyp#on-windows)
+
+Install Chocolatey (https://chocolatey.org/install):
+	Open PowerShell with administrative privileges
+	
+	Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))
+	
+	choco -?
+
+Install Visual Studio tools:
+	
+	choco install python visualstudio2022-workload-vctools -y
+	reboot
+
+Before working:
+
+	fnm env --use-on-cd | Out-String | Invoke-Expression
+
