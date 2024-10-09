@@ -32,6 +32,22 @@ npm install -g node-gyp
 
 NOTE: Some paths assume you are within the back2black repo. Somo other paths asume you have opencv in a folder at the same level of the back2black repo.
 
+SETUP Windows
+
+You need to install the latest version of Visual Studio including the "Desktop development with C++" workload (https://github.com/nodejs/node-gyp#on-windows)
+
+Install Chocolatey (https://chocolatey.org/install):
+	Open PowerShell with administrative privileges
+	
+	Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))
+	
+	choco -?
+
+Install Visual Studio tools:
+	
+	choco install python visualstudio2022-workload-vctools -y
+
+
 2. Build and publish
 
 From the root (lester-node-addon_latest):

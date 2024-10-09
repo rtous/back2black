@@ -6,7 +6,7 @@
       "sources": [ 
           "binding_utils.cpp",
           "cpphello.cpp",
-          "wrappedobject.cc"
+          "wrappedobject.cpp"
       ],
       "libraries": [
       "<(module_root_dir)/../../build_macos/api/liblester-api.a",
