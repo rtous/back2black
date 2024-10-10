@@ -500,13 +500,13 @@ static void finishingWindow(MyState &myState, const ImGuiViewport* viewport, ImG
 /*
     Show file dialog or process a file related request 
 */
-void propagate(MyState &myState) {
+/*void propagate(MyState &myState) {
     //Show file dialog
-    if (myState.propagate) {
-        propagate_masks2(myState.aVideo.frames, *myState.a_sam_state, myState.params.n_threads);
+    //if (myState.propagate) {
+    propagate_masks2(myState.aVideo.frames, *myState.a_sam_state, myState.params.n_threads);
         myState.propagate = false;
     }
-}
+}*/
 
 /*
     Show file dialog or process a file related request 
@@ -607,9 +607,23 @@ static void masksWindow(MyState &myState, const ImGuiViewport* viewport, ImGuiWi
     }
 }*/
 
+//checks user actions (e.g. open a file, etc.)
+void checkActions(MyState &myState) 
+{
+    if (myState.img_loaded && myState.propagate) {
+        printf("PROPAGATING...\n");
+        propagate_masks2(myState.aVideo.frames, *myState.a_sam_state, myState.params.n_threads);
+        myState.propagate = false;
+        printf("PROPAGATED.\n");
+    }
+}
+
 //Main editor method (called within the main loop)
 void editor(bool *show_myWindow, bool *show_file_dialog, MyState &myState) //WARNING: this is executed within the main loop
 {
+    //Check user actions
+    checkActions(myState);
+
     //Main Menu
     ShowExampleAppMainMenuBar(show_file_dialog, myState);
 
@@ -648,7 +662,7 @@ void editor(bool *show_myWindow, bool *show_file_dialog, MyState &myState) //WAR
 
     //PROPAGATE
     //printf("propagate...\n");
-    propagate(myState);
+    //propagate(myState);
     
     //ImGui::End();
 

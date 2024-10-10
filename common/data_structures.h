@@ -30,10 +30,10 @@ class Object {
     int objectId;
     //int color;
     float color[4]; //R,G,B,A (WARNING: values between 0 and 1)
-    int mask_computed_at_x;  
-    int mask_computed_at_y;
-    int mask_center_x;  
-    int mask_center_y; 
+    int mask_computed_at_x = -1;  
+    int mask_computed_at_y = -1;
+    int mask_center_x = -1;  
+    int mask_center_y = -1; 
     int mask_contour_size;
     std::vector<std::vector<cv::Point>> contours;//contours of the object masks
 

@@ -232,6 +232,29 @@ cv::Mat get_best_opencv_mask_at_point(int x, int y, sam_image_u8 img0, sam_state
 
 }*/
 
+//TODO
+void compute_object_mask_center(Object & anObject, sam_image_u8 img0, sam_state & state, int n_threads) {
+    cv::Mat mask_opencv;
+    sam_image2opencv(anObject.samMask, mask_opencv);
+    printf("\tcompute_object_mask_center...\n");
+    std::vector<cv::Vec4i> hierarchy;
+    printf("\t\tfindContours...\n");
+    cv:findContours(mask_opencv, anObject.contours, hierarchy, cv::RETR_LIST, cv::CHAIN_APPROX_SIMPLE );
+    if (anObject.contours.size() == 0) 
+        printf("WARNING: No countours found for the mask!\n");
+    //TODO: Multiple contours
+    printf("\t\tcontourArea...\n");
+    anObject.mask_contour_size = cv::contourArea(anObject.contours[0]);
+    printf("new_contour_area = %d \n", anObject.mask_contour_size);
+
+    // compute the center of the contour https://pyimagesearch.com/2016/02/01/opencv-center-of-contour/
+    cv::Moments M = cv::moments(anObject.contours[0]);
+    cv::Point center(M.m10/M.m00, M.m01/M.m00);  
+    anObject.mask_center_x = center.x;
+    anObject.mask_center_y = center.y;
+    //circle(anObject.mask, center, 5, cv::Scalar(128,0,0), -1);//DEBUG
+} 
+
 void compute_object(Object & anObject, sam_image_u8 img0, sam_state & state, int n_threads) {
 
     //Compute the frame: Obtain the best mask at the point
@@ -317,6 +340,7 @@ int propagate_masks(std::vector<Frame> & frames, sam_state & state, int n_thread
 //We assume the first frame has already the objects and the user coordinates
 //and also the computation 
 //frames are in memory
+//ONGOING
 int propagate_masks2(std::vector<Frame> & frames, sam_state & state, int n_threads) 
 {
     int numFrames = frames.size();
@@ -324,37 +348,31 @@ int propagate_masks2(std::vector<Frame> & frames, sam_state & state, int n_threa
     //iterate through all frames
     for (Frame & aFrame : frames) {
         printf("PROCESSING FRAME %d \n", f);
-        //load the frame
-        sam_image_u8 img0;
-        if (!load_and_precompute_image_from_file(aFrame.filePath, img0, state, n_threads)) {
-            fprintf(stderr, "%s: failed load_and_precompute_image_from_file from '%s'\n", __func__, aFrame.filePath.c_str());
-            return 1;
+        if (f>0) {//if not the first frame
+            //precompute frame
+            if (!sam_compute_embd_img(aFrame.img_sam_format, n_threads, state)) {
+                fprintf(stderr, "%s: failed to compute encoded image\n", __func__);
+                //return 1;
+            }
         }
 
         //iterate through all the objects of the frame
         for (Object & anObject : aFrame.objects) {
             printf("\tPROCESSING OBJECT %d \n", anObject.objectId);
-            compute_object(anObject, img0, state, n_threads);
-            
-            //if there are previous objects can check if the mask makes sense:
-            //bool isMaskConsistent = true; //th first mask is consistent
-            //if (f > 0)
-            //    isMaskConsistent =  mask contour similar to previous mask contour
-
-            
+            if (f>0) { //if not the first frame
+                compute_object(anObject, aFrame.img_sam_format, state, n_threads);
+            }
+            compute_object_mask_center(anObject, aFrame.img_sam_format, state, n_threads);
             //add the object to the next frame with the next coordinates
             printf("\tf=%d numFrames=%d.\n", f, numFrames);
             if (f < numFrames-1) {
-                printf("\tADDING OBJECT %d TO FRAME %f.\n", anObject.objectId, f);
                 Object newObject;
                 newObject.objectId = anObject.objectId;
                 newObject.mask_computed_at_x = anObject.mask_center_x;
                 newObject.mask_computed_at_y = anObject.mask_center_y; 
+                printf("\tADDING OBJECT %d TO FRAME %d WITH x=%d, y=%d\n", anObject.objectId, f, newObject.mask_computed_at_x, newObject.mask_computed_at_y);
                 frames[f+1].objects.push_back(newObject);
             }
-                  //if isMaskConsistent new coordinates are the mask coordinates
-                  //otherwise use given coordinates
-            //    frames[f+1].addObject(new coordinates); 
             printf("\tOBJECTS DONE.\n");
         }
         printf("FRAME DONE.\n");

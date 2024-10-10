@@ -159,6 +159,8 @@ void compute_mask(Frame & aFrame, const sam_params & params, sam_state & state, 
 
             Object newObject;
             newObject.samMask = mask;
+            newObject.mask_computed_at_x = x;
+            newObject.mask_computed_at_y = y;
             
             sam_image_u8 mask_rgb = sam_image2color(mask);
             GLuint newGLTexture = createGLTexture(mask_rgb, GL_RGBA);
