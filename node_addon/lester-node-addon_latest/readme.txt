@@ -52,6 +52,8 @@ Install Visual Studio tools:
 
 From the root (lester-node-addon_latest):
 
+(in MSVC previously do: fnm env --use-on-cd | Out-String | Invoke-Expression)
+
 node-gyp rebuild
 
 NOTE 1 : Better than configure build because that way if anything changes in a linked library the build is not going to be updated unless you change something in the addon files.

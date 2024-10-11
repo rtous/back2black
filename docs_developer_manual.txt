@@ -75,7 +75,16 @@ TIP: Inspecting cmake variables
 
 ERROR: fatal error: 'string.h' file not found mac
 	- Remove the contents of the build folder and retry 
+	
+ERROR: RuntimeLibrary mismatch. Al CMakeList arrel:
 
+	cmake_minimum_required(VERSION 3.16) 
+	
+	i després de project:
+	
+	set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
+
+ERROR: Problem with filesystem Mac/Windows: use the OpenCV utils (e.g. cv::utils::fs::exists)
 
 ANNEX 1. OpenCV
 

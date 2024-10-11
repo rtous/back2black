@@ -44,40 +44,51 @@
         }
         ],
         ["OS==\"win\" and target_arch==\"x64\"", {
-          "libraries": [
-          "<(module_root_dir)/../../build_windows/api/liblester-api.a",
-          "<(module_root_dir)/../../build_windows/common/libcommon.a",
-          "<(module_root_dir)/../../build_windows/third-party/sam/libsam.a",
-          "<(module_root_dir)/../../build_windows/third-party/ggml/src/libggml.a",
-          #"Accelerate.framework",
-          #"OpenCL.framework",
-          "<(module_root_dir)/../../../opencv/build/lib/libopencv_core.a",
-          "<(module_root_dir)/../../../opencv/build/lib/libopencv_imgcodecs.a",
-          "<(module_root_dir)/../../../opencv/build/lib/libopencv_imgproc.a",
-          "<(module_root_dir)/../../../opencv/build/lib/libopencv_features2d.a",
-          "<(module_root_dir)/../../../opencv/build/lib/libopencv_gapi.a",
-          "<(module_root_dir)/../../../opencv/build/lib/libopencv_highgui.a",
-          "<(module_root_dir)/../../../opencv/build/lib/libopencv_objdetect.a",
-          "<(module_root_dir)/../../../opencv/build/lib/libopencv_photo.a",
-          "<(module_root_dir)/../../../opencv/build/lib/libopencv_stitching.a",
-          "<(module_root_dir)/../../../opencv/build/lib/libopencv_ts.a",
-          "<(module_root_dir)/../../../opencv/build/lib/libopencv_video.a",
-          "<(module_root_dir)/../../../opencv/build/lib/libopencv_videoio.a",
-          "<(module_root_dir)/../../../opencv/build/3rdparty/lib/libtegra_hal.a",
-          "<(module_root_dir)/../../../opencv/build/3rdparty/lib/libzlib.a",
-          "<(module_root_dir)/../../../opencv/build/3rdparty/lib/liblibwebp.a",
-          "<(module_root_dir)/../../../opencv/build/3rdparty/lib/libade.a",
-          "<(module_root_dir)/../../../opencv/build/3rdparty/lib/libIlmImf.a",
-          "<(module_root_dir)/../../../opencv/build/3rdparty/lib/libittnotify.a",
-          "<(module_root_dir)/../../../opencv/build/3rdparty/lib/liblibjpeg-turbo.a",
-          "<(module_root_dir)/../../../opencv/build/3rdparty/lib/liblibopenjp2.a",
-          "<(module_root_dir)/../../../opencv/build/3rdparty/lib/liblibprotobuf.a",
-          "<(module_root_dir)/../../../opencv/build/3rdparty/lib/liblibtiff.a",
-          "<(module_root_dir)/../../../opencv/build/3rdparty/lib/liblibpng.a",
-          ],
+          #this does not work???
         }
         ],
       ],
+	  #These are for Windows (the condition does not work i don't know why)
+	  'msvs_settings': {
+		'VCCLCompilerTool': {
+			'AdditionalOptions': [
+				#'/GR',
+				'/MTd',
+				#'/EHsc'
+			]
+		},
+	  },
+	  "libraries": [
+	  "<(module_root_dir)/../../build_windows/api/Debug/lester-api.lib",
+	  "<(module_root_dir)/../../build_windows/common/Debug/common.lib",
+	  "<(module_root_dir)/../../build_windows/third-party/sam/Debug/sam.lib",
+	  "<(module_root_dir)/../../build_windows/third-party/ggml/src/Debug/ggml.lib",
+	  "<(module_root_dir)/../../../opencv/build/lib/Debug/opencv_core490d.lib",
+	  "<(module_root_dir)/../../../opencv/build/lib/Debug/opencv_imgcodecs490d.lib",
+	  "<(module_root_dir)/../../../opencv/build/lib/Debug/opencv_imgproc490d.lib",
+	  "<(module_root_dir)/../../../opencv/build/lib/Debug/opencv_features2d490d.lib",
+	  "<(module_root_dir)/../../../opencv/build/lib/Debug/opencv_gapi490d.lib",
+	  "<(module_root_dir)/../../../opencv/build/lib/Debug/opencv_highgui490d.lib",
+	  "<(module_root_dir)/../../../opencv/build/lib/Debug/opencv_objdetect490d.lib",
+	  "<(module_root_dir)/../../../opencv/build/lib/Debug/opencv_photo490d.lib",
+	  "<(module_root_dir)/../../../opencv/build/lib/Debug/opencv_stitching490d.lib",
+	  "<(module_root_dir)/../../../opencv/build/lib/Debug/opencv_ts490d.lib",
+	  "<(module_root_dir)/../../../opencv/build/lib/Debug/opencv_video490d.lib",
+	  "<(module_root_dir)/../../../opencv/build/lib/Debug/opencv_videoio490d.lib",
+	  "<(module_root_dir)/../../../opencv/build/3rdparty/lib/Debug/zlibd.lib",
+	  "<(module_root_dir)/../../../opencv/build/3rdparty/lib/Debug/libwebpd.lib",
+	  "<(module_root_dir)/../../../opencv/build/3rdparty/lib/Debug/aded.lib",
+	  "<(module_root_dir)/../../../opencv/build/3rdparty/lib/Debug/IlmImfd.lib",
+	  "<(module_root_dir)/../../../opencv/build/3rdparty/lib/Debug/ittnotifyd.lib",
+	  "<(module_root_dir)/../../../opencv/build/3rdparty/lib/Debug/libjpeg-turbod.lib",
+	  "<(module_root_dir)/../../../opencv/build/3rdparty/lib/Debug/libopenjp2d.lib",
+	  "<(module_root_dir)/../../../opencv/build/3rdparty/lib/Debug/libprotobufd.lib",
+	  "<(module_root_dir)/../../../opencv/build/3rdparty/lib/Debug/libtiffd.lib",
+	  "<(module_root_dir)/../../../opencv/build/3rdparty/lib/Debug/libpngd.lib",
+	  "<(module_root_dir)/../../../opencv/build/3rdparty/lib/Debug/ippiwd.lib",
+	  "<(module_root_dir)/../../../opencv/build/3rdparty/ippicv/ippicv_win/icv/lib/intel64/ippicvmt.lib",
+	  ],
+	  ##############
       "include_dirs": [
         "<(module_root_dir)/../../common",
         "<(module_root_dir)/../../api",
@@ -162,13 +173,13 @@
       "conditions": [
         ["OS==\"win\" and target_arch==\"x64\"", {
           "copies": [{
-            "destination": "<(module_root_dir)/publish/segment-anything-model-linux_win64/bin/",
+            "destination": "<(module_root_dir)/publish/segment-anything-model-win64/bin/",
             "files": [
               "<(module_root_dir)/build/Release/lester.node"
             ]
           },
           {
-            "destination": "<(module_root_dir)/publish/segment-anything-model-linux_win64/bin/checkpoints",
+            "destination": "<(module_root_dir)/publish/segment-anything-model-win64/bin/checkpoints",
             "files": [
               "<(module_root_dir)/../../checkpoints/ggml-model-f16.bin"
             ]

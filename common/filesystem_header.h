@@ -33,11 +33,11 @@
 #	 pragma message ("fs = std::filesystem;")
 #    include <filesystem>
      namespace fs = std::filesystem;
-#  elif __has_include(<experimental/filesystem>)
-//#    warning "fs = std::experimental::filesystem;"
-#	 pragma message ("fs = std::experimental::filesystem;")
-#    include <experimental/filesystem>
-     namespace fs = std::experimental::filesystem;
+//#  elif __has_include(<experimental/filesystem>)
+////#    warning "fs = std::experimental::filesystem;"
+//#	 pragma message ("fs = std::experimental::filesystem;")
+//#    include <experimental/filesystem>
+//     namespace fs = std::experimental::filesystem;
 #  elif __has_include(<boost/filesystem.hpp>)
 //#    warning "fs = boost::filesystem;"
 #	 pragma message ("fs = boost::filesystem;")

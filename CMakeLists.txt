@@ -1,11 +1,20 @@
 #TOP LEVEL CMAKE
 
-cmake_minimum_required(VERSION 3.12)
+#cmake_minimum_required(VERSION 3.12)
+cmake_minimum_required(VERSION 3.16) #To avoid the error between RuntimeLibrary
+
 project("back2black")
 
 if (NOT XCODE AND NOT MSVC AND NOT CMAKE_BUILD_TYPE)
     set(CMAKE_BUILD_TYPE Release CACHE STRING "Build type" FORCE)
     set_property(CACHE CMAKE_BUILD_TYPE PROPERTY STRINGS "Debug" "Release" "MinSizeRel" "RelWithDebInfo")
+endif()
+
+if(MSVC)
+	message(STATUS "RUBEN: MSVC DETECTED")
+    set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
+else()
+	message(STATUS "RUBEN: NO MSVC DETECTED")
 endif()
 
 
@@ -27,5 +36,5 @@ add_subdirectory(simplify)
 add_subdirectory(cli_simplify)
 add_subdirectory(editor)
 add_subdirectory(cli_masks)
-add_subdirectory(test_filesystem)
+#add_subdirectory(test_filesystem)
 add_subdirectory(api)

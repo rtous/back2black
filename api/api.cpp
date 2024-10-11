@@ -1,6 +1,6 @@
 #include "api.h"
 #include "common1.h"
-//#include <opencv2/core/utils/filesystem.hpp>
+#include <opencv2/core/utils/filesystem.hpp>
 #include "filesystem_header.h"
 
 using namespace cv;
@@ -17,7 +17,7 @@ void APIState::set_checkpoint_path(std::string checkpoint_path_) {
 
 void APIState::load_model() {
     params.model = checkpoint_path;
-    if (!fs::exists(checkpoint_path)) {
+    if (!cv::utils::fs::exists(checkpoint_path)) {
         printf("Checkpoints path does not exist: %s.\n", checkpoint_path.c_str());
         exit(1);
     } else 

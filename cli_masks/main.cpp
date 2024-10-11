@@ -152,7 +152,7 @@ int main(int argc, char ** argv)
     std::string input_path = "data/example2/images";
     std::string output_path = "output/example2/masks";
 
-    if (!fs::exists(output_path)) {
+    if (!cv::utils::fs::exists(output_path)) {
         printf("Output directory does not exist, creating: %s", output_path.c_str());
         cv::utils::fs::createDirectories(output_path);
     }
