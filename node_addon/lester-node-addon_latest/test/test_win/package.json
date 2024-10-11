@@ -1,0 +1,14 @@
+{
+  "name": "test_win",
+  "version": "1.0.0",
+  "main": "test.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "segment-anything-model-win64": "^1.0.20"
+  }
+}

@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "segment-anything-model-mac": "^1.0.20",
+    "segment-anything-model-win64": "^1.0.20"
+  }
+}
