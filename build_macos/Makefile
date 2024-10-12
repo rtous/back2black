@@ -318,19 +318,6 @@ cli_masks/fast:
 .PHONY : cli_masks/fast
 
 #=============================================================================
-# Target rules for targets named test_filesystem
-
-# Build rule for target.
-test_filesystem: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 test_filesystem
-.PHONY : test_filesystem
-
-# fast build rule for target.
-test_filesystem/fast:
-	$(MAKE) $(MAKESILENT) -f test_filesystem/CMakeFiles/test_filesystem.dir/build.make test_filesystem/CMakeFiles/test_filesystem.dir/build
-.PHONY : test_filesystem/fast
-
-#=============================================================================
 # Target rules for targets named lester-api
 
 # Build rule for target.
@@ -367,7 +354,6 @@ help:
 	@echo "... lester-api"
 	@echo "... sam"
 	@echo "... simplify"
-	@echo "... test_filesystem"
 	@echo "... test_opencv"
 .PHONY : help
 

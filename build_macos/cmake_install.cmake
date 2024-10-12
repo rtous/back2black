@@ -38,18 +38,48 @@ if(NOT DEFINED CMAKE_OBJDUMP)
 endif()
 
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
-  # Include the install script for each subdirectory.
+  # Include the install script for the subdirectory.
   include("/Users/rtous/dev/back2black/build_macos/third-party/cmake_install.cmake")
-  include("/Users/rtous/dev/back2black/build_macos/test_opencv/cmake_install.cmake")
-  include("/Users/rtous/dev/back2black/build_macos/common/cmake_install.cmake")
-  include("/Users/rtous/dev/back2black/build_macos/cli_sam/cmake_install.cmake")
-  include("/Users/rtous/dev/back2black/build_macos/simplify/cmake_install.cmake")
-  include("/Users/rtous/dev/back2black/build_macos/cli_simplify/cmake_install.cmake")
-  include("/Users/rtous/dev/back2black/build_macos/editor/cmake_install.cmake")
-  include("/Users/rtous/dev/back2black/build_macos/cli_masks/cmake_install.cmake")
-  include("/Users/rtous/dev/back2black/build_macos/test_filesystem/cmake_install.cmake")
-  include("/Users/rtous/dev/back2black/build_macos/api/cmake_install.cmake")
+endif()
 
+if(NOT CMAKE_INSTALL_LOCAL_ONLY)
+  # Include the install script for the subdirectory.
+  include("/Users/rtous/dev/back2black/build_macos/test_opencv/cmake_install.cmake")
+endif()
+
+if(NOT CMAKE_INSTALL_LOCAL_ONLY)
+  # Include the install script for the subdirectory.
+  include("/Users/rtous/dev/back2black/build_macos/common/cmake_install.cmake")
+endif()
+
+if(NOT CMAKE_INSTALL_LOCAL_ONLY)
+  # Include the install script for the subdirectory.
+  include("/Users/rtous/dev/back2black/build_macos/cli_sam/cmake_install.cmake")
+endif()
+
+if(NOT CMAKE_INSTALL_LOCAL_ONLY)
+  # Include the install script for the subdirectory.
+  include("/Users/rtous/dev/back2black/build_macos/simplify/cmake_install.cmake")
+endif()
+
+if(NOT CMAKE_INSTALL_LOCAL_ONLY)
+  # Include the install script for the subdirectory.
+  include("/Users/rtous/dev/back2black/build_macos/cli_simplify/cmake_install.cmake")
+endif()
+
+if(NOT CMAKE_INSTALL_LOCAL_ONLY)
+  # Include the install script for the subdirectory.
+  include("/Users/rtous/dev/back2black/build_macos/editor/cmake_install.cmake")
+endif()
+
+if(NOT CMAKE_INSTALL_LOCAL_ONLY)
+  # Include the install script for the subdirectory.
+  include("/Users/rtous/dev/back2black/build_macos/cli_masks/cmake_install.cmake")
+endif()
+
+if(NOT CMAKE_INSTALL_LOCAL_ONLY)
+  # Include the install script for the subdirectory.
+  include("/Users/rtous/dev/back2black/build_macos/api/cmake_install.cmake")
 endif()
 
 if(CMAKE_INSTALL_COMPONENT)

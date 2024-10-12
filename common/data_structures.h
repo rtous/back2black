@@ -23,8 +23,10 @@ class Object {
     cv::Mat mask;//old
 
     sam_image_u8 samMask;
+    bool mask_computed = false;
     GLuint maskTexture;
     GLuint simplifiedMaskTexture;
+    bool textures_computed = false;
   
     
     int objectId;

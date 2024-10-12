@@ -252,7 +252,7 @@ static void frameWindow(MyState &myState, bool *show_myWindow, const ImGuiViewpo
                 //printf("myState.selected_frame=%d,myState.selected_object=%d\n", myState.selected_frame, myState.selected_object);
                 printf("R=%d,G=%d,B=%d\n", R, G, B);
                 //compute_masks(myState.img, myState.params, *myState.a_sam_state, &selectedObject.maskTextures, myState.clickedX, myState.clickedY, selectedObject.masks, &myState.masks_colors, myState.last_color_id, R, G, B, &selectedObject.simplifiedMaskTextures);
-                compute_mask(myState.aVideo.frames[myState.selected_frame], myState.params, *myState.a_sam_state, myState.clickedX, myState.clickedY, R, G, B);
+                compute_mask_and_textures(myState.aVideo.frames[myState.selected_frame], myState.params, *myState.a_sam_state, myState.clickedX, myState.clickedY, R, G, B);
 
                 //printf("Computed masks. selectedObject.maskTextures.size()=%d\n", selectedObject.maskTextures.size());
 
@@ -335,6 +335,7 @@ static void framesListWindow(MyState &myState, const ImGuiViewport* viewport, Im
                         printf("First frame precomputed.\n");
                         myState.frame_precomputed = 0;
                     }
+                    //drawAllMasks(myState, viewport, viewport->Pos, false);
                 }
             }
             n++;
@@ -613,6 +614,7 @@ void checkActions(MyState &myState)
     if (myState.img_loaded && myState.propagate) {
         printf("PROPAGATING...\n");
         propagate_masks2(myState.aVideo.frames, *myState.a_sam_state, myState.params.n_threads);
+        compute_mask_textures_all_frames(myState.aVideo.frames);
         myState.propagate = false;
         printf("PROPAGATED.\n");
     }

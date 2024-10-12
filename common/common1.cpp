@@ -214,6 +214,7 @@ bool get_best_sam_mask_at_point(int x, int y, sam_image_u8 img0, sam_state & sta
 /*
 	given an image (in sam format) get the best mask (in opencv format at a given point 
 */
+//CURRENLTY USED??
 cv::Mat get_best_opencv_mask_at_point(int x, int y, sam_image_u8 img0, sam_state & state, int n_threads) {
 	
     //compute mask at given point (pick best one)
@@ -233,7 +234,7 @@ cv::Mat get_best_opencv_mask_at_point(int x, int y, sam_image_u8 img0, sam_state
 }*/
 
 //TODO
-void compute_object_mask_center(Object & anObject, sam_image_u8 img0, sam_state & state, int n_threads) {
+void compute_object_mask_center(Object & anObject) {
     cv::Mat mask_opencv;
     sam_image2opencv(anObject.samMask, mask_opencv);
     printf("\tcompute_object_mask_center...\n");
@@ -259,8 +260,16 @@ void compute_object(Object & anObject, sam_image_u8 img0, sam_state & state, int
 
     //Compute the frame: Obtain the best mask at the point
     //cv::Mat output = get_best_opencv_mask_at_point(anObject.mask_computed_at_x, anObject.mask_computed_at_y, img0, state, n_threads);
-    anObject.mask = get_best_opencv_mask_at_point(anObject.mask_computed_at_x, anObject.mask_computed_at_y, img0, state, n_threads);
     
+    //compute mask at given point (pick best one)
+    get_best_sam_mask_at_point(anObject.mask_computed_at_x, anObject.mask_computed_at_y, img0, state, n_threads, anObject.samMask);
+    
+    //convert mask to opencv format
+    sam_image2opencv(anObject.samMask, anObject.mask);
+
+    //anObject.mask = get_best_opencv_mask_at_point(anObject.mask_computed_at_x, anObject.mask_computed_at_y, img0, state, n_threads);
+    anObject.mask_computed = true;
+
     cv::Point center2(anObject.mask_computed_at_x, anObject.mask_computed_at_y); 
     circle(anObject.mask, center2, 5, cv::Scalar(128,128,0), -1);//DEBUG
 
@@ -271,6 +280,8 @@ void compute_object(Object & anObject, sam_image_u8 img0, sam_state & state, int
     //std::vector<std::vector<cv::Point>> contours;
     std::vector<cv::Vec4i> hierarchy;
     cv:findContours(anObject.mask, anObject.contours, hierarchy, cv::RETR_LIST, cv::CHAIN_APPROX_SIMPLE );
+    if (anObject.contours.size() == 0) 
+        printf("WARNING: No countours found for the mask!\n");
 
     //TODO: Multiple contours
 
@@ -345,29 +356,37 @@ int propagate_masks2(std::vector<Frame> & frames, sam_state & state, int n_threa
 {
     int numFrames = frames.size();
     int f = 0;
-    //iterate through all frames
+    //iterate through all frames 
+    //assumes that the first frame has been already computed
     for (Frame & aFrame : frames) {
+        if (f == 5) //DEBUG!!
+            break;
         printf("PROCESSING FRAME %d \n", f);
-        if (f>0) {//if not the first frame
-            //precompute frame
+        //if not the first frame precompute the image
+        if (f>0) {
             if (!sam_compute_embd_img(aFrame.img_sam_format, n_threads, state)) {
                 fprintf(stderr, "%s: failed to compute encoded image\n", __func__);
                 //return 1;
             }
-        }
-
+        } 
         //iterate through all the objects of the frame
         for (Object & anObject : aFrame.objects) {
             printf("\tPROCESSING OBJECT %d \n", anObject.objectId);
-            if (f>0) { //if not the first frame
+            //if not the first frame compute the mask
+            if (f>0) { 
                 compute_object(anObject, aFrame.img_sam_format, state, n_threads);
             }
-            compute_object_mask_center(anObject, aFrame.img_sam_format, state, n_threads);
+            //compute mask center
+            //compute_object_mask_center(anObject, aFrame.img_sam_format, state, n_threads);
+            
             //add the object to the next frame with the next coordinates
             printf("\tf=%d numFrames=%d.\n", f, numFrames);
             if (f < numFrames-1) {
                 Object newObject;
                 newObject.objectId = anObject.objectId;
+                newObject.color[0] = anObject.color[0];
+                newObject.color[1] = anObject.color[1];
+                newObject.color[2] = anObject.color[2];
                 newObject.mask_computed_at_x = anObject.mask_center_x;
                 newObject.mask_computed_at_y = anObject.mask_center_y; 
                 printf("\tADDING OBJECT %d TO FRAME %d WITH x=%d, y=%d\n", anObject.objectId, f, newObject.mask_computed_at_x, newObject.mask_computed_at_y);

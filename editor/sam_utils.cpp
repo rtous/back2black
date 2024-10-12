@@ -129,76 +129,69 @@ int masks_already_in_list(sam_image_u8 candidateMask, Frame & aFrame) {
 
 }*/
 
+
+//Computes the texture of the mask and it's simplified version
+void compute_mask_textures(Object & anObject, int R, int G, int B) {
+    sam_image_u8 mask_rgb = sam_image2color(anObject.samMask);
+    GLuint newGLTexture = createGLTexture(mask_rgb, GL_RGBA);
+    anObject.maskTexture = newGLTexture;
+    cv::Mat input_image_opencv;
+    sam_image2opencv(anObject.samMask, input_image_opencv);//Does initialize the result
+    cv::Mat output_image_opencv = cv::Mat::zeros(input_image_opencv.size(), CV_8UC4);
+    //This one does not initialize the result
+    simplifyColorSegment(input_image_opencv, output_image_opencv, false, R, G, B); 
+    sam_image_u8 mask_simplified;
+    opencv_image2sam_binarymask(mask_simplified, output_image_opencv);
+    sam_image_u8 mask_simplified_rgb = sam_image2color(mask_simplified);
+    GLuint newGLTextureSimplified = createGLTexture(mask_simplified_rgb, GL_RGBA);
+    anObject.simplifiedMaskTexture = newGLTextureSimplified;
+    anObject.textures_computed = true;
+
+}
+
+void compute_mask_textures_all_frames(std::vector<Frame> & frames) 
+{
+    int numFrames = frames.size();
+    int f = 0;
+    //iterate through all frames 
+    //assumes that the first frame has been already computed
+    for (Frame & aFrame : frames) {
+        printf("PROCESSING FRAME %d \n", f);
+        //iterate through all the objects of the frame
+        for (Object & anObject : aFrame.objects) {
+            printf("\tPROCESSING OBJECT...\n", f);
+            if (anObject.mask_computed && !anObject.textures_computed) {
+                printf("\t\tcompute_mask_textures...\n", f);
+                compute_mask_textures(anObject, anObject.color[0]*255, anObject.color[1]*255, anObject.color[2]*255);
+                printf("\t\tcomputed textures...\n", f);
+            }
+        }
+        f++;
+    }
+}
+
 //computes the masks at the given point
 //currently the passed storedMasks are just the masks of one object
 //void compute_masks(sam_image_u8 img, const sam_params & params, sam_state & state, std::vector<GLuint> *maskTextures, int x, int y, std::vector<sam_image_u8> & storedMasks, std::vector<int> * mask_colors, int & last_color_id, int R, int G, int B, std::vector<GLuint> *simplifiedMaskTextures) {
-void compute_mask(Frame & aFrame, const sam_params & params, sam_state & state, int x, int y, int R, int G, int B) {
-  
+void compute_mask_and_textures(Frame & aFrame, const sam_params & params, sam_state & state, int x, int y, int R, int G, int B) {
     printf("compute_masks\n");
-    
     sam_image_u8 mask;
     bool maskFound;
-    maskFound = get_best_sam_mask_at_point(x, y, aFrame.img_sam_format, state, params.n_threads, mask);
-    
-    if (maskFound) {
-        
+    maskFound = get_best_sam_mask_at_point(x, y, aFrame.img_sam_format, state, params.n_threads, mask); 
+    if (maskFound) {        
         //printf("isEmptyMaskDEBUG(mask)=%d\n", isEmptyMaskDEBUG(mask));
         int pos = masks_already_in_list(mask, aFrame);
         
         if (pos == -1) { //the mask is new, not in storedMasks            
-            //assign color
-            /*int color_id = (last_color_id+1)%256;
-            last_color_id = color_id;
-            printf("Assigned color id: %d\n", color_id);
-            mask_colors->push_back(color_id);
-            sam_image_u8 mask_rgb = sam_image2color(mask);
-            GLuint newGLTexture = createGLTexture(mask_rgb, GL_RGBA);
-            maskTextures->push_back(newGLTexture);
-            storedMasks.push_back(mask);*/
-
-
             Object newObject;
             newObject.samMask = mask;
+            newObject.mask_computed = true;
             newObject.mask_computed_at_x = x;
             newObject.mask_computed_at_y = y;
-            
-            sam_image_u8 mask_rgb = sam_image2color(mask);
-            GLuint newGLTexture = createGLTexture(mask_rgb, GL_RGBA);
-            newObject.maskTexture = newGLTexture;
-            
-
-
-            //Simplify:
-            /*
-            cv::Mat input_image_opencv;
-            sam_image2opencv(mask, input_image_opencv);//Does initialize the result
-            cv::Mat output_image_opencv = cv::Mat::zeros(input_image_opencv.size(), CV_8UC4);
-            //This one does not initialize the result
-            simplifyColorSegment(input_image_opencv, output_image_opencv, false, R, G, B); 
-            sam_image_u8 mask_simplified;
-            //opencv_image2sam(mask_simplified_rgb, output_image_opencv);
-            opencv_image2sam_binarymask(mask_simplified, output_image_opencv);
-            sam_image_u8 mask_simplified_rgb = sam_image2color(mask_simplified);
-            GLuint newGLTextureSimplified = createGLTexture(mask_simplified_rgb, GL_RGBA);
-            simplifiedMaskTextures->push_back(newGLTextureSimplified);
-            */
-            cv::Mat input_image_opencv;
-            sam_image2opencv(mask, input_image_opencv);//Does initialize the result
-            cv::Mat output_image_opencv = cv::Mat::zeros(input_image_opencv.size(), CV_8UC4);
-            //This one does not initialize the result
-            simplifyColorSegment(input_image_opencv, output_image_opencv, false, R, G, B); 
-            sam_image_u8 mask_simplified;
-            //opencv_image2sam(mask_simplified_rgb, output_image_opencv);
-            opencv_image2sam_binarymask(mask_simplified, output_image_opencv);
-            sam_image_u8 mask_simplified_rgb = sam_image2color(mask_simplified);
-            GLuint newGLTextureSimplified = createGLTexture(mask_simplified_rgb, GL_RGBA);
-            newObject.simplifiedMaskTexture = newGLTextureSimplified;
-
+            compute_object_mask_center(newObject);
+            compute_mask_textures(newObject, R, G, B);
             aFrame.objects.push_back(newObject);
-
             printf("Added mask\n");
-            //glGenBuffers(1, &newGLTexture);
-            //printf("%u\n", newGLTexture);
         } else {
             //If the mask is already in storedMasks we will delete it
             printf("Deleting mask %d ", pos);
