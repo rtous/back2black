@@ -9,6 +9,11 @@
 
 class MyState {      
   public:  
+
+    //position of the image frame within the application window
+    //int img_frame_pos_x;
+    //int img_frame_pos_y;
+
     //panels, etc.     
     bool show_file_dialog_video = false;      
     bool openFile;  

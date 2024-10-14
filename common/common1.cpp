@@ -354,12 +354,13 @@ int propagate_masks(std::vector<Frame> & frames, sam_state & state, int n_thread
 //ONGOING
 int propagate_masks2(std::vector<Frame> & frames, sam_state & state, int n_threads) 
 {
+    int MAX = 5;
     int numFrames = frames.size();
     int f = 0;
     //iterate through all frames 
     //assumes that the first frame has been already computed
     for (Frame & aFrame : frames) {
-        if (f == 5) //DEBUG!!
+        if (f == MAX) //DEBUG!!
             break;
         printf("PROCESSING FRAME %d \n", f);
         //if not the first frame precompute the image
@@ -381,7 +382,7 @@ int propagate_masks2(std::vector<Frame> & frames, sam_state & state, int n_threa
             
             //add the object to the next frame with the next coordinates
             printf("\tf=%d numFrames=%d.\n", f, numFrames);
-            if (f < numFrames-1) {
+            if (f < MAX-1 && f < numFrames-1) {
                 Object newObject;
                 newObject.objectId = anObject.objectId;
                 newObject.color[0] = anObject.color[0];
@@ -396,5 +397,10 @@ int propagate_masks2(std::vector<Frame> & frames, sam_state & state, int n_threa
         }
         printf("FRAME DONE.\n");
         f++;
+    }
+    //precompute the original frame to keep things as they were
+    if (!sam_compute_embd_img(frames[0].img_sam_format, n_threads, state)) {
+        fprintf(stderr, "%s: failed to compute encoded image\n", __func__);
+        //return 1;
     }
 }

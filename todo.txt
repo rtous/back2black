@@ -7,8 +7,8 @@ Universitat Politecnica de Catalunya
 
 
 TODO
-- Després del propagate l'estat de sam es queda amb l'embedding de la darrera imatge i no la que tens seleccionada.
-- Quan cliques propagate clica a la imatge també. No comproba el focus?
+
+- Quan cliques propagate clica a la imatge també. No comproba el focus? SOLUCIONAT però com la imatge es mes gran que la finestra... cal escalarla i ajustar tot!
 - La imatge queda una mica tapada pel menú (no es tan facil com moure-la ja que tot es calcula a partir del 0,0 de la finestra...)
 - La máscara del darrer frame queda malament
 - El propagate ara només es pot fer a partir del primer frame
@@ -25,4 +25,5 @@ TODO
 - Si cliques a un lloc en el qual un altre objecte té la màscara? ara pot quedar amagat
 
 DONE: 
+- Després del propagate l'estat de sam es queda amb l'embedding de la darrera imatge i no la que tens seleccionada.
 - CRITIC: Potser millar que UN OBJECTE = UNA MASCARA (al propagate era axis

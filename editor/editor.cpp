@@ -174,11 +174,13 @@ static void drawAllMasks(MyState &myState, const ImGuiViewport* viewport, ImVec2
         //draw_list->AddImage((void*)(intptr_t)myState.objectsMaskTextures[j][i], ImVec2(newPos[0], newPos[1]), ImVec2(newPos[0]+myState.img.nx, newPos[1]+myState.img.ny), ImVec2(0,0), ImVec2(1,1), IM_COL32(r, g, b, 255));
         //draw_list->AddImage(maskTextures, ImVec2(newPos[0], newPos[1]), ImVec2(newPos[0]+myState.img.nx, newPos[1]+myState.img.ny), ImVec2(0,0), ImVec2(1,1), IM_COL32(r, g, b, 255));
 
+        //void ImDrawList::AddImage(ImTextureID user_texture_id, const ImVec2& a, const ImVec2& b, const ImVec2& uv_a, const ImVec2& uv_b, ImU32 col) 
+
         if (simplified)
+            //ImVec2 mousePositionRelative = ImVec2(mousePositionAbsolute.x - screenPositionAbsolute.x, mousePositionAbsolute.y - screenPositionAbsolute.y);
             draw_list->AddImage((void*)(intptr_t)anObject.simplifiedMaskTexture, ImVec2(newPos[0], newPos[1]), ImVec2(newPos[0]+myState.img.nx, newPos[1]+myState.img.ny), ImVec2(0,0), ImVec2(1,1), IM_COL32(r, g, b, 255));
         else 
-            draw_list->AddImage((void*)(intptr_t)anObject.maskTexture, ImVec2(newPos[0], newPos[1]), ImVec2(newPos[0]+myState.img.nx, newPos[1]+myState.img.ny), ImVec2(0,0), ImVec2(1,1), IM_COL32(r, g, b, 255));
-        
+            draw_list->AddImage((void*)(intptr_t)anObject.maskTexture, ImVec2(newPos[0], newPos[1]), ImVec2(newPos[0]+myState.img.nx, newPos[1]+myState.img.ny), ImVec2(0,0), ImVec2(1,1), IM_COL32(r, g, b, 255));  
     }
 }
 
@@ -192,16 +194,25 @@ static void frameWindow(MyState &myState, bool *show_myWindow, const ImGuiViewpo
     //ImVec2 newPos = ImVec2(viewport->WorkPos.x + 0, viewport->WorkPos.y + 0);
     //ImVec2 newPos = ImVec2(use_work_area ? viewport->WorkPos : viewport->Pos);
     
+    printf("use_work_area  = %d\n", use_work_area);
     ImVec2 newPos = ImVec2(use_work_area ? viewport->WorkPos : viewport->Pos);
-    
+    printf("newPos.x  = %f\n", newPos.x);
+    printf("newPos.y  = %f\n", newPos.y);
+    printf("viewport->Pos.x  = %f\n", viewport->Pos.x);
+    printf("viewport->Pos.y  = %f\n", viewport->Pos.y);
+    printf("viewport->WorkPos.x  = %f\n", viewport->WorkPos.x);
+    printf("viewport->WorkPos.y  = %f\n", viewport->WorkPos.y);
 
     ImGui::SetNextWindowPos(newPos);
     //ImGui::SetNextWindowPos(use_work_area ? viewport->WorkPos : viewport->Pos);
     //ImVec2 size = ImVec2(viewport->WorkSize.x * 0.5f, viewport->WorkSize.y * 0.5f);
     ImGui::SetNextWindowSize(use_work_area ? size : viewport->Size);
     //Create EDITOR window
-    ImGui::Begin("FRAME", show_myWindow);   // Pass a pointer to our bool variable (the window will have a closing button that will clear the bool when clicked)
-    
+    //ImGui::Begin("FRAME", show_myWindow);   // Pass a pointer to our bool variable (the window will have a closing button that will clear the bool when clicked)
+    ImGui::Begin("FRAME", show_myWindow, ImGuiWindowFlags_NoTitleBar);
+    //myState.img_frame_pos_x = ;
+    //myState.img_frame_pos_y;
+
     /******* image ******/
     if (myState.img_loaded) {
         //Draw input image (previously loaded)
@@ -213,8 +224,18 @@ static void frameWindow(MyState &myState, bool *show_myWindow, const ImGuiViewpo
         
         Frame & aFrame = myState.aVideo.frames[myState.selected_frame];
 
-        draw_list->AddImage((void*)(intptr_t)aFrame.tex, ImVec2(0,0), ImVec2(myState.img.nx, myState.img.ny));
-        draw_list->AddCircleFilled(ImVec2(100, 100), 5, IM_COL32(255, 0, 0, 255));
+        //testing relative pos
+        //ImVec2 screenPositionAbsolute = ImGui::GetItemRectMin();
+        //ImVec2 mousePositionRelative = ImVec2(mousePositionAbsolute.x - screenPositionAbsolute.x, mousePositionAbsolute.y - screenPositionAbsolute.y);
+        //ImGui::GetWindowPos()
+        //
+        //int absolute_x = myState.img_frame_pos_x;//ImGui::GetWindowWidth()
+        //int absolute_y = myState.img_frame_pos_y;
+
+        draw_list->AddImage((void*)(intptr_t)aFrame.tex, ImVec2(viewport->WorkPos.x, viewport->WorkPos.y), ImVec2(viewport->WorkPos.x+myState.img.nx, viewport->WorkPos.y+myState.img.ny));
+        //draw_list->AddImage((void*)(intptr_t)aFrame.tex, ImVec2(newPos.x, newPos.y), ImVec2(myState.img.nx, myState.img.ny));
+        //draw_list->AddImage((void*)(intptr_t)aFrame.tex, ImVec2(myState.img_frame_pos_x,myState.img_frame_pos_y), ImVec2(myState.img.nx, myState.img.ny));
+        //draw_list->AddCircleFilled(ImVec2(100, 100), 5, IM_COL32(255, 0, 0, 255));
     } else {
         ImGui::Text("Load an image from the File menu.");
     }
@@ -228,7 +249,7 @@ static void frameWindow(MyState &myState, bool *show_myWindow, const ImGuiViewpo
             //Object & selectedObject = myState.aVideo.frames[myState.selected_frame].objects[myState.selected_object];
 
             //TODO make the position relative to the window (now works because image is displayed at 0,0)
-            if (myState.clickedX > 0 && myState.clickedX < myState.img.nx && myState.clickedY > 0 && myState.clickedY < myState.img.ny) {
+            if (myState.clickedX > viewport->WorkPos.x && myState.clickedX < viewport->WorkPos.x+myState.img.nx && myState.clickedY > viewport->WorkPos.y && myState.clickedY < viewport->WorkPos.y+myState.img.ny) {
                 
                 //When click, need to ensure that the precomputed frame is this one
                 if (myState.frame_precomputed != myState.selected_frame) {
@@ -252,7 +273,9 @@ static void frameWindow(MyState &myState, bool *show_myWindow, const ImGuiViewpo
                 //printf("myState.selected_frame=%d,myState.selected_object=%d\n", myState.selected_frame, myState.selected_object);
                 printf("R=%d,G=%d,B=%d\n", R, G, B);
                 //compute_masks(myState.img, myState.params, *myState.a_sam_state, &selectedObject.maskTextures, myState.clickedX, myState.clickedY, selectedObject.masks, &myState.masks_colors, myState.last_color_id, R, G, B, &selectedObject.simplifiedMaskTextures);
-                compute_mask_and_textures(myState.aVideo.frames[myState.selected_frame], myState.params, *myState.a_sam_state, myState.clickedX, myState.clickedY, R, G, B);
+                int absoluteX = myState.clickedX-viewport->WorkPos.x;
+                int absoluteY = myState.clickedY-viewport->WorkPos.y;
+                compute_mask_and_textures(myState.aVideo.frames[myState.selected_frame], myState.params, *myState.a_sam_state, absoluteX, absoluteY, R, G, B);
 
                 //printf("Computed masks. selectedObject.maskTextures.size()=%d\n", selectedObject.maskTextures.size());
 
@@ -273,7 +296,14 @@ static void frameWindow(MyState &myState, bool *show_myWindow, const ImGuiViewpo
         
         //Draw all masks
         
-        drawAllMasks(myState, viewport, viewport->Pos, false);
+        printf("viewport->Pos.x  = %f\n", viewport->Pos.x);
+        printf("viewport->Pos.y  = %f\n", viewport->Pos.y);
+        printf("viewport->WorkPos.x  = %f\n", viewport->WorkPos.x);
+        printf("viewport->WorkPos.y  = %f\n", viewport->WorkPos.y);
+        //ImVec2 newPos = ImVec2(use_work_area ? viewport->WorkPos : viewport->Pos);
+        
+        drawAllMasks(myState, viewport, viewport->WorkPos, false);
+        //drawAllMasks(myState, viewport, newPos, false);
 
     }
 
@@ -354,7 +384,7 @@ static void objectsListWindow(MyState &myState, const ImGuiViewport* viewport, I
     ImGui::SetNextWindowSize(use_work_area ? size : viewport->Size);
     ImGui::Begin("OBJECTS");
     ImGui::Text("OBJECTS WINDOW"); 
-
+    
     std::vector<std::string> items; 
 
     //items.push_back("OBJECT 1");
@@ -368,8 +398,7 @@ static void objectsListWindow(MyState &myState, const ImGuiViewport* viewport, I
         }
     }
 
-    //static int item_current_idx = myState.selected_object; // Here we store our selection data as an index.
-    //if (ImGui::BeginListBox("listbox 2"))
+    
     if (ImGui::BeginListBox("##listbox 2", ImVec2(-FLT_MIN, 5 * ImGui::GetTextLineHeightWithSpacing())))
     {
         int i = 0;
@@ -380,43 +409,64 @@ static void objectsListWindow(MyState &myState, const ImGuiViewport* viewport, I
                 //Selectable returns true if item is clicked
                 //item_current_idx = i;
                 myState.selected_object = i;
-
-                //Done after computing the masks
-                //compute_mask_textures(myState.img, myState.params, *myState.a_sam_state, &myState.maskTextures, myState.clickedX, myState.clickedY, myState.aVideo.frames[myState.selected_frame].objects[myState.selected_object].masks, &myState.masks_colors, myState.last_color_id);
-
-                //drawMasks(myState, viewport, newPos);
-
             }
 
             // Set the initial focus when opening the combo (scrolling + keyboard navigation focus)
             if (is_selected) {
                 ImGui::SetItemDefaultFocus();
-
-
-                /*//compute_mask_textures(sam_image_u8 img, const sam_params & params, sam_state & state, std::vector<GLuint> *maskTextures, int x, int y, std::vector<sam_image_u8> & storedMasks, std::vector<int> * mask_colors, int & last_color_id) {
-                compute_mask_textures(myState.img, myState.params, *myState.a_sam_state, &myState.maskTextures, myState.clickedX, myState.clickedY, myState.aVideo.frames[myState.selected_frame].objects[myState.selected_object].masks, &myState.masks_colors, myState.last_color_id);
-
-                drawMasks(myState, viewport, newPos);*/
-
-
-                //printf("Selected item %s\n", item.c_str());
-                /*if (myState.selected_frame != n) {
-                    printf("Changing image %s\n", item.c_str());
-                    printf("opencv_image2sam(myState.img, myState.aVideo.frames[%d].img);\n", n);
-                    //opencv_image2sam(myState.img, myState.aVideo.frames[n].img);
-                    myState.img = myState.aVideo.frames[n].img_sam_format;
-                    myState.tex = createGLTexture(myState.img, GL_RGB);
-                    myState.selected_frame = n;
-                    if (!sam_compute_embd_img(myState.img, myState.params.n_threads, *myState.a_sam_state)) {
-                        fprintf(stderr, "%s: failed to compute encoded image\n", __func__);
-                        //return 1;
-                    }
-                }*/
             }
             i++;
         }
         ImGui::EndListBox();
     }
+    /*
+    float colorP[4];
+    const char* items[] = { "AAAA", "BBBB", "CCCC", "DDDD"};
+    static int item_selected_idx = 0; // Here we store our selected data as an index.
+    static bool item_highlight = false;
+    int item_highlighted_idx = -1;
+    if (ImGui::BeginListBox(""))
+    {
+        for (int n = 0; n < IM_ARRAYSIZE(items); n++)
+        {
+            
+            const bool is_selected = (item_selected_idx == n);
+            if (ImGui::Selectable(items[n], is_selected))
+                item_selected_idx = n;
+            //ImGui::SameLine();
+            //ImGui::ColorEdit4("color 2", colorP, ImGuiColorEditFlags_NoInputs | ImGuiColorEditFlags_NoLabel);
+            //ImGui::Text("a text"); 
+            if (item_highlight && ImGui::IsItemHovered())
+                item_highlighted_idx = n;
+            // Set the initial focus when opening the combo (scrolling + keyboard navigation focus)
+            if (is_selected)
+                ImGui::SetItemDefaultFocus();
+            ImGui::EndChild();
+            ImGui::BeginChild("", ImVec2(0.0f, 100), ImGuiChildFlags_ResizeY); 
+            //ImGui::SameLine();
+            ImGui::ColorEdit4("color 2", colorP, ImGuiColorEditFlags_NoInputs | ImGuiColorEditFlags_NoLabel);
+            ImGui::EndChild();
+        }
+        ImGui::EndListBox();
+    }
+    ImGui::SameLine();
+    if (ImGui::BeginListBox(""))
+    {
+        for (int n = 0; n < IM_ARRAYSIZE(items); n++)
+        {
+            const bool is_selected = (item_selected_idx == n);
+            if (ImGui::Selectable(items[n], is_selected))
+                item_selected_idx = n;
+            ImGui::Text("a text"); 
+            if (item_highlight && ImGui::IsItemHovered())
+                item_highlighted_idx = n;
+            // Set the initial focus when opening the combo (scrolling + keyboard navigation focus)
+            if (is_selected)
+                ImGui::SetItemDefaultFocus();
+        }
+        ImGui::EndListBox();
+    }
+    */
     
     //ADDING A NEW OBJECT IF THE USER CLICKS +
      if (myState.aVideo.loaded) {
@@ -476,7 +526,7 @@ static void objectsListWindow(MyState &myState, const ImGuiViewport* viewport, I
     ImGui::End();
 }
 
-static void finishingWindow(MyState &myState, const ImGuiViewport* viewport, ImGuiWindowFlags flags, bool use_work_area) 
+static void finishingWindow(MyState &myState, bool *show_myWindow, const ImGuiViewport* viewport, ImGuiWindowFlags flags, bool use_work_area) 
 {
     //ImVec2 size = ImVec2(viewport->WorkSize.x * 0.33f, viewport->WorkSize.y * 0.25f);
     ImVec2 size = ImVec2(viewport->WorkSize.x * 0.5f, viewport->WorkSize.y * 0.75f);
@@ -485,14 +535,14 @@ static void finishingWindow(MyState &myState, const ImGuiViewport* viewport, ImG
     ImVec2 newPos = ImVec2(viewport->WorkPos.x + (viewport->WorkSize.x * 0.5f), viewport->WorkPos.y + 0);
     ImGui::SetNextWindowPos(newPos);
     ImGui::SetNextWindowSize(use_work_area ? size : viewport->Size);
-    ImGui::Begin("FINISHING");
+    ImGui::Begin("FINISHING", show_myWindow, ImGuiWindowFlags_NoTitleBar);
     ImGui::Text("FINISHING WINDOW"); 
 
     
     if (myState.img_loaded) {  
         //Origin considering the bars 
         ImVec2 newPos = ImVec2(viewport->Pos.x + (viewport->WorkSize.x * 0.5f), viewport->Pos.y + 0);
-        drawAllMasks(myState, viewport, newPos, true);
+        drawAllMasks(myState, viewport, ImVec2(viewport->WorkPos.x + (viewport->WorkSize.x * 0.5f), viewport->WorkPos.y + 0), true);
     }
 
     ImGui::End();
@@ -660,7 +710,7 @@ void editor(bool *show_myWindow, bool *show_file_dialog, MyState &myState) //WAR
     
     //FINISHING window
     //printf("finishingWindow...\n");
-    finishingWindow(myState, viewport, flags, use_work_area);
+    finishingWindow(myState, show_myWindow, viewport, flags, use_work_area);
 
     //PROPAGATE
     //printf("propagate...\n");
