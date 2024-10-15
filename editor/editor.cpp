@@ -86,10 +86,20 @@ static void ShowExampleAppMainMenuBar(bool *show_file_dialog, MyState &myState)
             //ImGui::MenuItem("(demo menu)", NULL, false, false);
             if (ImGui::MenuItem("Open", "Ctrl+O")) {
                 *show_file_dialog = true;
+                myState.file_dialog_mode = FILE_DIALOG_LOAD_SINGLE_FILE;
+                myState.clicked = false;//to avoid the click going through
             }
             if (ImGui::MenuItem("Open Video", "Ctrl+J")) {
                 *show_file_dialog = true;
-                myState.show_file_dialog_video = true;
+                //myState.show_file_dialog_video = true;
+                myState.file_dialog_mode = FILE_DIALOG_LOAD_VIDEO;
+                myState.clicked = false;//to avoid the click going through
+            }
+            if (ImGui::MenuItem("Save Video", "Ctrl+J")) {
+                *show_file_dialog = true;
+                //myState.show_file_dialog_save_video = true;
+                myState.file_dialog_mode = FILE_DIALOG_SAVE_VIDEO;
+                myState.clicked = false;//to avoid the click going through
             }
             ImGui::EndMenu();
         }
@@ -108,6 +118,8 @@ static void ShowExampleAppMainMenuBar(bool *show_file_dialog, MyState &myState)
             //ImGui::MenuItem("(demo menu)", NULL, false, false);
             if (ImGui::MenuItem("Propagate masks to all frames", "Ctrl+P")) {
                 myState.propagate = true;
+                myState.clicked = false;//to avoid the click go into the frame
+                
             }
             ImGui::EndMenu();
         }
@@ -185,23 +197,30 @@ static void drawAllMasks(MyState &myState, const ImGuiViewport* viewport, ImVec2
 }
 
 
+
 static void frameWindow(MyState &myState, bool *show_myWindow, const ImGuiViewport* viewport, bool use_work_area, ImGuiWindowFlags flags) 
 {
     ImVec2 size = ImVec2(viewport->WorkSize.x * 0.5f, viewport->WorkSize.y * 0.75f);
+    
+    myState.img_frame_w = size.x;
+    myState.img_frame_h = size.y;
+
     //static bool use_work_area = true;
     //static ImGuiWindowFlags flags = ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoSavedSettings;
     
     //ImVec2 newPos = ImVec2(viewport->WorkPos.x + 0, viewport->WorkPos.y + 0);
     //ImVec2 newPos = ImVec2(use_work_area ? viewport->WorkPos : viewport->Pos);
     
-    printf("use_work_area  = %d\n", use_work_area);
+    //printf("use_work_area  = %d\n", use_work_area);
     ImVec2 newPos = ImVec2(use_work_area ? viewport->WorkPos : viewport->Pos);
+    /*
     printf("newPos.x  = %f\n", newPos.x);
     printf("newPos.y  = %f\n", newPos.y);
     printf("viewport->Pos.x  = %f\n", viewport->Pos.x);
     printf("viewport->Pos.y  = %f\n", viewport->Pos.y);
     printf("viewport->WorkPos.x  = %f\n", viewport->WorkPos.x);
     printf("viewport->WorkPos.y  = %f\n", viewport->WorkPos.y);
+    */
 
     ImGui::SetNextWindowPos(newPos);
     //ImGui::SetNextWindowPos(use_work_area ? viewport->WorkPos : viewport->Pos);
@@ -296,10 +315,11 @@ static void frameWindow(MyState &myState, bool *show_myWindow, const ImGuiViewpo
         
         //Draw all masks
         
-        printf("viewport->Pos.x  = %f\n", viewport->Pos.x);
+        /*printf("viewport->Pos.x  = %f\n", viewport->Pos.x);
         printf("viewport->Pos.y  = %f\n", viewport->Pos.y);
         printf("viewport->WorkPos.x  = %f\n", viewport->WorkPos.x);
         printf("viewport->WorkPos.y  = %f\n", viewport->WorkPos.y);
+        */
         //ImVec2 newPos = ImVec2(use_work_area ? viewport->WorkPos : viewport->Pos);
         
         drawAllMasks(myState, viewport, viewport->WorkPos, false);
@@ -565,30 +585,23 @@ static void finishingWindow(MyState &myState, bool *show_myWindow, const ImGuiVi
 void fileDialog(MyState &myState, bool *show_file_dialog) {
     //Show file dialog
     if (*show_file_dialog) {
+        //TODO: this function always does the same thing and sets myState.filePath and myState.openFile = true;
+        //Maybe should be customized for each type of action
         show_file_dialog_f(show_file_dialog, myState);
     }
 
     //Check if opening file
-    if (myState.openFile && !myState.show_file_dialog_video) {
+    if (myState.file_dialog_file_selected && myState.file_dialog_mode == FILE_DIALOG_LOAD_SINGLE_FILE) {
         printf("OPENING IMAGE FILE\n");
-        myState.openFile = false;
+        myState.file_dialog_file_selected = false;
         std::string fileName = myState.filePath + "/" + myState.filePathName;
+        //from common lib
+        //NOTE will be rendered in frameWindow()
         if (!load_image_samformat_from_file(fileName, myState.img)) {
             printf("failed to load image from '%s'\n", fileName.c_str());  
         } else {
             printf("successfully loaded image from '%s'\n", fileName.c_str());
             myState.img_loaded = true;
-            //Create the OpenGL texture here, just once.
-            //Otherwise you will get a memory leak
-            //myState.tex = createGLTexture(myState.img, GL_RGB);
-            // init SDL video subsystem to get the screen size
-            /*if (SDL_Init(SDL_INIT_VIDEO) != 0) {
-                fprintf(stderr, "Error: %s\n", SDL_GetError());
-            }
-            // resize img when exceeds the screen
-            downscale_img_to_screen(img, NULL);*/
-            //set_params(&myState.params, fileName);
-            //std::shared_ptr<sam_state> state = sam_load_model(myState.params);
             if (!myState.a_sam_state) {
                 fprintf(stderr, "%s: failed to load model\n", __func__);
                 //return 1;
@@ -603,13 +616,16 @@ void fileDialog(MyState &myState, bool *show_file_dialog) {
                 printf("t_compute_img_ms = %d ms\n", myState.a_sam_state->t_compute_img_ms);
             }
         }
-    } else if (myState.openFile && myState.show_file_dialog_video) {
+    //Check if opening video file
+    } else if (myState.file_dialog_file_selected && myState.file_dialog_mode == FILE_DIALOG_LOAD_VIDEO) {
         printf("OPENING VIDEO FILE\n");
-        myState.openFile = false;
+        myState.file_dialog_file_selected = false;
         std::string fullPath = myState.filePath + "/" + myState.filePathName;
         std::vector<cv::Mat> frames;
         //Video aVideo;
-        read_video(fullPath, myState.aVideo);
+        //const ImGuiViewport* viewport = ImGui::GetMainViewport();
+        //ImVec2 win_size =ImGui::GetWindowSize();
+        read_video(fullPath, myState.aVideo, myState.img_frame_w, myState.img_frame_h);
         printf("Video read.\n");
         //opencv_image2sam(myState.img, myState.aVideo.frames[0].img);
         myState.img = myState.aVideo.frames[0].img_sam_format;
@@ -638,6 +654,16 @@ void fileDialog(MyState &myState, bool *show_file_dialog) {
             //return 1;
         }
         myState.frame_precomputed = 0;
+    } else if (myState.file_dialog_file_selected && myState.file_dialog_mode == FILE_DIALOG_SAVE_VIDEO) {
+        printf("Saving video...UNDER CONSTRUCTION\n");
+        myState.file_dialog_file_selected = false;
+        //std::string fullPath = myState.filePath + "/" + myState.filePathName;
+        //std::vector<cv::Mat> frames;
+        //Video aVideo;
+        //const ImGuiViewport* viewport = ImGui::GetMainViewport();
+        //ImVec2 win_size =ImGui::GetWindowSize();
+        save_video(myState.filePathName, myState.aVideo);
+        printf("Video saved.\n");
     }
 }
 
@@ -673,6 +699,11 @@ void checkActions(MyState &myState)
 //Main editor method (called within the main loop)
 void editor(bool *show_myWindow, bool *show_file_dialog, MyState &myState) //WARNING: this is executed within the main loop
 {
+    //auto& io = ImGui::GetIO();
+    //if (io.WantCaptureMouse || io.WantCaptureKeyboard) {
+    //    return;
+    //}
+
     //Check user actions
     checkActions(myState);
 

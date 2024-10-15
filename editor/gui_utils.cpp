@@ -82,6 +82,51 @@ static sam_image_u8 downscale_img(sam_image_u8 &img , float scale) {
     return new_img;
 }
 
+/*static void scaleImage(MyState &myState) { //opencv tools
+    aFrame.img//opencv
+    Mat img_resized;
+    //resize down
+    cv::resize(aFrame.img, img_resized, cv::Size(down_width, down_height), INTER_LINEAR);
+    
+    opencv_image2sam(aFrame.img_sam_format, frame);
+    aFrame.tex = createGLTexture(aFrame.img_sam_format, GL_RGB);
+}*/
+
+//my version of downscale_img_to_screen (need to unify both)
+bool downscale_img_to_size(sam_image_u8 &img, int dw, int dh) {
+    /*SDL_DisplayMode dm = {};
+    if (!get_screen_size(dm, window)) {
+        fprintf(stderr, "%s: failed to get screen size of the display.\n", __func__);
+        return false;
+    }
+    fprintf(stderr, "%s: screen size (%d x %d) \n", __func__,dm.w,dm.h);
+    if (dm.h == 0 || dm.w == 0) {
+        // This means the window is running in other display.
+        return false;
+    }*/
+
+    // Add 5% margin between screen and window
+    //const float margin = 0.05f;
+    //const int max_width  = dm.w - margin * dm.w;
+    //const int max_height = dm.h - margin * dm.h;
+
+    const int max_width  = dw;
+    const int max_height = dh;
+
+    fprintf(stderr, "%s: img size (%d x %d) \n", __func__,img.nx,img.ny);
+
+    if (img.ny > max_height || img.nx > max_width) {
+        fprintf(stderr, "%s: img size (%d x %d) exceeds maximum allowed size (%d x %d) \n", __func__,img.nx,img.ny,max_width,max_height);
+        const float scale_y = (float)img.ny / max_height;
+        const float scale_x = (float)img.nx / max_width;
+        const float scale = std::max(scale_x, scale_y);
+
+        img = downscale_img(img, scale);
+    }
+
+    return true;
+}
+
 static bool downscale_img_to_screen(sam_image_u8 &img, SDL_Window* window) {
     SDL_DisplayMode dm = {};
     if (!get_screen_size(dm, window)) {

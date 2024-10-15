@@ -10,14 +10,13 @@
 class MyState {      
   public:  
 
-    //position of the image frame within the application window
-    //int img_frame_pos_x;
-    //int img_frame_pos_y;
+    //size of the image frame (to resize the loaded images)
+    int img_frame_w;
+    int img_frame_h;
 
-    //panels, etc.     
-    bool show_file_dialog_video = false;      
-    bool openFile;  
-    bool openFileVideo;   
+    //file dialog
+    int file_dialog_mode = -1; //FILE_DIALOG_LOAD_SINGLE_FILE 0, FILE_DIALOG_LOAD_VIDEO 1, FILE_DIALOG_SAVE_VIDEO 2
+    bool file_dialog_file_selected;  //set in file_dialog.cpp to signal the action
     std::string filePathName;
     std::string filePath;  
     bool img_loaded = false;
@@ -38,6 +37,7 @@ class MyState {
     int frame_precomputed = -1;
     Video aVideo;
     bool propagate = false;
+
 
     //single file case:
     sam_image_u8 img; 
