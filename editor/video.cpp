@@ -10,6 +10,8 @@
 #include "imgui_impl_sdl2.h"
 #include <SDL.h>
 #include "gui_utils.h"
+#include "simplify.h"
+
 
 
 
@@ -80,20 +82,25 @@ void save_video(const std::string &videoFilePath, Video &theVideo){//(std::vecto
             //iterate through all frames 
             for (Frame & aFrame : theVideo.frames) {
                 printf("PROCESSING FRAME %d \n", f);
-                //iterate through all the objects of the frame
-                for (Object & anObject : aFrame.objects) {
-                    printf("\tPROCESSING OBJECT %d \n", anObject.objectId);
-                    printf("\tPROCESSING OBJECT DONE.\n");
+                if (aFrame.objects.size()>0) {
+                    //iterate through all the objects of the frame
+                    cv::Mat output_image_opencv = cv::Mat::zeros(aFrame.img.size(), CV_8UC4);;
+                    for (Object & anObject : aFrame.objects) {
+                        printf("\tPROCESSING OBJECT %d \n", anObject.objectId);
+                        //from simplify.cpp
+                        fillContoursWithColorAndAlpha(anObject.simplifiedContours, output_image_opencv, false, anObject.color[0]*255, anObject.color[1]*255, anObject.color[2]*255);
+                        printf("\tPROCESSING OBJECT DONE.\n");
+                    }
+                    cv::Size a_frame_size = aFrame.img.size(); 
+                    printf("writing frame with size %d,%d.\n", a_frame_size.width, a_frame_size.height);
+                    
+                    //TODO: Did this because aFrame.img is RGB instead of BGR
+                    cv::Mat bgr;
+                    cv::cvtColor(aFrame.img, bgr, cv::COLOR_RGB2BGR);
+                    
+                    vidwriter.write(output_image_opencv);
+                    
                 }
-                cv::Size a_frame_size = aFrame.img.size(); 
-                printf("writing frame with size %d,%d.\n", a_frame_size.width, a_frame_size.height);
-                //vidwriter.write(aFrame.img);
-                //cv::Mat3f bgr;
-                cv::Mat bgr;
-                cv::cvtColor(aFrame.img, bgr, cv::COLOR_RGB2BGR);
-                vidwriter.write(bgr);
-                
-                
                 printf("FRAME DONE.\n");
                 f++;
             }

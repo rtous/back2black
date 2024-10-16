@@ -138,8 +138,8 @@ void compute_mask_textures(Object & anObject, int R, int G, int B) {
     cv::Mat input_image_opencv;
     sam_image2opencv(anObject.samMask, input_image_opencv);//Does initialize the result
     cv::Mat output_image_opencv = cv::Mat::zeros(input_image_opencv.size(), CV_8UC4);
-    //This one does not initialize the result
-    simplifyColorSegment(input_image_opencv, output_image_opencv, false, R, G, B); 
+    //This one does not initialize the result. From simplify.cpp
+    anObject.simplifiedContours = simplifyColorSegment(input_image_opencv, output_image_opencv, false, R, G, B); 
     sam_image_u8 mask_simplified;
     opencv_image2sam_binarymask(mask_simplified, output_image_opencv);
     sam_image_u8 mask_simplified_rgb = sam_image2color(mask_simplified);

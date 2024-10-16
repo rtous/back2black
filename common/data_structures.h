@@ -22,11 +22,19 @@ class Object {
   public:             
     cv::Mat mask;//old
 
-    sam_image_u8 samMask;
+    //pixels
+    sam_image_u8 samMask; //mask in sam format
     bool mask_computed = false;
-    GLuint maskTexture;
-    GLuint simplifiedMaskTexture;
+    GLuint maskTexture; //mask in OpenGL
+    GLuint simplifiedMaskTexture; //simplified mask in OpenGL
     bool textures_computed = false;
+
+    //contours
+    //WHO's using this??
+    std::vector<std::vector<cv::Point>> contours;//contours of the mask
+
+    std::vector<std::vector<cv::Point>> simplifiedContours;//contours of the simplified mask
+
   
     
     int objectId;
@@ -37,7 +45,6 @@ class Object {
     int mask_center_x = -1;  
     int mask_center_y = -1; 
     int mask_contour_size;
-    std::vector<std::vector<cv::Point>> contours;//contours of the object masks
 
     Object() {
       //Default color
@@ -55,8 +62,8 @@ class Frame {
     std::string filePath;   
     std::vector<Object> objects; 
     cv::Mat img; //OpenCV format
-    sam_image_u8 img_sam_format;
-    GLuint tex; //OpenGL texture of the frame
+    sam_image_u8 img_sam_format; //the video frame in sam format
+    GLuint tex; //OpenGL texture of the original video frame
 
     Frame() {     
       //starts with no objects

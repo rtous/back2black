@@ -36,7 +36,23 @@ int unique_colors(cv::Mat img_gray, std::map<int,cv::Mat> & unique_colors, std::
     return total_colors;
 }
 
-void simplifyColorSegment(cv::Mat &mask, cv::Mat &output_image, bool randomColor, int R, int G, int B) 
+void fillContoursWithColorAndAlpha(std::vector<std::vector<cv::Point>> contours, cv::Mat &output_image, bool randomColor, int R, int G, int B)
+{
+    cv::RNG rng(12345);//random number generator    
+    cv::Scalar color_with_alpha = cv::Scalar( rng.uniform(0, 256), rng.uniform(0,256), rng.uniform(0,256), 255);
+        
+    if (randomColor) {
+        color_with_alpha = cv::Scalar( rng.uniform(0, 256), rng.uniform(0,256), rng.uniform(0,256), 255);
+    } else {
+        color_with_alpha = cv::Scalar( R, G, B, 255);
+    }
+
+    for(int j = 0; j< contours.size(); j++ ) {
+        cv::fillPoly(output_image, cv::Mat(contours[j]), color_with_alpha);
+    }
+}
+
+std::vector<std::vector<cv::Point>> simplifyColorSegment(cv::Mat &mask, cv::Mat &output_image, bool randomColor, int R, int G, int B) 
 {
         cv::RNG rng(12345);//random number generator
         //cv::imwrite(output_path+"/mask"+std::to_string(i)+".jpg", mask);
@@ -45,7 +61,8 @@ void simplifyColorSegment(cv::Mat &mask, cv::Mat &output_image, bool randomColor
         cv::dilate(mask, mask, cv::getStructuringElement(cv::MORPH_RECT, cv::Size(4, 4)), cv::Point(-1, -1), 1, 1, 1);
 
         /******** FIND CONTOURS *********/
-        std::vector<std::vector<cv::Point> > contours;
+        std::vector<std::vector<cv::Point>> contours;
+        std::vector<std::vector<cv::Point>> simplifiedContours;
         std::vector<cv::Vec4i> hierarchy;
         cv:findContours(mask, contours, hierarchy, cv::RETR_LIST, cv::CHAIN_APPROX_SIMPLE );
 
@@ -78,7 +95,8 @@ void simplifyColorSegment(cv::Mat &mask, cv::Mat &output_image, bool randomColor
 
                 std::vector<cv::Point> contoursOUT;
                 cv::approxPolyDP( cv::Mat(contours[j]), contoursOUT, 4, false );
-                contours[j] = contoursOUT;
+                //contours[j] = contoursOUT;
+                simplifiedContours.push_back(contoursOUT);
 
                 //drawing = cv::Mat::zeros( mask.size(), CV_8UC3 );
                 //cv::drawContours(drawing, contours, (int)j, color, 2, cv::LINE_8, hierarchy, 0 );
@@ -87,11 +105,14 @@ void simplifyColorSegment(cv::Mat &mask, cv::Mat &output_image, bool randomColor
                 /**** FILL ***/
 
                 //cv2.fillPoly(imcolor, pts =[contour], color=display_color)
-                cv::fillPoly( output_image, cv::Mat(contours[j]), color_with_alpha);
+                //cv::fillPoly( output_image, cv::Mat(contours[j]), color_with_alpha);
                 //cv::imwrite("mask_contour_filled"+std::to_string(i)+"_"+std::to_string(j)+".jpg", drawing);
 
             }
         }
+        //We do this appart because the Editor saves just the contours and fills them to export the video
+        fillContoursWithColorAndAlpha(simplifiedContours, output_image, randomColor, R, G, B);
+        return simplifiedContours;
         //cv::imwrite(output_path+"/output.png", output);
 }
 

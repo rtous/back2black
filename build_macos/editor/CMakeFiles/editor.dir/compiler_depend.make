@@ -7260,6 +7260,7 @@ editor/CMakeFiles/editor.dir/video.cpp.o: /Users/rtous/dev/back2black/editor/vid
   /Users/rtous/dev/back2black/common/data_structures.h \
   /Users/rtous/dev/back2black/editor/gui_utils.h \
   /Users/rtous/dev/back2black/editor/video.h \
+  /Users/rtous/dev/back2black/simplify/simplify.h \
   /Users/rtous/dev/back2black/third-party/imgui/imgui/backends/imgui_impl_sdl2.h \
   /Users/rtous/dev/back2black/third-party/imgui/imgui/imconfig.h \
   /Users/rtous/dev/back2black/third-party/imgui/imgui/imgui.h \
