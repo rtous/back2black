@@ -33,7 +33,7 @@ class MyState {
     
     
     int selected_frame = 0;
-    int selected_object = 0;
+    int selected_mask = 0;
     int frame_precomputed = -1;
     Video aVideo;
     bool propagate = false;

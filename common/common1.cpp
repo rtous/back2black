@@ -228,79 +228,125 @@ cv::Mat get_best_opencv_mask_at_point(int x, int y, sam_image_u8 img0, sam_state
     return mask_opencv;
 }
 
-/*void example_func(Object &anObject) {
-    anObject.objectId = 1000;
+/*void example_func(Mask &aMask) {
+    aMask.maskId = 1000;
 
 }*/
 
-//TODO
-void compute_object_mask_center(Object & anObject) {
-    cv::Mat mask_opencv;
-    sam_image2opencv(anObject.samMask, mask_opencv);
-    printf("\tcompute_object_mask_center...\n");
+//TODO: currently only the first contour
+//Called by compute_mask_and_textures
+void compute_mask_center(Mask & aMask) {
+    //cv::Mat mask_opencv;
+    sam_image2opencv(aMask.samMask, aMask.opencv_mask);
+    printf("\tcompute_mask_center...\n");
     std::vector<cv::Vec4i> hierarchy;
     printf("\t\tfindContours...\n");
-    cv:findContours(mask_opencv, anObject.contours, hierarchy, cv::RETR_LIST, cv::CHAIN_APPROX_SIMPLE );
-    if (anObject.contours.size() == 0) 
+    cv:findContours(aMask.opencv_mask, aMask.contours, hierarchy, cv::RETR_LIST, cv::CHAIN_APPROX_SIMPLE );
+    if (aMask.contours.size() == 0) 
         printf("WARNING: No countours found for the mask!\n");
     //TODO: Multiple contours
     printf("\t\tcontourArea...\n");
-    anObject.mask_contour_size = cv::contourArea(anObject.contours[0]);
-    printf("new_contour_area = %d \n", anObject.mask_contour_size);
+    aMask.mask_contour_size = cv::contourArea(aMask.contours[0]);
+    printf("new_contour_area = %d \n", aMask.mask_contour_size);
 
     // compute the center of the contour https://pyimagesearch.com/2016/02/01/opencv-center-of-contour/
-    cv::Moments M = cv::moments(anObject.contours[0]);
+    cv::Moments M = cv::moments(aMask.contours[0]);
     cv::Point center(M.m10/M.m00, M.m01/M.m00);  
-    anObject.mask_center_x = center.x;
-    anObject.mask_center_y = center.y;
-    //circle(anObject.mask, center, 5, cv::Scalar(128,0,0), -1);//DEBUG
+    aMask.mask_center_x = center.x;
+    aMask.mask_center_y = center.y;
+    //circle(aMask.mask, center, 5, cv::Scalar(128,0,0), -1);//DEBUG
 } 
 
-void compute_object(Object & anObject, sam_image_u8 img0, sam_state & state, int n_threads) {
+//callet by propagate_masks (called by editor and cli_masks)
+//but the editor also calls compute_mask_and_textures in sam_utils.cpp
+void compute_mask(Mask & aMask, sam_image_u8 img0, sam_state & state, int n_threads) {
 
     //Compute the frame: Obtain the best mask at the point
-    //cv::Mat output = get_best_opencv_mask_at_point(anObject.mask_computed_at_x, anObject.mask_computed_at_y, img0, state, n_threads);
+    //cv::Mat output = get_best_opencv_mask_at_point(aMask.mask_computed_at_x, aMask.mask_computed_at_y, img0, state, n_threads);
     
     //compute mask at given point (pick best one)
-    get_best_sam_mask_at_point(anObject.mask_computed_at_x, anObject.mask_computed_at_y, img0, state, n_threads, anObject.samMask);
+    get_best_sam_mask_at_point(aMask.mask_computed_at_x, aMask.mask_computed_at_y, img0, state, n_threads, aMask.samMask);
     
+    compute_mask_center(aMask);
+
+    aMask.mask_computed = true;
+
+    /*
     //convert mask to opencv format
-    sam_image2opencv(anObject.samMask, anObject.mask);
+    sam_image2opencv(aMask.samMask, aMask.opencv_mask);
 
-    //anObject.mask = get_best_opencv_mask_at_point(anObject.mask_computed_at_x, anObject.mask_computed_at_y, img0, state, n_threads);
-    anObject.mask_computed = true;
+    //aMask.opencv_mask = get_best_opencv_mask_at_point(aMask.mask_computed_at_x, aMask.mask_computed_at_y, img0, state, n_threads);
+    aMask.mask_computed = true;
 
-    cv::Point center2(anObject.mask_computed_at_x, anObject.mask_computed_at_y); 
-    circle(anObject.mask, center2, 5, cv::Scalar(128,128,0), -1);//DEBUG
+    cv::Point center2(aMask.mask_computed_at_x, aMask.mask_computed_at_y); 
+    circle(aMask.opencv_mask, center2, 5, cv::Scalar(128,128,0), -1);//DEBUG
 
-    //anObject.mask = output;//DOES NOT WORKK output is a local variable?
-    //cv::imwrite("output/example2/masks/test.png", anObject.mask);
+    //aMask.opencv_mask = output;//DOES NOT WORKK output is a local variable?
+    //cv::imwrite("output/example2/masks/test.png", aMask.opencv_mask);
 
     //Obtain the first contour
     //std::vector<std::vector<cv::Point>> contours;
     std::vector<cv::Vec4i> hierarchy;
-    cv:findContours(anObject.mask, anObject.contours, hierarchy, cv::RETR_LIST, cv::CHAIN_APPROX_SIMPLE );
-    if (anObject.contours.size() == 0) 
+    cv:findContours(aMask.opencv_mask, aMask.contours, hierarchy, cv::RETR_LIST, cv::CHAIN_APPROX_SIMPLE );
+    if (aMask.contours.size() == 0) 
         printf("WARNING: No countours found for the mask!\n");
 
     //TODO: Multiple contours
 
-    anObject.mask_contour_size = cv::contourArea(anObject.contours[0]);
-    printf("new_contour_area = %d \n", anObject.mask_contour_size);
+    aMask.mask_contour_size = cv::contourArea(aMask.contours[0]);
+    printf("new_contour_area = %d \n", aMask.mask_contour_size);
 
     // compute the center of the contour https://pyimagesearch.com/2016/02/01/opencv-center-of-contour/
-    cv::Moments M = cv::moments(anObject.contours[0]);
+    cv::Moments M = cv::moments(aMask.contours[0]);
     cv::Point center(M.m10/M.m00, M.m01/M.m00);  
-    anObject.mask_center_x = center.x;
-    anObject.mask_center_y = center.y;
-    circle(anObject.mask, center, 5, cv::Scalar(128,0,0), -1);//DEBUG
+    aMask.mask_center_x = center.x;
+    aMask.mask_center_y = center.y;
+    printf("aMask.mask_center_x=%d\n", aMask.mask_center_x);
+
+    circle(aMask.opencv_mask, center, 5, cv::Scalar(128,0,0), -1);//DEBUG
+    */
 } 
 
 /*void example_func() {
     int a = 2;
 }*/
- 
-//We assume the first frame has already the objects and the user coordinates
+
+//If instead of a video the input is a directory of images
+//it loads the images into the frames
+//the filepaths are kept to later match output names but the images are loaded here
+//currently only used by cli_masks
+int load_frames_from_files(std::string input_path, std::vector<Frame> & frames) {
+    if (!cv::utils::fs::exists(input_path)) {
+        printf("Input directory does not exist: %s", input_path.c_str());
+    }
+    std::vector<std::string> filepaths_in_directory;
+    cv::glob(input_path, filepaths_in_directory);
+    int f = 0;
+    for (std::string filepath : filepaths_in_directory) {
+        std::cout << filepath << std::endl;
+        std::string filename = filepath.substr(filepath.find_last_of("/\\") + 1);
+        std::string filename_noext = filename.substr(0, filename.find_last_of(".")); 
+        std::string extension = filename.substr(filename.find_last_of(".")+1); 
+
+        if (extension == "jpg" || extension == "png") {
+            Frame aFrame;
+            aFrame.order = f;
+            aFrame.filePath = filepath;
+            //load the frame
+            if (!load_image_samformat_from_file(filepath, aFrame.img_sam_format)) {
+                fprintf(stderr, "%s: failed to load image from '%s'\n", __func__, filepath.c_str());
+                return false;
+            }
+            fprintf(stderr, "%s: loaded image '%s' (%d x %d)\n", __func__, filepath.c_str(), aFrame.img_sam_format.nx, aFrame.img_sam_format.ny);
+            frames.push_back(aFrame);
+            f++; 
+        }
+    }
+}
+
+/*
+OLD VERSION USED BY CLI_MASKS, computed also the mask of the first frame
+//We assume the first frame has already the masks and the user coordinates
 //but not the computation
 //frames are in files
 int propagate_masks(std::vector<Frame> & frames, sam_state & state, int n_threads) 
@@ -310,49 +356,52 @@ int propagate_masks(std::vector<Frame> & frames, sam_state & state, int n_thread
     //iterate through all frames
     for (Frame & aFrame : frames) {
         printf("PROCESSING FRAME %d \n", f);
-        //load the frame
-        sam_image_u8 img0;
-        if (!load_and_precompute_image_from_file(aFrame.filePath, img0, state, n_threads)) {
-            fprintf(stderr, "%s: failed load_and_precompute_image_from_file from '%s'\n", __func__, aFrame.filePath.c_str());
-            return 1;
+        
+        //Pre-compute the frame 
+        if (!sam_compute_embd_img(aFrame.img_sam_format, n_threads, state)) {
+            fprintf(stderr, "%s: failed to compute encoded image\n", __func__);
+            return false;
         }
+        printf("t_compute_img_ms = %d ms\n", state.t_compute_img_ms);
+    
 
-        //iterate through all the objects of the frame
-        for (Object & anObject : aFrame.objects) {
-            printf("\tPROCESSING OBJECT %d \n", anObject.objectId);
-            compute_object(anObject, img0, state, n_threads);
+        //iterate through all the masks of the frame
+        for (Mask & aMask : aFrame.masks) {
+            printf("\tPROCESSING MASK %d \n", aMask.maskId);
+            compute_mask(aMask, aFrame.img_sam_format, state, n_threads);
             
-            //if there are previous objects can check if the mask makes sense:
+            //if there are previous masks can check if the mask makes sense:
             //bool isMaskConsistent = true; //th first mask is consistent
             //if (f > 0)
             //    isMaskConsistent =  mask contour similar to previous mask contour
 
             
-            //add the object to the next frame with the next coordinates
+            //add the mask to the next frame with the next coordinates
             printf("\tf=%d numFrames=%d.\n", f, numFrames);
             if (f < numFrames-1) {
-                printf("\tADDING OBJECT %d TO FRAME %f.\n", anObject.objectId, f);
-                Object newObject;
-                newObject.objectId = anObject.objectId;
-                newObject.mask_computed_at_x = anObject.mask_center_x;
-                newObject.mask_computed_at_y = anObject.mask_center_y; 
-                frames[f+1].objects.push_back(newObject);
+                printf("\tADDING MASK %d TO FRAME %f.\n", aMask.maskId, f);
+                Mask newMask;
+                newMask.maskId = aMask.maskId;
+                newMask.mask_computed_at_x = aMask.mask_center_x;
+                newMask.mask_computed_at_y = aMask.mask_center_y; 
+                frames[f+1].masks.push_back(newMask);
             }
                   //if isMaskConsistent new coordinates are the mask coordinates
                   //otherwise use given coordinates
-            //    frames[f+1].addObject(new coordinates); 
-            printf("\tOBJECTS DONE.\n");
+            //    frames[f+1].addMask(new coordinates); 
+            printf("\tMASKS DONE.\n");
         }
         printf("FRAME DONE.\n");
         f++;
     }
 }
+*/
 
-//We assume the first frame has already the objects and the user coordinates
+//We assume the first frame has already the masks and the user coordinates
 //and also the computation 
 //frames are in memory
 //ONGOING
-int propagate_masks2(std::vector<Frame> & frames, sam_state & state, int n_threads) 
+int propagate_masks(std::vector<Frame> & frames, sam_state & state, int n_threads) 
 {
     int MAX = 5;
     int numFrames = frames.size();
@@ -370,30 +419,32 @@ int propagate_masks2(std::vector<Frame> & frames, sam_state & state, int n_threa
                 //return 1;
             }
         } 
-        //iterate through all the objects of the frame
-        for (Object & anObject : aFrame.objects) {
-            printf("\tPROCESSING OBJECT %d \n", anObject.objectId);
+        //iterate through all the masks of the frame
+        for (Mask & aMask : aFrame.masks) {
+            printf("\tPROCESSING MASK %d \n", aMask.maskId);
+            printf("\taMask.mask_computed_at_x %d \n", aMask.mask_computed_at_x);
+            printf("\taMask.mask_computed_at_y %d \n", aMask.mask_computed_at_y);
             //if not the first frame compute the mask
             if (f>0) { 
-                compute_object(anObject, aFrame.img_sam_format, state, n_threads);
+                compute_mask(aMask, aFrame.img_sam_format, state, n_threads);
             }
             //compute mask center
-            //compute_object_mask_center(anObject, aFrame.img_sam_format, state, n_threads);
+            //compute_mask_center(aMask, aFrame.img_sam_format, state, n_threads);
             
-            //add the object to the next frame with the next coordinates
+            //add the mask to the next frame with the next coordinates
             printf("\tf=%d numFrames=%d.\n", f, numFrames);
             if (f < MAX-1 && f < numFrames-1) {
-                Object newObject;
-                newObject.objectId = anObject.objectId;
-                newObject.color[0] = anObject.color[0];
-                newObject.color[1] = anObject.color[1];
-                newObject.color[2] = anObject.color[2];
-                newObject.mask_computed_at_x = anObject.mask_center_x;
-                newObject.mask_computed_at_y = anObject.mask_center_y; 
-                printf("\tADDING OBJECT %d TO FRAME %d WITH x=%d, y=%d\n", anObject.objectId, f, newObject.mask_computed_at_x, newObject.mask_computed_at_y);
-                frames[f+1].objects.push_back(newObject);
+                Mask newMask;
+                newMask.maskId = aMask.maskId;
+                newMask.color[0] = aMask.color[0];
+                newMask.color[1] = aMask.color[1];
+                newMask.color[2] = aMask.color[2];
+                newMask.mask_computed_at_x = aMask.mask_center_x;
+                newMask.mask_computed_at_y = aMask.mask_center_y; 
+                printf("\tADDING MASK %d TO FRAME %d WITH x=%d, y=%d\n", aMask.maskId, f, newMask.mask_computed_at_x, newMask.mask_computed_at_y);
+                frames[f+1].masks.push_back(newMask);
             }
-            printf("\tOBJECTS DONE.\n");
+            printf("\tMASKS DONE.\n");
         }
         printf("FRAME DONE.\n");
         f++;

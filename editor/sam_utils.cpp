@@ -48,18 +48,18 @@ int masks_already_in_list(sam_image_u8 candidateMask, Frame & aFrame) {
     //printf("masks_already_in_list/isEmptyMaskDEBUG(mask)=%d\n", isEmptyMaskDEBUG(candidateMask));
     int mask_count = 0;
     printf("Checking if mask exists.\n");
-    for (auto& object : aFrame.objects) {
-        sam_image_u8 mask = object.samMask;
+    for (auto& mask : aFrame.masks) {
+        sam_image_u8 samMask = mask.samMask;
         float pixels_1_any_of_both_masks = 0;
         float coincidences = 0;
-        for (int i = 0; i < mask.nx*mask.ny; ++i) {
-            if (candidateMask.data[i] != 0 || mask.data[i] != 0) {
+        for (int i = 0; i < samMask.nx*samMask.ny; ++i) {
+            if (candidateMask.data[i] != 0 || samMask.data[i] != 0) {
                 pixels_1_any_of_both_masks++;
-                if (candidateMask.data[i] == mask.data[i])
+                if (candidateMask.data[i] == samMask.data[i])
                     coincidences++;
             }
         }
-        printf("(object %d) coincidences (%f/%f) = %f percent\n", mask_count, coincidences, pixels_1_any_of_both_masks, coincidences/pixels_1_any_of_both_masks);
+        printf("(mask %d) coincidences (%f/%f) = %f percent\n", mask_count, coincidences, pixels_1_any_of_both_masks, coincidences/pixels_1_any_of_both_masks);
         if (coincidences/pixels_1_any_of_both_masks > 0.75) {
             //printf("coincidences = %f percent", coincidences/pixels_1_any_of_both_masks);
             return mask_count;
@@ -131,21 +131,21 @@ int masks_already_in_list(sam_image_u8 candidateMask, Frame & aFrame) {
 
 
 //Computes the texture of the mask and it's simplified version
-void compute_mask_textures(Object & anObject, int R, int G, int B) {
-    sam_image_u8 mask_rgb = sam_image2color(anObject.samMask);
+void compute_mask_textures(Mask & aMask, int R, int G, int B) {
+    sam_image_u8 mask_rgb = sam_image2color(aMask.samMask);
     GLuint newGLTexture = createGLTexture(mask_rgb, GL_RGBA);
-    anObject.maskTexture = newGLTexture;
+    aMask.maskTexture = newGLTexture;
     cv::Mat input_image_opencv;
-    sam_image2opencv(anObject.samMask, input_image_opencv);//Does initialize the result
+    sam_image2opencv(aMask.samMask, input_image_opencv);//Does initialize the result
     cv::Mat output_image_opencv = cv::Mat::zeros(input_image_opencv.size(), CV_8UC4);
     //This one does not initialize the result. From simplify.cpp
-    anObject.simplifiedContours = simplifyColorSegment(input_image_opencv, output_image_opencv, false, R, G, B); 
+    aMask.simplifiedContours = simplifyColorSegment(input_image_opencv, output_image_opencv, false, R, G, B); 
     sam_image_u8 mask_simplified;
     opencv_image2sam_binarymask(mask_simplified, output_image_opencv);
     sam_image_u8 mask_simplified_rgb = sam_image2color(mask_simplified);
     GLuint newGLTextureSimplified = createGLTexture(mask_simplified_rgb, GL_RGBA);
-    anObject.simplifiedMaskTexture = newGLTextureSimplified;
-    anObject.textures_computed = true;
+    aMask.simplifiedMaskTexture = newGLTextureSimplified;
+    aMask.textures_computed = true;
 
 }
 
@@ -157,12 +157,12 @@ void compute_mask_textures_all_frames(std::vector<Frame> & frames)
     //assumes that the first frame has been already computed
     for (Frame & aFrame : frames) {
         printf("PROCESSING FRAME %d \n", f);
-        //iterate through all the objects of the frame
-        for (Object & anObject : aFrame.objects) {
-            printf("\tPROCESSING OBJECT...\n", f);
-            if (anObject.mask_computed && !anObject.textures_computed) {
+        //iterate through all the masks of the frame
+        for (Mask & aMask : aFrame.masks) {
+            printf("\tPROCESSING MASK...\n", f);
+            if (aMask.mask_computed && !aMask.textures_computed) {
                 printf("\t\tcompute_mask_textures...\n", f);
-                compute_mask_textures(anObject, anObject.color[0]*255, anObject.color[1]*255, anObject.color[2]*255);
+                compute_mask_textures(aMask, aMask.color[0]*255, aMask.color[1]*255, aMask.color[2]*255);
                 printf("\t\tcomputed textures...\n", f);
             }
         }
@@ -170,8 +170,8 @@ void compute_mask_textures_all_frames(std::vector<Frame> & frames)
     }
 }
 
-//computes the masks at the given point
-//currently the passed storedMasks are just the masks of one object
+//computes the masks at the given point and checks if it's a new one
+//currently the passed storedMasks are just the masks of one mask
 //void compute_masks(sam_image_u8 img, const sam_params & params, sam_state & state, std::vector<GLuint> *maskTextures, int x, int y, std::vector<sam_image_u8> & storedMasks, std::vector<int> * mask_colors, int & last_color_id, int R, int G, int B, std::vector<GLuint> *simplifiedMaskTextures) {
 void compute_mask_and_textures(Frame & aFrame, const sam_params & params, sam_state & state, int x, int y, int R, int G, int B) {
     printf("compute_masks\n");
@@ -183,19 +183,19 @@ void compute_mask_and_textures(Frame & aFrame, const sam_params & params, sam_st
         int pos = masks_already_in_list(mask, aFrame);
         
         if (pos == -1) { //the mask is new, not in storedMasks            
-            Object newObject;
-            newObject.samMask = mask;
-            newObject.mask_computed = true;
-            newObject.mask_computed_at_x = x;
-            newObject.mask_computed_at_y = y;
-            compute_object_mask_center(newObject);
-            compute_mask_textures(newObject, R, G, B);
-            aFrame.objects.push_back(newObject);
+            Mask newMask;
+            newMask.samMask = mask;
+            newMask.mask_computed = true;
+            newMask.mask_computed_at_x = x;
+            newMask.mask_computed_at_y = y;
+            compute_mask_center(newMask);//from common1.c
+            compute_mask_textures(newMask, R, G, B);
+            aFrame.masks.push_back(newMask);
             printf("Added mask\n");
         } else {
             //If the mask is already in storedMasks we will delete it
             printf("Deleting mask %d ", pos);
-            aFrame.objects.erase(aFrame.objects.begin() + pos);
+            aFrame.masks.erase(aFrame.masks.begin() + pos);
         }
     }
 }
@@ -203,7 +203,7 @@ void compute_mask_and_textures(Frame & aFrame, const sam_params & params, sam_st
 
 /*
 //computes the masks at the given point
-//currently the passed storedMasks are just the masks of one object
+//currently the passed storedMasks are just the masks of one mask
 void compute_masks(sam_image_u8 img, const sam_params & params, sam_state & state, std::vector<GLuint> *maskTextures, int x, int y, std::vector<sam_image_u8> & storedMasks, std::vector<int> * mask_colors, int & last_color_id) {
     printf("compute_masks\n");
     std::vector<sam_image_u8> masks;

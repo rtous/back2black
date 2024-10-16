@@ -8,7 +8,10 @@ Universitat Politecnica de Catalunya
 
 TODO
 
-- 
+- compute_mask_and_textures in sam_utils.cpp (used if user clicks) ) and compute_mask in common (used by propagate). Maybe all in common...
+
+- els colors gravats del video son diferents...
+- I'm downscaling the images in read_video!
 - The contours field of the object is not set?? Now I'm setting it for simplified contours but the other??
 - El video save es poc robust (detectar si no extensió), que passa amb altres extensions...
 - Veig que aFrame.img és opencv però per gravar el video cal fer cv::COLOR_RGB2BGR. (tambe caldria canviar el nom del camp)
@@ -16,7 +19,7 @@ TODO
 - Si canvies el color d'una màscara hauria de canviar a tots els frames?? es pot associar el color a l'object ID? 
 - WARNING: Hi ha un camp mask al object que es fa servir al cli_masks però no a l'editor (és la màscara opencv, ara sí la faig servir) -> RENOMBRAR
 - Hi ha vegades que no es pot esborrar la màscara (braç dret)
-- Que es vegi la imatge sencera i no la barra
+
 - Fer màscares semitransparents
 - Que la llista de colors sempre sigui la mateixa
 - Colors a la dreta del object selector
@@ -25,8 +28,10 @@ TODO
 - Si cliques a un lloc en el qual un altre objecte té la màscara? ara pot quedar amagat
 - zoom
 - panning
+- error managment (return -1, exceptions, ...)
 
 DONE: 
+- Que es vegi la imatge sencera i no la barra
 - La imatge queda una mica tapada pel menú (no es tan facil com moure-la ja que tot es calcula a partir del 0,0 de la finestra...)
 - La máscara del darrer frame queda malament
 - Quan cliques propagate clica a la imatge també. No comproba el focus? SOLUCIONAT però com la imatge es mes gran que la finestra... cal escalarla i ajustar tot!

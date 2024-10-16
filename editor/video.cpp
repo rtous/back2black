@@ -82,14 +82,14 @@ void save_video(const std::string &videoFilePath, Video &theVideo){//(std::vecto
             //iterate through all frames 
             for (Frame & aFrame : theVideo.frames) {
                 printf("PROCESSING FRAME %d \n", f);
-                if (aFrame.objects.size()>0) {
-                    //iterate through all the objects of the frame
+                if (aFrame.masks.size()>0) {
+                    //iterate through all the masks of the frame
                     cv::Mat output_image_opencv = cv::Mat::zeros(aFrame.img.size(), CV_8UC4);;
-                    for (Object & anObject : aFrame.objects) {
-                        printf("\tPROCESSING OBJECT %d \n", anObject.objectId);
+                    for (Mask & aMask : aFrame.masks) {
+                        printf("\tPROCESSING MASK %d \n", aMask.maskId);
                         //from simplify.cpp
-                        fillContoursWithColorAndAlpha(anObject.simplifiedContours, output_image_opencv, false, anObject.color[0]*255, anObject.color[1]*255, anObject.color[2]*255);
-                        printf("\tPROCESSING OBJECT DONE.\n");
+                        fillContoursWithColorAndAlpha(aMask.simplifiedContours, output_image_opencv, false, aMask.color[0]*255, aMask.color[1]*255, aMask.color[2]*255);
+                        printf("\tPROCESSING MASK DONE.\n");
                     }
                     cv::Size a_frame_size = aFrame.img.size(); 
                     printf("writing frame with size %d,%d.\n", a_frame_size.width, a_frame_size.height);

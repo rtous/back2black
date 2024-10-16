@@ -9,16 +9,19 @@ bool load_and_precompute_image_from_file(std::string path, sam_image_u8 & img0, 
 bool load_image_samformat_from_file(const std::string & fname, sam_image_u8 & img);
 bool get_best_sam_mask_at_point(int x, int y, sam_image_u8 img0, sam_state & state, int n_threads, sam_image_u8 & mask);
 cv::Mat get_best_opencv_mask_at_point(int x, int y, sam_image_u8 img0, sam_state & state, int n_threads);
-void compute_object(Object & anObject, sam_image_u8 img0, sam_state & state, int n_threads);
-void compute_object_mask_center(Object & anObject);
+//void compute_mask(Mask & aMask, sam_image_u8 img0, sam_state & state, int n_threads);
+void compute_mask(Mask & aMask, sam_image_u8 img0, sam_state & state, int n_threads);
+
+void compute_mask_center(Mask & aMask);
+//int propagate_masks(std::vector<Frame> & frames, sam_state & state, int n_threads);
 int propagate_masks(std::vector<Frame> & frames, sam_state & state, int n_threads);
-int propagate_masks2(std::vector<Frame> & frames, sam_state & state, int n_threads);
 void sam_image2opencv(sam_image_u8 & sam_image, cv::Mat & opencv_image);
 void opencv_image2sam(sam_image_u8 & sam_image, cv::Mat & opencv_image);
 sam_image_u8 sam_image2color(sam_image_u8 & sam_image);
 //void sam_image2opencv_color(sam_image_u8 & sam_image, cv::Mat & opencv_image);
 void sam_image2opencv_color(sam_image_u8 & sam_image, cv::Mat & opencv_image, int R, int G, int B);
 void opencv_image2sam_binarymask(sam_image_u8 & sam_image, cv::Mat & opencv_image);
+int load_frames_from_files(std::string input_path, std::vector<Frame> & frames);
 
 
 //void example_func();
