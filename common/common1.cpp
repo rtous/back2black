@@ -440,7 +440,7 @@ int propagate_masks(std::vector<Frame> & frames, sam_state & state, int n_thread
         if (f>0) {
             if (!sam_compute_embd_img(aFrame.img_sam_format, n_threads, state)) {
                 fprintf(stderr, "%s: failed to compute encoded image\n", __func__);
-                //return 1;
+                return 1;
             }
         } 
         //iterate through all the masks of the frame
@@ -476,6 +476,7 @@ int propagate_masks(std::vector<Frame> & frames, sam_state & state, int n_thread
     //precompute the original frame to keep things as they were
     if (!sam_compute_embd_img(frames[0].img_sam_format, n_threads, state)) {
         fprintf(stderr, "%s: failed to compute encoded image\n", __func__);
-        //return 1;
+        return 1;
     }
+	return 0;
 }

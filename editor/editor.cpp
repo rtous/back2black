@@ -636,19 +636,7 @@ void fileDialog(MyState &myState, bool *show_file_dialog) {
         //Create a single default mask
         //Mask aMask;
         //myState.aVideo.frames[0].masks.push_back(aMask);
-        myState.selected_mask = 0;
-        /*
-        //Add a vector of textures for this first mask
-        std::vector<GLuint> maskTextures;
-        myState.masksMaskTextures.push_back(maskTextures);
-        std::vector<GLuint> simplifiedMaskTextures;
-        myState.masksSimplifiedMaskTextures.push_back(simplifiedMaskTextures);
-        */
-        //Assign a default color to this first mask
-        //myState.aVideo.frames[0].masks[0].color[0] = 0.4f;
-        //myState.aVideo.frames[0].masks[0].color[1] = 0.7f;
-        //myState.aVideo.frames[0].masks[0].color[2] = 0.0f;
-        //myState.aVideo.frames[0].masks[0].color[3] = 0.0f;//no transparency
+        myState.selected_mask = 0;        
         printf("After reading video precompute first frame...\n");
         if (!sam_compute_embd_img(myState.img, myState.params.n_threads, *myState.a_sam_state)) {
             fprintf(stderr, "%s: failed to compute encoded image\n", __func__);

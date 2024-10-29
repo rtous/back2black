@@ -2,6 +2,8 @@
 #include <opencv2/imgcodecs.hpp>
 #include <opencv2/highgui.hpp>
 #include <iostream>
+#include <opencv2/video/video.hpp>
+
 using namespace cv;
 int main()
 {
@@ -20,5 +22,29 @@ int main()
     {
         imwrite("../out.jpg", img);
     }
+	
+	printf("trying to open a video with opencv...\n");
+
+	std::string videoFilePath = "footage.mp4";
+	
+    try{
+        //open the video file
+        cv::VideoCapture cap(videoFilePath); // open the video file
+        if(!cap.isOpened())  // check if we succeeded
+            CV_Error(cv::Error::StsError, "Can not open Video file");
+        
+        //cap.get(CV_CAP_PROP_FRAME_COUNT) contains the number of frames in the video;
+        for(int frameNum = 0; frameNum < cap.get(cv::CAP_PROP_FRAME_COUNT); frameNum++)
+        {
+            cv::Mat frame;
+            cap >> frame; // get the next frame from video
+            printf("Added frame num %d\n", frameNum);  
+        }
+    }
+    catch(cv::Exception& e ){
+        std::cerr << e.msg << std::endl;
+        exit(1);
+    }
+	
     return 0;
 }
