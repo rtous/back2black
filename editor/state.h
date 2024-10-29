@@ -21,6 +21,13 @@ class MyState {
     std::string filePath;  
     bool img_loaded = false;
 
+    //propagate dialog
+    bool propagate_dialog = false; //to show the dialog
+    bool propagate = false; //to perform the propagate action
+    int start_frame = -1;
+    int end_frame = -1;
+    
+
     //SAM
     sam_params params; 
     std::shared_ptr<sam_state> a_sam_state;
@@ -36,7 +43,7 @@ class MyState {
     int selected_mask = 0;
     int frame_precomputed = -1;
     Video aVideo;
-    bool propagate = false;
+    
 
 
     //single file case:

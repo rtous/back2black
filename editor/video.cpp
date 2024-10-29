@@ -95,10 +95,12 @@ void save_video(const std::string &videoFilePath, Video &theVideo){//(std::vecto
                     printf("writing frame with size %d,%d.\n", a_frame_size.width, a_frame_size.height);
                     
                     //TODO: Did this because aFrame.img is RGB instead of BGR
-                    cv::Mat bgr;
-                    cv::cvtColor(aFrame.img, bgr, cv::COLOR_RGB2BGR);
+                    //cv::Mat bgr;
+                    //cv::cvtColor(aFrame.img, bgr, cv::COLOR_RGB2BGR);
                     
-                    vidwriter.write(output_image_opencv);
+                    cv::Mat bgr;
+                    cv::cvtColor(output_image_opencv, bgr, cv::COLOR_RGB2BGR);
+                    vidwriter.write(bgr);
                     
                 }
                 printf("FRAME DONE.\n");

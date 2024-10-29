@@ -1,3 +1,26 @@
+/*
+    //conversion utils
+    sam_image2color
+    sam_image2opencv
+    sam_image2opencv_color
+    opencv_image2sam_binarymask
+    opencv_image2sam
+    
+    //load utils
+    load_image_samformat_from_file
+    load_frames_from_files
+    load_and_precompute_image_from_file
+
+    //mask utils
+    propagate_masks 
+        -> compute_mask (also computes mask center, assumes precomputed)
+            -> get_best_sam_mask_at_point (assumes precomputed)
+    get_best_opencv_mask_at_point (NOT USED?)
+
+    //other utils
+    compute_mask_center (ONLY FIRST CONTOUR)
+*/
+
 #include "imgui.h"
 #include "imgui_impl_sdl2.h"
 #include "imgui_impl_opengl3.h"
@@ -199,6 +222,7 @@ bool load_and_precompute_image_from_file(std::string path, sam_image_u8 & img0, 
 */
 bool get_best_sam_mask_at_point(int x, int y, sam_image_u8 img0, sam_state & state, int n_threads, sam_image_u8 & mask) {
     //Call sam to compute the mask at the point
+    //Assumes that the image has been previously precomputed
     std::vector<sam_image_u8> masks;
     sam_point pt {(float)x, (float)y};
     masks = sam_compute_masks(img0, n_threads, pt, state);
@@ -257,7 +281,7 @@ void compute_mask_center(Mask & aMask) {
     //circle(aMask.mask, center, 5, cv::Scalar(128,0,0), -1);//DEBUG
 } 
 
-//callet by propagate_masks (called by editor and cli_masks)
+//called by propagate_masks (called by editor and cli_masks)
 //but the editor also calls compute_mask_and_textures in sam_utils.cpp
 void compute_mask(Mask & aMask, sam_image_u8 img0, sam_state & state, int n_threads) {
 

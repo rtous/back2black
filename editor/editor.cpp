@@ -117,7 +117,8 @@ static void ShowExampleAppMainMenuBar(bool *show_file_dialog, MyState &myState)
         {
             //ImGui::MenuItem("(demo menu)", NULL, false, false);
             if (ImGui::MenuItem("Propagate masks to all frames", "Ctrl+P")) {
-                myState.propagate = true;
+                //myState.propagate = true;
+                myState.propagate_dialog = true;
                 myState.clicked = false;//to avoid the click go into the frame
                 
             }
@@ -667,6 +668,90 @@ void fileDialog(MyState &myState, bool *show_file_dialog) {
     }
 }
 
+void propagateDialog(MyState &myState) {
+    printf("propagateDialog...\n");
+    ImGui::OpenPopup("Propagate masks to next frames");
+    // Always center this window when appearing
+    ImVec2 center = ImGui::GetMainViewport()->GetCenter();
+    ImGui::SetNextWindowPos(center, ImGuiCond_Appearing, ImVec2(0.5f, 0.5f));
+    if (ImGui::BeginPopupModal("Propagate masks to next frames", NULL, ImGuiWindowFlags_AlwaysAutoResize))
+    {
+        ImGui::Text("Masks in the reference frame will be propagated to next frames till the specified frame (included).\nThis operation is slow.");
+        ImGui::Separator();
+
+        //static int unused_i = 0;
+        //ImGui::Combo("Combo", &unused_i, "Delete\0Delete harder\0");
+
+        static bool dont_ask_me_next_time = false;
+        ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(0, 0));
+        //ImGui::Checkbox("Don't ask me next time", &dont_ask_me_next_time);
+        ImGui::PopStyleVar();
+
+        /* --------- */
+        /*
+        static int item_current_idx = 0; // Here we store our selection data as an index.
+        if (ImGui::BeginListBox("listbox 1"))
+        {
+            int n = 0;
+            for (std::string & item : items)
+            {
+                const bool is_selected = (item_current_idx == n);
+                if (ImGui::Selectable(item.c_str(), is_selected))
+                    item_current_idx = n;
+
+                // Set the initial focus when opening the combo (scrolling + keyboard navigation focus)
+                if (is_selected) {
+                    ImGui::SetItemDefaultFocus();
+                    //printf("Selected item %s\n", item.c_str());
+                    if (myState.selected_frame != n) {
+                        //If selects a different frame
+                    }
+                }
+                n++;
+            }
+            ImGui::EndListBox();
+        }
+        */
+
+        //int frozen_cols = myState.selected_frame;
+        //myState.aVideo.frames.size()
+        //int frozen_cols = 3;
+        int num_frames = myState.aVideo.frames.size();
+        if (myState.start_frame == -1 && myState.selected_frame < num_frames-1) {
+            //If first time.
+            myState.start_frame = myState.selected_frame;
+            myState.end_frame = myState.selected_frame+1;
+        } else if (myState.selected_frame == num_frames-1) {
+            //If first time and the last frame is selected then 
+            myState.start_frame = 0;
+            myState.end_frame = 1;
+        }
+        
+        ImGui::SliderInt("Reference frame", &myState.start_frame, 0, num_frames-1);
+        ImGui::SliderInt("Till frame", &myState.end_frame, myState.start_frame+1, num_frames-1);
+
+        /* --------- */
+
+        if (ImGui::Button("OK", ImVec2(120, 0))) { 
+            myState.propagate_dialog = false;
+            myState.start_frame = -1;
+            myState.end_frame = -1;
+            myState.propagate = true;
+            ImGui::CloseCurrentPopup(); 
+        }
+        ImGui::SetItemDefaultFocus();
+        ImGui::SameLine();
+        if (ImGui::Button("Cancel", ImVec2(120, 0))) { 
+            myState.start_frame = -1;
+            myState.end_frame = -1;
+            myState.propagate_dialog = false;
+            ImGui::CloseCurrentPopup(); 
+        }
+        ImGui::EndPopup();
+    } else {
+        printf("NO BeginPopupModal\n");
+    }
+}
 /*
 static void masksWindow(MyState &myState, const ImGuiViewport* viewport, ImGuiWindowFlags flags, bool use_work_area) 
 {
@@ -687,6 +772,10 @@ static void masksWindow(MyState &myState, const ImGuiViewport* viewport, ImGuiWi
 //checks user actions (e.g. open a file, etc.)
 void checkActions(MyState &myState) 
 {
+    if (myState.propagate_dialog) {
+        propagateDialog(myState);
+    }
+
     if (myState.img_loaded && myState.propagate) {
         printf("PROPAGATING...\n");
         propagate_masks(myState.aVideo.frames, *myState.a_sam_state, myState.params.n_threads);
