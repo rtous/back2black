@@ -20,6 +20,7 @@
 #include "video.h"
 #include "data_structures.h"
 #include "simplify.h"
+#include <thread>
 
 /*
     MyState &myState contains the state of the editor.
@@ -760,6 +761,15 @@ static void masksWindow(MyState &myState, const ImGuiViewport* viewport, ImGuiWi
     }
 }*/
 
+//Example async task
+void asynch_task(MyState &myState)
+{    
+	propagate_masks(myState.aVideo.frames, *myState.a_sam_state, myState.params.n_threads);
+	compute_mask_textures_all_frames(myState.aVideo.frames);
+	myState.propagate = false;
+	printf("PROPAGATED.\n");
+}
+
 //checks user actions (e.g. open a file, etc.)
 void checkActions(MyState &myState) 
 {
@@ -769,10 +779,15 @@ void checkActions(MyState &myState)
 
     if (myState.img_loaded && myState.propagate) {
         printf("PROPAGATING...\n");
-        propagate_masks(myState.aVideo.frames, *myState.a_sam_state, myState.params.n_threads);
+		
+		//testing
+		std::thread t1(asynch_task, myState);
+		//t1.join(); //to wait the thread
+		
+        /*propagate_masks(myState.aVideo.frames, *myState.a_sam_state, myState.params.n_threads);
         compute_mask_textures_all_frames(myState.aVideo.frames);
         myState.propagate = false;
-        printf("PROPAGATED.\n");
+        printf("PROPAGATED.\n");*/
     }
 }
 
