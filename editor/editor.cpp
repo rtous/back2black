@@ -682,10 +682,10 @@ void propagateDialog(MyState &myState) {
         //static int unused_i = 0;
         //ImGui::Combo("Combo", &unused_i, "Delete\0Delete harder\0");
 
-        static bool dont_ask_me_next_time = false;
-        ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(0, 0));
+        //static bool dont_ask_me_next_time = false;
+        //ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(0, 0));
         //ImGui::Checkbox("Don't ask me next time", &dont_ask_me_next_time);
-        ImGui::PopStyleVar();
+        //ImGui::PopStyleVar();
 
         /* --------- */
         /*
@@ -727,7 +727,10 @@ void propagateDialog(MyState &myState) {
             myState.end_frame = 1;
         }
         
-        ImGui::SliderInt("Reference frame", &myState.start_frame, 0, num_frames-1);
+        ImGui::SliderInt("Reference frame", &myState.start_frame, 0, num_frames-2);
+        if (myState.start_frame >= myState.end_frame) {
+            myState.end_frame = myState.start_frame+1;
+        } 
         ImGui::SliderInt("Till frame", &myState.end_frame, myState.start_frame+1, num_frames-1);
 
         /* --------- */
