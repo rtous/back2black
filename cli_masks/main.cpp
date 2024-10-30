@@ -140,7 +140,7 @@ int main(int argc, char ** argv)
 
 
     //Propagate the masks (currently only to 5 frames)
-    propagate_masks(frames, *state, params.n_threads);
+    propagate_masks(frames, *state, params.n_threads, 0, 4);
 
 
     printf("ANALYSIS DONE, WRITING IMAGE FILES!\n");

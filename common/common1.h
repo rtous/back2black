@@ -14,7 +14,7 @@ void compute_mask(Mask & aMask, sam_image_u8 img0, sam_state & state, int n_thre
 
 void compute_mask_center(Mask & aMask);
 //int propagate_masks(std::vector<Frame> & frames, sam_state & state, int n_threads);
-int propagate_masks(std::vector<Frame> & frames, sam_state & state, int n_threads);
+int propagate_masks(std::vector<Frame> & frames, sam_state & state, int n_threads, int from_frame, int till_frame);
 void sam_image2opencv(sam_image_u8 & sam_image, cv::Mat & opencv_image);
 void opencv_image2sam(sam_image_u8 & sam_image, cv::Mat & opencv_image);
 sam_image_u8 sam_image2color(sam_image_u8 & sam_image);

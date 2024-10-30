@@ -658,7 +658,7 @@ void fileDialog(MyState &myState, bool *show_file_dialog) {
 }
 
 void propagateDialog(MyState &myState) {
-    printf("propagateDialog...\n");
+    //printf("propagateDialog...\n");
     ImGui::OpenPopup("Propagate masks to next frames");
     // Always center this window when appearing
     ImVec2 center = ImGui::GetMainViewport()->GetCenter();
@@ -726,8 +726,6 @@ void propagateDialog(MyState &myState) {
 
         if (ImGui::Button("OK", ImVec2(120, 0))) { 
             myState.propagate_dialog = false;
-            myState.start_frame = -1;
-            myState.end_frame = -1;
             myState.propagate = true;
             ImGui::CloseCurrentPopup(); 
         }
@@ -764,10 +762,11 @@ static void masksWindow(MyState &myState, const ImGuiViewport* viewport, ImGuiWi
 //Example async task
 void asynch_task(MyState &myState)
 {    
-	propagate_masks(myState.aVideo.frames, *myState.a_sam_state, myState.params.n_threads);
+	/*propagate_masks(myState.aVideo.frames, *myState.a_sam_state, myState.params.n_threads);
 	compute_mask_textures_all_frames(myState.aVideo.frames);
 	myState.propagate = false;
-	printf("PROPAGATED.\n");
+	printf("PROPAGATED.\n");*/
+    printf("THREAD FINISHED.\n");
 }
 
 //checks user actions (e.g. open a file, etc.)
@@ -781,13 +780,24 @@ void checkActions(MyState &myState)
         printf("PROPAGATING...\n");
 		
 		//testing
-		std::thread t1(asynch_task, myState);
+        //std::thread thread_1(asynch_task, std::ref(myState));
 		//t1.join(); //to wait the thread
 		
-        /*propagate_masks(myState.aVideo.frames, *myState.a_sam_state, myState.params.n_threads);
+        propagate_masks(myState.aVideo.frames, *myState.a_sam_state, myState.params.n_threads, myState.start_frame, myState.end_frame);
+        //propagate_masks(myState.aVideo.frames, *myState.a_sam_state, myState.params.n_threads);
         compute_mask_textures_all_frames(myState.aVideo.frames);
         myState.propagate = false;
-        printf("PROPAGATED.\n");*/
+        myState.start_frame = -1;
+        myState.end_frame = -1;
+        printf("PROPAGATED.\n");
+
+        //Precompute actual frame to keep things as they were
+        if (!sam_compute_embd_img(myState.img, myState.params.n_threads, *myState.a_sam_state)) {
+            fprintf(stderr, "%s: failed to compute encoded image\n", __func__);
+            //return 1;
+        }
+        myState.frame_precomputed = myState.selected_frame;
+
     }
 }
 

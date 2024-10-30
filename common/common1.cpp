@@ -425,58 +425,65 @@ int propagate_masks(std::vector<Frame> & frames, sam_state & state, int n_thread
 //and also the computation 
 //frames are in memory
 //ONGOING
-int propagate_masks(std::vector<Frame> & frames, sam_state & state, int n_threads) 
+//int propagate_masks(std::vector<Frame> & frames, sam_state & state, int n_threads) 
+int propagate_masks(std::vector<Frame> & frames, sam_state & state, int n_threads, int from_frame, int till_frame) 
 {
-    int MAX = 5;
+    printf("propagating from %d (reference) to %d\n", from_frame, till_frame);
+    //int MAX = 5;
     int numFrames = frames.size();
     int f = 0;
     //iterate through all frames 
     //assumes that the first frame has been already computed
     for (Frame & aFrame : frames) {
-        if (f == MAX) //DEBUG!!
+        if (f > till_frame)
             break;
         printf("PROCESSING FRAME %d \n", f);
         //if not the first frame precompute the image
-        if (f>0) {
+        if (f>from_frame) {
+            printf("\t%d>from_frame so precomputing. \n", f);
             if (!sam_compute_embd_img(aFrame.img_sam_format, n_threads, state)) {
                 fprintf(stderr, "%s: failed to compute encoded image\n", __func__);
                 return 1;
             }
         } 
         //iterate through all the masks of the frame
-        for (Mask & aMask : aFrame.masks) {
-            printf("\tPROCESSING MASK %d \n", aMask.maskId);
-            printf("\taMask.mask_computed_at_x %d \n", aMask.mask_computed_at_x);
-            printf("\taMask.mask_computed_at_y %d \n", aMask.mask_computed_at_y);
-            //if not the first frame compute the mask
-            if (f>0) { 
-                compute_mask(aMask, aFrame.img_sam_format, state, n_threads);
+        if (f>=from_frame) {
+            printf("\t%d>=from_frame so analyzing masks. \n", f);
+            for (Mask & aMask : aFrame.masks) {
+                printf("\tPROCESSING MASK %d \n", aMask.maskId);
+                printf("\taMask.mask_computed_at_x %d \n", aMask.mask_computed_at_x);
+                printf("\taMask.mask_computed_at_y %d \n", aMask.mask_computed_at_y);
+                //if not the first frame compute the mask
+                if (f>from_frame) { 
+                    printf("\t%d>from_frame so computing mask. \n", f);
+                    compute_mask(aMask, aFrame.img_sam_format, state, n_threads);
+                }
+                //compute mask center
+                //compute_mask_center(aMask, aFrame.img_sam_format, state, n_threads);
+                
+                //add the mask to the next frame with the next coordinates
+                printf("\tf=%d numFrames=%d.\n", f, numFrames);
+                if (f < till_frame && f < numFrames-1) {
+                    Mask newMask;
+                    newMask.maskId = aMask.maskId;
+                    newMask.color[0] = aMask.color[0];
+                    newMask.color[1] = aMask.color[1];
+                    newMask.color[2] = aMask.color[2];
+                    newMask.mask_computed_at_x = aMask.mask_center_x;
+                    newMask.mask_computed_at_y = aMask.mask_center_y; 
+                    printf("\tADDING MASK %d TO FRAME %d WITH x=%d, y=%d\n", aMask.maskId, f, newMask.mask_computed_at_x, newMask.mask_computed_at_y);
+                    frames[f+1].masks.push_back(newMask);
+                }
+                printf("\tMASKS DONE.\n");
             }
-            //compute mask center
-            //compute_mask_center(aMask, aFrame.img_sam_format, state, n_threads);
-            
-            //add the mask to the next frame with the next coordinates
-            printf("\tf=%d numFrames=%d.\n", f, numFrames);
-            if (f < MAX-1 && f < numFrames-1) {
-                Mask newMask;
-                newMask.maskId = aMask.maskId;
-                newMask.color[0] = aMask.color[0];
-                newMask.color[1] = aMask.color[1];
-                newMask.color[2] = aMask.color[2];
-                newMask.mask_computed_at_x = aMask.mask_center_x;
-                newMask.mask_computed_at_y = aMask.mask_center_y; 
-                printf("\tADDING MASK %d TO FRAME %d WITH x=%d, y=%d\n", aMask.maskId, f, newMask.mask_computed_at_x, newMask.mask_computed_at_y);
-                frames[f+1].masks.push_back(newMask);
-            }
-            printf("\tMASKS DONE.\n");
         }
         printf("FRAME DONE.\n");
         f++;
     }
     //precompute the original frame to keep things as they were
-    if (!sam_compute_embd_img(frames[0].img_sam_format, n_threads, state)) {
+    /*if (!sam_compute_embd_img(frames[0].img_sam_format, n_threads, state)) {
         fprintf(stderr, "%s: failed to compute encoded image\n", __func__);
         return 1;
-    }
+    }*/
 	return 0;
 }
