@@ -10,7 +10,7 @@ bool load_image_samformat_from_file(const std::string & fname, sam_image_u8 & im
 bool get_best_sam_mask_at_point(int x, int y, sam_image_u8 img0, sam_state & state, int n_threads, sam_image_u8 & mask);
 cv::Mat get_best_opencv_mask_at_point(int x, int y, sam_image_u8 img0, sam_state & state, int n_threads);
 //void compute_mask(Mask & aMask, sam_image_u8 img0, sam_state & state, int n_threads);
-void compute_mask(Mask & aMask, sam_image_u8 img0, sam_state & state, int n_threads);
+bool compute_mask(Mask & aMask, sam_image_u8 img0, sam_state & state, int n_threads);
 
 void compute_mask_center(Mask & aMask);
 //int propagate_masks(std::vector<Frame> & frames, sam_state & state, int n_threads);

@@ -8,6 +8,8 @@ Universitat Politecnica de Catalunya
 
 TODO
 
+- Delete mask, move up, move down
+- Mask id is a random value
 - I'm downscaling the images in read_video!
 - The contours field of the object is not set?? Now I'm setting it for simplified contours but the other??
 - El video save es poc robust (detectar si no extensió), que passa amb altres extensions...

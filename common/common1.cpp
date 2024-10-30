@@ -243,7 +243,7 @@ cv::Mat get_best_opencv_mask_at_point(int x, int y, sam_image_u8 img0, sam_state
 	
     //compute mask at given point (pick best one)
     sam_image_u8 mask;
-    get_best_sam_mask_at_point(x, y, img0, state, n_threads, mask);
+    bool found = get_best_sam_mask_at_point(x, y, img0, state, n_threads, mask);
     
 	//convert mask to opencv format
     cv::Mat mask_opencv;
@@ -283,17 +283,21 @@ void compute_mask_center(Mask & aMask) {
 
 //called by propagate_masks (called by editor and cli_masks)
 //but the editor also calls compute_mask_and_textures in sam_utils.cpp
-void compute_mask(Mask & aMask, sam_image_u8 img0, sam_state & state, int n_threads) {
+bool compute_mask(Mask & aMask, sam_image_u8 img0, sam_state & state, int n_threads) {
 
     //Compute the frame: Obtain the best mask at the point
     //cv::Mat output = get_best_opencv_mask_at_point(aMask.mask_computed_at_x, aMask.mask_computed_at_y, img0, state, n_threads);
     
     //compute mask at given point (pick best one)
-    get_best_sam_mask_at_point(aMask.mask_computed_at_x, aMask.mask_computed_at_y, img0, state, n_threads, aMask.samMask);
+    bool found = get_best_sam_mask_at_point(aMask.mask_computed_at_x, aMask.mask_computed_at_y, img0, state, n_threads, aMask.samMask);
     
-    compute_mask_center(aMask);
+    if (found) {
+        compute_mask_center(aMask);
+        aMask.mask_computed = true;
+    }
+    return found;
 
-    aMask.mask_computed = true;
+     
 
     /*
     //convert mask to opencv format
@@ -449,21 +453,28 @@ int propagate_masks(std::vector<Frame> & frames, sam_state & state, int n_thread
         //iterate through all the masks of the frame
         if (f>=from_frame) {
             printf("\t%d>=from_frame so analyzing masks. \n", f);
+            //If need to propagate to next frame let's clear it's masks
+            if (f < till_frame && f < numFrames-1) {
+                frames[f+1].masks.clear();
+            }
             for (Mask & aMask : aFrame.masks) {
                 printf("\tPROCESSING MASK %d \n", aMask.maskId);
                 printf("\taMask.mask_computed_at_x %d \n", aMask.mask_computed_at_x);
                 printf("\taMask.mask_computed_at_y %d \n", aMask.mask_computed_at_y);
                 //if not the first frame compute the mask
+                bool found = true; //the one in the reference frame
                 if (f>from_frame) { 
                     printf("\t%d>from_frame so computing mask. \n", f);
-                    compute_mask(aMask, aFrame.img_sam_format, state, n_threads);
+                    found = compute_mask(aMask, aFrame.img_sam_format, state, n_threads);
                 }
                 //compute mask center
                 //compute_mask_center(aMask, aFrame.img_sam_format, state, n_threads);
                 
+                //if not the last frame
                 //add the mask to the next frame with the next coordinates
+                //if the mask is not found it's not added
                 printf("\tf=%d numFrames=%d.\n", f, numFrames);
-                if (f < till_frame && f < numFrames-1) {
+                if (f < till_frame && f < numFrames-1 && found) {
                     Mask newMask;
                     newMask.maskId = aMask.maskId;
                     newMask.color[0] = aMask.color[0];
