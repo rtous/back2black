@@ -191,6 +191,7 @@ void compute_mask_and_textures(Frame & aFrame, const sam_params & params, sam_st
             compute_mask_center(newMask);//from common1.c
             compute_mask_textures(newMask, R, G, B);
             aFrame.masks.push_back(newMask);
+            //aFrame.newMask(newMask); 
             printf("Added mask\n");
         } else {
             //If the mask is already in storedMasks we will delete it

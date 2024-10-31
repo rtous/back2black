@@ -67,6 +67,15 @@ class Frame {
     Frame() {     
       //starts with no masks
     }
+
+    /*void newMask(Mask newMask) {  
+      //create a new mask, take the last id and add 1
+      if (masks.size() == 0)   
+        newMask.maskId = 0;
+      else 
+        newMask.maskId = masks[masks.size()-1].maskId+1;
+        masks.push_back(newMask);
+    }*/
 };
 
 class Video {      

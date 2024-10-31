@@ -89,8 +89,9 @@ int main(int, char**)
             //save log
     }
     //SDL_Window* window = SDL_CreateWindow("LESTER", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, dm.w, dm.h, window_flags);
-
-    SDL_Window* window = SDL_CreateWindow("LESTER", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 1280, 720, window_flags);
+    //SDL_Window* window = SDL_CreateWindow("LESTER", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 1280, 720, window_flags);
+    SDL_Window* window = SDL_CreateWindow("LESTER", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, dm.w*0.95, dm.h*0.95, window_flags);
+    
 
     if (window == nullptr)
     {
