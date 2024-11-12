@@ -27,6 +27,7 @@ class Mask {
     GLuint maskTexture; //mask in OpenGL
     GLuint simplifiedMaskTexture; //simplified mask in OpenGL
     bool textures_computed = false;
+    bool visible = true;
 
     //contours
     //WHO's using this??

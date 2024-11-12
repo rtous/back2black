@@ -28,6 +28,8 @@
 #include "gui_utils.h"
 #include "colors.h"
 #include "sam_utils.h"
+#include "IconsFontAwesome5.h" //see https://github.com/juliettef/IconFontCppHeaders
+
 
 void myWindow(bool *show_myWindow)
 {
@@ -134,6 +136,28 @@ int main(int, char**)
     //io.Fonts->AddFontFromFileTTF("../../misc/fonts/Cousine-Regular.ttf", 15.0f);
     //ImFont* font = io.Fonts->AddFontFromFileTTF("c:\\Windows\\Fonts\\ArialUni.ttf", 18.0f, nullptr, io.Fonts->GetGlyphRangesJapanese());
     //IM_ASSERT(font != nullptr);
+
+    //TESTING FONTS AWESOME /RUBEN
+    io.Fonts->AddFontDefault();
+    float baseFontSize = 13.0f;//13.0f; // 13.0f is the size of the default font. Change to the font size you use.
+    float iconFontSize = baseFontSize * 2.0f / 3.0f; // FontAwesome fonts need to have their sizes reduced by 2.0f/3.0f in order to align correctly
+    // merge in icons from Font Awesome
+    static const ImWchar icons_ranges[] = { ICON_MIN_FA, ICON_MAX_16_FA, 0 };
+    ImFontConfig icons_config; 
+    icons_config.MergeMode = true; 
+    icons_config.PixelSnapH = true; 
+    //icons_config.SizePixels = 25.0f;//RUBEN
+    //icons_config.GlyphExtraSpacing.x = 0.0f;//RUBEN
+    icons_config.GlyphMinAdvanceX = iconFontSize;
+    //icons_config.GlyphMaxAdvanceX = iconFontSize; 
+    //icons_config.GlyphMinAdvanceY = 10.0f;
+    //io.Fonts->AddFontFromFileTTF( FONT_ICON_FILE_NAME_FAS, iconFontSize, &icons_config, icons_ranges );
+    //io.Fonts->AddFontFromFileTTF("/Users/rtous/dev/back2black/editor/fa-solid-900.ttf", 16.f, &icons_config, icons_ranges);
+    //io.Fonts->AddFontFromFileTTF("/Users/rtous/dev/back2black/editor/fa-solid-900.ttf", 16.f, &icons_config, icons_ranges);
+    //io.Fonts->AddFontFromFileTTF(FONT_ICON_FILE_NAME_FAS, iconFontSize, &icons_config, icons_ranges );
+    io.Fonts->AddFontFromFileTTF("/Users/rtous/dev/back2black/editor/fa-solid-900.ttf", iconFontSize, &icons_config, icons_ranges );
+    printf("font file loaded\n");
+    //
 
     /***** STATE ******/
     bool show_demo_window = true;

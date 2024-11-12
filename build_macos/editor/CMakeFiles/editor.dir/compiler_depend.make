@@ -1790,6 +1790,7 @@ editor/CMakeFiles/editor.dir/editor.cpp.o: /Users/rtous/dev/back2black/editor/ed
   /Library/Developer/CommandLineTools/usr/lib/clang/15.0.0/include/stdint.h \
   /Users/rtous/dev/back2black/common/common1.h \
   /Users/rtous/dev/back2black/common/data_structures.h \
+  /Users/rtous/dev/back2black/editor/IconsFontAwesome5.h \
   /Users/rtous/dev/back2black/editor/colors.h \
   /Users/rtous/dev/back2black/editor/file_dialog.h \
   /Users/rtous/dev/back2black/editor/gui_utils.h \
@@ -5079,6 +5080,7 @@ editor/CMakeFiles/editor.dir/main.cpp.o: /Users/rtous/dev/back2black/editor/main
   /Library/Developer/CommandLineTools/usr/lib/clang/15.0.0/include/stdint.h \
   /Users/rtous/dev/back2black/common/common1.h \
   /Users/rtous/dev/back2black/common/data_structures.h \
+  /Users/rtous/dev/back2black/editor/IconsFontAwesome5.h \
   /Users/rtous/dev/back2black/editor/colors.h \
   /Users/rtous/dev/back2black/editor/editor.h \
   /Users/rtous/dev/back2black/editor/gui_utils.h \
@@ -9190,6 +9192,8 @@ editor/CMakeFiles/editor.dir/video.cpp.o: /Users/rtous/dev/back2black/editor/vid
 /Library/Developer/CommandLineTools/SDKs/MacOSX14.4.sdk/usr/include/_ctype.h:
 
 /Library/Developer/CommandLineTools/SDKs/MacOSX14.4.sdk/usr/include/c++/v1/__algorithm/ranges_is_heap_until.h:
+
+/Users/rtous/dev/back2black/editor/IconsFontAwesome5.h:
 
 /Library/Developer/CommandLineTools/SDKs/MacOSX14.4.sdk/usr/include/c++/v1/version:
 

@@ -1087,4 +1087,5 @@ editor/CMakeFiles/editor.dir/main.cpp.o: \
   /Users/rtous/dev/back2black/editor/editor.h \
   /Users/rtous/dev/back2black/editor/gui_utils.h \
   /Users/rtous/dev/back2black/editor/sam_utils.h \
-  /Users/rtous/dev/back2black/common/./common1.h
+  /Users/rtous/dev/back2black/common/./common1.h \
+  /Users/rtous/dev/back2black/editor/IconsFontAwesome5.h

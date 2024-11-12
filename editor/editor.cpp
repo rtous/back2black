@@ -21,6 +21,7 @@
 #include "data_structures.h"
 #include "simplify.h"
 #include <thread>
+#include "IconsFontAwesome5.h" //see https://github.com/juliettef/IconFontCppHeaders
 
 /*
     MyState &myState contains the state of the editor.
@@ -337,7 +338,7 @@ static void frameWindow(MyState &myState, bool *show_myWindow, const ImGuiViewpo
 
 static void framesListWindow(MyState &myState, const ImGuiViewport* viewport, ImGuiWindowFlags flags, bool use_work_area) 
 {
-    ImVec2 size = ImVec2(viewport->WorkSize.x * 0.33f, viewport->WorkSize.y * 0.25f);
+    ImVec2 size = ImVec2(viewport->WorkSize.x * 0.20f, viewport->WorkSize.y * 0.25f);
     flags = ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoSavedSettings;
     ImVec2 newPos = ImVec2(viewport->WorkPos.x + 0, viewport->WorkPos.y + (viewport->WorkSize.y * 0.75f));
     ImGui::SetNextWindowPos(newPos);
@@ -351,7 +352,7 @@ static void framesListWindow(MyState &myState, const ImGuiViewport* viewport, Im
 
     if (myState.aVideo.loaded) {
         for (Frame & aFrame : myState.aVideo.frames) {
-            items.push_back(std::to_string(aFrame.order));
+            items.push_back("Frame "+std::to_string(aFrame.order));
             //items[aFrame.order] = std::to_string(aFrame.order);
         }
     }
@@ -399,6 +400,7 @@ static void framesListWindow(MyState &myState, const ImGuiViewport* viewport, Im
     ImGui::End();
 }
 
+//NO SELECTABLE VERSION
 static void masksListWindow(MyState &myState, const ImGuiViewport* viewport, ImGuiWindowFlags flags, bool use_work_area) 
 {
     ImVec2 size = ImVec2(viewport->WorkSize.x * 0.33f, viewport->WorkSize.y * 0.25f);
@@ -410,9 +412,281 @@ static void masksListWindow(MyState &myState, const ImGuiViewport* viewport, ImG
     ImGui::Text("MASKS WINDOW"); 
     
     std::vector<std::string> items; 
+    std::vector<int> clickedDelete;
+    std::vector<int> clickedUp; 
+    std::vector<int> clickedDown;
+    std::vector<int> clickedVisible; 
 
     //items.push_back("MASK 1");
 
+    //First we put strings into "items" vector
+    if (myState.aVideo.loaded) {
+        int i = 0;
+        for (Mask & aMask : myState.aVideo.frames[myState.selected_frame].masks) {
+            //items.push_back(std::to_string(aMask.maskId));
+            items.push_back("Mask "+std::to_string(i));
+            //items[aFrame.order] = std::to_string(aFrame.order);
+            i++;
+        }
+    }
+
+    //ImDrawList* draw_list = ImGui::GetWindowDrawList();
+    //draw_list->ChannelsSplit(2);
+    //draw_list->ChannelsSetCurrent(0);
+
+    //More complex selectable with colors: https://github.com/ocornut/imgui/issues/4719
+    if (ImGui::BeginListBox("##listbox 2", ImVec2(-FLT_MIN, 7 * ImGui::GetTextLineHeightWithSpacing())))
+    {
+        //for the eye icon buttons
+        ImGuiIO& io = ImGui::GetIO();
+        ImTextureID my_tex_id = io.Fonts->TexID;
+        float my_tex_w = (float)io.Fonts->TexWidth;
+        float my_tex_h = (float)io.Fonts->TexHeight;
+
+        //ImGui::Columns(2);
+        //ImGui::BeginTable("table1", 2, ImGuiTableFlags_SizingFixedFit | ImGuiTableFlags_RowBg | ImGuiTableFlags_Borders | ImGuiTableFlags_Resizable | ImGuiTableFlags_Reorderable | ImGuiTableFlags_Hideable;);
+        ImGui::BeginTable("table1", 2);
+        //ImGui::AlignTextToFramePadding();
+        ImGui::TableSetupColumn("AAA", ImGuiTableColumnFlags_WidthFixed);
+        ImGui::TableSetupColumn("BBB", ImGuiTableColumnFlags_WidthStretch);           
+        int i = 0;
+        for (std::string & item : items)
+        {
+            ImGui::TableNextColumn();
+            //COLUMN 1: SELECTABLES
+            const bool is_selected = (myState.selected_mask == i);
+            //This shows a selectable string 
+            //and sets the boolean is_selected to capture input
+            //and returns true if the item is selected
+            //if (ImGui::Selectable(item.c_str(), is_selected, ImGuiSelectableFlags_SpanAllColumns)) {
+            ImGui::AlignTextToFramePadding();
+            if (ImGui::Selectable(item.c_str(), is_selected)) {
+                myState.selected_mask = i;
+            }
+            
+            // Set the initial focus when opening the combo (scrolling + keyboard navigation focus)
+            if (is_selected) {
+                ImGui::SetItemDefaultFocus();
+            }
+            //In case you don't want a selectable replace above code by this line:
+            //ImGui::Text(item.c_str());
+
+            //COLUMN 2: BUTTONS
+
+            //BUTTON 1 (color picker)
+            //ImGui::NextColumn();
+            ImGui::TableNextColumn();
+            std::string color_picker_id = "color " + std::to_string(i);
+            ImGui::ColorEdit4(color_picker_id.c_str(), myState.aVideo.frames[myState.selected_frame].masks[i].color, ImGuiColorEditFlags_NoInputs | ImGuiColorEditFlags_NoLabel);
+            //ImGui::SameLine();
+            
+            //"imgui selectable with buttons"
+            //https://github.com/ocornut/imgui/issues/6574
+            //ImGui::SetNextItemAllowOverlap();
+
+
+            ImGui::SameLine();
+            //ImGui::SameLine(0, 50);
+            //draw_list->ChannelsSetCurrent(1);
+
+
+
+            //BUTTON 2 (delete)
+            ImGui::SameLine();
+
+            //static int clicked2 = 0;
+            clickedDelete.push_back(0);
+            //The button has a label and a ID
+            //By default both are the string passed in the first param
+            //But we can differentiate them with the ### operator
+            std::string deleteButtonID = "deleteButton" + std::to_string(i);
+            char buf[64];
+            sprintf(buf, "-###%s", deleteButtonID.c_str());
+            if (ImGui::Button(buf))
+                clickedDelete[i]++;
+                //clicked2++;
+            //if (clicked2 & 1 && myState.aVideo.frames[myState.selected_frame].masks.size() > 0)
+            if (clickedDelete[i] & 1 && myState.aVideo.frames[myState.selected_frame].masks.size() > 0)
+            {
+                printf("Deleting\n");
+                ImGui::SameLine();
+                ImGui::Text("Erasing mask!");
+                myState.aVideo.frames[myState.selected_frame].masks.erase(myState.aVideo.frames[myState.selected_frame].masks.begin() + i);//myState.selected_mask);
+                /*if (myState.aVideo.frames[myState.selected_frame].masks.size() > 0)
+                    myState.selected_mask = myState.selected_mask-1;  
+                else  
+                    myState.selected_mask = 0;*/
+                //clicked2 = 0;
+                clickedDelete[i] = 0;
+            } else if (clickedDelete[i] > 0) {
+                printf("Not deleting, clickedDelete[i]=%d and myState.aVideo.frames[myState.selected_frame].masks.size()=%d\n",clickedDelete[i], myState.aVideo.frames[myState.selected_frame].masks.size());
+            }   
+
+            //BUTTON 3
+            clickedUp.push_back(0);
+            if (i > 0) { //only allow if not the top selected
+                ImGui::SameLine();
+                //static int clicked3 = 0;
+                //if (ImGui::Button("U"))
+                std::string buttonID = "upButton" + std::to_string(i);
+                if (ImGui::ArrowButton(buttonID.c_str(), ImGuiDir_Up))
+                    clickedUp[i]++;
+                if (clickedUp[i] & 1 && myState.aVideo.frames[myState.selected_frame].masks.size() > 1)
+                {
+                    ImGui::SameLine();
+                    ImGui::Text("Moving mask!");
+
+                    //swap masks
+                    Mask aboveMask = myState.aVideo.frames[myState.selected_frame].masks[i-1];
+                    myState.aVideo.frames[myState.selected_frame].masks[i-1] = myState.aVideo.frames[myState.selected_frame].masks[i];
+                    myState.aVideo.frames[myState.selected_frame].masks[i] = aboveMask;
+                    myState.selected_mask = myState.selected_mask-1;    
+                    clickedUp[i] = 0;
+                }
+            }
+
+            //BUTTON 4
+            clickedVisible.push_back(0);
+            ImGui::SameLine();
+
+            std::string buttonID = "visibleButton" + std::to_string(i);
+            /*ImVec2 size = ImVec2(12.0f, 12.0f);                         // Size of the image we want to make visible
+            ImVec2 uv0 = ImVec2(0.0f, 0.0f);                            // UV coordinates for lower-left
+            ImVec2 uv1 = ImVec2(32.0f / my_tex_w, 32.0f / my_tex_h);    // UV coordinates for (32,32) in our texture
+            ImVec4 bg_col = ImVec4(0.0f, 0.0f, 0.0f, 1.0f);             // Black background
+            ImVec4 tint_col = ImVec4(1.0f, 1.0f, 1.0f, 1.0f);           // No tint
+            */
+            //if (ImGui::ImageButton(buttonID.c_str(), my_tex_id, size, uv0, uv1, bg_col, tint_col))
+            char buf2[64];
+            if (myState.aVideo.frames[myState.selected_frame].masks[i].visible)
+                sprintf(buf2, ICON_FA_EYE"###%s", buttonID.c_str());
+            else
+                sprintf(buf2, ICON_FA_EYE_SLASH"###%s", buttonID.c_str());
+            if (ImGui::Button(buf2))
+                clickedVisible[i]++;
+            if (clickedVisible[i] & 1) {
+                myState.aVideo.frames[myState.selected_frame].masks[i].visible=!myState.aVideo.frames[myState.selected_frame].masks[i].visible;
+                clickedVisible[i]++;
+            }
+            //if (clickedVisible[i] & 1)
+            //{
+                //clickedVisible[i] = 0;
+            //}
+
+
+
+            //ImGui::NextColumn();
+            i++;
+        }
+        ImGui::EndTable();
+        ImGui::EndListBox();
+    }
+    //BUTTONS THAT AFFECT ALL MASKS (OR THE SELECTED MASK)
+    if (myState.aVideo.loaded) {
+        //If there are mask then show color picker
+        if (myState.aVideo.frames[myState.selected_frame].masks.size()>0) {
+            ImGui::SameLine(); HelpMarker(
+                "Click on the color square to open a color picker.\n"
+                "Click and hold to use drag and drop.\n"
+                "Right-click on the color square to show options.\n"
+                "CTRL+click on individual component to input value.\n");
+            ImGui::ColorEdit4("color 2", myState.aVideo.frames[myState.selected_frame].masks[myState.selected_mask].color, ImGuiColorEditFlags_NoInputs | ImGuiColorEditFlags_NoLabel);
+            //ImGui::ColorEdit4("MyColor##3", (float*)&color, ImGuiColorEditFlags_NoInputs | ImGuiColorEditFlags_NoLabel | misc_flags);
+
+            //ImGui::ColorEdit4("color 2", col);
+        }
+        
+
+        //BUTTON 2
+        ImGui::SameLine();
+        static int clicked2 = 0;
+        if (ImGui::Button("-"))
+            clicked2++;
+        if (clicked2 & 1 && myState.aVideo.frames[myState.selected_frame].masks.size() > 0)
+        {
+            ImGui::SameLine();
+            ImGui::Text("Erasing mask!");
+            myState.aVideo.frames[myState.selected_frame].masks.erase(myState.aVideo.frames[myState.selected_frame].masks.begin() + myState.selected_mask);
+            if (myState.aVideo.frames[myState.selected_frame].masks.size() > 0)
+                myState.selected_mask = myState.selected_mask-1;  
+            else  
+                myState.selected_mask = 0;    
+            clicked2 = 0;
+        }
+
+        //BUTTON 3
+        if (myState.selected_mask > 0) { //only allow if not the top selected
+            ImGui::SameLine();
+            static int clicked3 = 0;
+            //if (ImGui::Button("U"))
+            if (ImGui::ArrowButton("MoveUp", ImGuiDir_Up))
+                clicked3++;
+            if (clicked3 & 1 && myState.aVideo.frames[myState.selected_frame].masks.size() > 1)
+            {
+                ImGui::SameLine();
+                ImGui::Text("Moving mask!");
+
+                //swap masks
+                Mask aboveMask = myState.aVideo.frames[myState.selected_frame].masks[myState.selected_mask-1];
+                myState.aVideo.frames[myState.selected_frame].masks[myState.selected_mask-1] = myState.aVideo.frames[myState.selected_frame].masks[myState.selected_mask];
+                myState.aVideo.frames[myState.selected_frame].masks[myState.selected_mask] = aboveMask;
+                myState.selected_mask = myState.selected_mask-1;    
+                clicked3 = 0;
+            }
+        }
+    }
+
+    //TESTING FONTS AWESOME
+    /*ImGuiIO& io = ImGui::GetIO();
+    io.Fonts->AddFontDefault();
+    float baseFontSize = 13.0f; // 13.0f is the size of the default font. Change to the font size you use.
+    float iconFontSize = baseFontSize * 2.0f / 3.0f; // FontAwesome fonts need to have their sizes reduced by 2.0f/3.0f in order to align correctly
+
+    // merge in icons from Font Awesome
+    static const ImWchar icons_ranges[] = { ICON_MIN_FA, ICON_MAX_16_FA, 0 };
+    ImFontConfig icons_config; 
+    icons_config.MergeMode = true; 
+    icons_config.PixelSnapH = true; 
+    icons_config.GlyphMinAdvanceX = iconFontSize;
+    //io.Fonts->AddFontFromFileTTF( FONT_ICON_FILE_NAME_FAS, iconFontSize, &icons_config, icons_ranges );
+    //io.Fonts->AddFontFromFileTTF("/Users/rtous/dev/back2black/editor/fa-solid-900.ttf", 16.f, &icons_config, icons_ranges);
+    //io.Fonts->AddFontFromFileTTF("/Users/rtous/dev/back2black/editor/fa-solid-900.ttf", 16.f, &icons_config, icons_ranges);
+    //io.Fonts->AddFontFromFileTTF(FONT_ICON_FILE_NAME_FAS, iconFontSize, &icons_config, icons_ranges );
+    io.Fonts->AddFontFromFileTTF("/Users/rtous/dev/back2black/editor/fa-solid-900.ttfd", iconFontSize, &icons_config, icons_ranges );
+    printf("font file loaded\n");*/
+
+    // use FONT_ICON_FILE_NAME_FAR if you want regular instead of solid
+
+    // in an imgui window somewhere...
+    ImGui::Text( ICON_FA_EYE "Paint" ); // use string literal concatenation
+    // outputs a paint brush icon and 'Paint' as a string.
+    //////////
+
+    ImGui::End();
+}
+/*
+
+//SELECTABLE VERSION
+
+static void masksListWindow(MyState &myState, const ImGuiViewport* viewport, ImGuiWindowFlags flags, bool use_work_area) 
+{
+    ImVec2 size = ImVec2(viewport->WorkSize.x * 0.33f, viewport->WorkSize.y * 0.25f);
+    flags = ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoSavedSettings;
+    ImVec2 newPos = ImVec2(viewport->WorkPos.x + (viewport->WorkSize.x * 0.33f), viewport->WorkPos.y + (viewport->WorkSize.y * 0.75f));
+    ImGui::SetNextWindowPos(newPos);
+    ImGui::SetNextWindowSize(use_work_area ? size : viewport->Size);
+    ImGui::Begin("MASKS");
+    ImGui::Text("MASKS WINDOW"); 
+    
+    std::vector<std::string> items; 
+    std::vector<int> clickedDelete;
+    std::vector<int> clickedUp; 
+    std::vector<int> clickedDown;
+    std::vector<int> clickedvisible; 
+
+    //items.push_back("MASK 1");
+
+    //First we put strings into "items" vector
     if (myState.aVideo.loaded) {
         int i = 0;
         for (Mask & aMask : myState.aVideo.frames[myState.selected_frame].masks) {
@@ -423,30 +697,96 @@ static void masksListWindow(MyState &myState, const ImGuiViewport* viewport, ImG
         }
     }
 
+    //ImDrawList* draw_list = ImGui::GetWindowDrawList();
+    //draw_list->ChannelsSplit(2);
+    //draw_list->ChannelsSetCurrent(0);
+
     //More complex selectable with colors: https://github.com/ocornut/imgui/issues/4719
     if (ImGui::BeginListBox("##listbox 2", ImVec2(-FLT_MIN, 5 * ImGui::GetTextLineHeightWithSpacing())))
     {
+        ImGui::Columns(2);
         int i = 0;
         for (std::string & item : items)
         {
+            //COLUMN 1: SELECTABLES
             const bool is_selected = (myState.selected_mask == i);
-
+            //This shows a selectable string 
+            //and sets the boolean is_selected to capture input
+            //and returns true if the item is selected
+            //if (ImGui::Selectable(item.c_str(), is_selected, ImGuiSelectableFlags_SpanAllColumns)) {
             if (ImGui::Selectable(item.c_str(), is_selected)) {
-
-                //ImGui::ColorEdit4("color 2", myState.aVideo.frames[myState.selected_frame].masks[i].color, ImGuiColorEditFlags_NoInputs | ImGuiColorEditFlags_NoLabel);
-
-                //Selectable returns true if item is clicked
-                //item_current_idx = i;
                 myState.selected_mask = i;
             }
-
+            
             // Set the initial focus when opening the combo (scrolling + keyboard navigation focus)
             if (is_selected) {
                 ImGui::SetItemDefaultFocus();
             }
-            ImGui::SameLine();
-            ImGui::ColorEdit4("color 2", myState.aVideo.frames[myState.selected_frame].masks[i].color, ImGuiColorEditFlags_NoInputs | ImGuiColorEditFlags_NoLabel);
+
+            //COLUMN 21: BUTTONS
+            ImGui::NextColumn();
+            std::string color_picker_id = "color " + std::to_string(i);
+            ImGui::ColorEdit4(color_picker_id.c_str(), myState.aVideo.frames[myState.selected_frame].masks[i].color, ImGuiColorEditFlags_NoInputs | ImGuiColorEditFlags_NoLabel);
+            //ImGui::SameLine();
             
+            //"imgui selectable with buttons"
+            //https://github.com/ocornut/imgui/issues/6574
+            //ImGui::SetNextItemAllowOverlap();
+
+
+            ImGui::SameLine();
+            //ImGui::SameLine(0, 50);
+            //draw_list->ChannelsSetCurrent(1);
+
+
+
+            //BUTTON 2
+            ImGui::SameLine();
+
+            //static int clicked2 = 0;
+            clickedDelete.push_back(0);
+            if (ImGui::Button("-"))
+                clickedDelete[i]++;
+                //clicked2++;
+            //if (clicked2 & 1 && myState.aVideo.frames[myState.selected_frame].masks.size() > 0)
+            if (clickedDelete[i] & 1 && myState.aVideo.frames[myState.selected_frame].masks.size() > 0)
+            {
+                ImGui::SameLine();
+                ImGui::Text("Erasing mask!");
+                myState.aVideo.frames[myState.selected_frame].masks.erase(myState.aVideo.frames[myState.selected_frame].masks.begin() + myState.selected_mask);
+                if (myState.aVideo.frames[myState.selected_frame].masks.size() > 0)
+                    myState.selected_mask = myState.selected_mask-1;  
+                else  
+                    myState.selected_mask = 0;    
+                //clicked2 = 0;
+                clickedDelete[i] = 0;
+            }
+
+            //BUTTON 3
+            if (myState.selected_mask > 0) { //only allow if not the top selected
+                ImGui::SameLine();
+                static int clicked3 = 0;
+                //if (ImGui::Button("U"))
+                if (ImGui::ArrowButton("MoveUp", ImGuiDir_Up))
+                    clicked3++;
+                if (clicked3 & 1 && myState.aVideo.frames[myState.selected_frame].masks.size() > 1)
+                {
+                    ImGui::SameLine();
+                    ImGui::Text("Moving mask!");
+
+                    //swap masks
+                    Mask aboveMask = myState.aVideo.frames[myState.selected_frame].masks[myState.selected_mask-1];
+                    myState.aVideo.frames[myState.selected_frame].masks[myState.selected_mask-1] = myState.aVideo.frames[myState.selected_frame].masks[myState.selected_mask];
+                    myState.aVideo.frames[myState.selected_frame].masks[myState.selected_mask] = aboveMask;
+                    myState.selected_mask = myState.selected_mask-1;    
+                    clicked3 = 0;
+                }
+            }
+
+
+
+
+            ImGui::NextColumn();
             i++;
         }
         ImGui::EndListBox();
@@ -454,37 +794,6 @@ static void masksListWindow(MyState &myState, const ImGuiViewport* viewport, ImG
     
     
      if (myState.aVideo.loaded) {
-        /*
-        //ADDING A NEW MASK IF THE USER CLICKS +
-        //BUTTON 1
-        static int clicked = 0;
-        if (ImGui::Button("+"))
-            clicked++;
-        if (clicked & 1)
-        {
-            ImGui::SameLine();
-            ImGui::Text("Thanks for clicking me!");
-            Mask aMask;
-            //aMask.color[0] = 0.4f;
-            //aMask.color[1] = 0.7f;
-            //aMask.color[2] = 0.0f;
-            //aMask.color[3] = 0.0f;//
-            myState.aVideo.frames[myState.selected_frame].masks.push_back(aMask);
-            
-            //When a new mask is added automatically select it
-            myState.selected_mask = myState.aVideo.frames[myState.selected_frame].masks.size()-1;       
-
-            clicked = false;
-        }
-        */
-
-        //COLOR
-        //static float col[4] = { 0.4f, 0.7f, 0.0f, 0.5f };
-        /*col[0] = myState.aVideo.frames[myState.selected_frame].masks[item_current_idx].color[0];
-        col[1] = myState.aVideo.frames[myState.selected_frame].masks[item_current_idx].color[0];
-        col[2] = myState.aVideo.frames[myState.selected_frame].masks[item_current_idx].color[0];
-        col[3] = myState.aVideo.frames[myState.selected_frame].masks[item_current_idx].color[0];
-        */
         //If there are mask then show color picker
         if (myState.aVideo.frames[myState.selected_frame].masks.size()>0) {
             ImGui::SameLine(); HelpMarker(
@@ -541,7 +850,7 @@ static void masksListWindow(MyState &myState, const ImGuiViewport* viewport, ImG
 
     ImGui::End();
 }
-
+*/
 static void finishingWindow(MyState &myState, bool *show_myWindow, const ImGuiViewport* viewport, ImGuiWindowFlags flags, bool use_work_area) 
 {
     //ImVec2 size = ImVec2(viewport->WorkSize.x * 0.33f, viewport->WorkSize.y * 0.25f);
