@@ -8,7 +8,10 @@ Universitat Politecnica de Catalunya
 
 TODO
 
-- Delete mask, move up, move down
+- Faces
+- Is the image width and height adjusted to the window?
+- single image vs video vs directory of frames
+- Make mask id's appear in the masks list windows (now appears the order)
 - Mask id is a random value
 - I'm downscaling the images in read_video!
 - The contours field of the object is not set?? Now I'm setting it for simplified contours but the other??
@@ -20,6 +23,7 @@ TODO
 - Hi ha vegades que no es pot esborrar la màscara (braç dret)
 
 - Fer màscares semitransparents
+- save project
 - Que la llista de colors sempre sigui la mateixa
 - Colors a la dreta del object selector
 - Esborrar objecte
@@ -29,7 +33,9 @@ TODO
 - panning
 - error managment (return -1, exceptions, ...)
 ----------------
-DONE: 
+DONE:
+- Icon font path is harcoded! the bytes can be embedded (https://github.com/juliettef/IconFontCppHeaders) 
+- Delete mask, move up, move down
 - compute_mask_and_textures in sam_utils.cpp (used if user clicks) ) and compute_mask in common (used by propagate). Maybe all in common...
 -> It's ok, compute_mask_and_textures checks if the masks is already there, so it's more related to the editor.
 

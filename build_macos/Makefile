@@ -162,6 +162,19 @@ depend:
 .PHONY : depend
 
 #=============================================================================
+# Target rules for targets named imgui_binary_to_compressed_c
+
+# Build rule for target.
+imgui_binary_to_compressed_c: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 imgui_binary_to_compressed_c
+.PHONY : imgui_binary_to_compressed_c
+
+# fast build rule for target.
+imgui_binary_to_compressed_c/fast:
+	$(MAKE) $(MAKESILENT) -f third-party/imgui/CMakeFiles/imgui_binary_to_compressed_c.dir/build.make third-party/imgui/CMakeFiles/imgui_binary_to_compressed_c.dir/build
+.PHONY : imgui_binary_to_compressed_c/fast
+
+#=============================================================================
 # Target rules for targets named imgui
 
 # Build rule for target.
@@ -351,6 +364,7 @@ help:
 	@echo "... ggml"
 	@echo "... imgui"
 	@echo "... imgui-sdl2"
+	@echo "... imgui_binary_to_compressed_c"
 	@echo "... lester-api"
 	@echo "... sam"
 	@echo "... simplify"

@@ -1,6 +1,12 @@
 [
 {
   "directory": "/Users/rtous/dev/back2black/build_macos/third-party/imgui",
+  "command": "/Library/Developer/CommandLineTools/usr/bin/c++   -O3 -DNDEBUG -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX14.4.sdk -o CMakeFiles/imgui_binary_to_compressed_c.dir/imgui/misc/fonts/binary_to_compressed_c.cpp.o -c /Users/rtous/dev/back2black/third-party/imgui/imgui/misc/fonts/binary_to_compressed_c.cpp",
+  "file": "/Users/rtous/dev/back2black/third-party/imgui/imgui/misc/fonts/binary_to_compressed_c.cpp",
+  "output": "third-party/imgui/CMakeFiles/imgui_binary_to_compressed_c.dir/imgui/misc/fonts/binary_to_compressed_c.cpp.o"
+},
+{
+  "directory": "/Users/rtous/dev/back2black/build_macos/third-party/imgui",
   "command": "/Library/Developer/CommandLineTools/usr/bin/c++  -I/Users/rtous/dev/back2black/third-party/imgui/imgui -O3 -DNDEBUG -std=gnu++11 -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX14.4.sdk -o CMakeFiles/imgui.dir/imgui/imgui.cpp.o -c /Users/rtous/dev/back2black/third-party/imgui/imgui/imgui.cpp",
   "file": "/Users/rtous/dev/back2black/third-party/imgui/imgui/imgui.cpp",
   "output": "third-party/imgui/CMakeFiles/imgui.dir/imgui/imgui.cpp.o"

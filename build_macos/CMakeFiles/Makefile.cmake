@@ -92,6 +92,7 @@ set(CMAKE_MAKEFILE_PRODUCTS
 
 # Dependency information for all targets:
 set(CMAKE_DEPEND_INFO_FILES
+  "third-party/imgui/CMakeFiles/imgui_binary_to_compressed_c.dir/DependInfo.cmake"
   "third-party/imgui/CMakeFiles/imgui.dir/DependInfo.cmake"
   "third-party/imgui/CMakeFiles/imgui-sdl2.dir/DependInfo.cmake"
   "third-party/ggml/src/CMakeFiles/ggml.dir/DependInfo.cmake"

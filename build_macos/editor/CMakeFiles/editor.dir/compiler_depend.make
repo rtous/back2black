@@ -5084,6 +5084,7 @@ editor/CMakeFiles/editor.dir/main.cpp.o: /Users/rtous/dev/back2black/editor/main
   /Users/rtous/dev/back2black/editor/colors.h \
   /Users/rtous/dev/back2black/editor/editor.h \
   /Users/rtous/dev/back2black/editor/gui_utils.h \
+  /Users/rtous/dev/back2black/editor/myfont.h \
   /Users/rtous/dev/back2black/editor/sam_utils.h \
   /Users/rtous/dev/back2black/editor/state.h \
   /Users/rtous/dev/back2black/third-party/imgui/imgui/backends/imgui_impl_opengl3.h \
@@ -8436,6 +8437,8 @@ editor/CMakeFiles/editor.dir/video.cpp.o: /Users/rtous/dev/back2black/editor/vid
 /Library/Developer/CommandLineTools/SDKs/MacOSX14.4.sdk/usr/include/c++/v1/__format/extended_grapheme_cluster_table.h:
 
 /Library/Developer/CommandLineTools/SDKs/MacOSX14.4.sdk/usr/include/c++/v1/__memory/ranges_construct_at.h:
+
+/Users/rtous/dev/back2black/editor/myfont.h:
 
 /Library/Developer/CommandLineTools/SDKs/MacOSX14.4.sdk/usr/include/c++/v1/__functional/binary_negate.h:
 

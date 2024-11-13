@@ -1,3 +1,7 @@
+#(optional) Added this to include the imgui tool binary_to_compressed_c
+add_executable(imgui_binary_to_compressed_c
+    imgui/misc/fonts/binary_to_compressed_c.cpp
+)
 
 #Locate SDL2
 if (APPLE)

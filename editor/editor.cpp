@@ -165,39 +165,20 @@ static void drawAllMasks(MyState &myState, const ImGuiViewport* viewport, ImVec2
     //for (int j = 0; j < int(myState.aVideo.frames[myState.selected_frame].masks.size()); ++j) {
     //draw in reverse order (mask 0 is on top)
     for (int j =  int(myState.aVideo.frames[myState.selected_frame].masks.size())-1; j >= 0; --j) {
-        //printf("Found %d masks for mask %d.\n", myState.aVideo.frames[myState.selected_frame].masks[j].maskTextures.size(), j);
-        //printf("Drawing mask.\n");
-        /*const int r = i == 0 ? 255 : 0;
-        const int g = i == 1 ? 255 : 0;
-        const int b = i == 2 ? 255 : 0;*/
-
-        /*const int r = (125 + i * 50) % 256;
-        const int g = (50 + i * 50) % 256;
-        const int b = (200 + i * 50) % 256;*/
-
-        //int color_id = myState.masks_colors[i];
-        //const int r = myState.colors_palette[color_id].r;
-        //const int g = myState.colors_palette[color_id].g;
-        //const int b = myState.colors_palette[color_id].b;
 
         Mask aMask = myState.aVideo.frames[myState.selected_frame].masks[j];
 
-        const int r = aMask.color[0]*255;
-        const int g = aMask.color[1]*255;
-        const int b = aMask.color[2]*255;
-        //myState.aVideo.frames[0].masks[0].color[3] = 0.0f;/
-
-        //draw_list->AddImage((void*)(intptr_t)myState.maskTextures[i], ImVec2(newPos[0], newPos[1]), ImVec2(newPos[0]+myState.img.nx, newPos[1]+myState.img.ny), ImVec2(0,0), ImVec2(1,1), IM_COL32(r, g, b, 255));
-        //draw_list->AddImage((void*)(intptr_t)myState.masksMaskTextures[j][i], ImVec2(newPos[0], newPos[1]), ImVec2(newPos[0]+myState.img.nx, newPos[1]+myState.img.ny), ImVec2(0,0), ImVec2(1,1), IM_COL32(r, g, b, 255));
-        //draw_list->AddImage(maskTextures, ImVec2(newPos[0], newPos[1]), ImVec2(newPos[0]+myState.img.nx, newPos[1]+myState.img.ny), ImVec2(0,0), ImVec2(1,1), IM_COL32(r, g, b, 255));
-
-        //void ImDrawList::AddImage(ImTextureID user_texture_id, const ImVec2& a, const ImVec2& b, const ImVec2& uv_a, const ImVec2& uv_b, ImU32 col) 
-
-        if (simplified)
-            //ImVec2 mousePositionRelative = ImVec2(mousePositionAbsolute.x - screenPositionAbsolute.x, mousePositionAbsolute.y - screenPositionAbsolute.y);
-            draw_list->AddImage((void*)(intptr_t)aMask.simplifiedMaskTexture, ImVec2(newPos[0], newPos[1]), ImVec2(newPos[0]+myState.img.nx, newPos[1]+myState.img.ny), ImVec2(0,0), ImVec2(1,1), IM_COL32(r, g, b, 255));
-        else 
-            draw_list->AddImage((void*)(intptr_t)aMask.maskTexture, ImVec2(newPos[0], newPos[1]), ImVec2(newPos[0]+myState.img.nx, newPos[1]+myState.img.ny), ImVec2(0,0), ImVec2(1,1), IM_COL32(r, g, b, 255));  
+        if (aMask.visible) {
+            const int r = aMask.color[0]*255;
+            const int g = aMask.color[1]*255;
+            const int b = aMask.color[2]*255;
+            
+            if (simplified)
+                //ImVec2 mousePositionRelative = ImVec2(mousePositionAbsolute.x - screenPositionAbsolute.x, mousePositionAbsolute.y - screenPositionAbsolute.y);
+                draw_list->AddImage((void*)(intptr_t)aMask.simplifiedMaskTexture, ImVec2(newPos[0], newPos[1]), ImVec2(newPos[0]+myState.img.nx, newPos[1]+myState.img.ny), ImVec2(0,0), ImVec2(1,1), IM_COL32(r, g, b, 255));
+            else 
+                draw_list->AddImage((void*)(intptr_t)aMask.maskTexture, ImVec2(newPos[0], newPos[1]), ImVec2(newPos[0]+myState.img.nx, newPos[1]+myState.img.ny), ImVec2(0,0), ImVec2(1,1), IM_COL32(r, g, b, 255));  
+        }
     }
 }
 
@@ -338,13 +319,17 @@ static void frameWindow(MyState &myState, bool *show_myWindow, const ImGuiViewpo
 
 static void framesListWindow(MyState &myState, const ImGuiViewport* viewport, ImGuiWindowFlags flags, bool use_work_area) 
 {
-    ImVec2 size = ImVec2(viewport->WorkSize.x * 0.20f, viewport->WorkSize.y * 0.25f);
+    //ImVec2 size = ImVec2(viewport->WorkSize.x * 0.20f, viewport->WorkSize.y * 0.25f);
+    //ImVec2 size = ImVec2(viewport->WorkSize.x * 0.08f, viewport->WorkSize.y * 1.0f);
+    ImVec2 size = ImVec2(viewport->WorkSize.x * 0.08f, viewport->WorkSize.y * 0.25f);
+    
     flags = ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoSavedSettings;
     ImVec2 newPos = ImVec2(viewport->WorkPos.x + 0, viewport->WorkPos.y + (viewport->WorkSize.y * 0.75f));
+    //ImVec2 newPos = ImVec2(viewport->WorkPos.x + 0, viewport->WorkPos.y + 0);
     ImGui::SetNextWindowPos(newPos);
     ImGui::SetNextWindowSize(use_work_area ? size : viewport->Size);
     ImGui::Begin("FRAMES");
-    ImGui::Text("FRAMES WINDOW"); 
+    //ImGui::Text("FRAMES WINDOW"); 
 
     //const char* items[] = { "AAAA", "BBBB", "CCCC", "DDDD", "EEEE", "FFFF", "GGGG", "HHHH", "IIII", "JJJJ", "KKKK", "LLLLLLL", "MMMM", "OOOOOOO" };
     //const char* items[100];
@@ -358,11 +343,15 @@ static void framesListWindow(MyState &myState, const ImGuiViewport* viewport, Im
     }
 
     static int item_current_idx = 0; // Here we store our selection data as an index.
-    if (ImGui::BeginListBox("listbox 1"))
+    ImGui::PushItemWidth(-1); //to occupy all width if no label
+    //if (ImGui::BeginListBox(""))
+    //if (ImGui::BeginListBox("##listbox frames", ImVec2(-FLT_MIN, size.y-100)))
+    if (ImGui::BeginListBox("##listbox frames", ImVec2(ImGui::GetContentRegionAvail().x, ImGui::GetContentRegionAvail().y)))
     {
         int n = 0;
         for (std::string & item : items)
         {
+            //ImGui::PushItemWidth(-1);
             const bool is_selected = (item_current_idx == n);
             if (ImGui::Selectable(item.c_str(), is_selected))
                 item_current_idx = n;
@@ -400,16 +389,17 @@ static void framesListWindow(MyState &myState, const ImGuiViewport* viewport, Im
     ImGui::End();
 }
 
-//NO SELECTABLE VERSION
 static void masksListWindow(MyState &myState, const ImGuiViewport* viewport, ImGuiWindowFlags flags, bool use_work_area) 
 {
-    ImVec2 size = ImVec2(viewport->WorkSize.x * 0.33f, viewport->WorkSize.y * 0.25f);
+    ImVec2 size = ImVec2(viewport->WorkSize.x * 0.42f, viewport->WorkSize.y * 0.25f);
     flags = ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoSavedSettings;
-    ImVec2 newPos = ImVec2(viewport->WorkPos.x + (viewport->WorkSize.x * 0.33f), viewport->WorkPos.y + (viewport->WorkSize.y * 0.75f));
+    //ImVec2 newPos = ImVec2(viewport->WorkPos.x + (viewport->WorkSize.x * 0.33f), viewport->WorkPos.y + (viewport->WorkSize.y * 0.75f));
+    ImVec2 newPos = ImVec2(viewport->WorkPos.x + (viewport->WorkSize.x * 0.08f), viewport->WorkPos.y + (viewport->WorkSize.y * 0.75f));
+    //ImVec2 newPos = ImVec2(viewport->WorkPos.x + (viewport->WorkSize.x * 0.08f), viewport->WorkPos.y + (viewport->WorkSize.y * 0.75f);
     ImGui::SetNextWindowPos(newPos);
     ImGui::SetNextWindowSize(use_work_area ? size : viewport->Size);
     ImGui::Begin("MASKS");
-    ImGui::Text("MASKS WINDOW"); 
+    //ImGui::Text("MASKS WINDOW"); 
     
     std::vector<std::string> items; 
     std::vector<int> clickedDelete;
@@ -435,7 +425,9 @@ static void masksListWindow(MyState &myState, const ImGuiViewport* viewport, ImG
     //draw_list->ChannelsSetCurrent(0);
 
     //More complex selectable with colors: https://github.com/ocornut/imgui/issues/4719
-    if (ImGui::BeginListBox("##listbox 2", ImVec2(-FLT_MIN, 7 * ImGui::GetTextLineHeightWithSpacing())))
+    ImGui::PushItemWidth(-1); //to occupy all width if no label
+    //if (ImGui::BeginListBox("##listbox 2", ImVec2(-FLT_MIN, 7 * ImGui::GetTextLineHeightWithSpacing())))
+    if (ImGui::BeginListBox("##listbox masks", ImVec2(ImGui::GetContentRegionAvail().x, ImGui::GetContentRegionAvail().y)))
     {
         //for the eye icon buttons
         ImGuiIO& io = ImGui::GetIO();
@@ -473,6 +465,8 @@ static void masksListWindow(MyState &myState, const ImGuiViewport* viewport, ImG
 
             //COLUMN 2: BUTTONS
 
+
+
             //BUTTON 1 (color picker)
             //ImGui::NextColumn();
             ImGui::TableNextColumn();
@@ -489,9 +483,31 @@ static void masksListWindow(MyState &myState, const ImGuiViewport* viewport, ImG
             //ImGui::SameLine(0, 50);
             //draw_list->ChannelsSetCurrent(1);
 
+            //BUTTON 2 (eye)
+            clickedVisible.push_back(0);
+            ImGui::SameLine();
 
+            std::string buttonID = "visibleButton" + std::to_string(i);
+            /*ImVec2 size = ImVec2(12.0f, 12.0f);                         // Size of the image we want to make visible
+            ImVec2 uv0 = ImVec2(0.0f, 0.0f);                            // UV coordinates for lower-left
+            ImVec2 uv1 = ImVec2(32.0f / my_tex_w, 32.0f / my_tex_h);    // UV coordinates for (32,32) in our texture
+            ImVec4 bg_col = ImVec4(0.0f, 0.0f, 0.0f, 1.0f);             // Black background
+            ImVec4 tint_col = ImVec4(1.0f, 1.0f, 1.0f, 1.0f);           // No tint
+            */
+            //if (ImGui::ImageButton(buttonID.c_str(), my_tex_id, size, uv0, uv1, bg_col, tint_col))
+            char buf2[64];
+            if (myState.aVideo.frames[myState.selected_frame].masks[i].visible)
+                sprintf(buf2, ICON_FA_EYE"###%s", buttonID.c_str());
+            else
+                sprintf(buf2, ICON_FA_EYE_SLASH"###%s", buttonID.c_str());
+            if (ImGui::Button(buf2))
+                clickedVisible[i]++;
+            if (clickedVisible[i] & 1) {
+                myState.aVideo.frames[myState.selected_frame].masks[i].visible=!myState.aVideo.frames[myState.selected_frame].masks[i].visible;
+                clickedVisible[i]++;
+            }
 
-            //BUTTON 2 (delete)
+            //BUTTON 3 (delete)
             ImGui::SameLine();
 
             //static int clicked2 = 0;
@@ -522,7 +538,7 @@ static void masksListWindow(MyState &myState, const ImGuiViewport* viewport, ImG
                 printf("Not deleting, clickedDelete[i]=%d and myState.aVideo.frames[myState.selected_frame].masks.size()=%d\n",clickedDelete[i], myState.aVideo.frames[myState.selected_frame].masks.size());
             }   
 
-            //BUTTON 3
+            //BUTTON 4
             clickedUp.push_back(0);
             if (i > 0) { //only allow if not the top selected
                 ImGui::SameLine();
@@ -533,56 +549,51 @@ static void masksListWindow(MyState &myState, const ImGuiViewport* viewport, ImG
                     clickedUp[i]++;
                 if (clickedUp[i] & 1 && myState.aVideo.frames[myState.selected_frame].masks.size() > 1)
                 {
-                    ImGui::SameLine();
-                    ImGui::Text("Moving mask!");
+                    //ImGui::SameLine();
+                    //ImGui::Text("Moving mask!");
 
                     //swap masks
                     Mask aboveMask = myState.aVideo.frames[myState.selected_frame].masks[i-1];
                     myState.aVideo.frames[myState.selected_frame].masks[i-1] = myState.aVideo.frames[myState.selected_frame].masks[i];
                     myState.aVideo.frames[myState.selected_frame].masks[i] = aboveMask;
-                    myState.selected_mask = myState.selected_mask-1;    
+                    if (myState.selected_mask == i)
+                        myState.selected_mask = myState.selected_mask-1;    
                     clickedUp[i] = 0;
                 }
             }
 
-            //BUTTON 4
-            clickedVisible.push_back(0);
-            ImGui::SameLine();
+            //BUTTON 5
+            clickedDown.push_back(0);
+            if (i < myState.aVideo.frames[myState.selected_frame].masks.size()-1) { //only allow if not the top selected
+                ImGui::SameLine();
+                std::string buttonID = "downButton" + std::to_string(i);
+                if (ImGui::ArrowButton(buttonID.c_str(), ImGuiDir_Down))
+                    clickedDown[i]++;
+                if (clickedDown[i] & 1 && myState.aVideo.frames[myState.selected_frame].masks.size() > 1)
+                {
+                    //ImGui::SameLine();
+                    //ImGui::Text("Moving mask!");
 
-            std::string buttonID = "visibleButton" + std::to_string(i);
-            /*ImVec2 size = ImVec2(12.0f, 12.0f);                         // Size of the image we want to make visible
-            ImVec2 uv0 = ImVec2(0.0f, 0.0f);                            // UV coordinates for lower-left
-            ImVec2 uv1 = ImVec2(32.0f / my_tex_w, 32.0f / my_tex_h);    // UV coordinates for (32,32) in our texture
-            ImVec4 bg_col = ImVec4(0.0f, 0.0f, 0.0f, 1.0f);             // Black background
-            ImVec4 tint_col = ImVec4(1.0f, 1.0f, 1.0f, 1.0f);           // No tint
-            */
-            //if (ImGui::ImageButton(buttonID.c_str(), my_tex_id, size, uv0, uv1, bg_col, tint_col))
-            char buf2[64];
-            if (myState.aVideo.frames[myState.selected_frame].masks[i].visible)
-                sprintf(buf2, ICON_FA_EYE"###%s", buttonID.c_str());
-            else
-                sprintf(buf2, ICON_FA_EYE_SLASH"###%s", buttonID.c_str());
-            if (ImGui::Button(buf2))
-                clickedVisible[i]++;
-            if (clickedVisible[i] & 1) {
-                myState.aVideo.frames[myState.selected_frame].masks[i].visible=!myState.aVideo.frames[myState.selected_frame].masks[i].visible;
-                clickedVisible[i]++;
+                    //swap masks
+                    Mask belowMask = myState.aVideo.frames[myState.selected_frame].masks[i+1];
+                    myState.aVideo.frames[myState.selected_frame].masks[i+1] = myState.aVideo.frames[myState.selected_frame].masks[i];
+                    myState.aVideo.frames[myState.selected_frame].masks[i] = belowMask;
+                    if (myState.selected_mask == i)
+                        myState.selected_mask = myState.selected_mask+1;    
+                    clickedDown[i] = 0;
+                }
             }
-            //if (clickedVisible[i] & 1)
-            //{
-                //clickedVisible[i] = 0;
-            //}
 
 
+            
 
-            //ImGui::NextColumn();
             i++;
         }
         ImGui::EndTable();
         ImGui::EndListBox();
     }
     //BUTTONS THAT AFFECT ALL MASKS (OR THE SELECTED MASK)
-    if (myState.aVideo.loaded) {
+    /*if (myState.aVideo.loaded) {
         //If there are mask then show color picker
         if (myState.aVideo.frames[myState.selected_frame].masks.size()>0) {
             ImGui::SameLine(); HelpMarker(
@@ -634,223 +645,13 @@ static void masksListWindow(MyState &myState, const ImGuiViewport* viewport, ImG
                 clicked3 = 0;
             }
         }
-    }
+    }*/
 
-    //TESTING FONTS AWESOME
-    /*ImGuiIO& io = ImGui::GetIO();
-    io.Fonts->AddFontDefault();
-    float baseFontSize = 13.0f; // 13.0f is the size of the default font. Change to the font size you use.
-    float iconFontSize = baseFontSize * 2.0f / 3.0f; // FontAwesome fonts need to have their sizes reduced by 2.0f/3.0f in order to align correctly
-
-    // merge in icons from Font Awesome
-    static const ImWchar icons_ranges[] = { ICON_MIN_FA, ICON_MAX_16_FA, 0 };
-    ImFontConfig icons_config; 
-    icons_config.MergeMode = true; 
-    icons_config.PixelSnapH = true; 
-    icons_config.GlyphMinAdvanceX = iconFontSize;
-    //io.Fonts->AddFontFromFileTTF( FONT_ICON_FILE_NAME_FAS, iconFontSize, &icons_config, icons_ranges );
-    //io.Fonts->AddFontFromFileTTF("/Users/rtous/dev/back2black/editor/fa-solid-900.ttf", 16.f, &icons_config, icons_ranges);
-    //io.Fonts->AddFontFromFileTTF("/Users/rtous/dev/back2black/editor/fa-solid-900.ttf", 16.f, &icons_config, icons_ranges);
-    //io.Fonts->AddFontFromFileTTF(FONT_ICON_FILE_NAME_FAS, iconFontSize, &icons_config, icons_ranges );
-    io.Fonts->AddFontFromFileTTF("/Users/rtous/dev/back2black/editor/fa-solid-900.ttfd", iconFontSize, &icons_config, icons_ranges );
-    printf("font file loaded\n");*/
-
-    // use FONT_ICON_FILE_NAME_FAR if you want regular instead of solid
-
-    // in an imgui window somewhere...
-    ImGui::Text( ICON_FA_EYE "Paint" ); // use string literal concatenation
-    // outputs a paint brush icon and 'Paint' as a string.
-    //////////
-
-    ImGui::End();
-}
-/*
-
-//SELECTABLE VERSION
-
-static void masksListWindow(MyState &myState, const ImGuiViewport* viewport, ImGuiWindowFlags flags, bool use_work_area) 
-{
-    ImVec2 size = ImVec2(viewport->WorkSize.x * 0.33f, viewport->WorkSize.y * 0.25f);
-    flags = ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoSavedSettings;
-    ImVec2 newPos = ImVec2(viewport->WorkPos.x + (viewport->WorkSize.x * 0.33f), viewport->WorkPos.y + (viewport->WorkSize.y * 0.75f));
-    ImGui::SetNextWindowPos(newPos);
-    ImGui::SetNextWindowSize(use_work_area ? size : viewport->Size);
-    ImGui::Begin("MASKS");
-    ImGui::Text("MASKS WINDOW"); 
-    
-    std::vector<std::string> items; 
-    std::vector<int> clickedDelete;
-    std::vector<int> clickedUp; 
-    std::vector<int> clickedDown;
-    std::vector<int> clickedvisible; 
-
-    //items.push_back("MASK 1");
-
-    //First we put strings into "items" vector
-    if (myState.aVideo.loaded) {
-        int i = 0;
-        for (Mask & aMask : myState.aVideo.frames[myState.selected_frame].masks) {
-            //items.push_back(std::to_string(aMask.maskId));
-            items.push_back(std::to_string(i));
-            //items[aFrame.order] = std::to_string(aFrame.order);
-            i++;
-        }
-    }
-
-    //ImDrawList* draw_list = ImGui::GetWindowDrawList();
-    //draw_list->ChannelsSplit(2);
-    //draw_list->ChannelsSetCurrent(0);
-
-    //More complex selectable with colors: https://github.com/ocornut/imgui/issues/4719
-    if (ImGui::BeginListBox("##listbox 2", ImVec2(-FLT_MIN, 5 * ImGui::GetTextLineHeightWithSpacing())))
-    {
-        ImGui::Columns(2);
-        int i = 0;
-        for (std::string & item : items)
-        {
-            //COLUMN 1: SELECTABLES
-            const bool is_selected = (myState.selected_mask == i);
-            //This shows a selectable string 
-            //and sets the boolean is_selected to capture input
-            //and returns true if the item is selected
-            //if (ImGui::Selectable(item.c_str(), is_selected, ImGuiSelectableFlags_SpanAllColumns)) {
-            if (ImGui::Selectable(item.c_str(), is_selected)) {
-                myState.selected_mask = i;
-            }
-            
-            // Set the initial focus when opening the combo (scrolling + keyboard navigation focus)
-            if (is_selected) {
-                ImGui::SetItemDefaultFocus();
-            }
-
-            //COLUMN 21: BUTTONS
-            ImGui::NextColumn();
-            std::string color_picker_id = "color " + std::to_string(i);
-            ImGui::ColorEdit4(color_picker_id.c_str(), myState.aVideo.frames[myState.selected_frame].masks[i].color, ImGuiColorEditFlags_NoInputs | ImGuiColorEditFlags_NoLabel);
-            //ImGui::SameLine();
-            
-            //"imgui selectable with buttons"
-            //https://github.com/ocornut/imgui/issues/6574
-            //ImGui::SetNextItemAllowOverlap();
-
-
-            ImGui::SameLine();
-            //ImGui::SameLine(0, 50);
-            //draw_list->ChannelsSetCurrent(1);
-
-
-
-            //BUTTON 2
-            ImGui::SameLine();
-
-            //static int clicked2 = 0;
-            clickedDelete.push_back(0);
-            if (ImGui::Button("-"))
-                clickedDelete[i]++;
-                //clicked2++;
-            //if (clicked2 & 1 && myState.aVideo.frames[myState.selected_frame].masks.size() > 0)
-            if (clickedDelete[i] & 1 && myState.aVideo.frames[myState.selected_frame].masks.size() > 0)
-            {
-                ImGui::SameLine();
-                ImGui::Text("Erasing mask!");
-                myState.aVideo.frames[myState.selected_frame].masks.erase(myState.aVideo.frames[myState.selected_frame].masks.begin() + myState.selected_mask);
-                if (myState.aVideo.frames[myState.selected_frame].masks.size() > 0)
-                    myState.selected_mask = myState.selected_mask-1;  
-                else  
-                    myState.selected_mask = 0;    
-                //clicked2 = 0;
-                clickedDelete[i] = 0;
-            }
-
-            //BUTTON 3
-            if (myState.selected_mask > 0) { //only allow if not the top selected
-                ImGui::SameLine();
-                static int clicked3 = 0;
-                //if (ImGui::Button("U"))
-                if (ImGui::ArrowButton("MoveUp", ImGuiDir_Up))
-                    clicked3++;
-                if (clicked3 & 1 && myState.aVideo.frames[myState.selected_frame].masks.size() > 1)
-                {
-                    ImGui::SameLine();
-                    ImGui::Text("Moving mask!");
-
-                    //swap masks
-                    Mask aboveMask = myState.aVideo.frames[myState.selected_frame].masks[myState.selected_mask-1];
-                    myState.aVideo.frames[myState.selected_frame].masks[myState.selected_mask-1] = myState.aVideo.frames[myState.selected_frame].masks[myState.selected_mask];
-                    myState.aVideo.frames[myState.selected_frame].masks[myState.selected_mask] = aboveMask;
-                    myState.selected_mask = myState.selected_mask-1;    
-                    clicked3 = 0;
-                }
-            }
-
-
-
-
-            ImGui::NextColumn();
-            i++;
-        }
-        ImGui::EndListBox();
-    }
-    
-    
-     if (myState.aVideo.loaded) {
-        //If there are mask then show color picker
-        if (myState.aVideo.frames[myState.selected_frame].masks.size()>0) {
-            ImGui::SameLine(); HelpMarker(
-                "Click on the color square to open a color picker.\n"
-                "Click and hold to use drag and drop.\n"
-                "Right-click on the color square to show options.\n"
-                "CTRL+click on individual component to input value.\n");
-            ImGui::ColorEdit4("color 2", myState.aVideo.frames[myState.selected_frame].masks[myState.selected_mask].color, ImGuiColorEditFlags_NoInputs | ImGuiColorEditFlags_NoLabel);
-            //ImGui::ColorEdit4("MyColor##3", (float*)&color, ImGuiColorEditFlags_NoInputs | ImGuiColorEditFlags_NoLabel | misc_flags);
-
-            //ImGui::ColorEdit4("color 2", col);
-        }
-        
-
-        //BUTTON 2
-        ImGui::SameLine();
-        static int clicked2 = 0;
-        if (ImGui::Button("-"))
-            clicked2++;
-        if (clicked2 & 1 && myState.aVideo.frames[myState.selected_frame].masks.size() > 0)
-        {
-            ImGui::SameLine();
-            ImGui::Text("Erasing mask!");
-            myState.aVideo.frames[myState.selected_frame].masks.erase(myState.aVideo.frames[myState.selected_frame].masks.begin() + myState.selected_mask);
-            if (myState.aVideo.frames[myState.selected_frame].masks.size() > 0)
-                myState.selected_mask = myState.selected_mask-1;  
-            else  
-                myState.selected_mask = 0;    
-            clicked2 = 0;
-        }
-
-        //BUTTON 3
-        if (myState.selected_mask > 0) { //only allow if not the top selected
-            ImGui::SameLine();
-            static int clicked3 = 0;
-            //if (ImGui::Button("U"))
-            if (ImGui::ArrowButton("MoveUp", ImGuiDir_Up))
-                clicked3++;
-            if (clicked3 & 1 && myState.aVideo.frames[myState.selected_frame].masks.size() > 1)
-            {
-                ImGui::SameLine();
-                ImGui::Text("Moving mask!");
-
-                //swap masks
-                Mask aboveMask = myState.aVideo.frames[myState.selected_frame].masks[myState.selected_mask-1];
-                myState.aVideo.frames[myState.selected_frame].masks[myState.selected_mask-1] = myState.aVideo.frames[myState.selected_frame].masks[myState.selected_mask];
-                myState.aVideo.frames[myState.selected_frame].masks[myState.selected_mask] = aboveMask;
-                myState.selected_mask = myState.selected_mask-1;    
-                clicked3 = 0;
-            }
-        }
-    }
     
 
     ImGui::End();
 }
-*/
+
 static void finishingWindow(MyState &myState, bool *show_myWindow, const ImGuiViewport* viewport, ImGuiWindowFlags flags, bool use_work_area) 
 {
     //ImVec2 size = ImVec2(viewport->WorkSize.x * 0.33f, viewport->WorkSize.y * 0.25f);
@@ -860,8 +661,9 @@ static void finishingWindow(MyState &myState, bool *show_myWindow, const ImGuiVi
     ImVec2 newPos = ImVec2(viewport->WorkPos.x + (viewport->WorkSize.x * 0.5f), viewport->WorkPos.y + 0);
     ImGui::SetNextWindowPos(newPos);
     ImGui::SetNextWindowSize(use_work_area ? size : viewport->Size);
-    ImGui::Begin("FINISHING", show_myWindow, ImGuiWindowFlags_NoTitleBar);
-    ImGui::Text("FINISHING WINDOW"); 
+    //ImGui::Begin("FINISHING PANEL", show_myWindow, ImGuiWindowFlags_NoTitleBar);
+    ImGui::Begin("FINISHING PANEL", show_myWindow);
+    ImGui::Text("No mask has yet been selected in the frame panel."); 
 
     
     if (myState.img_loaded) {  
@@ -870,6 +672,19 @@ static void finishingWindow(MyState &myState, bool *show_myWindow, const ImGuiVi
         drawAllMasks(myState, viewport, ImVec2(viewport->WorkPos.x + (viewport->WorkSize.x * 0.5f), viewport->WorkPos.y + 0), true);
     }
 
+    ImGui::End();
+}
+
+static void finishingConfigWindow(MyState &myState, const ImGuiViewport* viewport, ImGuiWindowFlags flags, bool use_work_area) 
+{
+    ImVec2 size = ImVec2(viewport->WorkSize.x * 0.50f, viewport->WorkSize.y * 0.25f);
+    flags = ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoSavedSettings;
+    //ImVec2 newPos = ImVec2(viewport->WorkPos.x + (viewport->WorkSize.x * 0.33f), viewport->WorkPos.y + (viewport->WorkSize.y * 0.75f));
+    ImVec2 newPos = ImVec2(viewport->WorkPos.x + (viewport->WorkSize.x * 0.50f), viewport->WorkPos.y + (viewport->WorkSize.y * 0.75f));
+    //ImVec2 newPos = ImVec2(viewport->WorkPos.x + (viewport->WorkSize.x * 0.08f), viewport->WorkPos.y + (viewport->WorkSize.y * 0.75f);
+    ImGui::SetNextWindowPos(newPos);
+    ImGui::SetNextWindowSize(use_work_area ? size : viewport->Size);
+    ImGui::Begin("FINISHING DETAILS CONFIGURATION"); 
     ImGui::End();
 }
 
@@ -1150,6 +965,11 @@ void editor(bool *show_myWindow, bool *show_file_dialog, MyState &myState) //WAR
     //FINISHING window
     //printf("finishingWindow...\n");
     finishingWindow(myState, show_myWindow, viewport, flags, use_work_area);
+
+    //FINISHING window
+    //printf("finishingWindow...\n");
+    finishingConfigWindow(myState, viewport, flags, use_work_area);
+
 
     //PROPAGATE
     //printf("propagate...\n");

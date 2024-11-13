@@ -10,6 +10,7 @@
 /Users/rtous/dev/back2black/build_macos/third-party/CMakeFiles/install.dir
 /Users/rtous/dev/back2black/build_macos/third-party/CMakeFiles/install/local.dir
 /Users/rtous/dev/back2black/build_macos/third-party/CMakeFiles/install/strip.dir
+/Users/rtous/dev/back2black/build_macos/third-party/imgui/CMakeFiles/imgui_binary_to_compressed_c.dir
 /Users/rtous/dev/back2black/build_macos/third-party/imgui/CMakeFiles/imgui.dir
 /Users/rtous/dev/back2black/build_macos/third-party/imgui/CMakeFiles/imgui-sdl2.dir
 /Users/rtous/dev/back2black/build_macos/third-party/imgui/CMakeFiles/edit_cache.dir

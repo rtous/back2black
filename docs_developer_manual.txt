@@ -192,3 +192,29 @@ Before working:
 
 	fnm env --use-on-cd | Out-String | Invoke-Expression
 
+ANNEX 4. Fonts (and icons)
+
+	- Icons are obtained from a custom font instead of images
+	- First downloaded IconsFontAwesome5.h and fa-solid-900.ttf from https://github.com/juliettef/IconFontCppHeaders
+	- They are in the editor folder. Can be used directly adding in the main.c (there's a specific section for fonts) and a code that appears at the end of the juliettef's github repo.
+	- But to avoid paths, I have translated the ttf into a byte array in myfont.h. I did this with the binary_to_compressed_c.sh script (calls an imgui tool).
+	- To setup the fonts in main.c:
+
+	io.Fonts->AddFontDefault();
+    float baseFontSize = 13.0f;
+    float iconFontSize = baseFontSize * 2.0f / 3.0f; 
+    static const ImWchar icons_ranges[] = { ICON_MIN_FA, ICON_MAX_16_FA, 0 };
+    ImFontConfig icons_config; 
+    icons_config.MergeMode = true; 
+    icons_config.PixelSnapH = true; 
+    icons_config.GlyphMinAdvanceX = iconFontSize; 
+    //From file
+    //ImFont* font = io.Fonts->AddFontFromFileTTF("/Users/rtous/dev/back2black/editor/fa-solid-900.ttf", iconFontSize, &icons_config, icons_ranges );
+    //From embedded byte arrays (using the imgui binary_to_compressed tool)
+    ImFont* font = io.Fonts->AddFontFromMemoryCompressedTTF(MyFont_compressed_data, MyFont_compressed_size, iconFontSize, &icons_config, icons_ranges);    
+    IM_ASSERT(font != nullptr);
+
+    More info on imgui fonts:
+		https://pixtur.github.io/mkdocs-for-imgui/site/FONTS/
+		https://github.com/ocornut/imgui/blob/master/docs/FONTS.md
+

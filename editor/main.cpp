@@ -29,7 +29,7 @@
 #include "colors.h"
 #include "sam_utils.h"
 #include "IconsFontAwesome5.h" //see https://github.com/juliettef/IconFontCppHeaders
-
+#include "myfont.h" //generated with binary_to_compressed from fa-solid-900.ttf
 
 void myWindow(bool *show_myWindow)
 {
@@ -155,8 +155,14 @@ int main(int, char**)
     //io.Fonts->AddFontFromFileTTF("/Users/rtous/dev/back2black/editor/fa-solid-900.ttf", 16.f, &icons_config, icons_ranges);
     //io.Fonts->AddFontFromFileTTF("/Users/rtous/dev/back2black/editor/fa-solid-900.ttf", 16.f, &icons_config, icons_ranges);
     //io.Fonts->AddFontFromFileTTF(FONT_ICON_FILE_NAME_FAS, iconFontSize, &icons_config, icons_ranges );
-    io.Fonts->AddFontFromFileTTF("/Users/rtous/dev/back2black/editor/fa-solid-900.ttf", iconFontSize, &icons_config, icons_ranges );
-    printf("font file loaded\n");
+    
+    //From file
+    //ImFont* font = io.Fonts->AddFontFromFileTTF("/Users/rtous/dev/back2black/editor/fa-solid-900.ttf", iconFontSize, &icons_config, icons_ranges );
+    //From embedded byte arrays (using the imgui binary_to_compressed tool)
+    ImFont* font = io.Fonts->AddFontFromMemoryCompressedTTF(MyFont_compressed_data, MyFont_compressed_size, iconFontSize, &icons_config, icons_ranges);    
+
+    IM_ASSERT(font != nullptr);
+    //printf("font file loaded\n");
     //
 
     /***** STATE ******/
