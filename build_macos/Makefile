@@ -240,6 +240,19 @@ ImGuiFileDialog/fast:
 .PHONY : ImGuiFileDialog/fast
 
 #=============================================================================
+# Target rules for targets named dlib
+
+# Build rule for target.
+dlib: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 dlib
+.PHONY : dlib
+
+# fast build rule for target.
+dlib/fast:
+	$(MAKE) $(MAKESILENT) -f third-party/dlib-19.24/dlib/CMakeFiles/dlib.dir/build.make third-party/dlib-19.24/dlib/CMakeFiles/dlib.dir/build
+.PHONY : dlib/fast
+
+#=============================================================================
 # Target rules for targets named test_opencv
 
 # Build rule for target.
@@ -360,6 +373,7 @@ help:
 	@echo "... cli_sam"
 	@echo "... cli_simplify"
 	@echo "... common"
+	@echo "... dlib"
 	@echo "... editor"
 	@echo "... ggml"
 	@echo "... imgui"

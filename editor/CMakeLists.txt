@@ -8,6 +8,7 @@ add_executable(${EXAMPLE_TARGET}
     file_dialog.cpp
     sam_utils.cpp
     video.cpp
+    faces.cpp
 )
 
 #OpenCV stuff
@@ -15,8 +16,13 @@ set(OpenCV_STATIC ON)
 set(OpenCV_DIR "${CMAKE_CURRENT_SOURCE_DIR}/../../opencv/build")
 find_package(OpenCV REQUIRED) 
 
+#dlib stuff (faces)
+#https://medium.com/@abhishekjainindore24/face-detection-using-opencv-and-dlib-library-in-c-592d9bf269ff
+#find_package(dlib REQUIRED)
+include_directories(${dlib_INCLUDE_DIRS})
+
 install(TARGETS ${EXAMPLE_TARGET} RUNTIME)
-target_link_libraries(${EXAMPLE_TARGET} PRIVATE sam common simplify ${OpenCV_LIBS} imgui-sdl2 ImGuiFileDialog ${CMAKE_THREAD_LIBS_INIT})
+target_link_libraries(${EXAMPLE_TARGET} PRIVATE sam common simplify ${OpenCV_LIBS} dlib imgui-sdl2 ImGuiFileDialog ${CMAKE_THREAD_LIBS_INIT})
 target_compile_features(${EXAMPLE_TARGET} PUBLIC cxx_std_11)
 
 #If Microsoft Visual C++ or similar

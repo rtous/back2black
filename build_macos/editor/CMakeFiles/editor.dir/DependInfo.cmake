@@ -10,6 +10,7 @@ set(CMAKE_DEPENDS_LANGUAGES
 set(CMAKE_DEPENDS_DEPENDENCY_FILES
   "/Users/rtous/dev/back2black/editor/colors.cpp" "editor/CMakeFiles/editor.dir/colors.cpp.o" "gcc" "editor/CMakeFiles/editor.dir/colors.cpp.o.d"
   "/Users/rtous/dev/back2black/editor/editor.cpp" "editor/CMakeFiles/editor.dir/editor.cpp.o" "gcc" "editor/CMakeFiles/editor.dir/editor.cpp.o.d"
+  "/Users/rtous/dev/back2black/editor/faces.cpp" "editor/CMakeFiles/editor.dir/faces.cpp.o" "gcc" "editor/CMakeFiles/editor.dir/faces.cpp.o.d"
   "/Users/rtous/dev/back2black/editor/file_dialog.cpp" "editor/CMakeFiles/editor.dir/file_dialog.cpp.o" "gcc" "editor/CMakeFiles/editor.dir/file_dialog.cpp.o.d"
   "/Users/rtous/dev/back2black/editor/gui_utils.cpp" "editor/CMakeFiles/editor.dir/gui_utils.cpp.o" "gcc" "editor/CMakeFiles/editor.dir/gui_utils.cpp.o.d"
   "/Users/rtous/dev/back2black/editor/main.cpp" "editor/CMakeFiles/editor.dir/main.cpp.o" "gcc" "editor/CMakeFiles/editor.dir/main.cpp.o.d"

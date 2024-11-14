@@ -223,6 +223,30 @@ editor.cpp.s:
 	cd /Users/rtous/dev/back2black/build_macos && $(MAKE) $(MAKESILENT) -f editor/CMakeFiles/editor.dir/build.make editor/CMakeFiles/editor.dir/editor.cpp.s
 .PHONY : editor.cpp.s
 
+faces.o: faces.cpp.o
+.PHONY : faces.o
+
+# target to build an object file
+faces.cpp.o:
+	cd /Users/rtous/dev/back2black/build_macos && $(MAKE) $(MAKESILENT) -f editor/CMakeFiles/editor.dir/build.make editor/CMakeFiles/editor.dir/faces.cpp.o
+.PHONY : faces.cpp.o
+
+faces.i: faces.cpp.i
+.PHONY : faces.i
+
+# target to preprocess a source file
+faces.cpp.i:
+	cd /Users/rtous/dev/back2black/build_macos && $(MAKE) $(MAKESILENT) -f editor/CMakeFiles/editor.dir/build.make editor/CMakeFiles/editor.dir/faces.cpp.i
+.PHONY : faces.cpp.i
+
+faces.s: faces.cpp.s
+.PHONY : faces.s
+
+# target to generate assembly for a file
+faces.cpp.s:
+	cd /Users/rtous/dev/back2black/build_macos && $(MAKE) $(MAKESILENT) -f editor/CMakeFiles/editor.dir/build.make editor/CMakeFiles/editor.dir/faces.cpp.s
+.PHONY : faces.cpp.s
+
 file_dialog.o: file_dialog.cpp.o
 .PHONY : file_dialog.o
 
@@ -362,6 +386,9 @@ help:
 	@echo "... editor.o"
 	@echo "... editor.i"
 	@echo "... editor.s"
+	@echo "... faces.o"
+	@echo "... faces.i"
+	@echo "... faces.s"
 	@echo "... file_dialog.o"
 	@echo "... file_dialog.i"
 	@echo "... file_dialog.s"

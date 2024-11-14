@@ -5,6 +5,8 @@ file(REMOVE_RECURSE
   "CMakeFiles/editor.dir/colors.cpp.o.d"
   "CMakeFiles/editor.dir/editor.cpp.o"
   "CMakeFiles/editor.dir/editor.cpp.o.d"
+  "CMakeFiles/editor.dir/faces.cpp.o"
+  "CMakeFiles/editor.dir/faces.cpp.o.d"
   "CMakeFiles/editor.dir/file_dialog.cpp.o"
   "CMakeFiles/editor.dir/file_dialog.cpp.o.d"
   "CMakeFiles/editor.dir/gui_utils.cpp.o"

@@ -447,3 +447,1985 @@ events:
         
       exitCode: 0
 ...
+
+---
+events:
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "/opt/homebrew/Cellar/cmake/3.28.3/share/cmake/Modules/CheckLibraryExists.cmake:69 (try_compile)"
+      - "/opt/homebrew/Cellar/cmake/3.28.3/share/cmake/Modules/FindX11.cmake:682 (check_library_exists)"
+      - "third-party/dlib-19.24/dlib/CMakeLists.txt:350 (find_package)"
+    directories:
+      source: "/Users/rtous/dev/back2black/build_macos/CMakeFiles/CMakeScratch/TryCompile-FoDUag"
+      binary: "/Users/rtous/dev/back2black/build_macos/CMakeFiles/CMakeScratch/TryCompile-FoDUag"
+    cmakeVariables:
+      CMAKE_C_FLAGS: ""
+      CMAKE_EXE_LINKER_FLAGS: ""
+      CMAKE_MODULE_PATH: "/Users/rtous/dev/back2black"
+      CMAKE_OSX_ARCHITECTURES: ""
+      CMAKE_OSX_DEPLOYMENT_TARGET: ""
+      CMAKE_OSX_SYSROOT: "/Library/Developer/CommandLineTools/SDKs/MacOSX14.4.sdk"
+    buildResult:
+      variable: "X11_LIB_X11_SOLO"
+      cached: true
+      stdout: |
+        Change Dir: '/Users/rtous/dev/back2black/build_macos/CMakeFiles/CMakeScratch/TryCompile-FoDUag'
+        
+        Run Build Command(s): /opt/homebrew/Cellar/cmake/3.28.3/bin/cmake -E env VERBOSE=1 /usr/bin/make -f Makefile cmTC_00eda/fast
+        /Library/Developer/CommandLineTools/usr/bin/make  -f CMakeFiles/cmTC_00eda.dir/build.make CMakeFiles/cmTC_00eda.dir/build
+        Building C object CMakeFiles/cmTC_00eda.dir/CheckFunctionExists.c.o
+        /Library/Developer/CommandLineTools/usr/bin/cc   -DCHECK_FUNCTION_EXISTS=XOpenDisplay -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX14.4.sdk -MD -MT CMakeFiles/cmTC_00eda.dir/CheckFunctionExists.c.o -MF CMakeFiles/cmTC_00eda.dir/CheckFunctionExists.c.o.d -o CMakeFiles/cmTC_00eda.dir/CheckFunctionExists.c.o -c /Users/rtous/dev/back2black/build_macos/CMakeFiles/CMakeScratch/TryCompile-FoDUag/CheckFunctionExists.c
+        Linking C executable cmTC_00eda
+        /opt/homebrew/Cellar/cmake/3.28.3/bin/cmake -E cmake_link_script CMakeFiles/cmTC_00eda.dir/link.txt --verbose=1
+        /Library/Developer/CommandLineTools/usr/bin/cc  -DCHECK_FUNCTION_EXISTS=XOpenDisplay -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX14.4.sdk -Wl,-search_paths_first -Wl,-headerpad_max_install_names CMakeFiles/cmTC_00eda.dir/CheckFunctionExists.c.o -o cmTC_00eda   -L/opt/homebrew/lib  -Wl,-rpath,/opt/homebrew/lib /opt/homebrew/lib/libX11.dylib /opt/homebrew/lib/libXext.dylib 
+        
+      exitCode: 0
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "/opt/homebrew/Cellar/cmake/3.28.3/share/cmake/Modules/CheckFunctionExists.cmake:86 (try_compile)"
+      - "/opt/homebrew/Cellar/cmake/3.28.3/share/cmake/Modules/FindX11.cmake:697 (check_function_exists)"
+      - "third-party/dlib-19.24/dlib/CMakeLists.txt:350 (find_package)"
+    directories:
+      source: "/Users/rtous/dev/back2black/build_macos/CMakeFiles/CMakeScratch/TryCompile-KyEUri"
+      binary: "/Users/rtous/dev/back2black/build_macos/CMakeFiles/CMakeScratch/TryCompile-KyEUri"
+    cmakeVariables:
+      CMAKE_C_FLAGS: ""
+      CMAKE_MODULE_PATH: "/Users/rtous/dev/back2black"
+      CMAKE_OSX_ARCHITECTURES: ""
+      CMAKE_OSX_DEPLOYMENT_TARGET: ""
+      CMAKE_OSX_SYSROOT: "/Library/Developer/CommandLineTools/SDKs/MacOSX14.4.sdk"
+    buildResult:
+      variable: "CMAKE_HAVE_GETHOSTBYNAME"
+      cached: true
+      stdout: |
+        Change Dir: '/Users/rtous/dev/back2black/build_macos/CMakeFiles/CMakeScratch/TryCompile-KyEUri'
+        
+        Run Build Command(s): /opt/homebrew/Cellar/cmake/3.28.3/bin/cmake -E env VERBOSE=1 /usr/bin/make -f Makefile cmTC_88d1d/fast
+        /Library/Developer/CommandLineTools/usr/bin/make  -f CMakeFiles/cmTC_88d1d.dir/build.make CMakeFiles/cmTC_88d1d.dir/build
+        Building C object CMakeFiles/cmTC_88d1d.dir/CheckFunctionExists.c.o
+        /Library/Developer/CommandLineTools/usr/bin/cc   -DCHECK_FUNCTION_EXISTS=gethostbyname -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX14.4.sdk -MD -MT CMakeFiles/cmTC_88d1d.dir/CheckFunctionExists.c.o -MF CMakeFiles/cmTC_88d1d.dir/CheckFunctionExists.c.o.d -o CMakeFiles/cmTC_88d1d.dir/CheckFunctionExists.c.o -c /Users/rtous/dev/back2black/build_macos/CMakeFiles/CMakeScratch/TryCompile-KyEUri/CheckFunctionExists.c
+        Linking C executable cmTC_88d1d
+        /opt/homebrew/Cellar/cmake/3.28.3/bin/cmake -E cmake_link_script CMakeFiles/cmTC_88d1d.dir/link.txt --verbose=1
+        /Library/Developer/CommandLineTools/usr/bin/cc  -DCHECK_FUNCTION_EXISTS=gethostbyname -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX14.4.sdk -Wl,-search_paths_first -Wl,-headerpad_max_install_names CMakeFiles/cmTC_88d1d.dir/CheckFunctionExists.c.o -o cmTC_88d1d 
+        
+      exitCode: 0
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "/opt/homebrew/Cellar/cmake/3.28.3/share/cmake/Modules/CheckFunctionExists.cmake:86 (try_compile)"
+      - "/opt/homebrew/Cellar/cmake/3.28.3/share/cmake/Modules/FindX11.cmake:711 (check_function_exists)"
+      - "third-party/dlib-19.24/dlib/CMakeLists.txt:350 (find_package)"
+    directories:
+      source: "/Users/rtous/dev/back2black/build_macos/CMakeFiles/CMakeScratch/TryCompile-Pm3WiT"
+      binary: "/Users/rtous/dev/back2black/build_macos/CMakeFiles/CMakeScratch/TryCompile-Pm3WiT"
+    cmakeVariables:
+      CMAKE_C_FLAGS: ""
+      CMAKE_MODULE_PATH: "/Users/rtous/dev/back2black"
+      CMAKE_OSX_ARCHITECTURES: ""
+      CMAKE_OSX_DEPLOYMENT_TARGET: ""
+      CMAKE_OSX_SYSROOT: "/Library/Developer/CommandLineTools/SDKs/MacOSX14.4.sdk"
+    buildResult:
+      variable: "CMAKE_HAVE_CONNECT"
+      cached: true
+      stdout: |
+        Change Dir: '/Users/rtous/dev/back2black/build_macos/CMakeFiles/CMakeScratch/TryCompile-Pm3WiT'
+        
+        Run Build Command(s): /opt/homebrew/Cellar/cmake/3.28.3/bin/cmake -E env VERBOSE=1 /usr/bin/make -f Makefile cmTC_3e67f/fast
+        /Library/Developer/CommandLineTools/usr/bin/make  -f CMakeFiles/cmTC_3e67f.dir/build.make CMakeFiles/cmTC_3e67f.dir/build
+        Building C object CMakeFiles/cmTC_3e67f.dir/CheckFunctionExists.c.o
+        /Library/Developer/CommandLineTools/usr/bin/cc   -DCHECK_FUNCTION_EXISTS=connect -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX14.4.sdk -MD -MT CMakeFiles/cmTC_3e67f.dir/CheckFunctionExists.c.o -MF CMakeFiles/cmTC_3e67f.dir/CheckFunctionExists.c.o.d -o CMakeFiles/cmTC_3e67f.dir/CheckFunctionExists.c.o -c /Users/rtous/dev/back2black/build_macos/CMakeFiles/CMakeScratch/TryCompile-Pm3WiT/CheckFunctionExists.c
+        Linking C executable cmTC_3e67f
+        /opt/homebrew/Cellar/cmake/3.28.3/bin/cmake -E cmake_link_script CMakeFiles/cmTC_3e67f.dir/link.txt --verbose=1
+        /Library/Developer/CommandLineTools/usr/bin/cc  -DCHECK_FUNCTION_EXISTS=connect -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX14.4.sdk -Wl,-search_paths_first -Wl,-headerpad_max_install_names CMakeFiles/cmTC_3e67f.dir/CheckFunctionExists.c.o -o cmTC_3e67f 
+        
+      exitCode: 0
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "/opt/homebrew/Cellar/cmake/3.28.3/share/cmake/Modules/CheckFunctionExists.cmake:86 (try_compile)"
+      - "/opt/homebrew/Cellar/cmake/3.28.3/share/cmake/Modules/FindX11.cmake:720 (check_function_exists)"
+      - "third-party/dlib-19.24/dlib/CMakeLists.txt:350 (find_package)"
+    directories:
+      source: "/Users/rtous/dev/back2black/build_macos/CMakeFiles/CMakeScratch/TryCompile-awS7j2"
+      binary: "/Users/rtous/dev/back2black/build_macos/CMakeFiles/CMakeScratch/TryCompile-awS7j2"
+    cmakeVariables:
+      CMAKE_C_FLAGS: ""
+      CMAKE_MODULE_PATH: "/Users/rtous/dev/back2black"
+      CMAKE_OSX_ARCHITECTURES: ""
+      CMAKE_OSX_DEPLOYMENT_TARGET: ""
+      CMAKE_OSX_SYSROOT: "/Library/Developer/CommandLineTools/SDKs/MacOSX14.4.sdk"
+    buildResult:
+      variable: "CMAKE_HAVE_REMOVE"
+      cached: true
+      stdout: |
+        Change Dir: '/Users/rtous/dev/back2black/build_macos/CMakeFiles/CMakeScratch/TryCompile-awS7j2'
+        
+        Run Build Command(s): /opt/homebrew/Cellar/cmake/3.28.3/bin/cmake -E env VERBOSE=1 /usr/bin/make -f Makefile cmTC_4c45c/fast
+        /Library/Developer/CommandLineTools/usr/bin/make  -f CMakeFiles/cmTC_4c45c.dir/build.make CMakeFiles/cmTC_4c45c.dir/build
+        Building C object CMakeFiles/cmTC_4c45c.dir/CheckFunctionExists.c.o
+        /Library/Developer/CommandLineTools/usr/bin/cc   -DCHECK_FUNCTION_EXISTS=remove -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX14.4.sdk -MD -MT CMakeFiles/cmTC_4c45c.dir/CheckFunctionExists.c.o -MF CMakeFiles/cmTC_4c45c.dir/CheckFunctionExists.c.o.d -o CMakeFiles/cmTC_4c45c.dir/CheckFunctionExists.c.o -c /Users/rtous/dev/back2black/build_macos/CMakeFiles/CMakeScratch/TryCompile-awS7j2/CheckFunctionExists.c
+        Linking C executable cmTC_4c45c
+        /opt/homebrew/Cellar/cmake/3.28.3/bin/cmake -E cmake_link_script CMakeFiles/cmTC_4c45c.dir/link.txt --verbose=1
+        /Library/Developer/CommandLineTools/usr/bin/cc  -DCHECK_FUNCTION_EXISTS=remove -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX14.4.sdk -Wl,-search_paths_first -Wl,-headerpad_max_install_names CMakeFiles/cmTC_4c45c.dir/CheckFunctionExists.c.o -o cmTC_4c45c 
+        
+      exitCode: 0
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "/opt/homebrew/Cellar/cmake/3.28.3/share/cmake/Modules/CheckFunctionExists.cmake:86 (try_compile)"
+      - "/opt/homebrew/Cellar/cmake/3.28.3/share/cmake/Modules/FindX11.cmake:729 (check_function_exists)"
+      - "third-party/dlib-19.24/dlib/CMakeLists.txt:350 (find_package)"
+    directories:
+      source: "/Users/rtous/dev/back2black/build_macos/CMakeFiles/CMakeScratch/TryCompile-Wrb8ur"
+      binary: "/Users/rtous/dev/back2black/build_macos/CMakeFiles/CMakeScratch/TryCompile-Wrb8ur"
+    cmakeVariables:
+      CMAKE_C_FLAGS: ""
+      CMAKE_MODULE_PATH: "/Users/rtous/dev/back2black"
+      CMAKE_OSX_ARCHITECTURES: ""
+      CMAKE_OSX_DEPLOYMENT_TARGET: ""
+      CMAKE_OSX_SYSROOT: "/Library/Developer/CommandLineTools/SDKs/MacOSX14.4.sdk"
+    buildResult:
+      variable: "CMAKE_HAVE_SHMAT"
+      cached: true
+      stdout: |
+        Change Dir: '/Users/rtous/dev/back2black/build_macos/CMakeFiles/CMakeScratch/TryCompile-Wrb8ur'
+        
+        Run Build Command(s): /opt/homebrew/Cellar/cmake/3.28.3/bin/cmake -E env VERBOSE=1 /usr/bin/make -f Makefile cmTC_ecdda/fast
+        /Library/Developer/CommandLineTools/usr/bin/make  -f CMakeFiles/cmTC_ecdda.dir/build.make CMakeFiles/cmTC_ecdda.dir/build
+        Building C object CMakeFiles/cmTC_ecdda.dir/CheckFunctionExists.c.o
+        /Library/Developer/CommandLineTools/usr/bin/cc   -DCHECK_FUNCTION_EXISTS=shmat -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX14.4.sdk -MD -MT CMakeFiles/cmTC_ecdda.dir/CheckFunctionExists.c.o -MF CMakeFiles/cmTC_ecdda.dir/CheckFunctionExists.c.o.d -o CMakeFiles/cmTC_ecdda.dir/CheckFunctionExists.c.o -c /Users/rtous/dev/back2black/build_macos/CMakeFiles/CMakeScratch/TryCompile-Wrb8ur/CheckFunctionExists.c
+        Linking C executable cmTC_ecdda
+        /opt/homebrew/Cellar/cmake/3.28.3/bin/cmake -E cmake_link_script CMakeFiles/cmTC_ecdda.dir/link.txt --verbose=1
+        /Library/Developer/CommandLineTools/usr/bin/cc  -DCHECK_FUNCTION_EXISTS=shmat -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX14.4.sdk -Wl,-search_paths_first -Wl,-headerpad_max_install_names CMakeFiles/cmTC_ecdda.dir/CheckFunctionExists.c.o -o cmTC_ecdda 
+        
+      exitCode: 0
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "third-party/dlib-19.24/dlib/cmake_utils/find_libpng.cmake:25 (try_compile)"
+      - "third-party/dlib-19.24/dlib/CMakeLists.txt:443 (include)"
+    directories:
+      source: "/Users/rtous/dev/back2black/third-party/dlib-19.24/dlib/cmake_utils/test_for_libpng"
+      binary: "/Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libpng_build"
+    buildResult:
+      variable: "test_for_libpng_worked"
+      cached: true
+      stdout: |
+        Change Dir: '/Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libpng_build'
+        
+        Run Build Command(s): /opt/homebrew/Cellar/cmake/3.28.3/bin/cmake -E env VERBOSE=1 /usr/bin/make -f Makefile
+        /opt/homebrew/Cellar/cmake/3.28.3/bin/cmake -S/Users/rtous/dev/back2black/third-party/dlib-19.24/dlib/cmake_utils/test_for_libpng -B/Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libpng_build --check-build-system CMakeFiles/Makefile.cmake 0
+        /opt/homebrew/Cellar/cmake/3.28.3/bin/cmake -E cmake_progress_start /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libpng_build/CMakeFiles /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libpng_build//CMakeFiles/progress.marks
+        /Library/Developer/CommandLineTools/usr/bin/make  -f CMakeFiles/Makefile2 all
+        /Library/Developer/CommandLineTools/usr/bin/make  -f CMakeFiles/libpng_test.dir/build.make CMakeFiles/libpng_test.dir/depend
+        cd /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libpng_build && /opt/homebrew/Cellar/cmake/3.28.3/bin/cmake -E cmake_depends "Unix Makefiles" /Users/rtous/dev/back2black/third-party/dlib-19.24/dlib/cmake_utils/test_for_libpng /Users/rtous/dev/back2black/third-party/dlib-19.24/dlib/cmake_utils/test_for_libpng /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libpng_build /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libpng_build /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libpng_build/CMakeFiles/libpng_test.dir/DependInfo.cmake
+        /Library/Developer/CommandLineTools/usr/bin/make  -f CMakeFiles/libpng_test.dir/build.make CMakeFiles/libpng_test.dir/build
+        [ 50%] Building CXX object CMakeFiles/libpng_test.dir/libpng_test.cpp.o
+        /Library/Developer/CommandLineTools/usr/bin/c++  -I/opt/homebrew/include -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX14.4.sdk -MD -MT CMakeFiles/libpng_test.dir/libpng_test.cpp.o -MF CMakeFiles/libpng_test.dir/libpng_test.cpp.o.d -o CMakeFiles/libpng_test.dir/libpng_test.cpp.o -c /Users/rtous/dev/back2black/third-party/dlib-19.24/dlib/cmake_utils/test_for_libpng/libpng_test.cpp
+        [100%] Linking CXX executable libpng_test
+        /opt/homebrew/Cellar/cmake/3.28.3/bin/cmake -E cmake_link_script CMakeFiles/libpng_test.dir/link.txt --verbose=1
+        /Library/Developer/CommandLineTools/usr/bin/c++  -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX14.4.sdk -Wl,-search_paths_first -Wl,-headerpad_max_install_names CMakeFiles/libpng_test.dir/libpng_test.cpp.o -o libpng_test  /opt/homebrew/lib/libpng.dylib /Library/Developer/CommandLineTools/SDKs/MacOSX14.4.sdk/usr/lib/libz.tbd 
+        [100%] Built target libpng_test
+        /opt/homebrew/Cellar/cmake/3.28.3/bin/cmake -E cmake_progress_start /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libpng_build/CMakeFiles 0
+        
+      exitCode: 0
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "third-party/dlib-19.24/dlib/cmake_utils/find_libjpeg.cmake:25 (try_compile)"
+      - "third-party/dlib-19.24/dlib/CMakeLists.txt:504 (include)"
+    directories:
+      source: "/Users/rtous/dev/back2black/third-party/dlib-19.24/dlib/cmake_utils/test_for_libjpeg"
+      binary: "/Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libjpeg_build"
+    buildResult:
+      variable: "test_for_libjpeg_worked"
+      cached: true
+      stdout: |
+        Change Dir: '/Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libjpeg_build'
+        
+        Run Build Command(s): /opt/homebrew/Cellar/cmake/3.28.3/bin/cmake -E env VERBOSE=1 /usr/bin/make -f Makefile
+        /opt/homebrew/Cellar/cmake/3.28.3/bin/cmake -S/Users/rtous/dev/back2black/third-party/dlib-19.24/dlib/cmake_utils/test_for_libjpeg -B/Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libjpeg_build --check-build-system CMakeFiles/Makefile.cmake 0
+        /opt/homebrew/Cellar/cmake/3.28.3/bin/cmake -E cmake_progress_start /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libjpeg_build/CMakeFiles /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libjpeg_build//CMakeFiles/progress.marks
+        /Library/Developer/CommandLineTools/usr/bin/make  -f CMakeFiles/Makefile2 all
+        /Library/Developer/CommandLineTools/usr/bin/make  -f CMakeFiles/libjpeg_test.dir/build.make CMakeFiles/libjpeg_test.dir/depend
+        cd /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libjpeg_build && /opt/homebrew/Cellar/cmake/3.28.3/bin/cmake -E cmake_depends "Unix Makefiles" /Users/rtous/dev/back2black/third-party/dlib-19.24/dlib/cmake_utils/test_for_libjpeg /Users/rtous/dev/back2black/third-party/dlib-19.24/dlib/cmake_utils/test_for_libjpeg /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libjpeg_build /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libjpeg_build /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libjpeg_build/CMakeFiles/libjpeg_test.dir/DependInfo.cmake
+        /Library/Developer/CommandLineTools/usr/bin/make  -f CMakeFiles/libjpeg_test.dir/build.make CMakeFiles/libjpeg_test.dir/build
+        [ 50%] Building CXX object CMakeFiles/libjpeg_test.dir/libjpeg_test.cpp.o
+        /Library/Developer/CommandLineTools/usr/bin/c++  -I/opt/homebrew/include -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX14.4.sdk -MD -MT CMakeFiles/libjpeg_test.dir/libjpeg_test.cpp.o -MF CMakeFiles/libjpeg_test.dir/libjpeg_test.cpp.o.d -o CMakeFiles/libjpeg_test.dir/libjpeg_test.cpp.o -c /Users/rtous/dev/back2black/third-party/dlib-19.24/dlib/cmake_utils/test_for_libjpeg/libjpeg_test.cpp
+        [100%] Linking CXX executable libjpeg_test
+        /opt/homebrew/Cellar/cmake/3.28.3/bin/cmake -E cmake_link_script CMakeFiles/libjpeg_test.dir/link.txt --verbose=1
+        /Library/Developer/CommandLineTools/usr/bin/c++  -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX14.4.sdk -Wl,-search_paths_first -Wl,-headerpad_max_install_names CMakeFiles/libjpeg_test.dir/libjpeg_test.cpp.o -o libjpeg_test  /opt/homebrew/lib/libjpeg.dylib 
+        [100%] Built target libjpeg_test
+        /opt/homebrew/Cellar/cmake/3.28.3/bin/cmake -E cmake_progress_start /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libjpeg_build/CMakeFiles 0
+        
+      exitCode: 0
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "/opt/homebrew/Cellar/cmake/3.28.3/share/cmake/Modules/CheckFunctionExists.cmake:86 (try_compile)"
+      - "third-party/dlib-19.24/dlib/cmake_utils/find_blas.cmake:73 (CHECK_FUNCTION_EXISTS)"
+      - "third-party/dlib-19.24/dlib/CMakeLists.txt:588 (include)"
+    checks:
+      - "Looking for cblas_ddot"
+    directories:
+      source: "/Users/rtous/dev/back2black/build_macos/CMakeFiles/CMakeScratch/TryCompile-pkXEk7"
+      binary: "/Users/rtous/dev/back2black/build_macos/CMakeFiles/CMakeScratch/TryCompile-pkXEk7"
+    cmakeVariables:
+      CMAKE_C_FLAGS: ""
+      CMAKE_MODULE_PATH: "/Users/rtous/dev/back2black"
+      CMAKE_OSX_ARCHITECTURES: ""
+      CMAKE_OSX_DEPLOYMENT_TARGET: ""
+      CMAKE_OSX_SYSROOT: "/Library/Developer/CommandLineTools/SDKs/MacOSX14.4.sdk"
+    buildResult:
+      variable: "PKGCFG_HAVE_CBLAS"
+      cached: true
+      stdout: |
+        Change Dir: '/Users/rtous/dev/back2black/build_macos/CMakeFiles/CMakeScratch/TryCompile-pkXEk7'
+        
+        Run Build Command(s): /opt/homebrew/Cellar/cmake/3.28.3/bin/cmake -E env VERBOSE=1 /usr/bin/make -f Makefile cmTC_929f4/fast
+        /Library/Developer/CommandLineTools/usr/bin/make  -f CMakeFiles/cmTC_929f4.dir/build.make CMakeFiles/cmTC_929f4.dir/build
+        Building C object CMakeFiles/cmTC_929f4.dir/CheckFunctionExists.c.o
+        /Library/Developer/CommandLineTools/usr/bin/cc   -DCHECK_FUNCTION_EXISTS=cblas_ddot -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX14.4.sdk -MD -MT CMakeFiles/cmTC_929f4.dir/CheckFunctionExists.c.o -MF CMakeFiles/cmTC_929f4.dir/CheckFunctionExists.c.o.d -o CMakeFiles/cmTC_929f4.dir/CheckFunctionExists.c.o -c /Users/rtous/dev/back2black/build_macos/CMakeFiles/CMakeScratch/TryCompile-pkXEk7/CheckFunctionExists.c
+        Linking C executable cmTC_929f4
+        /opt/homebrew/Cellar/cmake/3.28.3/bin/cmake -E cmake_link_script CMakeFiles/cmTC_929f4.dir/link.txt --verbose=1
+        /Library/Developer/CommandLineTools/usr/bin/cc  -DCHECK_FUNCTION_EXISTS=cblas_ddot -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX14.4.sdk -Wl,-search_paths_first -Wl,-headerpad_max_install_names CMakeFiles/cmTC_929f4.dir/CheckFunctionExists.c.o -o cmTC_929f4 
+        Undefined symbols for architecture arm64:
+          "_cblas_ddot", referenced from:
+              _main in CheckFunctionExists.c.o
+        ld: symbol(s) not found for architecture arm64
+        clang: error: linker command failed with exit code 1 (use -v to see invocation)
+        make[1]: *** [cmTC_929f4] Error 1
+        make: *** [cmTC_929f4/fast] Error 2
+        
+      exitCode: 2
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "/opt/homebrew/Cellar/cmake/3.28.3/share/cmake/Modules/CheckIncludeFile.cmake:90 (try_compile)"
+      - "/opt/homebrew/Cellar/cmake/3.28.3/share/cmake/Modules/CheckTypeSize.cmake:250 (check_include_file)"
+      - "third-party/dlib-19.24/dlib/cmake_utils/find_blas.cmake:85 (check_type_size)"
+      - "third-party/dlib-19.24/dlib/CMakeLists.txt:588 (include)"
+    checks:
+      - "Looking for sys/types.h"
+    directories:
+      source: "/Users/rtous/dev/back2black/build_macos/CMakeFiles/CMakeScratch/TryCompile-fJXrsy"
+      binary: "/Users/rtous/dev/back2black/build_macos/CMakeFiles/CMakeScratch/TryCompile-fJXrsy"
+    cmakeVariables:
+      CMAKE_C_FLAGS: ""
+      CMAKE_EXE_LINKER_FLAGS: ""
+      CMAKE_MODULE_PATH: "/Users/rtous/dev/back2black"
+      CMAKE_OSX_ARCHITECTURES: ""
+      CMAKE_OSX_DEPLOYMENT_TARGET: ""
+      CMAKE_OSX_SYSROOT: "/Library/Developer/CommandLineTools/SDKs/MacOSX14.4.sdk"
+    buildResult:
+      variable: "HAVE_SYS_TYPES_H"
+      cached: true
+      stdout: |
+        Change Dir: '/Users/rtous/dev/back2black/build_macos/CMakeFiles/CMakeScratch/TryCompile-fJXrsy'
+        
+        Run Build Command(s): /opt/homebrew/Cellar/cmake/3.28.3/bin/cmake -E env VERBOSE=1 /usr/bin/make -f Makefile cmTC_8a93c/fast
+        /Library/Developer/CommandLineTools/usr/bin/make  -f CMakeFiles/cmTC_8a93c.dir/build.make CMakeFiles/cmTC_8a93c.dir/build
+        Building C object CMakeFiles/cmTC_8a93c.dir/CheckIncludeFile.c.o
+        /Library/Developer/CommandLineTools/usr/bin/cc   -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX14.4.sdk -MD -MT CMakeFiles/cmTC_8a93c.dir/CheckIncludeFile.c.o -MF CMakeFiles/cmTC_8a93c.dir/CheckIncludeFile.c.o.d -o CMakeFiles/cmTC_8a93c.dir/CheckIncludeFile.c.o -c /Users/rtous/dev/back2black/build_macos/CMakeFiles/CMakeScratch/TryCompile-fJXrsy/CheckIncludeFile.c
+        Linking C executable cmTC_8a93c
+        /opt/homebrew/Cellar/cmake/3.28.3/bin/cmake -E cmake_link_script CMakeFiles/cmTC_8a93c.dir/link.txt --verbose=1
+        /Library/Developer/CommandLineTools/usr/bin/cc  -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX14.4.sdk -Wl,-search_paths_first -Wl,-headerpad_max_install_names CMakeFiles/cmTC_8a93c.dir/CheckIncludeFile.c.o -o cmTC_8a93c 
+        
+      exitCode: 0
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "/opt/homebrew/Cellar/cmake/3.28.3/share/cmake/Modules/CheckIncludeFile.cmake:90 (try_compile)"
+      - "/opt/homebrew/Cellar/cmake/3.28.3/share/cmake/Modules/CheckTypeSize.cmake:251 (check_include_file)"
+      - "third-party/dlib-19.24/dlib/cmake_utils/find_blas.cmake:85 (check_type_size)"
+      - "third-party/dlib-19.24/dlib/CMakeLists.txt:588 (include)"
+    checks:
+      - "Looking for stdint.h"
+    directories:
+      source: "/Users/rtous/dev/back2black/build_macos/CMakeFiles/CMakeScratch/TryCompile-IdihxL"
+      binary: "/Users/rtous/dev/back2black/build_macos/CMakeFiles/CMakeScratch/TryCompile-IdihxL"
+    cmakeVariables:
+      CMAKE_C_FLAGS: ""
+      CMAKE_EXE_LINKER_FLAGS: ""
+      CMAKE_MODULE_PATH: "/Users/rtous/dev/back2black"
+      CMAKE_OSX_ARCHITECTURES: ""
+      CMAKE_OSX_DEPLOYMENT_TARGET: ""
+      CMAKE_OSX_SYSROOT: "/Library/Developer/CommandLineTools/SDKs/MacOSX14.4.sdk"
+    buildResult:
+      variable: "HAVE_STDINT_H"
+      cached: true
+      stdout: |
+        Change Dir: '/Users/rtous/dev/back2black/build_macos/CMakeFiles/CMakeScratch/TryCompile-IdihxL'
+        
+        Run Build Command(s): /opt/homebrew/Cellar/cmake/3.28.3/bin/cmake -E env VERBOSE=1 /usr/bin/make -f Makefile cmTC_33f0d/fast
+        /Library/Developer/CommandLineTools/usr/bin/make  -f CMakeFiles/cmTC_33f0d.dir/build.make CMakeFiles/cmTC_33f0d.dir/build
+        Building C object CMakeFiles/cmTC_33f0d.dir/CheckIncludeFile.c.o
+        /Library/Developer/CommandLineTools/usr/bin/cc   -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX14.4.sdk -MD -MT CMakeFiles/cmTC_33f0d.dir/CheckIncludeFile.c.o -MF CMakeFiles/cmTC_33f0d.dir/CheckIncludeFile.c.o.d -o CMakeFiles/cmTC_33f0d.dir/CheckIncludeFile.c.o -c /Users/rtous/dev/back2black/build_macos/CMakeFiles/CMakeScratch/TryCompile-IdihxL/CheckIncludeFile.c
+        Linking C executable cmTC_33f0d
+        /opt/homebrew/Cellar/cmake/3.28.3/bin/cmake -E cmake_link_script CMakeFiles/cmTC_33f0d.dir/link.txt --verbose=1
+        /Library/Developer/CommandLineTools/usr/bin/cc  -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX14.4.sdk -Wl,-search_paths_first -Wl,-headerpad_max_install_names CMakeFiles/cmTC_33f0d.dir/CheckIncludeFile.c.o -o cmTC_33f0d 
+        
+      exitCode: 0
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "/opt/homebrew/Cellar/cmake/3.28.3/share/cmake/Modules/CheckIncludeFile.cmake:90 (try_compile)"
+      - "/opt/homebrew/Cellar/cmake/3.28.3/share/cmake/Modules/CheckTypeSize.cmake:252 (check_include_file)"
+      - "third-party/dlib-19.24/dlib/cmake_utils/find_blas.cmake:85 (check_type_size)"
+      - "third-party/dlib-19.24/dlib/CMakeLists.txt:588 (include)"
+    checks:
+      - "Looking for stddef.h"
+    directories:
+      source: "/Users/rtous/dev/back2black/build_macos/CMakeFiles/CMakeScratch/TryCompile-5KWUP4"
+      binary: "/Users/rtous/dev/back2black/build_macos/CMakeFiles/CMakeScratch/TryCompile-5KWUP4"
+    cmakeVariables:
+      CMAKE_C_FLAGS: ""
+      CMAKE_EXE_LINKER_FLAGS: ""
+      CMAKE_MODULE_PATH: "/Users/rtous/dev/back2black"
+      CMAKE_OSX_ARCHITECTURES: ""
+      CMAKE_OSX_DEPLOYMENT_TARGET: ""
+      CMAKE_OSX_SYSROOT: "/Library/Developer/CommandLineTools/SDKs/MacOSX14.4.sdk"
+    buildResult:
+      variable: "HAVE_STDDEF_H"
+      cached: true
+      stdout: |
+        Change Dir: '/Users/rtous/dev/back2black/build_macos/CMakeFiles/CMakeScratch/TryCompile-5KWUP4'
+        
+        Run Build Command(s): /opt/homebrew/Cellar/cmake/3.28.3/bin/cmake -E env VERBOSE=1 /usr/bin/make -f Makefile cmTC_e4b2a/fast
+        /Library/Developer/CommandLineTools/usr/bin/make  -f CMakeFiles/cmTC_e4b2a.dir/build.make CMakeFiles/cmTC_e4b2a.dir/build
+        Building C object CMakeFiles/cmTC_e4b2a.dir/CheckIncludeFile.c.o
+        /Library/Developer/CommandLineTools/usr/bin/cc   -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX14.4.sdk -MD -MT CMakeFiles/cmTC_e4b2a.dir/CheckIncludeFile.c.o -MF CMakeFiles/cmTC_e4b2a.dir/CheckIncludeFile.c.o.d -o CMakeFiles/cmTC_e4b2a.dir/CheckIncludeFile.c.o -c /Users/rtous/dev/back2black/build_macos/CMakeFiles/CMakeScratch/TryCompile-5KWUP4/CheckIncludeFile.c
+        Linking C executable cmTC_e4b2a
+        /opt/homebrew/Cellar/cmake/3.28.3/bin/cmake -E cmake_link_script CMakeFiles/cmTC_e4b2a.dir/link.txt --verbose=1
+        /Library/Developer/CommandLineTools/usr/bin/cc  -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX14.4.sdk -Wl,-search_paths_first -Wl,-headerpad_max_install_names CMakeFiles/cmTC_e4b2a.dir/CheckIncludeFile.c.o -o cmTC_e4b2a 
+        
+      exitCode: 0
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "/opt/homebrew/Cellar/cmake/3.28.3/share/cmake/Modules/CheckTypeSize.cmake:146 (try_compile)"
+      - "/opt/homebrew/Cellar/cmake/3.28.3/share/cmake/Modules/CheckTypeSize.cmake:271 (__check_type_size_impl)"
+      - "third-party/dlib-19.24/dlib/cmake_utils/find_blas.cmake:85 (check_type_size)"
+      - "third-party/dlib-19.24/dlib/CMakeLists.txt:588 (include)"
+    checks:
+      - "Check size of void*"
+    directories:
+      source: "/Users/rtous/dev/back2black/build_macos/CMakeFiles/CMakeScratch/TryCompile-Xniy7E"
+      binary: "/Users/rtous/dev/back2black/build_macos/CMakeFiles/CMakeScratch/TryCompile-Xniy7E"
+    cmakeVariables:
+      CMAKE_C_FLAGS: ""
+      CMAKE_MODULE_PATH: "/Users/rtous/dev/back2black"
+      CMAKE_OSX_ARCHITECTURES: ""
+      CMAKE_OSX_DEPLOYMENT_TARGET: ""
+      CMAKE_OSX_SYSROOT: "/Library/Developer/CommandLineTools/SDKs/MacOSX14.4.sdk"
+    buildResult:
+      variable: "HAVE_SIZE_OF_VOID_PTR"
+      cached: true
+      stdout: |
+        Change Dir: '/Users/rtous/dev/back2black/build_macos/CMakeFiles/CMakeScratch/TryCompile-Xniy7E'
+        
+        Run Build Command(s): /opt/homebrew/Cellar/cmake/3.28.3/bin/cmake -E env VERBOSE=1 /usr/bin/make -f Makefile cmTC_37513/fast
+        /Library/Developer/CommandLineTools/usr/bin/make  -f CMakeFiles/cmTC_37513.dir/build.make CMakeFiles/cmTC_37513.dir/build
+        Building C object CMakeFiles/cmTC_37513.dir/SIZE_OF_VOID_PTR.c.o
+        /Library/Developer/CommandLineTools/usr/bin/cc   -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX14.4.sdk -MD -MT CMakeFiles/cmTC_37513.dir/SIZE_OF_VOID_PTR.c.o -MF CMakeFiles/cmTC_37513.dir/SIZE_OF_VOID_PTR.c.o.d -o CMakeFiles/cmTC_37513.dir/SIZE_OF_VOID_PTR.c.o -c /Users/rtous/dev/back2black/build_macos/CMakeFiles/CMakeScratch/TryCompile-Xniy7E/SIZE_OF_VOID_PTR.c
+        Linking C executable cmTC_37513
+        /opt/homebrew/Cellar/cmake/3.28.3/bin/cmake -E cmake_link_script CMakeFiles/cmTC_37513.dir/link.txt --verbose=1
+        /Library/Developer/CommandLineTools/usr/bin/cc  -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX14.4.sdk -Wl,-search_paths_first -Wl,-headerpad_max_install_names CMakeFiles/cmTC_37513.dir/SIZE_OF_VOID_PTR.c.o -o cmTC_37513 
+        
+      exitCode: 0
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "/opt/homebrew/Cellar/cmake/3.28.3/share/cmake/Modules/CheckFunctionExists.cmake:86 (try_compile)"
+      - "third-party/dlib-19.24/dlib/cmake_utils/find_blas.cmake:289 (CHECK_FUNCTION_EXISTS)"
+      - "third-party/dlib-19.24/dlib/CMakeLists.txt:588 (include)"
+    checks:
+      - "Looking for cblas_ddot"
+    directories:
+      source: "/Users/rtous/dev/back2black/build_macos/CMakeFiles/CMakeScratch/TryCompile-x1XaGv"
+      binary: "/Users/rtous/dev/back2black/build_macos/CMakeFiles/CMakeScratch/TryCompile-x1XaGv"
+    cmakeVariables:
+      CMAKE_C_FLAGS: ""
+      CMAKE_MODULE_PATH: "/Users/rtous/dev/back2black"
+      CMAKE_OSX_ARCHITECTURES: ""
+      CMAKE_OSX_DEPLOYMENT_TARGET: ""
+      CMAKE_OSX_SYSROOT: "/Library/Developer/CommandLineTools/SDKs/MacOSX14.4.sdk"
+    buildResult:
+      variable: "FOUND_BLAS_HAS_CBLAS"
+      cached: true
+      stdout: |
+        Change Dir: '/Users/rtous/dev/back2black/build_macos/CMakeFiles/CMakeScratch/TryCompile-x1XaGv'
+        
+        Run Build Command(s): /opt/homebrew/Cellar/cmake/3.28.3/bin/cmake -E env VERBOSE=1 /usr/bin/make -f Makefile cmTC_b9a96/fast
+        /Library/Developer/CommandLineTools/usr/bin/make  -f CMakeFiles/cmTC_b9a96.dir/build.make CMakeFiles/cmTC_b9a96.dir/build
+        Building C object CMakeFiles/cmTC_b9a96.dir/CheckFunctionExists.c.o
+        /Library/Developer/CommandLineTools/usr/bin/cc   -DCHECK_FUNCTION_EXISTS=cblas_ddot -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX14.4.sdk -MD -MT CMakeFiles/cmTC_b9a96.dir/CheckFunctionExists.c.o -MF CMakeFiles/cmTC_b9a96.dir/CheckFunctionExists.c.o.d -o CMakeFiles/cmTC_b9a96.dir/CheckFunctionExists.c.o -c /Users/rtous/dev/back2black/build_macos/CMakeFiles/CMakeScratch/TryCompile-x1XaGv/CheckFunctionExists.c
+        Linking C executable cmTC_b9a96
+        /opt/homebrew/Cellar/cmake/3.28.3/bin/cmake -E cmake_link_script CMakeFiles/cmTC_b9a96.dir/link.txt --verbose=1
+        /Library/Developer/CommandLineTools/usr/bin/cc  -DCHECK_FUNCTION_EXISTS=cblas_ddot -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX14.4.sdk -Wl,-search_paths_first -Wl,-headerpad_max_install_names CMakeFiles/cmTC_b9a96.dir/CheckFunctionExists.c.o -o cmTC_b9a96  /Library/Developer/CommandLineTools/SDKs/MacOSX14.4.sdk/usr/lib/libcblas.tbd 
+        
+      exitCode: 0
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "/opt/homebrew/Cellar/cmake/3.28.3/share/cmake/Modules/CheckFunctionExists.cmake:86 (try_compile)"
+      - "third-party/dlib-19.24/dlib/cmake_utils/find_blas.cmake:451 (check_function_exists)"
+      - "third-party/dlib-19.24/dlib/CMakeLists.txt:588 (include)"
+    checks:
+      - "Looking for sgesv"
+    directories:
+      source: "/Users/rtous/dev/back2black/build_macos/CMakeFiles/CMakeScratch/TryCompile-pFb0vR"
+      binary: "/Users/rtous/dev/back2black/build_macos/CMakeFiles/CMakeScratch/TryCompile-pFb0vR"
+    cmakeVariables:
+      CMAKE_C_FLAGS: ""
+      CMAKE_MODULE_PATH: "/Users/rtous/dev/back2black"
+      CMAKE_OSX_ARCHITECTURES: ""
+      CMAKE_OSX_DEPLOYMENT_TARGET: ""
+      CMAKE_OSX_SYSROOT: "/Library/Developer/CommandLineTools/SDKs/MacOSX14.4.sdk"
+    buildResult:
+      variable: "LAPACK_FOUND_C_UNMANGLED"
+      cached: true
+      stdout: |
+        Change Dir: '/Users/rtous/dev/back2black/build_macos/CMakeFiles/CMakeScratch/TryCompile-pFb0vR'
+        
+        Run Build Command(s): /opt/homebrew/Cellar/cmake/3.28.3/bin/cmake -E env VERBOSE=1 /usr/bin/make -f Makefile cmTC_b6ffb/fast
+        /Library/Developer/CommandLineTools/usr/bin/make  -f CMakeFiles/cmTC_b6ffb.dir/build.make CMakeFiles/cmTC_b6ffb.dir/build
+        Building C object CMakeFiles/cmTC_b6ffb.dir/CheckFunctionExists.c.o
+        /Library/Developer/CommandLineTools/usr/bin/cc   -DCHECK_FUNCTION_EXISTS=sgesv -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX14.4.sdk -MD -MT CMakeFiles/cmTC_b6ffb.dir/CheckFunctionExists.c.o -MF CMakeFiles/cmTC_b6ffb.dir/CheckFunctionExists.c.o.d -o CMakeFiles/cmTC_b6ffb.dir/CheckFunctionExists.c.o -c /Users/rtous/dev/back2black/build_macos/CMakeFiles/CMakeScratch/TryCompile-pFb0vR/CheckFunctionExists.c
+        Linking C executable cmTC_b6ffb
+        /opt/homebrew/Cellar/cmake/3.28.3/bin/cmake -E cmake_link_script CMakeFiles/cmTC_b6ffb.dir/link.txt --verbose=1
+        /Library/Developer/CommandLineTools/usr/bin/cc  -DCHECK_FUNCTION_EXISTS=sgesv -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX14.4.sdk -Wl,-search_paths_first -Wl,-headerpad_max_install_names CMakeFiles/cmTC_b6ffb.dir/CheckFunctionExists.c.o -o cmTC_b6ffb  /Library/Developer/CommandLineTools/SDKs/MacOSX14.4.sdk/usr/lib/liblapack.tbd 
+        
+      exitCode: 0
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "/opt/homebrew/Cellar/cmake/3.28.3/share/cmake/Modules/CheckFunctionExists.cmake:86 (try_compile)"
+      - "third-party/dlib-19.24/dlib/cmake_utils/find_blas.cmake:452 (check_function_exists)"
+      - "third-party/dlib-19.24/dlib/CMakeLists.txt:588 (include)"
+    checks:
+      - "Looking for sgesv_"
+    directories:
+      source: "/Users/rtous/dev/back2black/build_macos/CMakeFiles/CMakeScratch/TryCompile-8wJoeb"
+      binary: "/Users/rtous/dev/back2black/build_macos/CMakeFiles/CMakeScratch/TryCompile-8wJoeb"
+    cmakeVariables:
+      CMAKE_C_FLAGS: ""
+      CMAKE_MODULE_PATH: "/Users/rtous/dev/back2black"
+      CMAKE_OSX_ARCHITECTURES: ""
+      CMAKE_OSX_DEPLOYMENT_TARGET: ""
+      CMAKE_OSX_SYSROOT: "/Library/Developer/CommandLineTools/SDKs/MacOSX14.4.sdk"
+    buildResult:
+      variable: "LAPACK_FOUND_C_MANGLED"
+      cached: true
+      stdout: |
+        Change Dir: '/Users/rtous/dev/back2black/build_macos/CMakeFiles/CMakeScratch/TryCompile-8wJoeb'
+        
+        Run Build Command(s): /opt/homebrew/Cellar/cmake/3.28.3/bin/cmake -E env VERBOSE=1 /usr/bin/make -f Makefile cmTC_43a55/fast
+        /Library/Developer/CommandLineTools/usr/bin/make  -f CMakeFiles/cmTC_43a55.dir/build.make CMakeFiles/cmTC_43a55.dir/build
+        Building C object CMakeFiles/cmTC_43a55.dir/CheckFunctionExists.c.o
+        /Library/Developer/CommandLineTools/usr/bin/cc   -DCHECK_FUNCTION_EXISTS=sgesv_ -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX14.4.sdk -MD -MT CMakeFiles/cmTC_43a55.dir/CheckFunctionExists.c.o -MF CMakeFiles/cmTC_43a55.dir/CheckFunctionExists.c.o.d -o CMakeFiles/cmTC_43a55.dir/CheckFunctionExists.c.o -c /Users/rtous/dev/back2black/build_macos/CMakeFiles/CMakeScratch/TryCompile-8wJoeb/CheckFunctionExists.c
+        Linking C executable cmTC_43a55
+        /opt/homebrew/Cellar/cmake/3.28.3/bin/cmake -E cmake_link_script CMakeFiles/cmTC_43a55.dir/link.txt --verbose=1
+        /Library/Developer/CommandLineTools/usr/bin/cc  -DCHECK_FUNCTION_EXISTS=sgesv_ -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX14.4.sdk -Wl,-search_paths_first -Wl,-headerpad_max_install_names CMakeFiles/cmTC_43a55.dir/CheckFunctionExists.c.o -o cmTC_43a55  /Library/Developer/CommandLineTools/SDKs/MacOSX14.4.sdk/usr/lib/liblapack.tbd 
+        
+      exitCode: 0
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "third-party/dlib-19.24/dlib/cmake_utils/use_cpp_11.cmake:24 (try_compile)"
+      - "third-party/dlib-19.24/dlib/cmake_utils/use_cpp_11.cmake:92 (test_compiler_for_cpp11)"
+      - "third-party/dlib-19.24/dlib/CMakeLists.txt:895 (enable_cpp11_for_target)"
+    directories:
+      source: "/Users/rtous/dev/back2black/third-party/dlib-19.24/dlib/cmake_utils/test_for_cpp11"
+      binary: "/Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/cpp11_test_build"
+    buildResult:
+      variable: "test_for_cpp11_worked"
+      cached: true
+      stdout: |
+        Change Dir: '/Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/cpp11_test_build'
+        
+        Run Build Command(s): /opt/homebrew/Cellar/cmake/3.28.3/bin/cmake -E env VERBOSE=1 /usr/bin/make -f Makefile
+        /opt/homebrew/Cellar/cmake/3.28.3/bin/cmake -S/Users/rtous/dev/back2black/third-party/dlib-19.24/dlib/cmake_utils/test_for_cpp11 -B/Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/cpp11_test_build --check-build-system CMakeFiles/Makefile.cmake 0
+        /opt/homebrew/Cellar/cmake/3.28.3/bin/cmake -E cmake_progress_start /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/cpp11_test_build/CMakeFiles /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/cpp11_test_build//CMakeFiles/progress.marks
+        /Library/Developer/CommandLineTools/usr/bin/make  -f CMakeFiles/Makefile2 all
+        /Library/Developer/CommandLineTools/usr/bin/make  -f CMakeFiles/cpp11_test.dir/build.make CMakeFiles/cpp11_test.dir/depend
+        cd /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/cpp11_test_build && /opt/homebrew/Cellar/cmake/3.28.3/bin/cmake -E cmake_depends "Unix Makefiles" /Users/rtous/dev/back2black/third-party/dlib-19.24/dlib/cmake_utils/test_for_cpp11 /Users/rtous/dev/back2black/third-party/dlib-19.24/dlib/cmake_utils/test_for_cpp11 /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/cpp11_test_build /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/cpp11_test_build /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/cpp11_test_build/CMakeFiles/cpp11_test.dir/DependInfo.cmake
+        /Library/Developer/CommandLineTools/usr/bin/make  -f CMakeFiles/cpp11_test.dir/build.make CMakeFiles/cpp11_test.dir/build
+        [ 50%] Building CXX object CMakeFiles/cpp11_test.dir/cpp11_test.cpp.o
+        /Library/Developer/CommandLineTools/usr/bin/c++   -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX14.4.sdk   -std=c++11 -MD -MT CMakeFiles/cpp11_test.dir/cpp11_test.cpp.o -MF CMakeFiles/cpp11_test.dir/cpp11_test.cpp.o.d -o CMakeFiles/cpp11_test.dir/cpp11_test.cpp.o -c /Users/rtous/dev/back2black/third-party/dlib-19.24/dlib/cmake_utils/test_for_cpp11/cpp11_test.cpp
+        [100%] Linking CXX static library libcpp11_test.a
+        /opt/homebrew/Cellar/cmake/3.28.3/bin/cmake -P CMakeFiles/cpp11_test.dir/cmake_clean_target.cmake
+        /opt/homebrew/Cellar/cmake/3.28.3/bin/cmake -E cmake_link_script CMakeFiles/cpp11_test.dir/link.txt --verbose=1
+        /Library/Developer/CommandLineTools/usr/bin/ar qc libcpp11_test.a CMakeFiles/cpp11_test.dir/cpp11_test.cpp.o
+        /Library/Developer/CommandLineTools/usr/bin/ranlib libcpp11_test.a
+        warning: /Library/Developer/CommandLineTools/usr/bin/ranlib: archive library: libcpp11_test.a the table of contents is empty (no object file members in the library define global symbols)
+        [100%] Built target cpp11_test
+        /opt/homebrew/Cellar/cmake/3.28.3/bin/cmake -E cmake_progress_start /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/cpp11_test_build/CMakeFiles 0
+        
+      exitCode: 0
+...
+
+---
+events:
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "third-party/dlib-19.24/dlib/cmake_utils/find_libpng.cmake:25 (try_compile)"
+      - "third-party/dlib-19.24/dlib/CMakeLists.txt:443 (include)"
+    directories:
+      source: "/Users/rtous/dev/back2black/third-party/dlib-19.24/dlib/cmake_utils/test_for_libpng"
+      binary: "/Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libpng_build"
+    buildResult:
+      variable: "test_for_libpng_worked"
+      cached: true
+      stdout: |
+        Change Dir: '/Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libpng_build'
+        
+        Run Build Command(s): /opt/homebrew/Cellar/cmake/3.28.3/bin/cmake -E env VERBOSE=1 /usr/bin/make -f Makefile
+        /opt/homebrew/Cellar/cmake/3.28.3/bin/cmake -S/Users/rtous/dev/back2black/third-party/dlib-19.24/dlib/cmake_utils/test_for_libpng -B/Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libpng_build --check-build-system CMakeFiles/Makefile.cmake 0
+        /opt/homebrew/Cellar/cmake/3.28.3/bin/cmake -E cmake_progress_start /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libpng_build/CMakeFiles /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libpng_build//CMakeFiles/progress.marks
+        /Library/Developer/CommandLineTools/usr/bin/make  -f CMakeFiles/Makefile2 all
+        /Library/Developer/CommandLineTools/usr/bin/make  -f CMakeFiles/libpng_test.dir/build.make CMakeFiles/libpng_test.dir/depend
+        cd /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libpng_build && /opt/homebrew/Cellar/cmake/3.28.3/bin/cmake -E cmake_depends "Unix Makefiles" /Users/rtous/dev/back2black/third-party/dlib-19.24/dlib/cmake_utils/test_for_libpng /Users/rtous/dev/back2black/third-party/dlib-19.24/dlib/cmake_utils/test_for_libpng /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libpng_build /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libpng_build /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libpng_build/CMakeFiles/libpng_test.dir/DependInfo.cmake
+        Dependencies file "CMakeFiles/libpng_test.dir/libpng_test.cpp.o.d" is newer than depends file "/Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libpng_build/CMakeFiles/libpng_test.dir/compiler_depend.internal".
+        Consolidate compiler generated dependencies of target libpng_test
+        /Library/Developer/CommandLineTools/usr/bin/make  -f CMakeFiles/libpng_test.dir/build.make CMakeFiles/libpng_test.dir/build
+        make[2]: Nothing to be done for `CMakeFiles/libpng_test.dir/build'.
+        [100%] Built target libpng_test
+        /opt/homebrew/Cellar/cmake/3.28.3/bin/cmake -E cmake_progress_start /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libpng_build/CMakeFiles 0
+        
+      exitCode: 0
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "third-party/dlib-19.24/dlib/cmake_utils/find_libjpeg.cmake:25 (try_compile)"
+      - "third-party/dlib-19.24/dlib/CMakeLists.txt:504 (include)"
+    directories:
+      source: "/Users/rtous/dev/back2black/third-party/dlib-19.24/dlib/cmake_utils/test_for_libjpeg"
+      binary: "/Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libjpeg_build"
+    buildResult:
+      variable: "test_for_libjpeg_worked"
+      cached: true
+      stdout: |
+        Change Dir: '/Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libjpeg_build'
+        
+        Run Build Command(s): /opt/homebrew/Cellar/cmake/3.28.3/bin/cmake -E env VERBOSE=1 /usr/bin/make -f Makefile
+        /opt/homebrew/Cellar/cmake/3.28.3/bin/cmake -S/Users/rtous/dev/back2black/third-party/dlib-19.24/dlib/cmake_utils/test_for_libjpeg -B/Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libjpeg_build --check-build-system CMakeFiles/Makefile.cmake 0
+        /opt/homebrew/Cellar/cmake/3.28.3/bin/cmake -E cmake_progress_start /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libjpeg_build/CMakeFiles /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libjpeg_build//CMakeFiles/progress.marks
+        /Library/Developer/CommandLineTools/usr/bin/make  -f CMakeFiles/Makefile2 all
+        /Library/Developer/CommandLineTools/usr/bin/make  -f CMakeFiles/libjpeg_test.dir/build.make CMakeFiles/libjpeg_test.dir/depend
+        cd /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libjpeg_build && /opt/homebrew/Cellar/cmake/3.28.3/bin/cmake -E cmake_depends "Unix Makefiles" /Users/rtous/dev/back2black/third-party/dlib-19.24/dlib/cmake_utils/test_for_libjpeg /Users/rtous/dev/back2black/third-party/dlib-19.24/dlib/cmake_utils/test_for_libjpeg /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libjpeg_build /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libjpeg_build /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libjpeg_build/CMakeFiles/libjpeg_test.dir/DependInfo.cmake
+        Dependencies file "CMakeFiles/libjpeg_test.dir/libjpeg_test.cpp.o.d" is newer than depends file "/Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libjpeg_build/CMakeFiles/libjpeg_test.dir/compiler_depend.internal".
+        Consolidate compiler generated dependencies of target libjpeg_test
+        /Library/Developer/CommandLineTools/usr/bin/make  -f CMakeFiles/libjpeg_test.dir/build.make CMakeFiles/libjpeg_test.dir/build
+        make[2]: Nothing to be done for `CMakeFiles/libjpeg_test.dir/build'.
+        [100%] Built target libjpeg_test
+        /opt/homebrew/Cellar/cmake/3.28.3/bin/cmake -E cmake_progress_start /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libjpeg_build/CMakeFiles 0
+        
+      exitCode: 0
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "/opt/homebrew/Cellar/cmake/3.28.3/share/cmake/Modules/CheckFunctionExists.cmake:86 (try_compile)"
+      - "third-party/dlib-19.24/dlib/cmake_utils/find_blas.cmake:210 (CHECK_FUNCTION_EXISTS)"
+      - "third-party/dlib-19.24/dlib/CMakeLists.txt:588 (include)"
+    checks:
+      - "Looking for sgetrf_single"
+    directories:
+      source: "/Users/rtous/dev/back2black/build_macos/CMakeFiles/CMakeScratch/TryCompile-6P3Uib"
+      binary: "/Users/rtous/dev/back2black/build_macos/CMakeFiles/CMakeScratch/TryCompile-6P3Uib"
+    cmakeVariables:
+      CMAKE_C_FLAGS: ""
+      CMAKE_MODULE_PATH: "/Users/rtous/dev/back2black"
+      CMAKE_OSX_ARCHITECTURES: ""
+      CMAKE_OSX_DEPLOYMENT_TARGET: ""
+      CMAKE_OSX_SYSROOT: "/Library/Developer/CommandLineTools/SDKs/MacOSX14.4.sdk"
+    buildResult:
+      variable: "OPENBLAS_HAS_LAPACK"
+      cached: true
+      stdout: |
+        Change Dir: '/Users/rtous/dev/back2black/build_macos/CMakeFiles/CMakeScratch/TryCompile-6P3Uib'
+        
+        Run Build Command(s): /opt/homebrew/Cellar/cmake/3.28.3/bin/cmake -E env VERBOSE=1 /usr/bin/make -f Makefile cmTC_8f65d/fast
+        /Library/Developer/CommandLineTools/usr/bin/make  -f CMakeFiles/cmTC_8f65d.dir/build.make CMakeFiles/cmTC_8f65d.dir/build
+        Building C object CMakeFiles/cmTC_8f65d.dir/CheckFunctionExists.c.o
+        /Library/Developer/CommandLineTools/usr/bin/cc   -DCHECK_FUNCTION_EXISTS=sgetrf_single -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX14.4.sdk -MD -MT CMakeFiles/cmTC_8f65d.dir/CheckFunctionExists.c.o -MF CMakeFiles/cmTC_8f65d.dir/CheckFunctionExists.c.o.d -o CMakeFiles/cmTC_8f65d.dir/CheckFunctionExists.c.o -c /Users/rtous/dev/back2black/build_macos/CMakeFiles/CMakeScratch/TryCompile-6P3Uib/CheckFunctionExists.c
+        Linking C executable cmTC_8f65d
+        /opt/homebrew/Cellar/cmake/3.28.3/bin/cmake -E cmake_link_script CMakeFiles/cmTC_8f65d.dir/link.txt --verbose=1
+        /Library/Developer/CommandLineTools/usr/bin/cc  -DCHECK_FUNCTION_EXISTS=sgetrf_single -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX14.4.sdk -Wl,-search_paths_first -Wl,-headerpad_max_install_names CMakeFiles/cmTC_8f65d.dir/CheckFunctionExists.c.o -o cmTC_8f65d  /Library/Developer/CommandLineTools/SDKs/MacOSX14.4.sdk/usr/lib/libcblas.tbd 
+        Undefined symbols for architecture arm64:
+          "_sgetrf_single", referenced from:
+              _main in CheckFunctionExists.c.o
+        ld: symbol(s) not found for architecture arm64
+        clang: error: linker command failed with exit code 1 (use -v to see invocation)
+        make[1]: *** [cmTC_8f65d] Error 1
+        make: *** [cmTC_8f65d/fast] Error 2
+        
+      exitCode: 2
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "third-party/dlib-19.24/dlib/cmake_utils/use_cpp_11.cmake:24 (try_compile)"
+      - "third-party/dlib-19.24/dlib/cmake_utils/use_cpp_11.cmake:92 (test_compiler_for_cpp11)"
+      - "third-party/dlib-19.24/dlib/CMakeLists.txt:895 (enable_cpp11_for_target)"
+    directories:
+      source: "/Users/rtous/dev/back2black/third-party/dlib-19.24/dlib/cmake_utils/test_for_cpp11"
+      binary: "/Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/cpp11_test_build"
+    buildResult:
+      variable: "test_for_cpp11_worked"
+      cached: true
+      stdout: |
+        Change Dir: '/Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/cpp11_test_build'
+        
+        Run Build Command(s): /opt/homebrew/Cellar/cmake/3.28.3/bin/cmake -E env VERBOSE=1 /usr/bin/make -f Makefile
+        /opt/homebrew/Cellar/cmake/3.28.3/bin/cmake -S/Users/rtous/dev/back2black/third-party/dlib-19.24/dlib/cmake_utils/test_for_cpp11 -B/Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/cpp11_test_build --check-build-system CMakeFiles/Makefile.cmake 0
+        /opt/homebrew/Cellar/cmake/3.28.3/bin/cmake -E cmake_progress_start /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/cpp11_test_build/CMakeFiles /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/cpp11_test_build//CMakeFiles/progress.marks
+        /Library/Developer/CommandLineTools/usr/bin/make  -f CMakeFiles/Makefile2 all
+        /Library/Developer/CommandLineTools/usr/bin/make  -f CMakeFiles/cpp11_test.dir/build.make CMakeFiles/cpp11_test.dir/depend
+        cd /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/cpp11_test_build && /opt/homebrew/Cellar/cmake/3.28.3/bin/cmake -E cmake_depends "Unix Makefiles" /Users/rtous/dev/back2black/third-party/dlib-19.24/dlib/cmake_utils/test_for_cpp11 /Users/rtous/dev/back2black/third-party/dlib-19.24/dlib/cmake_utils/test_for_cpp11 /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/cpp11_test_build /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/cpp11_test_build /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/cpp11_test_build/CMakeFiles/cpp11_test.dir/DependInfo.cmake
+        Dependencies file "CMakeFiles/cpp11_test.dir/cpp11_test.cpp.o.d" is newer than depends file "/Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/cpp11_test_build/CMakeFiles/cpp11_test.dir/compiler_depend.internal".
+        Consolidate compiler generated dependencies of target cpp11_test
+        /Library/Developer/CommandLineTools/usr/bin/make  -f CMakeFiles/cpp11_test.dir/build.make CMakeFiles/cpp11_test.dir/build
+        make[2]: Nothing to be done for `CMakeFiles/cpp11_test.dir/build'.
+        [100%] Built target cpp11_test
+        /opt/homebrew/Cellar/cmake/3.28.3/bin/cmake -E cmake_progress_start /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/cpp11_test_build/CMakeFiles 0
+        
+      exitCode: 0
+...
+
+---
+events:
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "third-party/dlib-19.24/dlib/cmake_utils/find_libpng.cmake:25 (try_compile)"
+      - "third-party/dlib-19.24/dlib/CMakeLists.txt:443 (include)"
+    directories:
+      source: "/Users/rtous/dev/back2black/third-party/dlib-19.24/dlib/cmake_utils/test_for_libpng"
+      binary: "/Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libpng_build"
+    buildResult:
+      variable: "test_for_libpng_worked"
+      cached: true
+      stdout: |
+        Change Dir: '/Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libpng_build'
+        
+        Run Build Command(s): /opt/homebrew/Cellar/cmake/3.28.3/bin/cmake -E env VERBOSE=1 /usr/bin/make -f Makefile
+        /opt/homebrew/Cellar/cmake/3.28.3/bin/cmake -S/Users/rtous/dev/back2black/third-party/dlib-19.24/dlib/cmake_utils/test_for_libpng -B/Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libpng_build --check-build-system CMakeFiles/Makefile.cmake 0
+        /opt/homebrew/Cellar/cmake/3.28.3/bin/cmake -E cmake_progress_start /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libpng_build/CMakeFiles /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libpng_build//CMakeFiles/progress.marks
+        /Library/Developer/CommandLineTools/usr/bin/make  -f CMakeFiles/Makefile2 all
+        /Library/Developer/CommandLineTools/usr/bin/make  -f CMakeFiles/libpng_test.dir/build.make CMakeFiles/libpng_test.dir/depend
+        cd /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libpng_build && /opt/homebrew/Cellar/cmake/3.28.3/bin/cmake -E cmake_depends "Unix Makefiles" /Users/rtous/dev/back2black/third-party/dlib-19.24/dlib/cmake_utils/test_for_libpng /Users/rtous/dev/back2black/third-party/dlib-19.24/dlib/cmake_utils/test_for_libpng /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libpng_build /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libpng_build /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libpng_build/CMakeFiles/libpng_test.dir/DependInfo.cmake
+        Dependencies file "CMakeFiles/libpng_test.dir/libpng_test.cpp.o.d" is newer than depends file "/Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libpng_build/CMakeFiles/libpng_test.dir/compiler_depend.internal".
+        Consolidate compiler generated dependencies of target libpng_test
+        /Library/Developer/CommandLineTools/usr/bin/make  -f CMakeFiles/libpng_test.dir/build.make CMakeFiles/libpng_test.dir/build
+        make[3]: Nothing to be done for `CMakeFiles/libpng_test.dir/build'.
+        [100%] Built target libpng_test
+        /opt/homebrew/Cellar/cmake/3.28.3/bin/cmake -E cmake_progress_start /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libpng_build/CMakeFiles 0
+        
+      exitCode: 0
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "third-party/dlib-19.24/dlib/cmake_utils/find_libjpeg.cmake:25 (try_compile)"
+      - "third-party/dlib-19.24/dlib/CMakeLists.txt:504 (include)"
+    directories:
+      source: "/Users/rtous/dev/back2black/third-party/dlib-19.24/dlib/cmake_utils/test_for_libjpeg"
+      binary: "/Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libjpeg_build"
+    buildResult:
+      variable: "test_for_libjpeg_worked"
+      cached: true
+      stdout: |
+        Change Dir: '/Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libjpeg_build'
+        
+        Run Build Command(s): /opt/homebrew/Cellar/cmake/3.28.3/bin/cmake -E env VERBOSE=1 /usr/bin/make -f Makefile
+        /opt/homebrew/Cellar/cmake/3.28.3/bin/cmake -S/Users/rtous/dev/back2black/third-party/dlib-19.24/dlib/cmake_utils/test_for_libjpeg -B/Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libjpeg_build --check-build-system CMakeFiles/Makefile.cmake 0
+        /opt/homebrew/Cellar/cmake/3.28.3/bin/cmake -E cmake_progress_start /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libjpeg_build/CMakeFiles /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libjpeg_build//CMakeFiles/progress.marks
+        /Library/Developer/CommandLineTools/usr/bin/make  -f CMakeFiles/Makefile2 all
+        /Library/Developer/CommandLineTools/usr/bin/make  -f CMakeFiles/libjpeg_test.dir/build.make CMakeFiles/libjpeg_test.dir/depend
+        cd /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libjpeg_build && /opt/homebrew/Cellar/cmake/3.28.3/bin/cmake -E cmake_depends "Unix Makefiles" /Users/rtous/dev/back2black/third-party/dlib-19.24/dlib/cmake_utils/test_for_libjpeg /Users/rtous/dev/back2black/third-party/dlib-19.24/dlib/cmake_utils/test_for_libjpeg /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libjpeg_build /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libjpeg_build /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libjpeg_build/CMakeFiles/libjpeg_test.dir/DependInfo.cmake
+        Dependencies file "CMakeFiles/libjpeg_test.dir/libjpeg_test.cpp.o.d" is newer than depends file "/Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libjpeg_build/CMakeFiles/libjpeg_test.dir/compiler_depend.internal".
+        Consolidate compiler generated dependencies of target libjpeg_test
+        /Library/Developer/CommandLineTools/usr/bin/make  -f CMakeFiles/libjpeg_test.dir/build.make CMakeFiles/libjpeg_test.dir/build
+        make[3]: Nothing to be done for `CMakeFiles/libjpeg_test.dir/build'.
+        [100%] Built target libjpeg_test
+        /opt/homebrew/Cellar/cmake/3.28.3/bin/cmake -E cmake_progress_start /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libjpeg_build/CMakeFiles 0
+        
+      exitCode: 0
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "third-party/dlib-19.24/dlib/cmake_utils/use_cpp_11.cmake:24 (try_compile)"
+      - "third-party/dlib-19.24/dlib/cmake_utils/use_cpp_11.cmake:92 (test_compiler_for_cpp11)"
+      - "third-party/dlib-19.24/dlib/CMakeLists.txt:895 (enable_cpp11_for_target)"
+    directories:
+      source: "/Users/rtous/dev/back2black/third-party/dlib-19.24/dlib/cmake_utils/test_for_cpp11"
+      binary: "/Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/cpp11_test_build"
+    buildResult:
+      variable: "test_for_cpp11_worked"
+      cached: true
+      stdout: |
+        Change Dir: '/Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/cpp11_test_build'
+        
+        Run Build Command(s): /opt/homebrew/Cellar/cmake/3.28.3/bin/cmake -E env VERBOSE=1 /usr/bin/make -f Makefile
+        /opt/homebrew/Cellar/cmake/3.28.3/bin/cmake -S/Users/rtous/dev/back2black/third-party/dlib-19.24/dlib/cmake_utils/test_for_cpp11 -B/Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/cpp11_test_build --check-build-system CMakeFiles/Makefile.cmake 0
+        /opt/homebrew/Cellar/cmake/3.28.3/bin/cmake -E cmake_progress_start /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/cpp11_test_build/CMakeFiles /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/cpp11_test_build//CMakeFiles/progress.marks
+        /Library/Developer/CommandLineTools/usr/bin/make  -f CMakeFiles/Makefile2 all
+        /Library/Developer/CommandLineTools/usr/bin/make  -f CMakeFiles/cpp11_test.dir/build.make CMakeFiles/cpp11_test.dir/depend
+        cd /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/cpp11_test_build && /opt/homebrew/Cellar/cmake/3.28.3/bin/cmake -E cmake_depends "Unix Makefiles" /Users/rtous/dev/back2black/third-party/dlib-19.24/dlib/cmake_utils/test_for_cpp11 /Users/rtous/dev/back2black/third-party/dlib-19.24/dlib/cmake_utils/test_for_cpp11 /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/cpp11_test_build /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/cpp11_test_build /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/cpp11_test_build/CMakeFiles/cpp11_test.dir/DependInfo.cmake
+        Dependencies file "CMakeFiles/cpp11_test.dir/cpp11_test.cpp.o.d" is newer than depends file "/Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/cpp11_test_build/CMakeFiles/cpp11_test.dir/compiler_depend.internal".
+        Consolidate compiler generated dependencies of target cpp11_test
+        /Library/Developer/CommandLineTools/usr/bin/make  -f CMakeFiles/cpp11_test.dir/build.make CMakeFiles/cpp11_test.dir/build
+        make[3]: Nothing to be done for `CMakeFiles/cpp11_test.dir/build'.
+        [100%] Built target cpp11_test
+        /opt/homebrew/Cellar/cmake/3.28.3/bin/cmake -E cmake_progress_start /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/cpp11_test_build/CMakeFiles 0
+        
+      exitCode: 0
+...
+
+---
+events:
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "third-party/dlib-19.24/dlib/cmake_utils/find_libpng.cmake:25 (try_compile)"
+      - "third-party/dlib-19.24/dlib/CMakeLists.txt:443 (include)"
+    directories:
+      source: "/Users/rtous/dev/back2black/third-party/dlib-19.24/dlib/cmake_utils/test_for_libpng"
+      binary: "/Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libpng_build"
+    buildResult:
+      variable: "test_for_libpng_worked"
+      cached: true
+      stdout: |
+        Change Dir: '/Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libpng_build'
+        
+        Run Build Command(s): /opt/homebrew/Cellar/cmake/3.28.3/bin/cmake -E env VERBOSE=1 /usr/bin/make -f Makefile
+        /opt/homebrew/Cellar/cmake/3.28.3/bin/cmake -S/Users/rtous/dev/back2black/third-party/dlib-19.24/dlib/cmake_utils/test_for_libpng -B/Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libpng_build --check-build-system CMakeFiles/Makefile.cmake 0
+        /opt/homebrew/Cellar/cmake/3.28.3/bin/cmake -E cmake_progress_start /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libpng_build/CMakeFiles /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libpng_build//CMakeFiles/progress.marks
+        /Library/Developer/CommandLineTools/usr/bin/make  -f CMakeFiles/Makefile2 all
+        /Library/Developer/CommandLineTools/usr/bin/make  -f CMakeFiles/libpng_test.dir/build.make CMakeFiles/libpng_test.dir/depend
+        cd /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libpng_build && /opt/homebrew/Cellar/cmake/3.28.3/bin/cmake -E cmake_depends "Unix Makefiles" /Users/rtous/dev/back2black/third-party/dlib-19.24/dlib/cmake_utils/test_for_libpng /Users/rtous/dev/back2black/third-party/dlib-19.24/dlib/cmake_utils/test_for_libpng /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libpng_build /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libpng_build /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libpng_build/CMakeFiles/libpng_test.dir/DependInfo.cmake
+        Dependencies file "CMakeFiles/libpng_test.dir/libpng_test.cpp.o.d" is newer than depends file "/Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libpng_build/CMakeFiles/libpng_test.dir/compiler_depend.internal".
+        Consolidate compiler generated dependencies of target libpng_test
+        /Library/Developer/CommandLineTools/usr/bin/make  -f CMakeFiles/libpng_test.dir/build.make CMakeFiles/libpng_test.dir/build
+        make[2]: Nothing to be done for `CMakeFiles/libpng_test.dir/build'.
+        [100%] Built target libpng_test
+        /opt/homebrew/Cellar/cmake/3.28.3/bin/cmake -E cmake_progress_start /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libpng_build/CMakeFiles 0
+        
+      exitCode: 0
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "third-party/dlib-19.24/dlib/cmake_utils/find_libjpeg.cmake:25 (try_compile)"
+      - "third-party/dlib-19.24/dlib/CMakeLists.txt:504 (include)"
+    directories:
+      source: "/Users/rtous/dev/back2black/third-party/dlib-19.24/dlib/cmake_utils/test_for_libjpeg"
+      binary: "/Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libjpeg_build"
+    buildResult:
+      variable: "test_for_libjpeg_worked"
+      cached: true
+      stdout: |
+        Change Dir: '/Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libjpeg_build'
+        
+        Run Build Command(s): /opt/homebrew/Cellar/cmake/3.28.3/bin/cmake -E env VERBOSE=1 /usr/bin/make -f Makefile
+        /opt/homebrew/Cellar/cmake/3.28.3/bin/cmake -S/Users/rtous/dev/back2black/third-party/dlib-19.24/dlib/cmake_utils/test_for_libjpeg -B/Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libjpeg_build --check-build-system CMakeFiles/Makefile.cmake 0
+        /opt/homebrew/Cellar/cmake/3.28.3/bin/cmake -E cmake_progress_start /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libjpeg_build/CMakeFiles /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libjpeg_build//CMakeFiles/progress.marks
+        /Library/Developer/CommandLineTools/usr/bin/make  -f CMakeFiles/Makefile2 all
+        /Library/Developer/CommandLineTools/usr/bin/make  -f CMakeFiles/libjpeg_test.dir/build.make CMakeFiles/libjpeg_test.dir/depend
+        cd /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libjpeg_build && /opt/homebrew/Cellar/cmake/3.28.3/bin/cmake -E cmake_depends "Unix Makefiles" /Users/rtous/dev/back2black/third-party/dlib-19.24/dlib/cmake_utils/test_for_libjpeg /Users/rtous/dev/back2black/third-party/dlib-19.24/dlib/cmake_utils/test_for_libjpeg /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libjpeg_build /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libjpeg_build /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libjpeg_build/CMakeFiles/libjpeg_test.dir/DependInfo.cmake
+        Dependencies file "CMakeFiles/libjpeg_test.dir/libjpeg_test.cpp.o.d" is newer than depends file "/Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libjpeg_build/CMakeFiles/libjpeg_test.dir/compiler_depend.internal".
+        Consolidate compiler generated dependencies of target libjpeg_test
+        /Library/Developer/CommandLineTools/usr/bin/make  -f CMakeFiles/libjpeg_test.dir/build.make CMakeFiles/libjpeg_test.dir/build
+        make[2]: Nothing to be done for `CMakeFiles/libjpeg_test.dir/build'.
+        [100%] Built target libjpeg_test
+        /opt/homebrew/Cellar/cmake/3.28.3/bin/cmake -E cmake_progress_start /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libjpeg_build/CMakeFiles 0
+        
+      exitCode: 0
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "third-party/dlib-19.24/dlib/cmake_utils/use_cpp_11.cmake:24 (try_compile)"
+      - "third-party/dlib-19.24/dlib/cmake_utils/use_cpp_11.cmake:92 (test_compiler_for_cpp11)"
+      - "third-party/dlib-19.24/dlib/CMakeLists.txt:895 (enable_cpp11_for_target)"
+    directories:
+      source: "/Users/rtous/dev/back2black/third-party/dlib-19.24/dlib/cmake_utils/test_for_cpp11"
+      binary: "/Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/cpp11_test_build"
+    buildResult:
+      variable: "test_for_cpp11_worked"
+      cached: true
+      stdout: |
+        Change Dir: '/Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/cpp11_test_build'
+        
+        Run Build Command(s): /opt/homebrew/Cellar/cmake/3.28.3/bin/cmake -E env VERBOSE=1 /usr/bin/make -f Makefile
+        /opt/homebrew/Cellar/cmake/3.28.3/bin/cmake -S/Users/rtous/dev/back2black/third-party/dlib-19.24/dlib/cmake_utils/test_for_cpp11 -B/Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/cpp11_test_build --check-build-system CMakeFiles/Makefile.cmake 0
+        /opt/homebrew/Cellar/cmake/3.28.3/bin/cmake -E cmake_progress_start /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/cpp11_test_build/CMakeFiles /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/cpp11_test_build//CMakeFiles/progress.marks
+        /Library/Developer/CommandLineTools/usr/bin/make  -f CMakeFiles/Makefile2 all
+        /Library/Developer/CommandLineTools/usr/bin/make  -f CMakeFiles/cpp11_test.dir/build.make CMakeFiles/cpp11_test.dir/depend
+        cd /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/cpp11_test_build && /opt/homebrew/Cellar/cmake/3.28.3/bin/cmake -E cmake_depends "Unix Makefiles" /Users/rtous/dev/back2black/third-party/dlib-19.24/dlib/cmake_utils/test_for_cpp11 /Users/rtous/dev/back2black/third-party/dlib-19.24/dlib/cmake_utils/test_for_cpp11 /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/cpp11_test_build /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/cpp11_test_build /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/cpp11_test_build/CMakeFiles/cpp11_test.dir/DependInfo.cmake
+        Dependencies file "CMakeFiles/cpp11_test.dir/cpp11_test.cpp.o.d" is newer than depends file "/Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/cpp11_test_build/CMakeFiles/cpp11_test.dir/compiler_depend.internal".
+        Consolidate compiler generated dependencies of target cpp11_test
+        /Library/Developer/CommandLineTools/usr/bin/make  -f CMakeFiles/cpp11_test.dir/build.make CMakeFiles/cpp11_test.dir/build
+        make[2]: Nothing to be done for `CMakeFiles/cpp11_test.dir/build'.
+        [100%] Built target cpp11_test
+        /opt/homebrew/Cellar/cmake/3.28.3/bin/cmake -E cmake_progress_start /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/cpp11_test_build/CMakeFiles 0
+        
+      exitCode: 0
+...
+
+---
+events:
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "third-party/dlib-19.24/dlib/cmake_utils/find_libpng.cmake:25 (try_compile)"
+      - "third-party/dlib-19.24/dlib/CMakeLists.txt:443 (include)"
+    directories:
+      source: "/Users/rtous/dev/back2black/third-party/dlib-19.24/dlib/cmake_utils/test_for_libpng"
+      binary: "/Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libpng_build"
+    buildResult:
+      variable: "test_for_libpng_worked"
+      cached: true
+      stdout: |
+        Change Dir: '/Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libpng_build'
+        
+        Run Build Command(s): /opt/homebrew/Cellar/cmake/3.28.3/bin/cmake -E env VERBOSE=1 /usr/bin/make -f Makefile
+        /opt/homebrew/Cellar/cmake/3.28.3/bin/cmake -S/Users/rtous/dev/back2black/third-party/dlib-19.24/dlib/cmake_utils/test_for_libpng -B/Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libpng_build --check-build-system CMakeFiles/Makefile.cmake 0
+        /opt/homebrew/Cellar/cmake/3.28.3/bin/cmake -E cmake_progress_start /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libpng_build/CMakeFiles /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libpng_build//CMakeFiles/progress.marks
+        /Library/Developer/CommandLineTools/usr/bin/make  -f CMakeFiles/Makefile2 all
+        /Library/Developer/CommandLineTools/usr/bin/make  -f CMakeFiles/libpng_test.dir/build.make CMakeFiles/libpng_test.dir/depend
+        cd /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libpng_build && /opt/homebrew/Cellar/cmake/3.28.3/bin/cmake -E cmake_depends "Unix Makefiles" /Users/rtous/dev/back2black/third-party/dlib-19.24/dlib/cmake_utils/test_for_libpng /Users/rtous/dev/back2black/third-party/dlib-19.24/dlib/cmake_utils/test_for_libpng /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libpng_build /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libpng_build /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libpng_build/CMakeFiles/libpng_test.dir/DependInfo.cmake
+        Dependencies file "CMakeFiles/libpng_test.dir/libpng_test.cpp.o.d" is newer than depends file "/Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libpng_build/CMakeFiles/libpng_test.dir/compiler_depend.internal".
+        Consolidate compiler generated dependencies of target libpng_test
+        /Library/Developer/CommandLineTools/usr/bin/make  -f CMakeFiles/libpng_test.dir/build.make CMakeFiles/libpng_test.dir/build
+        make[2]: Nothing to be done for `CMakeFiles/libpng_test.dir/build'.
+        [100%] Built target libpng_test
+        /opt/homebrew/Cellar/cmake/3.28.3/bin/cmake -E cmake_progress_start /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libpng_build/CMakeFiles 0
+        
+      exitCode: 0
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "third-party/dlib-19.24/dlib/cmake_utils/find_libjpeg.cmake:25 (try_compile)"
+      - "third-party/dlib-19.24/dlib/CMakeLists.txt:504 (include)"
+    directories:
+      source: "/Users/rtous/dev/back2black/third-party/dlib-19.24/dlib/cmake_utils/test_for_libjpeg"
+      binary: "/Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libjpeg_build"
+    buildResult:
+      variable: "test_for_libjpeg_worked"
+      cached: true
+      stdout: |
+        Change Dir: '/Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libjpeg_build'
+        
+        Run Build Command(s): /opt/homebrew/Cellar/cmake/3.28.3/bin/cmake -E env VERBOSE=1 /usr/bin/make -f Makefile
+        /opt/homebrew/Cellar/cmake/3.28.3/bin/cmake -S/Users/rtous/dev/back2black/third-party/dlib-19.24/dlib/cmake_utils/test_for_libjpeg -B/Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libjpeg_build --check-build-system CMakeFiles/Makefile.cmake 0
+        /opt/homebrew/Cellar/cmake/3.28.3/bin/cmake -E cmake_progress_start /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libjpeg_build/CMakeFiles /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libjpeg_build//CMakeFiles/progress.marks
+        /Library/Developer/CommandLineTools/usr/bin/make  -f CMakeFiles/Makefile2 all
+        /Library/Developer/CommandLineTools/usr/bin/make  -f CMakeFiles/libjpeg_test.dir/build.make CMakeFiles/libjpeg_test.dir/depend
+        cd /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libjpeg_build && /opt/homebrew/Cellar/cmake/3.28.3/bin/cmake -E cmake_depends "Unix Makefiles" /Users/rtous/dev/back2black/third-party/dlib-19.24/dlib/cmake_utils/test_for_libjpeg /Users/rtous/dev/back2black/third-party/dlib-19.24/dlib/cmake_utils/test_for_libjpeg /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libjpeg_build /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libjpeg_build /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libjpeg_build/CMakeFiles/libjpeg_test.dir/DependInfo.cmake
+        Dependencies file "CMakeFiles/libjpeg_test.dir/libjpeg_test.cpp.o.d" is newer than depends file "/Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libjpeg_build/CMakeFiles/libjpeg_test.dir/compiler_depend.internal".
+        Consolidate compiler generated dependencies of target libjpeg_test
+        /Library/Developer/CommandLineTools/usr/bin/make  -f CMakeFiles/libjpeg_test.dir/build.make CMakeFiles/libjpeg_test.dir/build
+        make[2]: Nothing to be done for `CMakeFiles/libjpeg_test.dir/build'.
+        [100%] Built target libjpeg_test
+        /opt/homebrew/Cellar/cmake/3.28.3/bin/cmake -E cmake_progress_start /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libjpeg_build/CMakeFiles 0
+        
+      exitCode: 0
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "third-party/dlib-19.24/dlib/cmake_utils/use_cpp_11.cmake:24 (try_compile)"
+      - "third-party/dlib-19.24/dlib/cmake_utils/use_cpp_11.cmake:92 (test_compiler_for_cpp11)"
+      - "third-party/dlib-19.24/dlib/CMakeLists.txt:895 (enable_cpp11_for_target)"
+    directories:
+      source: "/Users/rtous/dev/back2black/third-party/dlib-19.24/dlib/cmake_utils/test_for_cpp11"
+      binary: "/Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/cpp11_test_build"
+    buildResult:
+      variable: "test_for_cpp11_worked"
+      cached: true
+      stdout: |
+        Change Dir: '/Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/cpp11_test_build'
+        
+        Run Build Command(s): /opt/homebrew/Cellar/cmake/3.28.3/bin/cmake -E env VERBOSE=1 /usr/bin/make -f Makefile
+        /opt/homebrew/Cellar/cmake/3.28.3/bin/cmake -S/Users/rtous/dev/back2black/third-party/dlib-19.24/dlib/cmake_utils/test_for_cpp11 -B/Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/cpp11_test_build --check-build-system CMakeFiles/Makefile.cmake 0
+        /opt/homebrew/Cellar/cmake/3.28.3/bin/cmake -E cmake_progress_start /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/cpp11_test_build/CMakeFiles /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/cpp11_test_build//CMakeFiles/progress.marks
+        /Library/Developer/CommandLineTools/usr/bin/make  -f CMakeFiles/Makefile2 all
+        /Library/Developer/CommandLineTools/usr/bin/make  -f CMakeFiles/cpp11_test.dir/build.make CMakeFiles/cpp11_test.dir/depend
+        cd /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/cpp11_test_build && /opt/homebrew/Cellar/cmake/3.28.3/bin/cmake -E cmake_depends "Unix Makefiles" /Users/rtous/dev/back2black/third-party/dlib-19.24/dlib/cmake_utils/test_for_cpp11 /Users/rtous/dev/back2black/third-party/dlib-19.24/dlib/cmake_utils/test_for_cpp11 /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/cpp11_test_build /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/cpp11_test_build /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/cpp11_test_build/CMakeFiles/cpp11_test.dir/DependInfo.cmake
+        Dependencies file "CMakeFiles/cpp11_test.dir/cpp11_test.cpp.o.d" is newer than depends file "/Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/cpp11_test_build/CMakeFiles/cpp11_test.dir/compiler_depend.internal".
+        Consolidate compiler generated dependencies of target cpp11_test
+        /Library/Developer/CommandLineTools/usr/bin/make  -f CMakeFiles/cpp11_test.dir/build.make CMakeFiles/cpp11_test.dir/build
+        make[2]: Nothing to be done for `CMakeFiles/cpp11_test.dir/build'.
+        [100%] Built target cpp11_test
+        /opt/homebrew/Cellar/cmake/3.28.3/bin/cmake -E cmake_progress_start /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/cpp11_test_build/CMakeFiles 0
+        
+      exitCode: 0
+...
+
+---
+events:
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "third-party/dlib-19.24/dlib/cmake_utils/find_libpng.cmake:25 (try_compile)"
+      - "third-party/dlib-19.24/dlib/CMakeLists.txt:443 (include)"
+    directories:
+      source: "/Users/rtous/dev/back2black/third-party/dlib-19.24/dlib/cmake_utils/test_for_libpng"
+      binary: "/Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libpng_build"
+    buildResult:
+      variable: "test_for_libpng_worked"
+      cached: true
+      stdout: |
+        Change Dir: '/Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libpng_build'
+        
+        Run Build Command(s): /opt/homebrew/Cellar/cmake/3.28.3/bin/cmake -E env VERBOSE=1 /usr/bin/make -f Makefile
+        /opt/homebrew/Cellar/cmake/3.28.3/bin/cmake -S/Users/rtous/dev/back2black/third-party/dlib-19.24/dlib/cmake_utils/test_for_libpng -B/Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libpng_build --check-build-system CMakeFiles/Makefile.cmake 0
+        /opt/homebrew/Cellar/cmake/3.28.3/bin/cmake -E cmake_progress_start /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libpng_build/CMakeFiles /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libpng_build//CMakeFiles/progress.marks
+        /Library/Developer/CommandLineTools/usr/bin/make  -f CMakeFiles/Makefile2 all
+        /Library/Developer/CommandLineTools/usr/bin/make  -f CMakeFiles/libpng_test.dir/build.make CMakeFiles/libpng_test.dir/depend
+        cd /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libpng_build && /opt/homebrew/Cellar/cmake/3.28.3/bin/cmake -E cmake_depends "Unix Makefiles" /Users/rtous/dev/back2black/third-party/dlib-19.24/dlib/cmake_utils/test_for_libpng /Users/rtous/dev/back2black/third-party/dlib-19.24/dlib/cmake_utils/test_for_libpng /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libpng_build /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libpng_build /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libpng_build/CMakeFiles/libpng_test.dir/DependInfo.cmake
+        Dependencies file "CMakeFiles/libpng_test.dir/libpng_test.cpp.o.d" is newer than depends file "/Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libpng_build/CMakeFiles/libpng_test.dir/compiler_depend.internal".
+        Consolidate compiler generated dependencies of target libpng_test
+        /Library/Developer/CommandLineTools/usr/bin/make  -f CMakeFiles/libpng_test.dir/build.make CMakeFiles/libpng_test.dir/build
+        make[3]: Nothing to be done for `CMakeFiles/libpng_test.dir/build'.
+        [100%] Built target libpng_test
+        /opt/homebrew/Cellar/cmake/3.28.3/bin/cmake -E cmake_progress_start /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libpng_build/CMakeFiles 0
+        
+      exitCode: 0
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "third-party/dlib-19.24/dlib/cmake_utils/find_libjpeg.cmake:25 (try_compile)"
+      - "third-party/dlib-19.24/dlib/CMakeLists.txt:504 (include)"
+    directories:
+      source: "/Users/rtous/dev/back2black/third-party/dlib-19.24/dlib/cmake_utils/test_for_libjpeg"
+      binary: "/Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libjpeg_build"
+    buildResult:
+      variable: "test_for_libjpeg_worked"
+      cached: true
+      stdout: |
+        Change Dir: '/Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libjpeg_build'
+        
+        Run Build Command(s): /opt/homebrew/Cellar/cmake/3.28.3/bin/cmake -E env VERBOSE=1 /usr/bin/make -f Makefile
+        /opt/homebrew/Cellar/cmake/3.28.3/bin/cmake -S/Users/rtous/dev/back2black/third-party/dlib-19.24/dlib/cmake_utils/test_for_libjpeg -B/Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libjpeg_build --check-build-system CMakeFiles/Makefile.cmake 0
+        /opt/homebrew/Cellar/cmake/3.28.3/bin/cmake -E cmake_progress_start /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libjpeg_build/CMakeFiles /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libjpeg_build//CMakeFiles/progress.marks
+        /Library/Developer/CommandLineTools/usr/bin/make  -f CMakeFiles/Makefile2 all
+        /Library/Developer/CommandLineTools/usr/bin/make  -f CMakeFiles/libjpeg_test.dir/build.make CMakeFiles/libjpeg_test.dir/depend
+        cd /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libjpeg_build && /opt/homebrew/Cellar/cmake/3.28.3/bin/cmake -E cmake_depends "Unix Makefiles" /Users/rtous/dev/back2black/third-party/dlib-19.24/dlib/cmake_utils/test_for_libjpeg /Users/rtous/dev/back2black/third-party/dlib-19.24/dlib/cmake_utils/test_for_libjpeg /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libjpeg_build /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libjpeg_build /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libjpeg_build/CMakeFiles/libjpeg_test.dir/DependInfo.cmake
+        Dependencies file "CMakeFiles/libjpeg_test.dir/libjpeg_test.cpp.o.d" is newer than depends file "/Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libjpeg_build/CMakeFiles/libjpeg_test.dir/compiler_depend.internal".
+        Consolidate compiler generated dependencies of target libjpeg_test
+        /Library/Developer/CommandLineTools/usr/bin/make  -f CMakeFiles/libjpeg_test.dir/build.make CMakeFiles/libjpeg_test.dir/build
+        make[3]: Nothing to be done for `CMakeFiles/libjpeg_test.dir/build'.
+        [100%] Built target libjpeg_test
+        /opt/homebrew/Cellar/cmake/3.28.3/bin/cmake -E cmake_progress_start /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libjpeg_build/CMakeFiles 0
+        
+      exitCode: 0
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "third-party/dlib-19.24/dlib/cmake_utils/use_cpp_11.cmake:24 (try_compile)"
+      - "third-party/dlib-19.24/dlib/cmake_utils/use_cpp_11.cmake:92 (test_compiler_for_cpp11)"
+      - "third-party/dlib-19.24/dlib/CMakeLists.txt:895 (enable_cpp11_for_target)"
+    directories:
+      source: "/Users/rtous/dev/back2black/third-party/dlib-19.24/dlib/cmake_utils/test_for_cpp11"
+      binary: "/Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/cpp11_test_build"
+    buildResult:
+      variable: "test_for_cpp11_worked"
+      cached: true
+      stdout: |
+        Change Dir: '/Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/cpp11_test_build'
+        
+        Run Build Command(s): /opt/homebrew/Cellar/cmake/3.28.3/bin/cmake -E env VERBOSE=1 /usr/bin/make -f Makefile
+        /opt/homebrew/Cellar/cmake/3.28.3/bin/cmake -S/Users/rtous/dev/back2black/third-party/dlib-19.24/dlib/cmake_utils/test_for_cpp11 -B/Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/cpp11_test_build --check-build-system CMakeFiles/Makefile.cmake 0
+        /opt/homebrew/Cellar/cmake/3.28.3/bin/cmake -E cmake_progress_start /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/cpp11_test_build/CMakeFiles /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/cpp11_test_build//CMakeFiles/progress.marks
+        /Library/Developer/CommandLineTools/usr/bin/make  -f CMakeFiles/Makefile2 all
+        /Library/Developer/CommandLineTools/usr/bin/make  -f CMakeFiles/cpp11_test.dir/build.make CMakeFiles/cpp11_test.dir/depend
+        cd /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/cpp11_test_build && /opt/homebrew/Cellar/cmake/3.28.3/bin/cmake -E cmake_depends "Unix Makefiles" /Users/rtous/dev/back2black/third-party/dlib-19.24/dlib/cmake_utils/test_for_cpp11 /Users/rtous/dev/back2black/third-party/dlib-19.24/dlib/cmake_utils/test_for_cpp11 /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/cpp11_test_build /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/cpp11_test_build /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/cpp11_test_build/CMakeFiles/cpp11_test.dir/DependInfo.cmake
+        Dependencies file "CMakeFiles/cpp11_test.dir/cpp11_test.cpp.o.d" is newer than depends file "/Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/cpp11_test_build/CMakeFiles/cpp11_test.dir/compiler_depend.internal".
+        Consolidate compiler generated dependencies of target cpp11_test
+        /Library/Developer/CommandLineTools/usr/bin/make  -f CMakeFiles/cpp11_test.dir/build.make CMakeFiles/cpp11_test.dir/build
+        make[3]: Nothing to be done for `CMakeFiles/cpp11_test.dir/build'.
+        [100%] Built target cpp11_test
+        /opt/homebrew/Cellar/cmake/3.28.3/bin/cmake -E cmake_progress_start /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/cpp11_test_build/CMakeFiles 0
+        
+      exitCode: 0
+...
+
+---
+events:
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "third-party/dlib-19.24/dlib/cmake_utils/find_libpng.cmake:25 (try_compile)"
+      - "third-party/dlib-19.24/dlib/CMakeLists.txt:443 (include)"
+    directories:
+      source: "/Users/rtous/dev/back2black/third-party/dlib-19.24/dlib/cmake_utils/test_for_libpng"
+      binary: "/Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libpng_build"
+    buildResult:
+      variable: "test_for_libpng_worked"
+      cached: true
+      stdout: |
+        Change Dir: '/Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libpng_build'
+        
+        Run Build Command(s): /opt/homebrew/Cellar/cmake/3.28.3/bin/cmake -E env VERBOSE=1 /usr/bin/make -f Makefile
+        /opt/homebrew/Cellar/cmake/3.28.3/bin/cmake -S/Users/rtous/dev/back2black/third-party/dlib-19.24/dlib/cmake_utils/test_for_libpng -B/Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libpng_build --check-build-system CMakeFiles/Makefile.cmake 0
+        /opt/homebrew/Cellar/cmake/3.28.3/bin/cmake -E cmake_progress_start /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libpng_build/CMakeFiles /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libpng_build//CMakeFiles/progress.marks
+        /Library/Developer/CommandLineTools/usr/bin/make  -f CMakeFiles/Makefile2 all
+        /Library/Developer/CommandLineTools/usr/bin/make  -f CMakeFiles/libpng_test.dir/build.make CMakeFiles/libpng_test.dir/depend
+        cd /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libpng_build && /opt/homebrew/Cellar/cmake/3.28.3/bin/cmake -E cmake_depends "Unix Makefiles" /Users/rtous/dev/back2black/third-party/dlib-19.24/dlib/cmake_utils/test_for_libpng /Users/rtous/dev/back2black/third-party/dlib-19.24/dlib/cmake_utils/test_for_libpng /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libpng_build /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libpng_build /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libpng_build/CMakeFiles/libpng_test.dir/DependInfo.cmake
+        Dependencies file "CMakeFiles/libpng_test.dir/libpng_test.cpp.o.d" is newer than depends file "/Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libpng_build/CMakeFiles/libpng_test.dir/compiler_depend.internal".
+        Consolidate compiler generated dependencies of target libpng_test
+        /Library/Developer/CommandLineTools/usr/bin/make  -f CMakeFiles/libpng_test.dir/build.make CMakeFiles/libpng_test.dir/build
+        make[2]: Nothing to be done for `CMakeFiles/libpng_test.dir/build'.
+        [100%] Built target libpng_test
+        /opt/homebrew/Cellar/cmake/3.28.3/bin/cmake -E cmake_progress_start /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libpng_build/CMakeFiles 0
+        
+      exitCode: 0
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "third-party/dlib-19.24/dlib/cmake_utils/find_libjpeg.cmake:25 (try_compile)"
+      - "third-party/dlib-19.24/dlib/CMakeLists.txt:504 (include)"
+    directories:
+      source: "/Users/rtous/dev/back2black/third-party/dlib-19.24/dlib/cmake_utils/test_for_libjpeg"
+      binary: "/Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libjpeg_build"
+    buildResult:
+      variable: "test_for_libjpeg_worked"
+      cached: true
+      stdout: |
+        Change Dir: '/Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libjpeg_build'
+        
+        Run Build Command(s): /opt/homebrew/Cellar/cmake/3.28.3/bin/cmake -E env VERBOSE=1 /usr/bin/make -f Makefile
+        /opt/homebrew/Cellar/cmake/3.28.3/bin/cmake -S/Users/rtous/dev/back2black/third-party/dlib-19.24/dlib/cmake_utils/test_for_libjpeg -B/Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libjpeg_build --check-build-system CMakeFiles/Makefile.cmake 0
+        /opt/homebrew/Cellar/cmake/3.28.3/bin/cmake -E cmake_progress_start /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libjpeg_build/CMakeFiles /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libjpeg_build//CMakeFiles/progress.marks
+        /Library/Developer/CommandLineTools/usr/bin/make  -f CMakeFiles/Makefile2 all
+        /Library/Developer/CommandLineTools/usr/bin/make  -f CMakeFiles/libjpeg_test.dir/build.make CMakeFiles/libjpeg_test.dir/depend
+        cd /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libjpeg_build && /opt/homebrew/Cellar/cmake/3.28.3/bin/cmake -E cmake_depends "Unix Makefiles" /Users/rtous/dev/back2black/third-party/dlib-19.24/dlib/cmake_utils/test_for_libjpeg /Users/rtous/dev/back2black/third-party/dlib-19.24/dlib/cmake_utils/test_for_libjpeg /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libjpeg_build /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libjpeg_build /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libjpeg_build/CMakeFiles/libjpeg_test.dir/DependInfo.cmake
+        Dependencies file "CMakeFiles/libjpeg_test.dir/libjpeg_test.cpp.o.d" is newer than depends file "/Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libjpeg_build/CMakeFiles/libjpeg_test.dir/compiler_depend.internal".
+        Consolidate compiler generated dependencies of target libjpeg_test
+        /Library/Developer/CommandLineTools/usr/bin/make  -f CMakeFiles/libjpeg_test.dir/build.make CMakeFiles/libjpeg_test.dir/build
+        make[2]: Nothing to be done for `CMakeFiles/libjpeg_test.dir/build'.
+        [100%] Built target libjpeg_test
+        /opt/homebrew/Cellar/cmake/3.28.3/bin/cmake -E cmake_progress_start /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libjpeg_build/CMakeFiles 0
+        
+      exitCode: 0
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "third-party/dlib-19.24/dlib/cmake_utils/use_cpp_11.cmake:24 (try_compile)"
+      - "third-party/dlib-19.24/dlib/cmake_utils/use_cpp_11.cmake:92 (test_compiler_for_cpp11)"
+      - "third-party/dlib-19.24/dlib/CMakeLists.txt:895 (enable_cpp11_for_target)"
+    directories:
+      source: "/Users/rtous/dev/back2black/third-party/dlib-19.24/dlib/cmake_utils/test_for_cpp11"
+      binary: "/Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/cpp11_test_build"
+    buildResult:
+      variable: "test_for_cpp11_worked"
+      cached: true
+      stdout: |
+        Change Dir: '/Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/cpp11_test_build'
+        
+        Run Build Command(s): /opt/homebrew/Cellar/cmake/3.28.3/bin/cmake -E env VERBOSE=1 /usr/bin/make -f Makefile
+        /opt/homebrew/Cellar/cmake/3.28.3/bin/cmake -S/Users/rtous/dev/back2black/third-party/dlib-19.24/dlib/cmake_utils/test_for_cpp11 -B/Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/cpp11_test_build --check-build-system CMakeFiles/Makefile.cmake 0
+        /opt/homebrew/Cellar/cmake/3.28.3/bin/cmake -E cmake_progress_start /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/cpp11_test_build/CMakeFiles /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/cpp11_test_build//CMakeFiles/progress.marks
+        /Library/Developer/CommandLineTools/usr/bin/make  -f CMakeFiles/Makefile2 all
+        /Library/Developer/CommandLineTools/usr/bin/make  -f CMakeFiles/cpp11_test.dir/build.make CMakeFiles/cpp11_test.dir/depend
+        cd /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/cpp11_test_build && /opt/homebrew/Cellar/cmake/3.28.3/bin/cmake -E cmake_depends "Unix Makefiles" /Users/rtous/dev/back2black/third-party/dlib-19.24/dlib/cmake_utils/test_for_cpp11 /Users/rtous/dev/back2black/third-party/dlib-19.24/dlib/cmake_utils/test_for_cpp11 /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/cpp11_test_build /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/cpp11_test_build /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/cpp11_test_build/CMakeFiles/cpp11_test.dir/DependInfo.cmake
+        Dependencies file "CMakeFiles/cpp11_test.dir/cpp11_test.cpp.o.d" is newer than depends file "/Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/cpp11_test_build/CMakeFiles/cpp11_test.dir/compiler_depend.internal".
+        Consolidate compiler generated dependencies of target cpp11_test
+        /Library/Developer/CommandLineTools/usr/bin/make  -f CMakeFiles/cpp11_test.dir/build.make CMakeFiles/cpp11_test.dir/build
+        make[2]: Nothing to be done for `CMakeFiles/cpp11_test.dir/build'.
+        [100%] Built target cpp11_test
+        /opt/homebrew/Cellar/cmake/3.28.3/bin/cmake -E cmake_progress_start /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/cpp11_test_build/CMakeFiles 0
+        
+      exitCode: 0
+...
+
+---
+events:
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "third-party/dlib-19.24/dlib/cmake_utils/find_libpng.cmake:25 (try_compile)"
+      - "third-party/dlib-19.24/dlib/CMakeLists.txt:443 (include)"
+    directories:
+      source: "/Users/rtous/dev/back2black/third-party/dlib-19.24/dlib/cmake_utils/test_for_libpng"
+      binary: "/Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libpng_build"
+    buildResult:
+      variable: "test_for_libpng_worked"
+      cached: true
+      stdout: |
+        Change Dir: '/Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libpng_build'
+        
+        Run Build Command(s): /opt/homebrew/Cellar/cmake/3.28.3/bin/cmake -E env VERBOSE=1 /usr/bin/make -f Makefile
+        /opt/homebrew/Cellar/cmake/3.28.3/bin/cmake -S/Users/rtous/dev/back2black/third-party/dlib-19.24/dlib/cmake_utils/test_for_libpng -B/Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libpng_build --check-build-system CMakeFiles/Makefile.cmake 0
+        /opt/homebrew/Cellar/cmake/3.28.3/bin/cmake -E cmake_progress_start /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libpng_build/CMakeFiles /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libpng_build//CMakeFiles/progress.marks
+        /Library/Developer/CommandLineTools/usr/bin/make  -f CMakeFiles/Makefile2 all
+        /Library/Developer/CommandLineTools/usr/bin/make  -f CMakeFiles/libpng_test.dir/build.make CMakeFiles/libpng_test.dir/depend
+        cd /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libpng_build && /opt/homebrew/Cellar/cmake/3.28.3/bin/cmake -E cmake_depends "Unix Makefiles" /Users/rtous/dev/back2black/third-party/dlib-19.24/dlib/cmake_utils/test_for_libpng /Users/rtous/dev/back2black/third-party/dlib-19.24/dlib/cmake_utils/test_for_libpng /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libpng_build /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libpng_build /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libpng_build/CMakeFiles/libpng_test.dir/DependInfo.cmake
+        Dependencies file "CMakeFiles/libpng_test.dir/libpng_test.cpp.o.d" is newer than depends file "/Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libpng_build/CMakeFiles/libpng_test.dir/compiler_depend.internal".
+        Consolidate compiler generated dependencies of target libpng_test
+        /Library/Developer/CommandLineTools/usr/bin/make  -f CMakeFiles/libpng_test.dir/build.make CMakeFiles/libpng_test.dir/build
+        make[3]: Nothing to be done for `CMakeFiles/libpng_test.dir/build'.
+        [100%] Built target libpng_test
+        /opt/homebrew/Cellar/cmake/3.28.3/bin/cmake -E cmake_progress_start /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libpng_build/CMakeFiles 0
+        
+      exitCode: 0
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "third-party/dlib-19.24/dlib/cmake_utils/find_libjpeg.cmake:25 (try_compile)"
+      - "third-party/dlib-19.24/dlib/CMakeLists.txt:504 (include)"
+    directories:
+      source: "/Users/rtous/dev/back2black/third-party/dlib-19.24/dlib/cmake_utils/test_for_libjpeg"
+      binary: "/Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libjpeg_build"
+    buildResult:
+      variable: "test_for_libjpeg_worked"
+      cached: true
+      stdout: |
+        Change Dir: '/Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libjpeg_build'
+        
+        Run Build Command(s): /opt/homebrew/Cellar/cmake/3.28.3/bin/cmake -E env VERBOSE=1 /usr/bin/make -f Makefile
+        /opt/homebrew/Cellar/cmake/3.28.3/bin/cmake -S/Users/rtous/dev/back2black/third-party/dlib-19.24/dlib/cmake_utils/test_for_libjpeg -B/Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libjpeg_build --check-build-system CMakeFiles/Makefile.cmake 0
+        /opt/homebrew/Cellar/cmake/3.28.3/bin/cmake -E cmake_progress_start /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libjpeg_build/CMakeFiles /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libjpeg_build//CMakeFiles/progress.marks
+        /Library/Developer/CommandLineTools/usr/bin/make  -f CMakeFiles/Makefile2 all
+        /Library/Developer/CommandLineTools/usr/bin/make  -f CMakeFiles/libjpeg_test.dir/build.make CMakeFiles/libjpeg_test.dir/depend
+        cd /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libjpeg_build && /opt/homebrew/Cellar/cmake/3.28.3/bin/cmake -E cmake_depends "Unix Makefiles" /Users/rtous/dev/back2black/third-party/dlib-19.24/dlib/cmake_utils/test_for_libjpeg /Users/rtous/dev/back2black/third-party/dlib-19.24/dlib/cmake_utils/test_for_libjpeg /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libjpeg_build /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libjpeg_build /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libjpeg_build/CMakeFiles/libjpeg_test.dir/DependInfo.cmake
+        Dependencies file "CMakeFiles/libjpeg_test.dir/libjpeg_test.cpp.o.d" is newer than depends file "/Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libjpeg_build/CMakeFiles/libjpeg_test.dir/compiler_depend.internal".
+        Consolidate compiler generated dependencies of target libjpeg_test
+        /Library/Developer/CommandLineTools/usr/bin/make  -f CMakeFiles/libjpeg_test.dir/build.make CMakeFiles/libjpeg_test.dir/build
+        make[3]: Nothing to be done for `CMakeFiles/libjpeg_test.dir/build'.
+        [100%] Built target libjpeg_test
+        /opt/homebrew/Cellar/cmake/3.28.3/bin/cmake -E cmake_progress_start /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libjpeg_build/CMakeFiles 0
+        
+      exitCode: 0
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "third-party/dlib-19.24/dlib/cmake_utils/use_cpp_11.cmake:24 (try_compile)"
+      - "third-party/dlib-19.24/dlib/cmake_utils/use_cpp_11.cmake:92 (test_compiler_for_cpp11)"
+      - "third-party/dlib-19.24/dlib/CMakeLists.txt:895 (enable_cpp11_for_target)"
+    directories:
+      source: "/Users/rtous/dev/back2black/third-party/dlib-19.24/dlib/cmake_utils/test_for_cpp11"
+      binary: "/Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/cpp11_test_build"
+    buildResult:
+      variable: "test_for_cpp11_worked"
+      cached: true
+      stdout: |
+        Change Dir: '/Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/cpp11_test_build'
+        
+        Run Build Command(s): /opt/homebrew/Cellar/cmake/3.28.3/bin/cmake -E env VERBOSE=1 /usr/bin/make -f Makefile
+        /opt/homebrew/Cellar/cmake/3.28.3/bin/cmake -S/Users/rtous/dev/back2black/third-party/dlib-19.24/dlib/cmake_utils/test_for_cpp11 -B/Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/cpp11_test_build --check-build-system CMakeFiles/Makefile.cmake 0
+        /opt/homebrew/Cellar/cmake/3.28.3/bin/cmake -E cmake_progress_start /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/cpp11_test_build/CMakeFiles /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/cpp11_test_build//CMakeFiles/progress.marks
+        /Library/Developer/CommandLineTools/usr/bin/make  -f CMakeFiles/Makefile2 all
+        /Library/Developer/CommandLineTools/usr/bin/make  -f CMakeFiles/cpp11_test.dir/build.make CMakeFiles/cpp11_test.dir/depend
+        cd /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/cpp11_test_build && /opt/homebrew/Cellar/cmake/3.28.3/bin/cmake -E cmake_depends "Unix Makefiles" /Users/rtous/dev/back2black/third-party/dlib-19.24/dlib/cmake_utils/test_for_cpp11 /Users/rtous/dev/back2black/third-party/dlib-19.24/dlib/cmake_utils/test_for_cpp11 /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/cpp11_test_build /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/cpp11_test_build /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/cpp11_test_build/CMakeFiles/cpp11_test.dir/DependInfo.cmake
+        Dependencies file "CMakeFiles/cpp11_test.dir/cpp11_test.cpp.o.d" is newer than depends file "/Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/cpp11_test_build/CMakeFiles/cpp11_test.dir/compiler_depend.internal".
+        Consolidate compiler generated dependencies of target cpp11_test
+        /Library/Developer/CommandLineTools/usr/bin/make  -f CMakeFiles/cpp11_test.dir/build.make CMakeFiles/cpp11_test.dir/build
+        make[3]: Nothing to be done for `CMakeFiles/cpp11_test.dir/build'.
+        [100%] Built target cpp11_test
+        /opt/homebrew/Cellar/cmake/3.28.3/bin/cmake -E cmake_progress_start /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/cpp11_test_build/CMakeFiles 0
+        
+      exitCode: 0
+...
+
+---
+events:
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "third-party/dlib-19.24/dlib/cmake_utils/find_libpng.cmake:25 (try_compile)"
+      - "third-party/dlib-19.24/dlib/CMakeLists.txt:443 (include)"
+    directories:
+      source: "/Users/rtous/dev/back2black/third-party/dlib-19.24/dlib/cmake_utils/test_for_libpng"
+      binary: "/Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libpng_build"
+    buildResult:
+      variable: "test_for_libpng_worked"
+      cached: true
+      stdout: |
+        Change Dir: '/Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libpng_build'
+        
+        Run Build Command(s): /opt/homebrew/Cellar/cmake/3.28.3/bin/cmake -E env VERBOSE=1 /usr/bin/make -f Makefile
+        /opt/homebrew/Cellar/cmake/3.28.3/bin/cmake -S/Users/rtous/dev/back2black/third-party/dlib-19.24/dlib/cmake_utils/test_for_libpng -B/Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libpng_build --check-build-system CMakeFiles/Makefile.cmake 0
+        /opt/homebrew/Cellar/cmake/3.28.3/bin/cmake -E cmake_progress_start /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libpng_build/CMakeFiles /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libpng_build//CMakeFiles/progress.marks
+        /Library/Developer/CommandLineTools/usr/bin/make  -f CMakeFiles/Makefile2 all
+        /Library/Developer/CommandLineTools/usr/bin/make  -f CMakeFiles/libpng_test.dir/build.make CMakeFiles/libpng_test.dir/depend
+        cd /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libpng_build && /opt/homebrew/Cellar/cmake/3.28.3/bin/cmake -E cmake_depends "Unix Makefiles" /Users/rtous/dev/back2black/third-party/dlib-19.24/dlib/cmake_utils/test_for_libpng /Users/rtous/dev/back2black/third-party/dlib-19.24/dlib/cmake_utils/test_for_libpng /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libpng_build /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libpng_build /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libpng_build/CMakeFiles/libpng_test.dir/DependInfo.cmake
+        Dependencies file "CMakeFiles/libpng_test.dir/libpng_test.cpp.o.d" is newer than depends file "/Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libpng_build/CMakeFiles/libpng_test.dir/compiler_depend.internal".
+        Consolidate compiler generated dependencies of target libpng_test
+        /Library/Developer/CommandLineTools/usr/bin/make  -f CMakeFiles/libpng_test.dir/build.make CMakeFiles/libpng_test.dir/build
+        make[2]: Nothing to be done for `CMakeFiles/libpng_test.dir/build'.
+        [100%] Built target libpng_test
+        /opt/homebrew/Cellar/cmake/3.28.3/bin/cmake -E cmake_progress_start /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libpng_build/CMakeFiles 0
+        
+      exitCode: 0
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "third-party/dlib-19.24/dlib/cmake_utils/find_libjpeg.cmake:25 (try_compile)"
+      - "third-party/dlib-19.24/dlib/CMakeLists.txt:504 (include)"
+    directories:
+      source: "/Users/rtous/dev/back2black/third-party/dlib-19.24/dlib/cmake_utils/test_for_libjpeg"
+      binary: "/Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libjpeg_build"
+    buildResult:
+      variable: "test_for_libjpeg_worked"
+      cached: true
+      stdout: |
+        Change Dir: '/Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libjpeg_build'
+        
+        Run Build Command(s): /opt/homebrew/Cellar/cmake/3.28.3/bin/cmake -E env VERBOSE=1 /usr/bin/make -f Makefile
+        /opt/homebrew/Cellar/cmake/3.28.3/bin/cmake -S/Users/rtous/dev/back2black/third-party/dlib-19.24/dlib/cmake_utils/test_for_libjpeg -B/Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libjpeg_build --check-build-system CMakeFiles/Makefile.cmake 0
+        /opt/homebrew/Cellar/cmake/3.28.3/bin/cmake -E cmake_progress_start /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libjpeg_build/CMakeFiles /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libjpeg_build//CMakeFiles/progress.marks
+        /Library/Developer/CommandLineTools/usr/bin/make  -f CMakeFiles/Makefile2 all
+        /Library/Developer/CommandLineTools/usr/bin/make  -f CMakeFiles/libjpeg_test.dir/build.make CMakeFiles/libjpeg_test.dir/depend
+        cd /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libjpeg_build && /opt/homebrew/Cellar/cmake/3.28.3/bin/cmake -E cmake_depends "Unix Makefiles" /Users/rtous/dev/back2black/third-party/dlib-19.24/dlib/cmake_utils/test_for_libjpeg /Users/rtous/dev/back2black/third-party/dlib-19.24/dlib/cmake_utils/test_for_libjpeg /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libjpeg_build /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libjpeg_build /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libjpeg_build/CMakeFiles/libjpeg_test.dir/DependInfo.cmake
+        Dependencies file "CMakeFiles/libjpeg_test.dir/libjpeg_test.cpp.o.d" is newer than depends file "/Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libjpeg_build/CMakeFiles/libjpeg_test.dir/compiler_depend.internal".
+        Consolidate compiler generated dependencies of target libjpeg_test
+        /Library/Developer/CommandLineTools/usr/bin/make  -f CMakeFiles/libjpeg_test.dir/build.make CMakeFiles/libjpeg_test.dir/build
+        make[2]: Nothing to be done for `CMakeFiles/libjpeg_test.dir/build'.
+        [100%] Built target libjpeg_test
+        /opt/homebrew/Cellar/cmake/3.28.3/bin/cmake -E cmake_progress_start /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libjpeg_build/CMakeFiles 0
+        
+      exitCode: 0
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "third-party/dlib-19.24/dlib/cmake_utils/use_cpp_11.cmake:24 (try_compile)"
+      - "third-party/dlib-19.24/dlib/cmake_utils/use_cpp_11.cmake:92 (test_compiler_for_cpp11)"
+      - "third-party/dlib-19.24/dlib/CMakeLists.txt:895 (enable_cpp11_for_target)"
+    directories:
+      source: "/Users/rtous/dev/back2black/third-party/dlib-19.24/dlib/cmake_utils/test_for_cpp11"
+      binary: "/Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/cpp11_test_build"
+    buildResult:
+      variable: "test_for_cpp11_worked"
+      cached: true
+      stdout: |
+        Change Dir: '/Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/cpp11_test_build'
+        
+        Run Build Command(s): /opt/homebrew/Cellar/cmake/3.28.3/bin/cmake -E env VERBOSE=1 /usr/bin/make -f Makefile
+        /opt/homebrew/Cellar/cmake/3.28.3/bin/cmake -S/Users/rtous/dev/back2black/third-party/dlib-19.24/dlib/cmake_utils/test_for_cpp11 -B/Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/cpp11_test_build --check-build-system CMakeFiles/Makefile.cmake 0
+        /opt/homebrew/Cellar/cmake/3.28.3/bin/cmake -E cmake_progress_start /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/cpp11_test_build/CMakeFiles /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/cpp11_test_build//CMakeFiles/progress.marks
+        /Library/Developer/CommandLineTools/usr/bin/make  -f CMakeFiles/Makefile2 all
+        /Library/Developer/CommandLineTools/usr/bin/make  -f CMakeFiles/cpp11_test.dir/build.make CMakeFiles/cpp11_test.dir/depend
+        cd /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/cpp11_test_build && /opt/homebrew/Cellar/cmake/3.28.3/bin/cmake -E cmake_depends "Unix Makefiles" /Users/rtous/dev/back2black/third-party/dlib-19.24/dlib/cmake_utils/test_for_cpp11 /Users/rtous/dev/back2black/third-party/dlib-19.24/dlib/cmake_utils/test_for_cpp11 /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/cpp11_test_build /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/cpp11_test_build /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/cpp11_test_build/CMakeFiles/cpp11_test.dir/DependInfo.cmake
+        Dependencies file "CMakeFiles/cpp11_test.dir/cpp11_test.cpp.o.d" is newer than depends file "/Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/cpp11_test_build/CMakeFiles/cpp11_test.dir/compiler_depend.internal".
+        Consolidate compiler generated dependencies of target cpp11_test
+        /Library/Developer/CommandLineTools/usr/bin/make  -f CMakeFiles/cpp11_test.dir/build.make CMakeFiles/cpp11_test.dir/build
+        make[2]: Nothing to be done for `CMakeFiles/cpp11_test.dir/build'.
+        [100%] Built target cpp11_test
+        /opt/homebrew/Cellar/cmake/3.28.3/bin/cmake -E cmake_progress_start /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/cpp11_test_build/CMakeFiles 0
+        
+      exitCode: 0
+...
+
+---
+events:
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "third-party/dlib-19.24/dlib/cmake_utils/find_libpng.cmake:25 (try_compile)"
+      - "third-party/dlib-19.24/dlib/CMakeLists.txt:443 (include)"
+    directories:
+      source: "/Users/rtous/dev/back2black/third-party/dlib-19.24/dlib/cmake_utils/test_for_libpng"
+      binary: "/Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libpng_build"
+    buildResult:
+      variable: "test_for_libpng_worked"
+      cached: true
+      stdout: |
+        Change Dir: '/Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libpng_build'
+        
+        Run Build Command(s): /opt/homebrew/Cellar/cmake/3.28.3/bin/cmake -E env VERBOSE=1 /usr/bin/make -f Makefile
+        /opt/homebrew/Cellar/cmake/3.28.3/bin/cmake -S/Users/rtous/dev/back2black/third-party/dlib-19.24/dlib/cmake_utils/test_for_libpng -B/Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libpng_build --check-build-system CMakeFiles/Makefile.cmake 0
+        /opt/homebrew/Cellar/cmake/3.28.3/bin/cmake -E cmake_progress_start /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libpng_build/CMakeFiles /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libpng_build//CMakeFiles/progress.marks
+        /Library/Developer/CommandLineTools/usr/bin/make  -f CMakeFiles/Makefile2 all
+        /Library/Developer/CommandLineTools/usr/bin/make  -f CMakeFiles/libpng_test.dir/build.make CMakeFiles/libpng_test.dir/depend
+        cd /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libpng_build && /opt/homebrew/Cellar/cmake/3.28.3/bin/cmake -E cmake_depends "Unix Makefiles" /Users/rtous/dev/back2black/third-party/dlib-19.24/dlib/cmake_utils/test_for_libpng /Users/rtous/dev/back2black/third-party/dlib-19.24/dlib/cmake_utils/test_for_libpng /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libpng_build /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libpng_build /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libpng_build/CMakeFiles/libpng_test.dir/DependInfo.cmake
+        Dependencies file "CMakeFiles/libpng_test.dir/libpng_test.cpp.o.d" is newer than depends file "/Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libpng_build/CMakeFiles/libpng_test.dir/compiler_depend.internal".
+        Consolidate compiler generated dependencies of target libpng_test
+        /Library/Developer/CommandLineTools/usr/bin/make  -f CMakeFiles/libpng_test.dir/build.make CMakeFiles/libpng_test.dir/build
+        make[2]: Nothing to be done for `CMakeFiles/libpng_test.dir/build'.
+        [100%] Built target libpng_test
+        /opt/homebrew/Cellar/cmake/3.28.3/bin/cmake -E cmake_progress_start /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libpng_build/CMakeFiles 0
+        
+      exitCode: 0
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "third-party/dlib-19.24/dlib/cmake_utils/find_libjpeg.cmake:25 (try_compile)"
+      - "third-party/dlib-19.24/dlib/CMakeLists.txt:504 (include)"
+    directories:
+      source: "/Users/rtous/dev/back2black/third-party/dlib-19.24/dlib/cmake_utils/test_for_libjpeg"
+      binary: "/Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libjpeg_build"
+    buildResult:
+      variable: "test_for_libjpeg_worked"
+      cached: true
+      stdout: |
+        Change Dir: '/Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libjpeg_build'
+        
+        Run Build Command(s): /opt/homebrew/Cellar/cmake/3.28.3/bin/cmake -E env VERBOSE=1 /usr/bin/make -f Makefile
+        /opt/homebrew/Cellar/cmake/3.28.3/bin/cmake -S/Users/rtous/dev/back2black/third-party/dlib-19.24/dlib/cmake_utils/test_for_libjpeg -B/Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libjpeg_build --check-build-system CMakeFiles/Makefile.cmake 0
+        /opt/homebrew/Cellar/cmake/3.28.3/bin/cmake -E cmake_progress_start /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libjpeg_build/CMakeFiles /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libjpeg_build//CMakeFiles/progress.marks
+        /Library/Developer/CommandLineTools/usr/bin/make  -f CMakeFiles/Makefile2 all
+        /Library/Developer/CommandLineTools/usr/bin/make  -f CMakeFiles/libjpeg_test.dir/build.make CMakeFiles/libjpeg_test.dir/depend
+        cd /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libjpeg_build && /opt/homebrew/Cellar/cmake/3.28.3/bin/cmake -E cmake_depends "Unix Makefiles" /Users/rtous/dev/back2black/third-party/dlib-19.24/dlib/cmake_utils/test_for_libjpeg /Users/rtous/dev/back2black/third-party/dlib-19.24/dlib/cmake_utils/test_for_libjpeg /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libjpeg_build /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libjpeg_build /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libjpeg_build/CMakeFiles/libjpeg_test.dir/DependInfo.cmake
+        Dependencies file "CMakeFiles/libjpeg_test.dir/libjpeg_test.cpp.o.d" is newer than depends file "/Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libjpeg_build/CMakeFiles/libjpeg_test.dir/compiler_depend.internal".
+        Consolidate compiler generated dependencies of target libjpeg_test
+        /Library/Developer/CommandLineTools/usr/bin/make  -f CMakeFiles/libjpeg_test.dir/build.make CMakeFiles/libjpeg_test.dir/build
+        make[2]: Nothing to be done for `CMakeFiles/libjpeg_test.dir/build'.
+        [100%] Built target libjpeg_test
+        /opt/homebrew/Cellar/cmake/3.28.3/bin/cmake -E cmake_progress_start /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libjpeg_build/CMakeFiles 0
+        
+      exitCode: 0
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "third-party/dlib-19.24/dlib/cmake_utils/use_cpp_11.cmake:24 (try_compile)"
+      - "third-party/dlib-19.24/dlib/cmake_utils/use_cpp_11.cmake:92 (test_compiler_for_cpp11)"
+      - "third-party/dlib-19.24/dlib/CMakeLists.txt:895 (enable_cpp11_for_target)"
+    directories:
+      source: "/Users/rtous/dev/back2black/third-party/dlib-19.24/dlib/cmake_utils/test_for_cpp11"
+      binary: "/Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/cpp11_test_build"
+    buildResult:
+      variable: "test_for_cpp11_worked"
+      cached: true
+      stdout: |
+        Change Dir: '/Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/cpp11_test_build'
+        
+        Run Build Command(s): /opt/homebrew/Cellar/cmake/3.28.3/bin/cmake -E env VERBOSE=1 /usr/bin/make -f Makefile
+        /opt/homebrew/Cellar/cmake/3.28.3/bin/cmake -S/Users/rtous/dev/back2black/third-party/dlib-19.24/dlib/cmake_utils/test_for_cpp11 -B/Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/cpp11_test_build --check-build-system CMakeFiles/Makefile.cmake 0
+        /opt/homebrew/Cellar/cmake/3.28.3/bin/cmake -E cmake_progress_start /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/cpp11_test_build/CMakeFiles /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/cpp11_test_build//CMakeFiles/progress.marks
+        /Library/Developer/CommandLineTools/usr/bin/make  -f CMakeFiles/Makefile2 all
+        /Library/Developer/CommandLineTools/usr/bin/make  -f CMakeFiles/cpp11_test.dir/build.make CMakeFiles/cpp11_test.dir/depend
+        cd /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/cpp11_test_build && /opt/homebrew/Cellar/cmake/3.28.3/bin/cmake -E cmake_depends "Unix Makefiles" /Users/rtous/dev/back2black/third-party/dlib-19.24/dlib/cmake_utils/test_for_cpp11 /Users/rtous/dev/back2black/third-party/dlib-19.24/dlib/cmake_utils/test_for_cpp11 /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/cpp11_test_build /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/cpp11_test_build /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/cpp11_test_build/CMakeFiles/cpp11_test.dir/DependInfo.cmake
+        Dependencies file "CMakeFiles/cpp11_test.dir/cpp11_test.cpp.o.d" is newer than depends file "/Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/cpp11_test_build/CMakeFiles/cpp11_test.dir/compiler_depend.internal".
+        Consolidate compiler generated dependencies of target cpp11_test
+        /Library/Developer/CommandLineTools/usr/bin/make  -f CMakeFiles/cpp11_test.dir/build.make CMakeFiles/cpp11_test.dir/build
+        make[2]: Nothing to be done for `CMakeFiles/cpp11_test.dir/build'.
+        [100%] Built target cpp11_test
+        /opt/homebrew/Cellar/cmake/3.28.3/bin/cmake -E cmake_progress_start /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/cpp11_test_build/CMakeFiles 0
+        
+      exitCode: 0
+...
+
+---
+events:
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "third-party/dlib-19.24/dlib/cmake_utils/find_libpng.cmake:25 (try_compile)"
+      - "third-party/dlib-19.24/dlib/CMakeLists.txt:443 (include)"
+    directories:
+      source: "/Users/rtous/dev/back2black/third-party/dlib-19.24/dlib/cmake_utils/test_for_libpng"
+      binary: "/Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libpng_build"
+    buildResult:
+      variable: "test_for_libpng_worked"
+      cached: true
+      stdout: |
+        Change Dir: '/Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libpng_build'
+        
+        Run Build Command(s): /opt/homebrew/Cellar/cmake/3.28.3/bin/cmake -E env VERBOSE=1 /usr/bin/make -f Makefile
+        /opt/homebrew/Cellar/cmake/3.28.3/bin/cmake -S/Users/rtous/dev/back2black/third-party/dlib-19.24/dlib/cmake_utils/test_for_libpng -B/Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libpng_build --check-build-system CMakeFiles/Makefile.cmake 0
+        /opt/homebrew/Cellar/cmake/3.28.3/bin/cmake -E cmake_progress_start /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libpng_build/CMakeFiles /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libpng_build//CMakeFiles/progress.marks
+        /Library/Developer/CommandLineTools/usr/bin/make  -f CMakeFiles/Makefile2 all
+        /Library/Developer/CommandLineTools/usr/bin/make  -f CMakeFiles/libpng_test.dir/build.make CMakeFiles/libpng_test.dir/depend
+        cd /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libpng_build && /opt/homebrew/Cellar/cmake/3.28.3/bin/cmake -E cmake_depends "Unix Makefiles" /Users/rtous/dev/back2black/third-party/dlib-19.24/dlib/cmake_utils/test_for_libpng /Users/rtous/dev/back2black/third-party/dlib-19.24/dlib/cmake_utils/test_for_libpng /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libpng_build /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libpng_build /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libpng_build/CMakeFiles/libpng_test.dir/DependInfo.cmake
+        Dependencies file "CMakeFiles/libpng_test.dir/libpng_test.cpp.o.d" is newer than depends file "/Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libpng_build/CMakeFiles/libpng_test.dir/compiler_depend.internal".
+        Consolidate compiler generated dependencies of target libpng_test
+        /Library/Developer/CommandLineTools/usr/bin/make  -f CMakeFiles/libpng_test.dir/build.make CMakeFiles/libpng_test.dir/build
+        make[2]: Nothing to be done for `CMakeFiles/libpng_test.dir/build'.
+        [100%] Built target libpng_test
+        /opt/homebrew/Cellar/cmake/3.28.3/bin/cmake -E cmake_progress_start /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libpng_build/CMakeFiles 0
+        
+      exitCode: 0
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "third-party/dlib-19.24/dlib/cmake_utils/find_libjpeg.cmake:25 (try_compile)"
+      - "third-party/dlib-19.24/dlib/CMakeLists.txt:504 (include)"
+    directories:
+      source: "/Users/rtous/dev/back2black/third-party/dlib-19.24/dlib/cmake_utils/test_for_libjpeg"
+      binary: "/Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libjpeg_build"
+    buildResult:
+      variable: "test_for_libjpeg_worked"
+      cached: true
+      stdout: |
+        Change Dir: '/Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libjpeg_build'
+        
+        Run Build Command(s): /opt/homebrew/Cellar/cmake/3.28.3/bin/cmake -E env VERBOSE=1 /usr/bin/make -f Makefile
+        /opt/homebrew/Cellar/cmake/3.28.3/bin/cmake -S/Users/rtous/dev/back2black/third-party/dlib-19.24/dlib/cmake_utils/test_for_libjpeg -B/Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libjpeg_build --check-build-system CMakeFiles/Makefile.cmake 0
+        /opt/homebrew/Cellar/cmake/3.28.3/bin/cmake -E cmake_progress_start /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libjpeg_build/CMakeFiles /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libjpeg_build//CMakeFiles/progress.marks
+        /Library/Developer/CommandLineTools/usr/bin/make  -f CMakeFiles/Makefile2 all
+        /Library/Developer/CommandLineTools/usr/bin/make  -f CMakeFiles/libjpeg_test.dir/build.make CMakeFiles/libjpeg_test.dir/depend
+        cd /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libjpeg_build && /opt/homebrew/Cellar/cmake/3.28.3/bin/cmake -E cmake_depends "Unix Makefiles" /Users/rtous/dev/back2black/third-party/dlib-19.24/dlib/cmake_utils/test_for_libjpeg /Users/rtous/dev/back2black/third-party/dlib-19.24/dlib/cmake_utils/test_for_libjpeg /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libjpeg_build /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libjpeg_build /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libjpeg_build/CMakeFiles/libjpeg_test.dir/DependInfo.cmake
+        Dependencies file "CMakeFiles/libjpeg_test.dir/libjpeg_test.cpp.o.d" is newer than depends file "/Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libjpeg_build/CMakeFiles/libjpeg_test.dir/compiler_depend.internal".
+        Consolidate compiler generated dependencies of target libjpeg_test
+        /Library/Developer/CommandLineTools/usr/bin/make  -f CMakeFiles/libjpeg_test.dir/build.make CMakeFiles/libjpeg_test.dir/build
+        make[2]: Nothing to be done for `CMakeFiles/libjpeg_test.dir/build'.
+        [100%] Built target libjpeg_test
+        /opt/homebrew/Cellar/cmake/3.28.3/bin/cmake -E cmake_progress_start /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libjpeg_build/CMakeFiles 0
+        
+      exitCode: 0
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "third-party/dlib-19.24/dlib/cmake_utils/use_cpp_11.cmake:24 (try_compile)"
+      - "third-party/dlib-19.24/dlib/cmake_utils/use_cpp_11.cmake:92 (test_compiler_for_cpp11)"
+      - "third-party/dlib-19.24/dlib/CMakeLists.txt:895 (enable_cpp11_for_target)"
+    directories:
+      source: "/Users/rtous/dev/back2black/third-party/dlib-19.24/dlib/cmake_utils/test_for_cpp11"
+      binary: "/Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/cpp11_test_build"
+    buildResult:
+      variable: "test_for_cpp11_worked"
+      cached: true
+      stdout: |
+        Change Dir: '/Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/cpp11_test_build'
+        
+        Run Build Command(s): /opt/homebrew/Cellar/cmake/3.28.3/bin/cmake -E env VERBOSE=1 /usr/bin/make -f Makefile
+        /opt/homebrew/Cellar/cmake/3.28.3/bin/cmake -S/Users/rtous/dev/back2black/third-party/dlib-19.24/dlib/cmake_utils/test_for_cpp11 -B/Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/cpp11_test_build --check-build-system CMakeFiles/Makefile.cmake 0
+        /opt/homebrew/Cellar/cmake/3.28.3/bin/cmake -E cmake_progress_start /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/cpp11_test_build/CMakeFiles /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/cpp11_test_build//CMakeFiles/progress.marks
+        /Library/Developer/CommandLineTools/usr/bin/make  -f CMakeFiles/Makefile2 all
+        /Library/Developer/CommandLineTools/usr/bin/make  -f CMakeFiles/cpp11_test.dir/build.make CMakeFiles/cpp11_test.dir/depend
+        cd /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/cpp11_test_build && /opt/homebrew/Cellar/cmake/3.28.3/bin/cmake -E cmake_depends "Unix Makefiles" /Users/rtous/dev/back2black/third-party/dlib-19.24/dlib/cmake_utils/test_for_cpp11 /Users/rtous/dev/back2black/third-party/dlib-19.24/dlib/cmake_utils/test_for_cpp11 /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/cpp11_test_build /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/cpp11_test_build /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/cpp11_test_build/CMakeFiles/cpp11_test.dir/DependInfo.cmake
+        Dependencies file "CMakeFiles/cpp11_test.dir/cpp11_test.cpp.o.d" is newer than depends file "/Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/cpp11_test_build/CMakeFiles/cpp11_test.dir/compiler_depend.internal".
+        Consolidate compiler generated dependencies of target cpp11_test
+        /Library/Developer/CommandLineTools/usr/bin/make  -f CMakeFiles/cpp11_test.dir/build.make CMakeFiles/cpp11_test.dir/build
+        make[2]: Nothing to be done for `CMakeFiles/cpp11_test.dir/build'.
+        [100%] Built target cpp11_test
+        /opt/homebrew/Cellar/cmake/3.28.3/bin/cmake -E cmake_progress_start /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/cpp11_test_build/CMakeFiles 0
+        
+      exitCode: 0
+...
+
+---
+events:
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "third-party/dlib-19.24/dlib/cmake_utils/find_libpng.cmake:25 (try_compile)"
+      - "third-party/dlib-19.24/dlib/CMakeLists.txt:443 (include)"
+    directories:
+      source: "/Users/rtous/dev/back2black/third-party/dlib-19.24/dlib/cmake_utils/test_for_libpng"
+      binary: "/Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libpng_build"
+    buildResult:
+      variable: "test_for_libpng_worked"
+      cached: true
+      stdout: |
+        Change Dir: '/Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libpng_build'
+        
+        Run Build Command(s): /opt/homebrew/Cellar/cmake/3.28.3/bin/cmake -E env VERBOSE=1 /usr/bin/make -f Makefile
+        /opt/homebrew/Cellar/cmake/3.28.3/bin/cmake -S/Users/rtous/dev/back2black/third-party/dlib-19.24/dlib/cmake_utils/test_for_libpng -B/Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libpng_build --check-build-system CMakeFiles/Makefile.cmake 0
+        /opt/homebrew/Cellar/cmake/3.28.3/bin/cmake -E cmake_progress_start /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libpng_build/CMakeFiles /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libpng_build//CMakeFiles/progress.marks
+        /Library/Developer/CommandLineTools/usr/bin/make  -f CMakeFiles/Makefile2 all
+        /Library/Developer/CommandLineTools/usr/bin/make  -f CMakeFiles/libpng_test.dir/build.make CMakeFiles/libpng_test.dir/depend
+        cd /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libpng_build && /opt/homebrew/Cellar/cmake/3.28.3/bin/cmake -E cmake_depends "Unix Makefiles" /Users/rtous/dev/back2black/third-party/dlib-19.24/dlib/cmake_utils/test_for_libpng /Users/rtous/dev/back2black/third-party/dlib-19.24/dlib/cmake_utils/test_for_libpng /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libpng_build /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libpng_build /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libpng_build/CMakeFiles/libpng_test.dir/DependInfo.cmake
+        Dependencies file "CMakeFiles/libpng_test.dir/libpng_test.cpp.o.d" is newer than depends file "/Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libpng_build/CMakeFiles/libpng_test.dir/compiler_depend.internal".
+        Consolidate compiler generated dependencies of target libpng_test
+        /Library/Developer/CommandLineTools/usr/bin/make  -f CMakeFiles/libpng_test.dir/build.make CMakeFiles/libpng_test.dir/build
+        make[2]: Nothing to be done for `CMakeFiles/libpng_test.dir/build'.
+        [100%] Built target libpng_test
+        /opt/homebrew/Cellar/cmake/3.28.3/bin/cmake -E cmake_progress_start /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libpng_build/CMakeFiles 0
+        
+      exitCode: 0
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "third-party/dlib-19.24/dlib/cmake_utils/find_libjpeg.cmake:25 (try_compile)"
+      - "third-party/dlib-19.24/dlib/CMakeLists.txt:504 (include)"
+    directories:
+      source: "/Users/rtous/dev/back2black/third-party/dlib-19.24/dlib/cmake_utils/test_for_libjpeg"
+      binary: "/Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libjpeg_build"
+    buildResult:
+      variable: "test_for_libjpeg_worked"
+      cached: true
+      stdout: |
+        Change Dir: '/Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libjpeg_build'
+        
+        Run Build Command(s): /opt/homebrew/Cellar/cmake/3.28.3/bin/cmake -E env VERBOSE=1 /usr/bin/make -f Makefile
+        /opt/homebrew/Cellar/cmake/3.28.3/bin/cmake -S/Users/rtous/dev/back2black/third-party/dlib-19.24/dlib/cmake_utils/test_for_libjpeg -B/Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libjpeg_build --check-build-system CMakeFiles/Makefile.cmake 0
+        /opt/homebrew/Cellar/cmake/3.28.3/bin/cmake -E cmake_progress_start /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libjpeg_build/CMakeFiles /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libjpeg_build//CMakeFiles/progress.marks
+        /Library/Developer/CommandLineTools/usr/bin/make  -f CMakeFiles/Makefile2 all
+        /Library/Developer/CommandLineTools/usr/bin/make  -f CMakeFiles/libjpeg_test.dir/build.make CMakeFiles/libjpeg_test.dir/depend
+        cd /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libjpeg_build && /opt/homebrew/Cellar/cmake/3.28.3/bin/cmake -E cmake_depends "Unix Makefiles" /Users/rtous/dev/back2black/third-party/dlib-19.24/dlib/cmake_utils/test_for_libjpeg /Users/rtous/dev/back2black/third-party/dlib-19.24/dlib/cmake_utils/test_for_libjpeg /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libjpeg_build /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libjpeg_build /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libjpeg_build/CMakeFiles/libjpeg_test.dir/DependInfo.cmake
+        Dependencies file "CMakeFiles/libjpeg_test.dir/libjpeg_test.cpp.o.d" is newer than depends file "/Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libjpeg_build/CMakeFiles/libjpeg_test.dir/compiler_depend.internal".
+        Consolidate compiler generated dependencies of target libjpeg_test
+        /Library/Developer/CommandLineTools/usr/bin/make  -f CMakeFiles/libjpeg_test.dir/build.make CMakeFiles/libjpeg_test.dir/build
+        make[2]: Nothing to be done for `CMakeFiles/libjpeg_test.dir/build'.
+        [100%] Built target libjpeg_test
+        /opt/homebrew/Cellar/cmake/3.28.3/bin/cmake -E cmake_progress_start /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libjpeg_build/CMakeFiles 0
+        
+      exitCode: 0
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "third-party/dlib-19.24/dlib/cmake_utils/use_cpp_11.cmake:24 (try_compile)"
+      - "third-party/dlib-19.24/dlib/cmake_utils/use_cpp_11.cmake:92 (test_compiler_for_cpp11)"
+      - "third-party/dlib-19.24/dlib/CMakeLists.txt:895 (enable_cpp11_for_target)"
+    directories:
+      source: "/Users/rtous/dev/back2black/third-party/dlib-19.24/dlib/cmake_utils/test_for_cpp11"
+      binary: "/Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/cpp11_test_build"
+    buildResult:
+      variable: "test_for_cpp11_worked"
+      cached: true
+      stdout: |
+        Change Dir: '/Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/cpp11_test_build'
+        
+        Run Build Command(s): /opt/homebrew/Cellar/cmake/3.28.3/bin/cmake -E env VERBOSE=1 /usr/bin/make -f Makefile
+        /opt/homebrew/Cellar/cmake/3.28.3/bin/cmake -S/Users/rtous/dev/back2black/third-party/dlib-19.24/dlib/cmake_utils/test_for_cpp11 -B/Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/cpp11_test_build --check-build-system CMakeFiles/Makefile.cmake 0
+        /opt/homebrew/Cellar/cmake/3.28.3/bin/cmake -E cmake_progress_start /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/cpp11_test_build/CMakeFiles /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/cpp11_test_build//CMakeFiles/progress.marks
+        /Library/Developer/CommandLineTools/usr/bin/make  -f CMakeFiles/Makefile2 all
+        /Library/Developer/CommandLineTools/usr/bin/make  -f CMakeFiles/cpp11_test.dir/build.make CMakeFiles/cpp11_test.dir/depend
+        cd /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/cpp11_test_build && /opt/homebrew/Cellar/cmake/3.28.3/bin/cmake -E cmake_depends "Unix Makefiles" /Users/rtous/dev/back2black/third-party/dlib-19.24/dlib/cmake_utils/test_for_cpp11 /Users/rtous/dev/back2black/third-party/dlib-19.24/dlib/cmake_utils/test_for_cpp11 /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/cpp11_test_build /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/cpp11_test_build /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/cpp11_test_build/CMakeFiles/cpp11_test.dir/DependInfo.cmake
+        Dependencies file "CMakeFiles/cpp11_test.dir/cpp11_test.cpp.o.d" is newer than depends file "/Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/cpp11_test_build/CMakeFiles/cpp11_test.dir/compiler_depend.internal".
+        Consolidate compiler generated dependencies of target cpp11_test
+        /Library/Developer/CommandLineTools/usr/bin/make  -f CMakeFiles/cpp11_test.dir/build.make CMakeFiles/cpp11_test.dir/build
+        make[2]: Nothing to be done for `CMakeFiles/cpp11_test.dir/build'.
+        [100%] Built target cpp11_test
+        /opt/homebrew/Cellar/cmake/3.28.3/bin/cmake -E cmake_progress_start /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/cpp11_test_build/CMakeFiles 0
+        
+      exitCode: 0
+...
+
+---
+events:
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "third-party/dlib-19.24/dlib/cmake_utils/find_libpng.cmake:25 (try_compile)"
+      - "third-party/dlib-19.24/dlib/CMakeLists.txt:443 (include)"
+    directories:
+      source: "/Users/rtous/dev/back2black/third-party/dlib-19.24/dlib/cmake_utils/test_for_libpng"
+      binary: "/Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libpng_build"
+    buildResult:
+      variable: "test_for_libpng_worked"
+      cached: true
+      stdout: |
+        Change Dir: '/Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libpng_build'
+        
+        Run Build Command(s): /opt/homebrew/Cellar/cmake/3.28.3/bin/cmake -E env VERBOSE=1 /usr/bin/make -f Makefile
+        /opt/homebrew/Cellar/cmake/3.28.3/bin/cmake -S/Users/rtous/dev/back2black/third-party/dlib-19.24/dlib/cmake_utils/test_for_libpng -B/Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libpng_build --check-build-system CMakeFiles/Makefile.cmake 0
+        /opt/homebrew/Cellar/cmake/3.28.3/bin/cmake -E cmake_progress_start /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libpng_build/CMakeFiles /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libpng_build//CMakeFiles/progress.marks
+        /Library/Developer/CommandLineTools/usr/bin/make  -f CMakeFiles/Makefile2 all
+        /Library/Developer/CommandLineTools/usr/bin/make  -f CMakeFiles/libpng_test.dir/build.make CMakeFiles/libpng_test.dir/depend
+        cd /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libpng_build && /opt/homebrew/Cellar/cmake/3.28.3/bin/cmake -E cmake_depends "Unix Makefiles" /Users/rtous/dev/back2black/third-party/dlib-19.24/dlib/cmake_utils/test_for_libpng /Users/rtous/dev/back2black/third-party/dlib-19.24/dlib/cmake_utils/test_for_libpng /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libpng_build /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libpng_build /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libpng_build/CMakeFiles/libpng_test.dir/DependInfo.cmake
+        Dependencies file "CMakeFiles/libpng_test.dir/libpng_test.cpp.o.d" is newer than depends file "/Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libpng_build/CMakeFiles/libpng_test.dir/compiler_depend.internal".
+        Consolidate compiler generated dependencies of target libpng_test
+        /Library/Developer/CommandLineTools/usr/bin/make  -f CMakeFiles/libpng_test.dir/build.make CMakeFiles/libpng_test.dir/build
+        make[2]: Nothing to be done for `CMakeFiles/libpng_test.dir/build'.
+        [100%] Built target libpng_test
+        /opt/homebrew/Cellar/cmake/3.28.3/bin/cmake -E cmake_progress_start /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libpng_build/CMakeFiles 0
+        
+      exitCode: 0
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "third-party/dlib-19.24/dlib/cmake_utils/find_libjpeg.cmake:25 (try_compile)"
+      - "third-party/dlib-19.24/dlib/CMakeLists.txt:504 (include)"
+    directories:
+      source: "/Users/rtous/dev/back2black/third-party/dlib-19.24/dlib/cmake_utils/test_for_libjpeg"
+      binary: "/Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libjpeg_build"
+    buildResult:
+      variable: "test_for_libjpeg_worked"
+      cached: true
+      stdout: |
+        Change Dir: '/Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libjpeg_build'
+        
+        Run Build Command(s): /opt/homebrew/Cellar/cmake/3.28.3/bin/cmake -E env VERBOSE=1 /usr/bin/make -f Makefile
+        /opt/homebrew/Cellar/cmake/3.28.3/bin/cmake -S/Users/rtous/dev/back2black/third-party/dlib-19.24/dlib/cmake_utils/test_for_libjpeg -B/Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libjpeg_build --check-build-system CMakeFiles/Makefile.cmake 0
+        /opt/homebrew/Cellar/cmake/3.28.3/bin/cmake -E cmake_progress_start /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libjpeg_build/CMakeFiles /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libjpeg_build//CMakeFiles/progress.marks
+        /Library/Developer/CommandLineTools/usr/bin/make  -f CMakeFiles/Makefile2 all
+        /Library/Developer/CommandLineTools/usr/bin/make  -f CMakeFiles/libjpeg_test.dir/build.make CMakeFiles/libjpeg_test.dir/depend
+        cd /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libjpeg_build && /opt/homebrew/Cellar/cmake/3.28.3/bin/cmake -E cmake_depends "Unix Makefiles" /Users/rtous/dev/back2black/third-party/dlib-19.24/dlib/cmake_utils/test_for_libjpeg /Users/rtous/dev/back2black/third-party/dlib-19.24/dlib/cmake_utils/test_for_libjpeg /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libjpeg_build /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libjpeg_build /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libjpeg_build/CMakeFiles/libjpeg_test.dir/DependInfo.cmake
+        Dependencies file "CMakeFiles/libjpeg_test.dir/libjpeg_test.cpp.o.d" is newer than depends file "/Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libjpeg_build/CMakeFiles/libjpeg_test.dir/compiler_depend.internal".
+        Consolidate compiler generated dependencies of target libjpeg_test
+        /Library/Developer/CommandLineTools/usr/bin/make  -f CMakeFiles/libjpeg_test.dir/build.make CMakeFiles/libjpeg_test.dir/build
+        make[2]: Nothing to be done for `CMakeFiles/libjpeg_test.dir/build'.
+        [100%] Built target libjpeg_test
+        /opt/homebrew/Cellar/cmake/3.28.3/bin/cmake -E cmake_progress_start /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libjpeg_build/CMakeFiles 0
+        
+      exitCode: 0
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "third-party/dlib-19.24/dlib/cmake_utils/use_cpp_11.cmake:24 (try_compile)"
+      - "third-party/dlib-19.24/dlib/cmake_utils/use_cpp_11.cmake:92 (test_compiler_for_cpp11)"
+      - "third-party/dlib-19.24/dlib/CMakeLists.txt:895 (enable_cpp11_for_target)"
+    directories:
+      source: "/Users/rtous/dev/back2black/third-party/dlib-19.24/dlib/cmake_utils/test_for_cpp11"
+      binary: "/Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/cpp11_test_build"
+    buildResult:
+      variable: "test_for_cpp11_worked"
+      cached: true
+      stdout: |
+        Change Dir: '/Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/cpp11_test_build'
+        
+        Run Build Command(s): /opt/homebrew/Cellar/cmake/3.28.3/bin/cmake -E env VERBOSE=1 /usr/bin/make -f Makefile
+        /opt/homebrew/Cellar/cmake/3.28.3/bin/cmake -S/Users/rtous/dev/back2black/third-party/dlib-19.24/dlib/cmake_utils/test_for_cpp11 -B/Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/cpp11_test_build --check-build-system CMakeFiles/Makefile.cmake 0
+        /opt/homebrew/Cellar/cmake/3.28.3/bin/cmake -E cmake_progress_start /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/cpp11_test_build/CMakeFiles /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/cpp11_test_build//CMakeFiles/progress.marks
+        /Library/Developer/CommandLineTools/usr/bin/make  -f CMakeFiles/Makefile2 all
+        /Library/Developer/CommandLineTools/usr/bin/make  -f CMakeFiles/cpp11_test.dir/build.make CMakeFiles/cpp11_test.dir/depend
+        cd /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/cpp11_test_build && /opt/homebrew/Cellar/cmake/3.28.3/bin/cmake -E cmake_depends "Unix Makefiles" /Users/rtous/dev/back2black/third-party/dlib-19.24/dlib/cmake_utils/test_for_cpp11 /Users/rtous/dev/back2black/third-party/dlib-19.24/dlib/cmake_utils/test_for_cpp11 /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/cpp11_test_build /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/cpp11_test_build /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/cpp11_test_build/CMakeFiles/cpp11_test.dir/DependInfo.cmake
+        Dependencies file "CMakeFiles/cpp11_test.dir/cpp11_test.cpp.o.d" is newer than depends file "/Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/cpp11_test_build/CMakeFiles/cpp11_test.dir/compiler_depend.internal".
+        Consolidate compiler generated dependencies of target cpp11_test
+        /Library/Developer/CommandLineTools/usr/bin/make  -f CMakeFiles/cpp11_test.dir/build.make CMakeFiles/cpp11_test.dir/build
+        make[2]: Nothing to be done for `CMakeFiles/cpp11_test.dir/build'.
+        [100%] Built target cpp11_test
+        /opt/homebrew/Cellar/cmake/3.28.3/bin/cmake -E cmake_progress_start /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/cpp11_test_build/CMakeFiles 0
+        
+      exitCode: 0
+...
+
+---
+events:
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "third-party/dlib-19.24/dlib/cmake_utils/find_libpng.cmake:25 (try_compile)"
+      - "third-party/dlib-19.24/dlib/CMakeLists.txt:443 (include)"
+    directories:
+      source: "/Users/rtous/dev/back2black/third-party/dlib-19.24/dlib/cmake_utils/test_for_libpng"
+      binary: "/Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libpng_build"
+    buildResult:
+      variable: "test_for_libpng_worked"
+      cached: true
+      stdout: |
+        Change Dir: '/Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libpng_build'
+        
+        Run Build Command(s): /opt/homebrew/Cellar/cmake/3.28.3/bin/cmake -E env VERBOSE=1 /usr/bin/make -f Makefile
+        /opt/homebrew/Cellar/cmake/3.28.3/bin/cmake -S/Users/rtous/dev/back2black/third-party/dlib-19.24/dlib/cmake_utils/test_for_libpng -B/Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libpng_build --check-build-system CMakeFiles/Makefile.cmake 0
+        /opt/homebrew/Cellar/cmake/3.28.3/bin/cmake -E cmake_progress_start /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libpng_build/CMakeFiles /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libpng_build//CMakeFiles/progress.marks
+        /Library/Developer/CommandLineTools/usr/bin/make  -f CMakeFiles/Makefile2 all
+        /Library/Developer/CommandLineTools/usr/bin/make  -f CMakeFiles/libpng_test.dir/build.make CMakeFiles/libpng_test.dir/depend
+        cd /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libpng_build && /opt/homebrew/Cellar/cmake/3.28.3/bin/cmake -E cmake_depends "Unix Makefiles" /Users/rtous/dev/back2black/third-party/dlib-19.24/dlib/cmake_utils/test_for_libpng /Users/rtous/dev/back2black/third-party/dlib-19.24/dlib/cmake_utils/test_for_libpng /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libpng_build /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libpng_build /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libpng_build/CMakeFiles/libpng_test.dir/DependInfo.cmake
+        Dependencies file "CMakeFiles/libpng_test.dir/libpng_test.cpp.o.d" is newer than depends file "/Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libpng_build/CMakeFiles/libpng_test.dir/compiler_depend.internal".
+        Consolidate compiler generated dependencies of target libpng_test
+        /Library/Developer/CommandLineTools/usr/bin/make  -f CMakeFiles/libpng_test.dir/build.make CMakeFiles/libpng_test.dir/build
+        make[2]: Nothing to be done for `CMakeFiles/libpng_test.dir/build'.
+        [100%] Built target libpng_test
+        /opt/homebrew/Cellar/cmake/3.28.3/bin/cmake -E cmake_progress_start /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libpng_build/CMakeFiles 0
+        
+      exitCode: 0
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "third-party/dlib-19.24/dlib/cmake_utils/find_libjpeg.cmake:25 (try_compile)"
+      - "third-party/dlib-19.24/dlib/CMakeLists.txt:504 (include)"
+    directories:
+      source: "/Users/rtous/dev/back2black/third-party/dlib-19.24/dlib/cmake_utils/test_for_libjpeg"
+      binary: "/Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libjpeg_build"
+    buildResult:
+      variable: "test_for_libjpeg_worked"
+      cached: true
+      stdout: |
+        Change Dir: '/Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libjpeg_build'
+        
+        Run Build Command(s): /opt/homebrew/Cellar/cmake/3.28.3/bin/cmake -E env VERBOSE=1 /usr/bin/make -f Makefile
+        /opt/homebrew/Cellar/cmake/3.28.3/bin/cmake -S/Users/rtous/dev/back2black/third-party/dlib-19.24/dlib/cmake_utils/test_for_libjpeg -B/Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libjpeg_build --check-build-system CMakeFiles/Makefile.cmake 0
+        /opt/homebrew/Cellar/cmake/3.28.3/bin/cmake -E cmake_progress_start /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libjpeg_build/CMakeFiles /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libjpeg_build//CMakeFiles/progress.marks
+        /Library/Developer/CommandLineTools/usr/bin/make  -f CMakeFiles/Makefile2 all
+        /Library/Developer/CommandLineTools/usr/bin/make  -f CMakeFiles/libjpeg_test.dir/build.make CMakeFiles/libjpeg_test.dir/depend
+        cd /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libjpeg_build && /opt/homebrew/Cellar/cmake/3.28.3/bin/cmake -E cmake_depends "Unix Makefiles" /Users/rtous/dev/back2black/third-party/dlib-19.24/dlib/cmake_utils/test_for_libjpeg /Users/rtous/dev/back2black/third-party/dlib-19.24/dlib/cmake_utils/test_for_libjpeg /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libjpeg_build /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libjpeg_build /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libjpeg_build/CMakeFiles/libjpeg_test.dir/DependInfo.cmake
+        Dependencies file "CMakeFiles/libjpeg_test.dir/libjpeg_test.cpp.o.d" is newer than depends file "/Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libjpeg_build/CMakeFiles/libjpeg_test.dir/compiler_depend.internal".
+        Consolidate compiler generated dependencies of target libjpeg_test
+        /Library/Developer/CommandLineTools/usr/bin/make  -f CMakeFiles/libjpeg_test.dir/build.make CMakeFiles/libjpeg_test.dir/build
+        make[2]: Nothing to be done for `CMakeFiles/libjpeg_test.dir/build'.
+        [100%] Built target libjpeg_test
+        /opt/homebrew/Cellar/cmake/3.28.3/bin/cmake -E cmake_progress_start /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libjpeg_build/CMakeFiles 0
+        
+      exitCode: 0
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "third-party/dlib-19.24/dlib/cmake_utils/use_cpp_11.cmake:24 (try_compile)"
+      - "third-party/dlib-19.24/dlib/cmake_utils/use_cpp_11.cmake:92 (test_compiler_for_cpp11)"
+      - "third-party/dlib-19.24/dlib/CMakeLists.txt:895 (enable_cpp11_for_target)"
+    directories:
+      source: "/Users/rtous/dev/back2black/third-party/dlib-19.24/dlib/cmake_utils/test_for_cpp11"
+      binary: "/Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/cpp11_test_build"
+    buildResult:
+      variable: "test_for_cpp11_worked"
+      cached: true
+      stdout: |
+        Change Dir: '/Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/cpp11_test_build'
+        
+        Run Build Command(s): /opt/homebrew/Cellar/cmake/3.28.3/bin/cmake -E env VERBOSE=1 /usr/bin/make -f Makefile
+        /opt/homebrew/Cellar/cmake/3.28.3/bin/cmake -S/Users/rtous/dev/back2black/third-party/dlib-19.24/dlib/cmake_utils/test_for_cpp11 -B/Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/cpp11_test_build --check-build-system CMakeFiles/Makefile.cmake 0
+        /opt/homebrew/Cellar/cmake/3.28.3/bin/cmake -E cmake_progress_start /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/cpp11_test_build/CMakeFiles /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/cpp11_test_build//CMakeFiles/progress.marks
+        /Library/Developer/CommandLineTools/usr/bin/make  -f CMakeFiles/Makefile2 all
+        /Library/Developer/CommandLineTools/usr/bin/make  -f CMakeFiles/cpp11_test.dir/build.make CMakeFiles/cpp11_test.dir/depend
+        cd /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/cpp11_test_build && /opt/homebrew/Cellar/cmake/3.28.3/bin/cmake -E cmake_depends "Unix Makefiles" /Users/rtous/dev/back2black/third-party/dlib-19.24/dlib/cmake_utils/test_for_cpp11 /Users/rtous/dev/back2black/third-party/dlib-19.24/dlib/cmake_utils/test_for_cpp11 /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/cpp11_test_build /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/cpp11_test_build /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/cpp11_test_build/CMakeFiles/cpp11_test.dir/DependInfo.cmake
+        Dependencies file "CMakeFiles/cpp11_test.dir/cpp11_test.cpp.o.d" is newer than depends file "/Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/cpp11_test_build/CMakeFiles/cpp11_test.dir/compiler_depend.internal".
+        Consolidate compiler generated dependencies of target cpp11_test
+        /Library/Developer/CommandLineTools/usr/bin/make  -f CMakeFiles/cpp11_test.dir/build.make CMakeFiles/cpp11_test.dir/build
+        make[2]: Nothing to be done for `CMakeFiles/cpp11_test.dir/build'.
+        [100%] Built target cpp11_test
+        /opt/homebrew/Cellar/cmake/3.28.3/bin/cmake -E cmake_progress_start /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/cpp11_test_build/CMakeFiles 0
+        
+      exitCode: 0
+...
+
+---
+events:
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "third-party/dlib-19.24/dlib/cmake_utils/find_libpng.cmake:25 (try_compile)"
+      - "third-party/dlib-19.24/dlib/CMakeLists.txt:443 (include)"
+    directories:
+      source: "/Users/rtous/dev/back2black/third-party/dlib-19.24/dlib/cmake_utils/test_for_libpng"
+      binary: "/Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libpng_build"
+    buildResult:
+      variable: "test_for_libpng_worked"
+      cached: true
+      stdout: |
+        Change Dir: '/Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libpng_build'
+        
+        Run Build Command(s): /opt/homebrew/Cellar/cmake/3.28.3/bin/cmake -E env VERBOSE=1 /usr/bin/make -f Makefile
+        /opt/homebrew/Cellar/cmake/3.28.3/bin/cmake -S/Users/rtous/dev/back2black/third-party/dlib-19.24/dlib/cmake_utils/test_for_libpng -B/Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libpng_build --check-build-system CMakeFiles/Makefile.cmake 0
+        /opt/homebrew/Cellar/cmake/3.28.3/bin/cmake -E cmake_progress_start /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libpng_build/CMakeFiles /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libpng_build//CMakeFiles/progress.marks
+        /Library/Developer/CommandLineTools/usr/bin/make  -f CMakeFiles/Makefile2 all
+        /Library/Developer/CommandLineTools/usr/bin/make  -f CMakeFiles/libpng_test.dir/build.make CMakeFiles/libpng_test.dir/depend
+        cd /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libpng_build && /opt/homebrew/Cellar/cmake/3.28.3/bin/cmake -E cmake_depends "Unix Makefiles" /Users/rtous/dev/back2black/third-party/dlib-19.24/dlib/cmake_utils/test_for_libpng /Users/rtous/dev/back2black/third-party/dlib-19.24/dlib/cmake_utils/test_for_libpng /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libpng_build /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libpng_build /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libpng_build/CMakeFiles/libpng_test.dir/DependInfo.cmake
+        Dependencies file "CMakeFiles/libpng_test.dir/libpng_test.cpp.o.d" is newer than depends file "/Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libpng_build/CMakeFiles/libpng_test.dir/compiler_depend.internal".
+        Consolidate compiler generated dependencies of target libpng_test
+        /Library/Developer/CommandLineTools/usr/bin/make  -f CMakeFiles/libpng_test.dir/build.make CMakeFiles/libpng_test.dir/build
+        make[2]: Nothing to be done for `CMakeFiles/libpng_test.dir/build'.
+        [100%] Built target libpng_test
+        /opt/homebrew/Cellar/cmake/3.28.3/bin/cmake -E cmake_progress_start /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libpng_build/CMakeFiles 0
+        
+      exitCode: 0
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "third-party/dlib-19.24/dlib/cmake_utils/find_libjpeg.cmake:25 (try_compile)"
+      - "third-party/dlib-19.24/dlib/CMakeLists.txt:504 (include)"
+    directories:
+      source: "/Users/rtous/dev/back2black/third-party/dlib-19.24/dlib/cmake_utils/test_for_libjpeg"
+      binary: "/Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libjpeg_build"
+    buildResult:
+      variable: "test_for_libjpeg_worked"
+      cached: true
+      stdout: |
+        Change Dir: '/Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libjpeg_build'
+        
+        Run Build Command(s): /opt/homebrew/Cellar/cmake/3.28.3/bin/cmake -E env VERBOSE=1 /usr/bin/make -f Makefile
+        /opt/homebrew/Cellar/cmake/3.28.3/bin/cmake -S/Users/rtous/dev/back2black/third-party/dlib-19.24/dlib/cmake_utils/test_for_libjpeg -B/Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libjpeg_build --check-build-system CMakeFiles/Makefile.cmake 0
+        /opt/homebrew/Cellar/cmake/3.28.3/bin/cmake -E cmake_progress_start /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libjpeg_build/CMakeFiles /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libjpeg_build//CMakeFiles/progress.marks
+        /Library/Developer/CommandLineTools/usr/bin/make  -f CMakeFiles/Makefile2 all
+        /Library/Developer/CommandLineTools/usr/bin/make  -f CMakeFiles/libjpeg_test.dir/build.make CMakeFiles/libjpeg_test.dir/depend
+        cd /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libjpeg_build && /opt/homebrew/Cellar/cmake/3.28.3/bin/cmake -E cmake_depends "Unix Makefiles" /Users/rtous/dev/back2black/third-party/dlib-19.24/dlib/cmake_utils/test_for_libjpeg /Users/rtous/dev/back2black/third-party/dlib-19.24/dlib/cmake_utils/test_for_libjpeg /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libjpeg_build /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libjpeg_build /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libjpeg_build/CMakeFiles/libjpeg_test.dir/DependInfo.cmake
+        Dependencies file "CMakeFiles/libjpeg_test.dir/libjpeg_test.cpp.o.d" is newer than depends file "/Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libjpeg_build/CMakeFiles/libjpeg_test.dir/compiler_depend.internal".
+        Consolidate compiler generated dependencies of target libjpeg_test
+        /Library/Developer/CommandLineTools/usr/bin/make  -f CMakeFiles/libjpeg_test.dir/build.make CMakeFiles/libjpeg_test.dir/build
+        make[2]: Nothing to be done for `CMakeFiles/libjpeg_test.dir/build'.
+        [100%] Built target libjpeg_test
+        /opt/homebrew/Cellar/cmake/3.28.3/bin/cmake -E cmake_progress_start /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libjpeg_build/CMakeFiles 0
+        
+      exitCode: 0
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "third-party/dlib-19.24/dlib/cmake_utils/use_cpp_11.cmake:24 (try_compile)"
+      - "third-party/dlib-19.24/dlib/cmake_utils/use_cpp_11.cmake:92 (test_compiler_for_cpp11)"
+      - "third-party/dlib-19.24/dlib/CMakeLists.txt:895 (enable_cpp11_for_target)"
+    directories:
+      source: "/Users/rtous/dev/back2black/third-party/dlib-19.24/dlib/cmake_utils/test_for_cpp11"
+      binary: "/Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/cpp11_test_build"
+    buildResult:
+      variable: "test_for_cpp11_worked"
+      cached: true
+      stdout: |
+        Change Dir: '/Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/cpp11_test_build'
+        
+        Run Build Command(s): /opt/homebrew/Cellar/cmake/3.28.3/bin/cmake -E env VERBOSE=1 /usr/bin/make -f Makefile
+        /opt/homebrew/Cellar/cmake/3.28.3/bin/cmake -S/Users/rtous/dev/back2black/third-party/dlib-19.24/dlib/cmake_utils/test_for_cpp11 -B/Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/cpp11_test_build --check-build-system CMakeFiles/Makefile.cmake 0
+        /opt/homebrew/Cellar/cmake/3.28.3/bin/cmake -E cmake_progress_start /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/cpp11_test_build/CMakeFiles /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/cpp11_test_build//CMakeFiles/progress.marks
+        /Library/Developer/CommandLineTools/usr/bin/make  -f CMakeFiles/Makefile2 all
+        /Library/Developer/CommandLineTools/usr/bin/make  -f CMakeFiles/cpp11_test.dir/build.make CMakeFiles/cpp11_test.dir/depend
+        cd /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/cpp11_test_build && /opt/homebrew/Cellar/cmake/3.28.3/bin/cmake -E cmake_depends "Unix Makefiles" /Users/rtous/dev/back2black/third-party/dlib-19.24/dlib/cmake_utils/test_for_cpp11 /Users/rtous/dev/back2black/third-party/dlib-19.24/dlib/cmake_utils/test_for_cpp11 /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/cpp11_test_build /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/cpp11_test_build /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/cpp11_test_build/CMakeFiles/cpp11_test.dir/DependInfo.cmake
+        Dependencies file "CMakeFiles/cpp11_test.dir/cpp11_test.cpp.o.d" is newer than depends file "/Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/cpp11_test_build/CMakeFiles/cpp11_test.dir/compiler_depend.internal".
+        Consolidate compiler generated dependencies of target cpp11_test
+        /Library/Developer/CommandLineTools/usr/bin/make  -f CMakeFiles/cpp11_test.dir/build.make CMakeFiles/cpp11_test.dir/build
+        make[2]: Nothing to be done for `CMakeFiles/cpp11_test.dir/build'.
+        [100%] Built target cpp11_test
+        /opt/homebrew/Cellar/cmake/3.28.3/bin/cmake -E cmake_progress_start /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/cpp11_test_build/CMakeFiles 0
+        
+      exitCode: 0
+...
+
+---
+events:
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "third-party/dlib-19.24/dlib/cmake_utils/find_libpng.cmake:25 (try_compile)"
+      - "third-party/dlib-19.24/dlib/CMakeLists.txt:443 (include)"
+    directories:
+      source: "/Users/rtous/dev/back2black/third-party/dlib-19.24/dlib/cmake_utils/test_for_libpng"
+      binary: "/Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libpng_build"
+    buildResult:
+      variable: "test_for_libpng_worked"
+      cached: true
+      stdout: |
+        Change Dir: '/Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libpng_build'
+        
+        Run Build Command(s): /opt/homebrew/Cellar/cmake/3.28.3/bin/cmake -E env VERBOSE=1 /usr/bin/make -f Makefile
+        /opt/homebrew/Cellar/cmake/3.28.3/bin/cmake -S/Users/rtous/dev/back2black/third-party/dlib-19.24/dlib/cmake_utils/test_for_libpng -B/Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libpng_build --check-build-system CMakeFiles/Makefile.cmake 0
+        /opt/homebrew/Cellar/cmake/3.28.3/bin/cmake -E cmake_progress_start /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libpng_build/CMakeFiles /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libpng_build//CMakeFiles/progress.marks
+        /Library/Developer/CommandLineTools/usr/bin/make  -f CMakeFiles/Makefile2 all
+        /Library/Developer/CommandLineTools/usr/bin/make  -f CMakeFiles/libpng_test.dir/build.make CMakeFiles/libpng_test.dir/depend
+        cd /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libpng_build && /opt/homebrew/Cellar/cmake/3.28.3/bin/cmake -E cmake_depends "Unix Makefiles" /Users/rtous/dev/back2black/third-party/dlib-19.24/dlib/cmake_utils/test_for_libpng /Users/rtous/dev/back2black/third-party/dlib-19.24/dlib/cmake_utils/test_for_libpng /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libpng_build /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libpng_build /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libpng_build/CMakeFiles/libpng_test.dir/DependInfo.cmake
+        Dependencies file "CMakeFiles/libpng_test.dir/libpng_test.cpp.o.d" is newer than depends file "/Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libpng_build/CMakeFiles/libpng_test.dir/compiler_depend.internal".
+        Consolidate compiler generated dependencies of target libpng_test
+        /Library/Developer/CommandLineTools/usr/bin/make  -f CMakeFiles/libpng_test.dir/build.make CMakeFiles/libpng_test.dir/build
+        make[2]: Nothing to be done for `CMakeFiles/libpng_test.dir/build'.
+        [100%] Built target libpng_test
+        /opt/homebrew/Cellar/cmake/3.28.3/bin/cmake -E cmake_progress_start /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libpng_build/CMakeFiles 0
+        
+      exitCode: 0
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "third-party/dlib-19.24/dlib/cmake_utils/find_libjpeg.cmake:25 (try_compile)"
+      - "third-party/dlib-19.24/dlib/CMakeLists.txt:504 (include)"
+    directories:
+      source: "/Users/rtous/dev/back2black/third-party/dlib-19.24/dlib/cmake_utils/test_for_libjpeg"
+      binary: "/Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libjpeg_build"
+    buildResult:
+      variable: "test_for_libjpeg_worked"
+      cached: true
+      stdout: |
+        Change Dir: '/Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libjpeg_build'
+        
+        Run Build Command(s): /opt/homebrew/Cellar/cmake/3.28.3/bin/cmake -E env VERBOSE=1 /usr/bin/make -f Makefile
+        /opt/homebrew/Cellar/cmake/3.28.3/bin/cmake -S/Users/rtous/dev/back2black/third-party/dlib-19.24/dlib/cmake_utils/test_for_libjpeg -B/Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libjpeg_build --check-build-system CMakeFiles/Makefile.cmake 0
+        /opt/homebrew/Cellar/cmake/3.28.3/bin/cmake -E cmake_progress_start /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libjpeg_build/CMakeFiles /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libjpeg_build//CMakeFiles/progress.marks
+        /Library/Developer/CommandLineTools/usr/bin/make  -f CMakeFiles/Makefile2 all
+        /Library/Developer/CommandLineTools/usr/bin/make  -f CMakeFiles/libjpeg_test.dir/build.make CMakeFiles/libjpeg_test.dir/depend
+        cd /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libjpeg_build && /opt/homebrew/Cellar/cmake/3.28.3/bin/cmake -E cmake_depends "Unix Makefiles" /Users/rtous/dev/back2black/third-party/dlib-19.24/dlib/cmake_utils/test_for_libjpeg /Users/rtous/dev/back2black/third-party/dlib-19.24/dlib/cmake_utils/test_for_libjpeg /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libjpeg_build /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libjpeg_build /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libjpeg_build/CMakeFiles/libjpeg_test.dir/DependInfo.cmake
+        Dependencies file "CMakeFiles/libjpeg_test.dir/libjpeg_test.cpp.o.d" is newer than depends file "/Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libjpeg_build/CMakeFiles/libjpeg_test.dir/compiler_depend.internal".
+        Consolidate compiler generated dependencies of target libjpeg_test
+        /Library/Developer/CommandLineTools/usr/bin/make  -f CMakeFiles/libjpeg_test.dir/build.make CMakeFiles/libjpeg_test.dir/build
+        make[2]: Nothing to be done for `CMakeFiles/libjpeg_test.dir/build'.
+        [100%] Built target libjpeg_test
+        /opt/homebrew/Cellar/cmake/3.28.3/bin/cmake -E cmake_progress_start /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libjpeg_build/CMakeFiles 0
+        
+      exitCode: 0
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "third-party/dlib-19.24/dlib/cmake_utils/use_cpp_11.cmake:24 (try_compile)"
+      - "third-party/dlib-19.24/dlib/cmake_utils/use_cpp_11.cmake:92 (test_compiler_for_cpp11)"
+      - "third-party/dlib-19.24/dlib/CMakeLists.txt:895 (enable_cpp11_for_target)"
+    directories:
+      source: "/Users/rtous/dev/back2black/third-party/dlib-19.24/dlib/cmake_utils/test_for_cpp11"
+      binary: "/Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/cpp11_test_build"
+    buildResult:
+      variable: "test_for_cpp11_worked"
+      cached: true
+      stdout: |
+        Change Dir: '/Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/cpp11_test_build'
+        
+        Run Build Command(s): /opt/homebrew/Cellar/cmake/3.28.3/bin/cmake -E env VERBOSE=1 /usr/bin/make -f Makefile
+        /opt/homebrew/Cellar/cmake/3.28.3/bin/cmake -S/Users/rtous/dev/back2black/third-party/dlib-19.24/dlib/cmake_utils/test_for_cpp11 -B/Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/cpp11_test_build --check-build-system CMakeFiles/Makefile.cmake 0
+        /opt/homebrew/Cellar/cmake/3.28.3/bin/cmake -E cmake_progress_start /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/cpp11_test_build/CMakeFiles /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/cpp11_test_build//CMakeFiles/progress.marks
+        /Library/Developer/CommandLineTools/usr/bin/make  -f CMakeFiles/Makefile2 all
+        /Library/Developer/CommandLineTools/usr/bin/make  -f CMakeFiles/cpp11_test.dir/build.make CMakeFiles/cpp11_test.dir/depend
+        cd /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/cpp11_test_build && /opt/homebrew/Cellar/cmake/3.28.3/bin/cmake -E cmake_depends "Unix Makefiles" /Users/rtous/dev/back2black/third-party/dlib-19.24/dlib/cmake_utils/test_for_cpp11 /Users/rtous/dev/back2black/third-party/dlib-19.24/dlib/cmake_utils/test_for_cpp11 /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/cpp11_test_build /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/cpp11_test_build /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/cpp11_test_build/CMakeFiles/cpp11_test.dir/DependInfo.cmake
+        Dependencies file "CMakeFiles/cpp11_test.dir/cpp11_test.cpp.o.d" is newer than depends file "/Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/cpp11_test_build/CMakeFiles/cpp11_test.dir/compiler_depend.internal".
+        Consolidate compiler generated dependencies of target cpp11_test
+        /Library/Developer/CommandLineTools/usr/bin/make  -f CMakeFiles/cpp11_test.dir/build.make CMakeFiles/cpp11_test.dir/build
+        make[2]: Nothing to be done for `CMakeFiles/cpp11_test.dir/build'.
+        [100%] Built target cpp11_test
+        /opt/homebrew/Cellar/cmake/3.28.3/bin/cmake -E cmake_progress_start /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/cpp11_test_build/CMakeFiles 0
+        
+      exitCode: 0
+...
+
+---
+events:
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "third-party/dlib-19.24/dlib/cmake_utils/find_libpng.cmake:25 (try_compile)"
+      - "third-party/dlib-19.24/dlib/CMakeLists.txt:443 (include)"
+    directories:
+      source: "/Users/rtous/dev/back2black/third-party/dlib-19.24/dlib/cmake_utils/test_for_libpng"
+      binary: "/Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libpng_build"
+    buildResult:
+      variable: "test_for_libpng_worked"
+      cached: true
+      stdout: |
+        Change Dir: '/Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libpng_build'
+        
+        Run Build Command(s): /opt/homebrew/Cellar/cmake/3.28.3/bin/cmake -E env VERBOSE=1 /usr/bin/make -f Makefile
+        /opt/homebrew/Cellar/cmake/3.28.3/bin/cmake -S/Users/rtous/dev/back2black/third-party/dlib-19.24/dlib/cmake_utils/test_for_libpng -B/Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libpng_build --check-build-system CMakeFiles/Makefile.cmake 0
+        /opt/homebrew/Cellar/cmake/3.28.3/bin/cmake -E cmake_progress_start /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libpng_build/CMakeFiles /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libpng_build//CMakeFiles/progress.marks
+        /Library/Developer/CommandLineTools/usr/bin/make  -f CMakeFiles/Makefile2 all
+        /Library/Developer/CommandLineTools/usr/bin/make  -f CMakeFiles/libpng_test.dir/build.make CMakeFiles/libpng_test.dir/depend
+        cd /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libpng_build && /opt/homebrew/Cellar/cmake/3.28.3/bin/cmake -E cmake_depends "Unix Makefiles" /Users/rtous/dev/back2black/third-party/dlib-19.24/dlib/cmake_utils/test_for_libpng /Users/rtous/dev/back2black/third-party/dlib-19.24/dlib/cmake_utils/test_for_libpng /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libpng_build /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libpng_build /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libpng_build/CMakeFiles/libpng_test.dir/DependInfo.cmake
+        Dependencies file "CMakeFiles/libpng_test.dir/libpng_test.cpp.o.d" is newer than depends file "/Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libpng_build/CMakeFiles/libpng_test.dir/compiler_depend.internal".
+        Consolidate compiler generated dependencies of target libpng_test
+        /Library/Developer/CommandLineTools/usr/bin/make  -f CMakeFiles/libpng_test.dir/build.make CMakeFiles/libpng_test.dir/build
+        make[2]: Nothing to be done for `CMakeFiles/libpng_test.dir/build'.
+        [100%] Built target libpng_test
+        /opt/homebrew/Cellar/cmake/3.28.3/bin/cmake -E cmake_progress_start /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libpng_build/CMakeFiles 0
+        
+      exitCode: 0
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "third-party/dlib-19.24/dlib/cmake_utils/find_libjpeg.cmake:25 (try_compile)"
+      - "third-party/dlib-19.24/dlib/CMakeLists.txt:504 (include)"
+    directories:
+      source: "/Users/rtous/dev/back2black/third-party/dlib-19.24/dlib/cmake_utils/test_for_libjpeg"
+      binary: "/Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libjpeg_build"
+    buildResult:
+      variable: "test_for_libjpeg_worked"
+      cached: true
+      stdout: |
+        Change Dir: '/Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libjpeg_build'
+        
+        Run Build Command(s): /opt/homebrew/Cellar/cmake/3.28.3/bin/cmake -E env VERBOSE=1 /usr/bin/make -f Makefile
+        /opt/homebrew/Cellar/cmake/3.28.3/bin/cmake -S/Users/rtous/dev/back2black/third-party/dlib-19.24/dlib/cmake_utils/test_for_libjpeg -B/Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libjpeg_build --check-build-system CMakeFiles/Makefile.cmake 0
+        /opt/homebrew/Cellar/cmake/3.28.3/bin/cmake -E cmake_progress_start /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libjpeg_build/CMakeFiles /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libjpeg_build//CMakeFiles/progress.marks
+        /Library/Developer/CommandLineTools/usr/bin/make  -f CMakeFiles/Makefile2 all
+        /Library/Developer/CommandLineTools/usr/bin/make  -f CMakeFiles/libjpeg_test.dir/build.make CMakeFiles/libjpeg_test.dir/depend
+        cd /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libjpeg_build && /opt/homebrew/Cellar/cmake/3.28.3/bin/cmake -E cmake_depends "Unix Makefiles" /Users/rtous/dev/back2black/third-party/dlib-19.24/dlib/cmake_utils/test_for_libjpeg /Users/rtous/dev/back2black/third-party/dlib-19.24/dlib/cmake_utils/test_for_libjpeg /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libjpeg_build /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libjpeg_build /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libjpeg_build/CMakeFiles/libjpeg_test.dir/DependInfo.cmake
+        Dependencies file "CMakeFiles/libjpeg_test.dir/libjpeg_test.cpp.o.d" is newer than depends file "/Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libjpeg_build/CMakeFiles/libjpeg_test.dir/compiler_depend.internal".
+        Consolidate compiler generated dependencies of target libjpeg_test
+        /Library/Developer/CommandLineTools/usr/bin/make  -f CMakeFiles/libjpeg_test.dir/build.make CMakeFiles/libjpeg_test.dir/build
+        make[2]: Nothing to be done for `CMakeFiles/libjpeg_test.dir/build'.
+        [100%] Built target libjpeg_test
+        /opt/homebrew/Cellar/cmake/3.28.3/bin/cmake -E cmake_progress_start /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/test_for_libjpeg_build/CMakeFiles 0
+        
+      exitCode: 0
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "third-party/dlib-19.24/dlib/cmake_utils/use_cpp_11.cmake:24 (try_compile)"
+      - "third-party/dlib-19.24/dlib/cmake_utils/use_cpp_11.cmake:92 (test_compiler_for_cpp11)"
+      - "third-party/dlib-19.24/dlib/CMakeLists.txt:895 (enable_cpp11_for_target)"
+    directories:
+      source: "/Users/rtous/dev/back2black/third-party/dlib-19.24/dlib/cmake_utils/test_for_cpp11"
+      binary: "/Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/cpp11_test_build"
+    buildResult:
+      variable: "test_for_cpp11_worked"
+      cached: true
+      stdout: |
+        Change Dir: '/Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/cpp11_test_build'
+        
+        Run Build Command(s): /opt/homebrew/Cellar/cmake/3.28.3/bin/cmake -E env VERBOSE=1 /usr/bin/make -f Makefile
+        /opt/homebrew/Cellar/cmake/3.28.3/bin/cmake -S/Users/rtous/dev/back2black/third-party/dlib-19.24/dlib/cmake_utils/test_for_cpp11 -B/Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/cpp11_test_build --check-build-system CMakeFiles/Makefile.cmake 0
+        /opt/homebrew/Cellar/cmake/3.28.3/bin/cmake -E cmake_progress_start /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/cpp11_test_build/CMakeFiles /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/cpp11_test_build//CMakeFiles/progress.marks
+        /Library/Developer/CommandLineTools/usr/bin/make  -f CMakeFiles/Makefile2 all
+        /Library/Developer/CommandLineTools/usr/bin/make  -f CMakeFiles/cpp11_test.dir/build.make CMakeFiles/cpp11_test.dir/depend
+        cd /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/cpp11_test_build && /opt/homebrew/Cellar/cmake/3.28.3/bin/cmake -E cmake_depends "Unix Makefiles" /Users/rtous/dev/back2black/third-party/dlib-19.24/dlib/cmake_utils/test_for_cpp11 /Users/rtous/dev/back2black/third-party/dlib-19.24/dlib/cmake_utils/test_for_cpp11 /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/cpp11_test_build /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/cpp11_test_build /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/cpp11_test_build/CMakeFiles/cpp11_test.dir/DependInfo.cmake
+        Dependencies file "CMakeFiles/cpp11_test.dir/cpp11_test.cpp.o.d" is newer than depends file "/Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/cpp11_test_build/CMakeFiles/cpp11_test.dir/compiler_depend.internal".
+        Consolidate compiler generated dependencies of target cpp11_test
+        /Library/Developer/CommandLineTools/usr/bin/make  -f CMakeFiles/cpp11_test.dir/build.make CMakeFiles/cpp11_test.dir/build
+        make[2]: Nothing to be done for `CMakeFiles/cpp11_test.dir/build'.
+        [100%] Built target cpp11_test
+        /opt/homebrew/Cellar/cmake/3.28.3/bin/cmake -E cmake_progress_start /Users/rtous/dev/back2black/build_macos/third-party/dlib-19.24/dlib/cpp11_test_build/CMakeFiles 0
+        
+      exitCode: 0
+...

@@ -218,3 +218,11 @@ ANNEX 4. Fonts (and icons)
 		https://pixtur.github.io/mkdocs-for-imgui/site/FONTS/
 		https://github.com/ocornut/imgui/blob/master/docs/FONTS.md
 
+ANNEX 5. dlib (for the facial landmarks)
+
+- Download the dlib sources from http://dlib.net/compile.html (dowload button)
+- Unzip and copy the dlib-19.24 folder (with only the dlib subfolder and the CMakeLists.txt) within third-party. 
+- In the editor add:
+
+include_directories(${dlib_INCLUDE_DIRS})
+and dlib within the target_link_libraries (it regconizes the name)

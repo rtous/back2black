@@ -167,6 +167,20 @@ editor/CMakeFiles/editor.dir/video.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/editor.dir/video.cpp.s"
 	cd /Users/rtous/dev/back2black/build_macos/editor && /Library/Developer/CommandLineTools/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/rtous/dev/back2black/editor/video.cpp -o CMakeFiles/editor.dir/video.cpp.s
 
+editor/CMakeFiles/editor.dir/faces.cpp.o: editor/CMakeFiles/editor.dir/flags.make
+editor/CMakeFiles/editor.dir/faces.cpp.o: /Users/rtous/dev/back2black/editor/faces.cpp
+editor/CMakeFiles/editor.dir/faces.cpp.o: editor/CMakeFiles/editor.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/rtous/dev/back2black/build_macos/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Building CXX object editor/CMakeFiles/editor.dir/faces.cpp.o"
+	cd /Users/rtous/dev/back2black/build_macos/editor && /Library/Developer/CommandLineTools/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT editor/CMakeFiles/editor.dir/faces.cpp.o -MF CMakeFiles/editor.dir/faces.cpp.o.d -o CMakeFiles/editor.dir/faces.cpp.o -c /Users/rtous/dev/back2black/editor/faces.cpp
+
+editor/CMakeFiles/editor.dir/faces.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/editor.dir/faces.cpp.i"
+	cd /Users/rtous/dev/back2black/build_macos/editor && /Library/Developer/CommandLineTools/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/rtous/dev/back2black/editor/faces.cpp > CMakeFiles/editor.dir/faces.cpp.i
+
+editor/CMakeFiles/editor.dir/faces.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/editor.dir/faces.cpp.s"
+	cd /Users/rtous/dev/back2black/build_macos/editor && /Library/Developer/CommandLineTools/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/rtous/dev/back2black/editor/faces.cpp -o CMakeFiles/editor.dir/faces.cpp.s
+
 # Object files for target editor
 editor_OBJECTS = \
 "CMakeFiles/editor.dir/colors.cpp.o" \
@@ -175,7 +189,8 @@ editor_OBJECTS = \
 "CMakeFiles/editor.dir/editor.cpp.o" \
 "CMakeFiles/editor.dir/file_dialog.cpp.o" \
 "CMakeFiles/editor.dir/sam_utils.cpp.o" \
-"CMakeFiles/editor.dir/video.cpp.o"
+"CMakeFiles/editor.dir/video.cpp.o" \
+"CMakeFiles/editor.dir/faces.cpp.o"
 
 # External object files for target editor
 editor_EXTERNAL_OBJECTS =
@@ -187,6 +202,7 @@ bin/editor: editor/CMakeFiles/editor.dir/editor.cpp.o
 bin/editor: editor/CMakeFiles/editor.dir/file_dialog.cpp.o
 bin/editor: editor/CMakeFiles/editor.dir/sam_utils.cpp.o
 bin/editor: editor/CMakeFiles/editor.dir/video.cpp.o
+bin/editor: editor/CMakeFiles/editor.dir/faces.cpp.o
 bin/editor: editor/CMakeFiles/editor.dir/build.make
 bin/editor: third-party/sam/libsam.a
 bin/editor: common/libcommon.a
@@ -206,6 +222,7 @@ bin/editor: /Users/rtous/dev/opencv/build/lib/libopencv_photo.a
 bin/editor: /Users/rtous/dev/opencv/build/lib/libopencv_stitching.a
 bin/editor: /Users/rtous/dev/opencv/build/lib/libopencv_video.a
 bin/editor: /Users/rtous/dev/opencv/build/lib/libopencv_videoio.a
+bin/editor: third-party/dlib-19.24/dlib/libdlib.a
 bin/editor: third-party/imgui/libimgui-sdl2.a
 bin/editor: third-party/ImGuiFileDialog/libImGuiFileDialog.a
 bin/editor: third-party/sam/libsam.a
@@ -280,11 +297,21 @@ bin/editor: /Users/rtous/dev/opencv/build/lib/libopencv_core.a
 bin/editor: /Users/rtous/dev/opencv/build/3rdparty/lib/libzlib.a
 bin/editor: /Users/rtous/dev/opencv/build/3rdparty/lib/libittnotify.a
 bin/editor: /Users/rtous/dev/opencv/build/3rdparty/lib/libtegra_hal.a
+bin/editor: /opt/homebrew/lib/libX11.dylib
+bin/editor: /opt/homebrew/lib/libXext.dylib
+bin/editor: /opt/homebrew/lib/libgif.dylib
+bin/editor: /opt/homebrew/lib/libpng.dylib
+bin/editor: /Library/Developer/CommandLineTools/SDKs/MacOSX14.4.sdk/usr/lib/libz.tbd
+bin/editor: /opt/homebrew/lib/libjpeg.dylib
+bin/editor: /opt/homebrew/lib/libwebp.dylib
+bin/editor: /Library/Developer/CommandLineTools/SDKs/MacOSX14.4.sdk/usr/lib/libcblas.tbd
+bin/editor: /Library/Developer/CommandLineTools/SDKs/MacOSX14.4.sdk/usr/lib/liblapack.tbd
+bin/editor: /Library/Developer/CommandLineTools/SDKs/MacOSX14.4.sdk/usr/lib/libsqlite3.tbd
 bin/editor: third-party/imgui/libimgui-sdl2.a
 bin/editor: third-party/imgui/libimgui.a
 bin/editor: /opt/homebrew/Cellar/sdl2/2.30.7/lib/libSDL2.dylib
 bin/editor: editor/CMakeFiles/editor.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/Users/rtous/dev/back2black/build_macos/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Linking CXX executable ../bin/editor"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/Users/rtous/dev/back2black/build_macos/CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Linking CXX executable ../bin/editor"
 	cd /Users/rtous/dev/back2black/build_macos/editor && $(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/editor.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.
