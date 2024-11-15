@@ -151,6 +151,9 @@ void opencv_image2sam_binarymask(sam_image_u8 & sam_image, cv::Mat & opencv_imag
 
 //Given a color OpenCV image, it translates it into an image in sam format
 //Not used!?!?! not sure if works properly
+//TODO: It does not work I guess...
+//Potentially used to convert the face -> sam -> GLTexture
+//But trying directly face -> GLTexture
 void opencv_image2sam(sam_image_u8 & sam_image, cv::Mat & opencv_image) {
     //Convert default OpenCV BGR to RGB
     cv::cvtColor(opencv_image, opencv_image, cv::COLOR_BGR2RGB);

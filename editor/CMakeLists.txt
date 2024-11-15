@@ -8,7 +8,6 @@ add_executable(${EXAMPLE_TARGET}
     file_dialog.cpp
     sam_utils.cpp
     video.cpp
-    faces.cpp
 )
 
 #OpenCV stuff
@@ -22,7 +21,7 @@ find_package(OpenCV REQUIRED)
 include_directories(${dlib_INCLUDE_DIRS})
 
 install(TARGETS ${EXAMPLE_TARGET} RUNTIME)
-target_link_libraries(${EXAMPLE_TARGET} PRIVATE sam common simplify ${OpenCV_LIBS} dlib imgui-sdl2 ImGuiFileDialog ${CMAKE_THREAD_LIBS_INIT})
+target_link_libraries(${EXAMPLE_TARGET} PRIVATE sam common simplify face ${OpenCV_LIBS} dlib imgui-sdl2 ImGuiFileDialog ${CMAKE_THREAD_LIBS_INIT})
 target_compile_features(${EXAMPLE_TARGET} PUBLIC cxx_std_11)
 
 #If Microsoft Visual C++ or similar

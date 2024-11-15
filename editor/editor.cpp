@@ -22,6 +22,10 @@
 #include "simplify.h"
 #include <thread>
 #include "IconsFontAwesome5.h" //see https://github.com/juliettef/IconFontCppHeaders
+#include "face.h"
+
+//#include <iostream>
+#include <unistd.h> //sleep funcion (debug)
 
 /*
     MyState &myState contains the state of the editor.
@@ -86,18 +90,18 @@ static void ShowExampleAppMainMenuBar(bool *show_file_dialog, MyState &myState)
         if (ImGui::BeginMenu("File"))
         {
             //ImGui::MenuItem("(demo menu)", NULL, false, false);
-            if (ImGui::MenuItem("Open", "Ctrl+O")) {
+            if (ImGui::MenuItem("Open Image", "Ctrl+O")) {
                 *show_file_dialog = true;
                 myState.file_dialog_mode = FILE_DIALOG_LOAD_SINGLE_FILE;
                 myState.clicked = false;//to avoid the click going through
             }
-            if (ImGui::MenuItem("Open Video", "Ctrl+J")) {
+            if (ImGui::MenuItem("Open Video", "Ctrl+V")) {
                 *show_file_dialog = true;
                 //myState.show_file_dialog_video = true;
                 myState.file_dialog_mode = FILE_DIALOG_LOAD_VIDEO;
                 myState.clicked = false;//to avoid the click going through
             }
-            if (ImGui::MenuItem("Save Video", "Ctrl+J")) {
+            if (ImGui::MenuItem("Save Video", "Ctrl+S")) {
                 *show_file_dialog = true;
                 //myState.show_file_dialog_save_video = true;
                 myState.file_dialog_mode = FILE_DIALOG_SAVE_VIDEO;
@@ -105,7 +109,7 @@ static void ShowExampleAppMainMenuBar(bool *show_file_dialog, MyState &myState)
             }
             ImGui::EndMenu();
         }
-        if (ImGui::BeginMenu("Edit"))
+        /*if (ImGui::BeginMenu("Edit"))
         {
             if (ImGui::MenuItem("Undo", "CTRL+Z")) {}
             if (ImGui::MenuItem("Redo", "CTRL+Y", false, false)) {}  // Disabled item
@@ -114,11 +118,11 @@ static void ShowExampleAppMainMenuBar(bool *show_file_dialog, MyState &myState)
             if (ImGui::MenuItem("Copy", "CTRL+C")) {}
             if (ImGui::MenuItem("Paste", "CTRL+V")) {}
             ImGui::EndMenu();
-        }
+        }*/
         if (ImGui::BeginMenu("Tools"))
         {
             //ImGui::MenuItem("(demo menu)", NULL, false, false);
-            if (ImGui::MenuItem("Propagate masks to all frames", "Ctrl+P")) {
+            if (ImGui::MenuItem("Propagate masks to next frames", "Ctrl+P")) {
                 //myState.propagate = true;
                 myState.propagate_dialog = true;
                 myState.clicked = false;//to avoid the click go into the frame
@@ -180,6 +184,9 @@ static void drawAllMasks(MyState &myState, const ImGuiViewport* viewport, ImVec2
                 draw_list->AddImage((void*)(intptr_t)aMask.maskTexture, ImVec2(newPos[0], newPos[1]), ImVec2(newPos[0]+myState.img.nx, newPos[1]+myState.img.ny), ImVec2(0,0), ImVec2(1,1), IM_COL32(r, g, b, 255));  
         }
     }
+    if (simplified)
+        if (myState.aVideo.frames[myState.selected_frame].faces_computed)
+            draw_list->AddImage((void*)(intptr_t)myState.aVideo.frames[myState.selected_frame].facesTexture, ImVec2(newPos[0], newPos[1]), ImVec2(newPos[0]+myState.img.nx, newPos[1]+myState.img.ny), ImVec2(0,0), ImVec2(1,1));       
 }
 
 
@@ -214,7 +221,9 @@ static void frameWindow(MyState &myState, bool *show_myWindow, const ImGuiViewpo
     ImGui::SetNextWindowSize(use_work_area ? size : viewport->Size);
     //Create EDITOR window
     //ImGui::Begin("FRAME", show_myWindow);   // Pass a pointer to our bool variable (the window will have a closing button that will clear the bool when clicked)
-    ImGui::Begin("FRAME", show_myWindow, ImGuiWindowFlags_NoTitleBar);
+    //ImGui::Begin("FRAME", show_myWindow, ImGuiWindowFlags_NoTitleBar);
+    //ImGui::Begin("FRAME", show_myWindow, ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoCollapse);
+    ImGui::Begin("FRAME", NULL, ImGuiWindowFlags_NoCollapse);
     //myState.img_frame_pos_x = ;
     //myState.img_frame_pos_y;
 
@@ -242,7 +251,7 @@ static void frameWindow(MyState &myState, bool *show_myWindow, const ImGuiViewpo
         //draw_list->AddImage((void*)(intptr_t)aFrame.tex, ImVec2(myState.img_frame_pos_x,myState.img_frame_pos_y), ImVec2(myState.img.nx, myState.img.ny));
         //draw_list->AddCircleFilled(ImVec2(100, 100), 5, IM_COL32(255, 0, 0, 255));
     } else {
-        ImGui::Text("Load an image from the File menu.");
+        ImGui::Text("Load a video or an image from the File menu.");
     }
     /********************/
 
@@ -328,7 +337,7 @@ static void framesListWindow(MyState &myState, const ImGuiViewport* viewport, Im
     //ImVec2 newPos = ImVec2(viewport->WorkPos.x + 0, viewport->WorkPos.y + 0);
     ImGui::SetNextWindowPos(newPos);
     ImGui::SetNextWindowSize(use_work_area ? size : viewport->Size);
-    ImGui::Begin("FRAMES");
+    ImGui::Begin("FRAMES", NULL, ImGuiWindowFlags_NoCollapse);
     //ImGui::Text("FRAMES WINDOW"); 
 
     //const char* items[] = { "AAAA", "BBBB", "CCCC", "DDDD", "EEEE", "FFFF", "GGGG", "HHHH", "IIII", "JJJJ", "KKKK", "LLLLLLL", "MMMM", "OOOOOOO" };
@@ -398,7 +407,7 @@ static void masksListWindow(MyState &myState, const ImGuiViewport* viewport, ImG
     //ImVec2 newPos = ImVec2(viewport->WorkPos.x + (viewport->WorkSize.x * 0.08f), viewport->WorkPos.y + (viewport->WorkSize.y * 0.75f);
     ImGui::SetNextWindowPos(newPos);
     ImGui::SetNextWindowSize(use_work_area ? size : viewport->Size);
-    ImGui::Begin("MASKS");
+    ImGui::Begin("MASKS", NULL, ImGuiWindowFlags_NoCollapse);
     //ImGui::Text("MASKS WINDOW"); 
     
     std::vector<std::string> items; 
@@ -662,14 +671,13 @@ static void finishingWindow(MyState &myState, bool *show_myWindow, const ImGuiVi
     ImGui::SetNextWindowPos(newPos);
     ImGui::SetNextWindowSize(use_work_area ? size : viewport->Size);
     //ImGui::Begin("FINISHING PANEL", show_myWindow, ImGuiWindowFlags_NoTitleBar);
-    ImGui::Begin("FINISHING PANEL", show_myWindow);
-    ImGui::Text("No mask has yet been selected in the frame panel."); 
-
-    
+    ImGui::Begin("FINISHING PANEL", show_myWindow, ImGuiWindowFlags_NoCollapse);
     if (myState.img_loaded) {  
         //Origin considering the bars 
         ImVec2 newPos = ImVec2(viewport->Pos.x + (viewport->WorkSize.x * 0.5f), viewport->Pos.y + 0);
         drawAllMasks(myState, viewport, ImVec2(viewport->WorkPos.x + (viewport->WorkSize.x * 0.5f), viewport->WorkPos.y + 0), true);
+    } else {
+        ImGui::Text("No mask has yet been selected in the frame panel."); 
     }
 
     ImGui::End();
@@ -684,7 +692,51 @@ static void finishingConfigWindow(MyState &myState, const ImGuiViewport* viewpor
     //ImVec2 newPos = ImVec2(viewport->WorkPos.x + (viewport->WorkSize.x * 0.08f), viewport->WorkPos.y + (viewport->WorkSize.y * 0.75f);
     ImGui::SetNextWindowPos(newPos);
     ImGui::SetNextWindowSize(use_work_area ? size : viewport->Size);
-    ImGui::Begin("FINISHING DETAILS CONFIGURATION"); 
+    ImGui::Begin("FINISHING DETAILS", NULL, ImGuiWindowFlags_NoCollapse); 
+    
+    //PROGRESS BAR
+    if (myState.propagating) {
+        //ImGui::ProgressBar(ImGui::GetTime() * -0.2f, ImVec2(0, 0), "Loading...");
+        ImGui::ProgressBar(sinf((float)ImGui::GetTime()) * 0.5f + 0.5f, ImVec2(ImGui::GetFontSize() * 25, 0.0f));
+        
+        // Animate a simple progress bar
+        static float progress = 0.0f, progress_dir = 1.0f;
+        progress += progress_dir * 0.4f * ImGui::GetIO().DeltaTime;
+        if (progress >= +1.1f) { progress = +1.1f; progress_dir *= -1.0f; }
+        if (progress <= -0.1f) { progress = -0.1f; progress_dir *= -1.0f; }
+        ImGui::ProgressBar(progress, ImVec2(0.0f, 0.0f));
+        ImGui::SameLine(0.0f, ImGui::GetStyle().ItemInnerSpacing.x);
+        ImGui::Text("Progress Bar");
+
+        #define IM_CLAMP(V, MN, MX)     ((V) < (MN) ? (MN) : (V) > (MX) ? (MX) : (V))
+        float progress_saturated = IM_CLAMP(progress, 0.0f, 1.0f);
+        char buf[32];
+        sprintf(buf, "%d/%d", (int)(progress_saturated * 1753), 1753);
+        ImGui::ProgressBar(progress, ImVec2(0.f, 0.f), buf);
+    }
+    ////////////
+
+    if (myState.img_loaded) {
+        ImGui::Checkbox("Facial traits", &myState.aVideo.frames[myState.selected_frame].faces_check);
+        if (myState.aVideo.frames[myState.selected_frame].faces_check && !myState.aVideo.frames[myState.selected_frame].faces_computed) {
+            printf("Computing face...\n");
+            //myState.aVideo.frames[myState.selected_frame].faces = //myState.aVideo.frames[myState.selected_frame].img.clone();    
+            cv::Mat blankImageWithAlpha = cv::Mat(cv::Size(myState.aVideo.frames[myState.selected_frame].img.cols,myState.aVideo.frames[myState.selected_frame].img.rows), CV_8UC4, cv::Scalar(0,0,0,0));
+            face(myState.aVideo.frames[myState.selected_frame].img, blankImageWithAlpha, cv::Scalar(118, 113, 168, 255), cv::Scalar(61, 71, 118, 255));
+            myState.aVideo.frames[myState.selected_frame].faces = blankImageWithAlpha;
+            //DEBUG
+            cv::imwrite("borrar_faces.png", myState.aVideo.frames[myState.selected_frame].faces);
+            sam_image_u8 sam_img_face;
+            //opencv_image2sam(sam_img_face, myState.aVideo.frames[myState.selected_frame].faces);
+            //sam_image2opencv_color(sam_img_face, myState.aVideo.frames[myState.selected_frame].faces);
+            //sam_image_u8 sam_img_face_rgb = sam_image2color(sam_img_face);
+            //GLuint newGLTextureFace = createGLTexture(sam_img_face, GL_RGBA);
+            GLuint newGLTextureFace = createGLTextureOpenCV(blankImageWithAlpha, GL_RGBA);
+            myState.aVideo.frames[myState.selected_frame].facesTexture = newGLTextureFace;
+            myState.aVideo.frames[myState.selected_frame].faces_computed = true;
+        }
+    }
+
     ImGui::End();
 }
 
@@ -884,7 +936,25 @@ void asynch_task(MyState &myState)
 	compute_mask_textures_all_frames(myState.aVideo.frames);
 	myState.propagate = false;
 	printf("PROPAGATED.\n");*/
+    /*for (int i=0; i<10; i++) {
+        printf("THREAD...\n");
+        sleep(1);
+    }*/
+    propagate_masks(myState.aVideo.frames, *myState.a_sam_state, myState.params.n_threads, myState.start_frame, myState.end_frame);
+    /*compute_mask_textures_all_frames(myState.aVideo.frames);
+    myState.start_frame = -1;
+    myState.end_frame = -1;
+    myState.propagated = true; 
+    myState.propagating = false; 
+    printf("PROPAGATED.\n");
+    //Precompute actual frame to keep things as they were
+    if (!sam_compute_embd_img(myState.img, myState.params.n_threads, *myState.a_sam_state)) {
+        fprintf(stderr, "%s: failed to compute encoded image\n", __func__);
+        //return 1;
+    }
+    myState.frame_precomputed = myState.selected_frame;  */
     printf("THREAD FINISHED.\n");
+    myState.propagated = true; 
 }
 
 //checks user actions (e.g. open a file, etc.)
@@ -898,26 +968,71 @@ void checkActions(MyState &myState)
         printf("PROPAGATING...\n");
 		
 		//testing
-        //std::thread thread_1(asynch_task, std::ref(myState));
-		//t1.join(); //to wait the thread
-		
-        propagate_masks(myState.aVideo.frames, *myState.a_sam_state, myState.params.n_threads, myState.start_frame, myState.end_frame);
-        //propagate_masks(myState.aVideo.frames, *myState.a_sam_state, myState.params.n_threads);
-        compute_mask_textures_all_frames(myState.aVideo.frames);
         myState.propagate = false;
+        myState.propagating = true;
+        
+        bool using_threads = true; //CURRENTLY DISABLED
+        if (using_threads) { 
+            std::thread thread_1(asynch_task, std::ref(myState));
+		    thread_1.detach(); //to avoid crashing when the thread ends
+        } else {
+            propagate_masks(myState.aVideo.frames, *myState.a_sam_state, myState.params.n_threads, myState.start_frame, myState.end_frame);
+            myState.propagated = true;
+        }
+		
+        //Not entering here later because myState.propagate will be false
+        /*if (myState.propagated) {
+            printf("THREAD END CAPTURED.\n");
+            myState.propagated = false;
+            myState.propagating = false;
+            
+                  
+        }*/
+    }
+    if (myState.propagated) {
+        printf("THREAD END CAPTURED.\n");
+        myState.propagated = false;
+        myState.propagating = false;
+        compute_mask_textures_all_frames(myState.aVideo.frames);
         myState.start_frame = -1;
         myState.end_frame = -1;
         printf("PROPAGATED.\n");
-
         //Precompute actual frame to keep things as they were
         if (!sam_compute_embd_img(myState.img, myState.params.n_threads, *myState.a_sam_state)) {
             fprintf(stderr, "%s: failed to compute encoded image\n", __func__);
             //return 1;
         }
-        myState.frame_precomputed = myState.selected_frame;
-
+        myState.frame_precomputed = myState.selected_frame;       
     }
 }
+/*
+void IndeterminateProgressBar(const ImVec2& size_arg)
+{
+    using namespace ImGui;
+
+    ImGuiContext& g = *GImGui;
+    ImGuiWindow* window = GetCurrentWindow();
+    if (window->SkipItems)
+        return;
+
+    ImGuiStyle& style = g.Style;
+    ImVec2 size = CalcItemSize(size_arg, CalcItemWidth(), g.FontSize + style.FramePadding.y * 2.0f);
+    ImVec2 pos = window->DC.CursorPos;
+    ImRect bb(pos.x, pos.y, pos.x + size.x, pos.y + size.y);
+    ItemSize(size);
+    if (!ItemAdd(bb, 0))
+        return;
+
+    const float speed = g.FontSize * 0.05f;
+    const float phase = ImFmod((float)g.Time * speed, 1.0f);
+    const float width_normalized = 0.2f;
+    float t0 = phase * (1.0f + width_normalized) - width_normalized;
+    float t1 = t0 + width_normalized;
+
+    RenderFrame(bb.Min, bb.Max, GetColorU32(ImGuiCol_FrameBg), true, style.FrameRounding);
+    bb.Expand(ImVec2(-style.FrameBorderSize, -style.FrameBorderSize));
+    RenderRectFilledRangeH(window->DrawList, bb, GetColorU32(ImGuiCol_PlotHistogram), t0, t1, style.FrameRounding);
+}*/
 
 //Main editor method (called within the main loop)
 void editor(bool *show_myWindow, bool *show_file_dialog, MyState &myState) //WARNING: this is executed within the main loop
@@ -970,6 +1085,7 @@ void editor(bool *show_myWindow, bool *show_file_dialog, MyState &myState) //WAR
     //printf("finishingWindow...\n");
     finishingConfigWindow(myState, viewport, flags, use_work_area);
 
+    
 
     //PROPAGATE
     //printf("propagate...\n");

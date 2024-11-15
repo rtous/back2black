@@ -8,6 +8,7 @@ Universitat Politecnica de Catalunya
 
 TODO
 
+- guardo coses que no sempre cal (textures, imatges, etc.)
 - propagate progress bar
 - Faces
 - Is the image width and height adjusted to the window?

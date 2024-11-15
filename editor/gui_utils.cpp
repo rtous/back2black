@@ -158,6 +158,33 @@ static bool downscale_img_to_screen(sam_image_u8 &img, SDL_Window* window) {
     return true;
 }
 
+GLuint createGLTextureOpenCV(const cv::Mat & opencv_img, GLint format) {
+    GLuint tex;
+    glGenTextures(1, &tex);
+    glBindTexture(GL_TEXTURE_2D, tex);
+
+    // Setup filtering parameters for display
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE); // This is required on WebGL for non power-of-two textures
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE); // Same
+
+    // Upload pixels into texture
+#if defined(GL_UNPACK_ROW_LENGTH) && !defined(__EMSCRIPTEN__)
+    glPixelStorei(GL_UNPACK_ROW_LENGTH, 0);
+#endif
+    glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
+
+    //image data
+    cv::Mat img;
+    cv::cvtColor(opencv_img, img, cv::COLOR_BGRA2RGBA);
+    //cv::flip(img, img, -1);
+
+    glTexImage2D(GL_TEXTURE_2D, 0, format, opencv_img.cols, opencv_img.rows, 0, format, GL_UNSIGNED_BYTE, img.data);
+
+    return tex;
+}
+
 GLuint createGLTexture(const sam_image_u8 & img, GLint format) {
     GLuint tex;
     glGenTextures(1, &tex);

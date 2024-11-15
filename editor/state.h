@@ -24,6 +24,8 @@ class MyState {
     //propagate dialog
     bool propagate_dialog = false; //to show the dialog
     bool propagate = false; //to perform the propagate action
+    bool propagating = false; //during propagation
+    bool propagated = false; //finished propagation
     int start_frame = -1;
     int end_frame = -1;
     
