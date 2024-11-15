@@ -26,6 +26,8 @@ class MyState {
     bool propagate = false; //to perform the propagate action
     bool propagating = false; //during propagation
     bool propagated = false; //finished propagation
+    bool propagate_cancel = false; //finished propagation
+    float progress = 0.0f;
     int start_frame = -1;
     int end_frame = -1;
     

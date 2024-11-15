@@ -44,7 +44,7 @@
 #define STB_IMAGE_WRITE_IMPLEMENTATION
 #include "stb_image_write.h"
 
-sam_image_u8 sam_image2color(sam_image_u8 & sam_image) {
+sam_image_u8 sam_image2color(sam_image_u8 & sam_image, int alpha) {
     //Replicates the intensity (pressumably 0 or 1) to all channels, including alpha
     //Used before calling createGLTexture 
     sam_image_u8 mask_rgb = { sam_image.nx, sam_image.ny, };
@@ -53,7 +53,10 @@ sam_image_u8 sam_image2color(sam_image_u8 & sam_image) {
         mask_rgb.data[4*i+0] = sam_image.data[i];
         mask_rgb.data[4*i+1] = sam_image.data[i];
         mask_rgb.data[4*i+2] = sam_image.data[i];
-        mask_rgb.data[4*i+3] = sam_image.data[i];
+        if (sam_image.data[i] == 0)
+            mask_rgb.data[4*i+3] = 0;
+        else
+            mask_rgb.data[4*i+3] = alpha;
         /*if (sam_image.data[i] == 0)
             mask_rgb.data[4*i+3] = sam_image.data[i];
         else
@@ -433,15 +436,21 @@ int propagate_masks(std::vector<Frame> & frames, sam_state & state, int n_thread
 //frames are in memory
 //ONGOING
 //int propagate_masks(std::vector<Frame> & frames, sam_state & state, int n_threads) 
-int propagate_masks(std::vector<Frame> & frames, sam_state & state, int n_threads, int from_frame, int till_frame) 
+int propagate_masks(std::vector<Frame> & frames, sam_state & state, int n_threads, int from_frame, int till_frame, float & progress, bool & cancel) 
 {
     printf("propagating from %d (reference) to %d\n", from_frame, till_frame);
     //int MAX = 5;
+    progress = 0;
     int numFrames = frames.size();
     int f = 0;
     //iterate through all frames 
     //assumes that the first frame has been already computed
     for (Frame & aFrame : frames) {
+        if (cancel) {
+            progress = 1;
+            cancel = false;
+            break;
+        }
         if (f > till_frame)
             break;
         printf("PROCESSING FRAME %d \n", f);
@@ -469,6 +478,8 @@ int propagate_masks(std::vector<Frame> & frames, sam_state & state, int n_thread
                 if (f>from_frame) { 
                     printf("\t%d>from_frame so computing mask. \n", f);
                     found = compute_mask(aMask, aFrame.img_sam_format, state, n_threads);
+                    progress = (f-from_frame+1)/(float)(till_frame-from_frame+1);
+                    printf("progress=%f\n", progress);
                 }
                 //compute mask center
                 //compute_mask_center(aMask, aFrame.img_sam_format, state, n_threads);

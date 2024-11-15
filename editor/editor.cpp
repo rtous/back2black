@@ -223,7 +223,7 @@ static void frameWindow(MyState &myState, bool *show_myWindow, const ImGuiViewpo
     //ImGui::Begin("FRAME", show_myWindow);   // Pass a pointer to our bool variable (the window will have a closing button that will clear the bool when clicked)
     //ImGui::Begin("FRAME", show_myWindow, ImGuiWindowFlags_NoTitleBar);
     //ImGui::Begin("FRAME", show_myWindow, ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoCollapse);
-    ImGui::Begin("FRAME", NULL, ImGuiWindowFlags_NoCollapse);
+    ImGui::Begin("FRAME", NULL, ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoCollapse);
     //myState.img_frame_pos_x = ;
     //myState.img_frame_pos_y;
 
@@ -671,7 +671,7 @@ static void finishingWindow(MyState &myState, bool *show_myWindow, const ImGuiVi
     ImGui::SetNextWindowPos(newPos);
     ImGui::SetNextWindowSize(use_work_area ? size : viewport->Size);
     //ImGui::Begin("FINISHING PANEL", show_myWindow, ImGuiWindowFlags_NoTitleBar);
-    ImGui::Begin("FINISHING PANEL", show_myWindow, ImGuiWindowFlags_NoCollapse);
+    ImGui::Begin("FINISHING PANEL", show_myWindow, ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoCollapse);
     if (myState.img_loaded) {  
         //Origin considering the bars 
         ImVec2 newPos = ImVec2(viewport->Pos.x + (viewport->WorkSize.x * 0.5f), viewport->Pos.y + 0);
@@ -694,27 +694,7 @@ static void finishingConfigWindow(MyState &myState, const ImGuiViewport* viewpor
     ImGui::SetNextWindowSize(use_work_area ? size : viewport->Size);
     ImGui::Begin("FINISHING DETAILS", NULL, ImGuiWindowFlags_NoCollapse); 
     
-    //PROGRESS BAR
-    if (myState.propagating) {
-        //ImGui::ProgressBar(ImGui::GetTime() * -0.2f, ImVec2(0, 0), "Loading...");
-        ImGui::ProgressBar(sinf((float)ImGui::GetTime()) * 0.5f + 0.5f, ImVec2(ImGui::GetFontSize() * 25, 0.0f));
-        
-        // Animate a simple progress bar
-        static float progress = 0.0f, progress_dir = 1.0f;
-        progress += progress_dir * 0.4f * ImGui::GetIO().DeltaTime;
-        if (progress >= +1.1f) { progress = +1.1f; progress_dir *= -1.0f; }
-        if (progress <= -0.1f) { progress = -0.1f; progress_dir *= -1.0f; }
-        ImGui::ProgressBar(progress, ImVec2(0.0f, 0.0f));
-        ImGui::SameLine(0.0f, ImGui::GetStyle().ItemInnerSpacing.x);
-        ImGui::Text("Progress Bar");
-
-        #define IM_CLAMP(V, MN, MX)     ((V) < (MN) ? (MN) : (V) > (MX) ? (MX) : (V))
-        float progress_saturated = IM_CLAMP(progress, 0.0f, 1.0f);
-        char buf[32];
-        sprintf(buf, "%d/%d", (int)(progress_saturated * 1753), 1753);
-        ImGui::ProgressBar(progress, ImVec2(0.f, 0.f), buf);
-    }
-    ////////////
+    
 
     if (myState.img_loaded) {
         ImGui::Checkbox("Facial traits", &myState.aVideo.frames[myState.selected_frame].faces_check);
@@ -895,8 +875,9 @@ void propagateDialog(MyState &myState) {
         /* --------- */
 
         if (ImGui::Button("OK", ImVec2(120, 0))) { 
-            myState.propagate_dialog = false;
             myState.propagate = true;
+            myState.propagate_dialog = false;
+            myState.propagate_cancel = true;
             ImGui::CloseCurrentPopup(); 
         }
         ImGui::SetItemDefaultFocus();
@@ -907,6 +888,83 @@ void propagateDialog(MyState &myState) {
             myState.propagate_dialog = false;
             ImGui::CloseCurrentPopup(); 
         }
+
+        //PROGRESS BAR
+        /*if (myState.propagating) {
+            //ImGui::ProgressBar(ImGui::GetTime() * -0.2f, ImVec2(0, 0), "Loading...");
+            ImGui::ProgressBar(sinf((float)ImGui::GetTime()) * 0.5f + 0.5f, ImVec2(ImGui::GetFontSize() * 25, 0.0f));
+            
+            // Animate a simple progress bar
+            static float progress = 0.0f, progress_dir = 1.0f;
+            progress += progress_dir * 0.4f * ImGui::GetIO().DeltaTime;
+            if (progress >= +1.1f) { progress = +1.1f; progress_dir *= -1.0f; }
+            if (progress <= -0.1f) { progress = -0.1f; progress_dir *= -1.0f; }
+            ImGui::ProgressBar(progress, ImVec2(0.0f, 0.0f));
+            ImGui::SameLine(0.0f, ImGui::GetStyle().ItemInnerSpacing.x);
+            ImGui::Text("Progress Bar");
+
+            #define IM_CLAMP(V, MN, MX)     ((V) < (MN) ? (MN) : (V) > (MX) ? (MX) : (V))
+            float progress_saturated = IM_CLAMP(progress, 0.0f, 1.0f);
+            char buf[32];
+            sprintf(buf, "%d/%d", (int)(progress_saturated * 1753), 1753);
+            ImGui::ProgressBar(progress, ImVec2(0.f, 0.f), buf);
+        }*/
+        ////////////
+        ImGui::EndPopup();
+    } else {
+        printf("NO BeginPopupModal\n");
+    }
+}
+void propagatingDialog(MyState &myState) {
+    ImGui::OpenPopup("Propagating masks to next frames...");
+    // Always center this window when appearing
+    ImVec2 center = ImGui::GetMainViewport()->GetCenter();
+    ImGui::SetNextWindowPos(center, ImGuiCond_Appearing, ImVec2(0.5f, 0.5f));
+    if (ImGui::BeginPopupModal("Propagating masks to next frames...", NULL, ImGuiWindowFlags_AlwaysAutoResize))
+    {
+        if (ImGui::Button("STOP", ImVec2(120, 0))) { 
+            myState.propagate_cancel = true;
+            ImGui::CloseCurrentPopup(); 
+        }
+        ImGui::SetItemDefaultFocus();
+
+        //PROGRESS BAR
+        if (myState.propagating) {
+            /*
+            //ImGui::ProgressBar(ImGui::GetTime() * -0.2f, ImVec2(0, 0), "Loading...");
+            ImGui::ProgressBar(sinf((float)ImGui::GetTime()) * 0.5f + 0.5f, ImVec2(ImGui::GetFontSize() * 25, 0.0f));
+            */
+            // Animate a simple progress bar
+            /*float progress_dir = 1.0f;
+            float progress = 0.0f;
+            //myState.progress = 0.0f;
+            progress += progress_dir * 0.4f * ImGui::GetIO().DeltaTime;
+            if (progress >= +1.1f) { progress = +1.1f; progress_dir *= -1.0f; }
+            if (progress <= -0.1f) { progress = -0.1f; progress_dir *= -1.0f; }
+            ImGui::ProgressBar(progress, ImVec2(0.0f, 0.0f));
+            ImGui::SameLine(0.0f, ImGui::GetStyle().ItemInnerSpacing.x);
+            ImGui::Text("Progress Bar");*/
+
+            printf("myState.progress=%f\n", myState.progress);
+            ImGui::ProgressBar(myState.progress, ImVec2(0.0f, 0.0f));
+    
+
+            // Animate a simple progress bar
+            /*static float progress = 0.0f, progress_dir = 1.0f;
+            progress += progress_dir * 0.4f * ImGui::GetIO().DeltaTime;
+            if (progress >= +1.1f) { progress = +1.1f; progress_dir *= -1.0f; }
+            if (progress <= -0.1f) { progress = -0.1f; progress_dir *= -1.0f; }
+            ImGui::ProgressBar(progress, ImVec2(0.0f, 0.0f));
+            ImGui::SameLine(0.0f, ImGui::GetStyle().ItemInnerSpacing.x);
+            ImGui::Text("Progress Bar");*/
+
+            /*#define IM_CLAMP(V, MN, MX)     ((V) < (MN) ? (MN) : (V) > (MX) ? (MX) : (V))
+            float progress_saturated = IM_CLAMP(progress, 0.0f, 1.0f);
+            char buf[32];
+            sprintf(buf, "%d/%d", (int)(progress_saturated * 1753), 1753);
+            ImGui::ProgressBar(progress, ImVec2(0.f, 0.f), buf);*/
+        }
+        ////////////
         ImGui::EndPopup();
     } else {
         printf("NO BeginPopupModal\n");
@@ -940,7 +998,7 @@ void asynch_task(MyState &myState)
         printf("THREAD...\n");
         sleep(1);
     }*/
-    propagate_masks(myState.aVideo.frames, *myState.a_sam_state, myState.params.n_threads, myState.start_frame, myState.end_frame);
+    propagate_masks(myState.aVideo.frames, *myState.a_sam_state, myState.params.n_threads, myState.start_frame, myState.end_frame, myState.progress, myState.propagate_cancel);
     /*compute_mask_textures_all_frames(myState.aVideo.frames);
     myState.start_frame = -1;
     myState.end_frame = -1;
@@ -976,7 +1034,7 @@ void checkActions(MyState &myState)
             std::thread thread_1(asynch_task, std::ref(myState));
 		    thread_1.detach(); //to avoid crashing when the thread ends
         } else {
-            propagate_masks(myState.aVideo.frames, *myState.a_sam_state, myState.params.n_threads, myState.start_frame, myState.end_frame);
+            propagate_masks(myState.aVideo.frames, *myState.a_sam_state, myState.params.n_threads, myState.start_frame, myState.end_frame, myState.progress, myState.propagate_cancel);
             myState.propagated = true;
         }
 		
@@ -1002,7 +1060,11 @@ void checkActions(MyState &myState)
             fprintf(stderr, "%s: failed to compute encoded image\n", __func__);
             //return 1;
         }
-        myState.frame_precomputed = myState.selected_frame;       
+        myState.frame_precomputed = myState.selected_frame; 
+        myState.propagate_dialog = false;      
+    }
+    if (myState.propagating) {
+        propagatingDialog(myState);
     }
 }
 /*

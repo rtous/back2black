@@ -8,9 +8,10 @@ Universitat Politecnica de Catalunya
 
 TODO
 
+- les barres de frame i finishing tapen la imatge
+- propagate mode directe (sense calcular centre)
 - guardo coses que no sempre cal (textures, imatges, etc.)
-- propagate progress bar
-- Faces
+- Faces (propagate) 
 - Is the image width and height adjusted to the window?
 - single image vs video vs directory of frames
 - Make mask id's appear in the masks list windows (now appears the order)
@@ -19,23 +20,30 @@ TODO
 - The contours field of the object is not set?? Now I'm setting it for simplified contours but the other??
 - El video save es poc robust (detectar si no extensió), que passa amb altres extensions...
 - Veig que aFrame.img és opencv però per gravar el video cal fer cv::COLOR_RGB2BGR. (tambe caldria canviar el nom del camp)
-- El propagate ara només es pot fer a partir del primer frame
+
 - Si canvies el color d'una màscara hauria de canviar a tots els frames?? es pot associar el color a l'object ID? 
 - WARNING: Hi ha un camp mask al object que es fa servir al cli_masks però no a l'editor (és la màscara opencv, ara sí la faig servir) -> RENOMBRAR
 - Hi ha vegades que no es pot esborrar la màscara (braç dret)
 
-- Fer màscares semitransparents
+
 - save project
-- Que la llista de colors sempre sigui la mateixa
-- Colors a la dreta del object selector
-- Esborrar objecte
-- Ordre objectes i canviar-lo
-- Si cliques a un lloc en el qual un altre objecte té la màscara? ara pot quedar amagat
+- Que la llista de colors sempre sigui la mateixa (paleta chahi)
+- paletes de colors
+
+
+
+- Si cliques a un lloc en el qual un altre objecte té la màscara? ara pot quedar amagat -> les mascares noves haurien d'anar al top, i fer màscares semitransparents
 - zoom
 - panning
 - error managment (return -1, exceptions, ...)
 ----------------
 DONE:
+- Fer màscares semitransparents
+- Ordre objectes i canviar-lo
+- Esborrar objecte
+- Colors a la dreta del object selector
+- El propagate ara només es pot fer a partir del primer frame
+- propagate progress bar
 - Icon font path is harcoded! the bytes can be embedded (https://github.com/juliettef/IconFontCppHeaders) 
 - Delete mask, move up, move down
 - compute_mask_and_textures in sam_utils.cpp (used if user clicks) ) and compute_mask in common (used by propagate). Maybe all in common...
