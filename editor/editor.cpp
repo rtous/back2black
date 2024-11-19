@@ -130,6 +130,37 @@ static void ShowExampleAppMainMenuBar(bool *show_file_dialog, MyState &myState)
             }
             ImGui::EndMenu();
         }
+        if (ImGui::BeginMenu("About"))
+        {
+            //ImGui::MenuItem("(demo menu)", NULL, false, false);
+            if (ImGui::MenuItem("Version information")) {
+                myState.about_version_popup = true;
+            }
+            ImGui::EndMenu();
+        }
+        /*if (ImGui::BeginMenu("About"))
+        {   
+            if (ImGui::MenuItem("Version information")) {
+                ImGui::OpenPopup("version popup");
+                ImVec2 center = ImGui::GetMainViewport()->GetCenter();
+                ImGui::SetNextWindowPos(center, ImGuiCond_Appearing, ImVec2(0.5f, 0.5f));
+                bool showAboutPopup;
+                if (ImGui::BeginPopupModal("Propagate masks to next frames", &showAboutPopup, ImGuiWindowFlags_AlwaysAutoResize))
+                {
+                    ImGui::Text("Masks in the reference frame will be propagated to next frames till the specified frame (included).\nThis operation is slow.");
+                    ImGui::Separator();
+
+                    if (ImGui::Button("OK", ImVec2(120, 0))) { 
+                        ImGui::CloseCurrentPopup(); 
+                    }
+                    ImGui::SetItemDefaultFocus();
+                    ImGui::EndPopup();
+                } else {
+                    printf("NO BeginPopupModal\n");
+                }
+            }
+            ImGui::EndMenu();
+        }*/
         ImGui::EndMainMenuBar();
     }
 }
@@ -422,9 +453,8 @@ static void masksListWindow(MyState &myState, const ImGuiViewport* viewport, ImG
     if (myState.aVideo.loaded) {
         int i = 0;
         for (Mask & aMask : myState.aVideo.frames[myState.selected_frame].masks) {
-            //items.push_back(std::to_string(aMask.maskId));
-            items.push_back("Mask "+std::to_string(i));
-            //items[aFrame.order] = std::to_string(aFrame.order);
+            items.push_back("Mask "+std::to_string(aMask.maskId));
+            //items.push_back("Mask "+std::to_string(i));
             i++;
         }
     }
@@ -970,22 +1000,6 @@ void propagatingDialog(MyState &myState) {
         printf("NO BeginPopupModal\n");
     }
 }
-/*
-static void masksWindow(MyState &myState, const ImGuiViewport* viewport, ImGuiWindowFlags flags, bool use_work_area) 
-{
-    if (myState.img_loaded) {
-        ImVec2 size = ImVec2(viewport->WorkSize.x * 0.5f, viewport->WorkSize.y * 0.75f);
-        static ImGuiWindowFlags flags = ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoSavedSettings;
-        ImVec2 newPos = ImVec2(viewport->WorkPos.x + (viewport->WorkSize.x * 0.5f), viewport->WorkPos.y + 0);
-        ImGui::SetNextWindowPos(newPos);
-        ImGui::SetNextWindowSize(use_work_area ? size : viewport->Size);
-        ImGui::Begin("MASKS");
-        ImGui::Text("MASKS WINDOW");
-        
-        
-        ImGui::End();
-    }
-}*/
 
 //Async task launched as an independent thread from checkActions
 //It allows to display a progress bar during propagation and to cancel it before the end
@@ -993,6 +1007,31 @@ void asynch_task(MyState &myState)
 {    
     propagate_masks(myState.aVideo.frames, *myState.a_sam_state, myState.params.n_threads, myState.start_frame, myState.end_frame, myState.progress, myState.propagate_cancel);
     myState.propagated = true; 
+}
+
+void about_version_popup(MyState &myState) {
+    ImGui::OpenPopup("Version information.");
+    ImVec2 center = ImGui::GetMainViewport()->GetCenter();
+    ImGui::SetNextWindowPos(center, ImGuiCond_Appearing, ImVec2(0.5f, 0.5f));
+    //The name in the BeginPopupModal need to be the same as the name in OpenPopup
+    if (ImGui::BeginPopupModal("Version information.", NULL, ImGuiWindowFlags_AlwaysAutoResize))
+    {
+        ImGui::Text("Lester version 1.0.");
+        ImGui::Separator();
+        ImGui::Text("Designed and programmed by Ruben Tous.");
+        ImGui::Separator();
+        ImGui::Text("First release: January 2025.");
+        ImGui::Separator();
+        ImGui::Text("Current release: January 2025.");
+        if (ImGui::Button("OK", ImVec2(120, 0))) { 
+            myState.about_version_popup = false;
+            ImGui::CloseCurrentPopup(); 
+        }
+        ImGui::SetItemDefaultFocus();
+        ImGui::EndPopup();
+    } else {
+        printf("NO BeginPopupModal\n");
+    }
 }
 
 //checks user actions (e.g. open a file, etc.)
@@ -1041,6 +1080,9 @@ void checkActions(MyState &myState)
     }
     if (myState.propagating) {
         propagatingDialog(myState);
+    }
+    if (myState.about_version_popup) {
+        about_version_popup(myState);
     }
 }
 /*

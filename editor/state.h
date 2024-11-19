@@ -10,6 +10,9 @@
 class MyState {      
   public:  
 
+    //menus
+    bool about_version_popup=false;
+
     //size of the image frame (to resize the loaded images)
     int img_frame_w;
     int img_frame_h;

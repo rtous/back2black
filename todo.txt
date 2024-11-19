@@ -8,12 +8,10 @@ Universitat Politecnica de Catalunya
 
 TODO
 
-- si canvies un color no canvia als altres frames!?
 - al propagar les cares no cal tornar-les a computar si ha ho estan, però què passarà quan pugui canviar el color?
-- les barres de frame i finishing tapen la imatge
 - propagate mode directe (sense calcular centre)
 - guardo coses que no sempre cal (textures, imatges, etc.)
-- Faces (propagate) 
+
 - Is the image width and height adjusted to the window?
 - single image vs video vs directory of frames
 - Make mask id's appear in the masks list windows (now appears the order)
@@ -38,8 +36,16 @@ TODO
 - zoom
 - panning
 - error managment (return -1, exceptions, ...)
+
+
+IMPROVEMENTS:
+
+- si canvies un color no canvia als altres frames. Però potser ja ha de ser així
+- les barres de frame i finishing tapen la imatge
+
 ----------------
 DONE:
+- Faces (propagate) 
 - Fer màscares semitransparents
 - Ordre objectes i canviar-lo
 - Esborrar objecte

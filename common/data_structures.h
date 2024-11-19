@@ -75,14 +75,25 @@ class Frame {
       //starts with no masks
     }
 
-    /*void newMask(Mask newMask) {  
-      //create a new mask, take the last id and add 1
-      if (masks.size() == 0)   
+    void newMask(Mask & newMask) {  
+      //create a new mask, take the higher id and add 1
+      //note: the masks are not necessarily stored in id order
+      if (masks.size() == 0) {  
         newMask.maskId = 0;
-      else 
-        newMask.maskId = masks[masks.size()-1].maskId+1;
-        masks.push_back(newMask);
-    }*/
+      } else {
+        newMask.maskId = higherId()+1;
+      }
+      masks.push_back(newMask);
+    }
+
+    int higherId() { 
+      int maxId = 0; 
+      for (int i=0; i<masks.size(); i++) {
+        if (masks[i].maskId > maxId)
+          maxId = masks[i].maskId;
+      }
+      return maxId;
+    }
 };
 
 class Video {      
