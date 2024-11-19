@@ -156,7 +156,7 @@ void compute_mask_textures_all_frames(std::vector<Frame> & frames)
     //iterate through all frames 
     //assumes that the first frame has been already computed
     for (Frame & aFrame : frames) {
-        printf("PROCESSING FRAME %d \n", f);
+        printf("PROCESSING TEXTURES FROM FRAME %d \n", f);
         //iterate through all the masks of the frame
         for (Mask & aMask : aFrame.masks) {
             printf("\tPROCESSING MASK...\n", f);

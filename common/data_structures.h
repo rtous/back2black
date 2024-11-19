@@ -69,6 +69,7 @@ class Frame {
     GLuint facesTexture;//OpenGL texture of the faces
     bool faces_check = false;
     bool faces_computed = false;
+    bool faces_textures_computed = false;
 
     Frame() {     
       //starts with no masks

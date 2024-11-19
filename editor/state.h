@@ -27,7 +27,7 @@ class MyState {
     bool propagating = false; //during propagation
     bool propagated = false; //finished propagation
     bool propagate_cancel = false; //finished propagation
-    float progress = 0.0f;
+    float progress = 0.0f; //progress of propagate
     int start_frame = -1;
     int end_frame = -1;
     

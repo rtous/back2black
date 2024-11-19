@@ -215,3 +215,16 @@ void enable_blending(const ImDrawList*, const ImDrawCmd*) {
 void disable_blending(const ImDrawList*, const ImDrawCmd*) {
     glDisable(GL_BLEND);
 }
+
+//called
+void compute_facial_textures_all_frames(std::vector<Frame> & frames) 
+{
+    int numFrames = frames.size();
+    for (Frame & aFrame : frames) {
+        if (aFrame.faces_computed && !aFrame.faces_textures_computed) {
+            GLuint newGLTextureFace = createGLTextureOpenCV(aFrame.faces, GL_RGBA);
+            aFrame.facesTexture = newGLTextureFace;
+            aFrame.faces_textures_computed = true;
+        }
+    }
+}

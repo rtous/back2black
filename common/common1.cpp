@@ -37,6 +37,7 @@
 #include <opencv2/opencv.hpp> 
 #include <opencv2/core/utils/filesystem.hpp>
 #include "sam.h"
+#include "face.h"
 
 
 #define STB_IMAGE_IMPLEMENTATION
@@ -447,28 +448,56 @@ int propagate_masks(std::vector<Frame> & frames, sam_state & state, int n_thread
     //assumes that the first frame has been already computed
     for (Frame & aFrame : frames) {
         if (cancel) {
+            printf("propagation cancelled\n");
             progress = 1;
             cancel = false;
             break;
         }
-        if (f > till_frame)
+        if (f > till_frame) {
             break;
+        }
         printf("PROCESSING FRAME %d \n", f);
-        //if not the first frame precompute the image
+        
+        //to do at frame level (not at mask level)
+        //only if not the first frame: precompute the image
+        //only if not the first frame: compute faces
         if (f>from_frame) {
             printf("\t%d>from_frame so precomputing. \n", f);
             if (!sam_compute_embd_img(aFrame.img_sam_format, n_threads, state)) {
                 fprintf(stderr, "%s: failed to compute encoded image\n", __func__);
                 return 1;
             }
+            //compute faces, but only if weren't computed before
+            //does not make sense to recompute faces
+            //TODO: What happens if color changes?
+            if (aFrame.faces_check && !aFrame.faces_computed) {
+                printf("Computing face...\n");
+                cv::Mat blankImageWithAlpha = cv::Mat(cv::Size(aFrame.img.cols,aFrame.img.rows), CV_8UC4, cv::Scalar(0,0,0,0));
+                face(aFrame.img, blankImageWithAlpha, cv::Scalar(118, 113, 168, 255), cv::Scalar(61, 71, 118, 255));
+                aFrame.faces = blankImageWithAlpha;
+                //GLuint newGLTextureFace = createGLTextureOpenCV(blankImageWithAlpha, GL_RGBA);
+                //aFrame.facesTexture = newGLTextureFace;
+                aFrame.faces_computed = true;
+                printf("Face computed.\n");
+            }
+
         } 
-        //iterate through all the masks of the frame
+        //to do at mask level 
+        //all frames, including the first
+        //the first one to copy mask parameters to next ones
+        //if not the first one to actually compute each mask
         if (f>=from_frame) {
             printf("\t%d>=from_frame so analyzing masks. \n", f);
             //If need to propagate to next frame let's clear it's masks
             if (f < till_frame && f < numFrames-1) {
                 frames[f+1].masks.clear();
-            }
+                if (aFrame.faces_check) //if this frame has faces, check the next one
+                    frames[f+1].faces_check = true;
+            } 
+            //printf("\t#Masks in frame %d = %d. \n", f, aFrame.masks.size());
+            
+
+            //iterate through all the masks of the frame
             for (Mask & aMask : aFrame.masks) {
                 printf("\tPROCESSING MASK %d \n", aMask.maskId);
                 printf("\taMask.mask_computed_at_x %d \n", aMask.mask_computed_at_x);
@@ -501,6 +530,8 @@ int propagate_masks(std::vector<Frame> & frames, sam_state & state, int n_thread
                 }
                 printf("\tMASKS DONE.\n");
             }
+        } else {
+            printf("\t%d<from_frame so NOT analyzing masks. \n", f);
         }
         printf("FRAME DONE.\n");
         f++;

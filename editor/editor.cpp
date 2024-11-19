@@ -877,7 +877,7 @@ void propagateDialog(MyState &myState) {
         if (ImGui::Button("OK", ImVec2(120, 0))) { 
             myState.propagate = true;
             myState.propagate_dialog = false;
-            myState.propagate_cancel = true;
+            myState.propagate_cancel = false;
             ImGui::CloseCurrentPopup(); 
         }
         ImGui::SetItemDefaultFocus();
@@ -945,7 +945,7 @@ void propagatingDialog(MyState &myState) {
             ImGui::SameLine(0.0f, ImGui::GetStyle().ItemInnerSpacing.x);
             ImGui::Text("Progress Bar");*/
 
-            printf("myState.progress=%f\n", myState.progress);
+            //printf("myState.progress=%f\n", myState.progress);
             ImGui::ProgressBar(myState.progress, ImVec2(0.0f, 0.0f));
     
 
@@ -987,31 +987,11 @@ static void masksWindow(MyState &myState, const ImGuiViewport* viewport, ImGuiWi
     }
 }*/
 
-//Example async task
+//Async task launched as an independent thread from checkActions
+//It allows to display a progress bar during propagation and to cancel it before the end
 void asynch_task(MyState &myState)
 {    
-	/*propagate_masks(myState.aVideo.frames, *myState.a_sam_state, myState.params.n_threads);
-	compute_mask_textures_all_frames(myState.aVideo.frames);
-	myState.propagate = false;
-	printf("PROPAGATED.\n");*/
-    /*for (int i=0; i<10; i++) {
-        printf("THREAD...\n");
-        sleep(1);
-    }*/
     propagate_masks(myState.aVideo.frames, *myState.a_sam_state, myState.params.n_threads, myState.start_frame, myState.end_frame, myState.progress, myState.propagate_cancel);
-    /*compute_mask_textures_all_frames(myState.aVideo.frames);
-    myState.start_frame = -1;
-    myState.end_frame = -1;
-    myState.propagated = true; 
-    myState.propagating = false; 
-    printf("PROPAGATED.\n");
-    //Precompute actual frame to keep things as they were
-    if (!sam_compute_embd_img(myState.img, myState.params.n_threads, *myState.a_sam_state)) {
-        fprintf(stderr, "%s: failed to compute encoded image\n", __func__);
-        //return 1;
-    }
-    myState.frame_precomputed = myState.selected_frame;  */
-    printf("THREAD FINISHED.\n");
     myState.propagated = true; 
 }
 
@@ -1037,21 +1017,17 @@ void checkActions(MyState &myState)
             propagate_masks(myState.aVideo.frames, *myState.a_sam_state, myState.params.n_threads, myState.start_frame, myState.end_frame, myState.progress, myState.propagate_cancel);
             myState.propagated = true;
         }
-		
-        //Not entering here later because myState.propagate will be false
-        /*if (myState.propagated) {
-            printf("THREAD END CAPTURED.\n");
-            myState.propagated = false;
-            myState.propagating = false;
-            
-                  
-        }*/
     }
+    //once the propagation finishes
     if (myState.propagated) {
         printf("THREAD END CAPTURED.\n");
         myState.propagated = false;
         myState.propagating = false;
+        //review textures for all frame (only the propated will take effect)
         compute_mask_textures_all_frames(myState.aVideo.frames);
+        //review facial textures for all frames (only the propagated will take effect)
+        //TODO: never recomputed, maybe change this if allow color changes
+        compute_facial_textures_all_frames(myState.aVideo.frames);
         myState.start_frame = -1;
         myState.end_frame = -1;
         printf("PROPAGATED.\n");
