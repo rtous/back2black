@@ -18,7 +18,7 @@
 #include "file_dialog.h"
 
 
-void show_file_dialog_f(bool *show_file_dialog, MyState & myState)
+void show_file_dialog_f(MyState & myState)
 {
     //Testing this:
     int32_t display_w = 2000;
@@ -28,6 +28,7 @@ void show_file_dialog_f(bool *show_file_dialog, MyState & myState)
     config.path = ".";
     //printf("opening dialog..."); 
 
+    //by default FILE_DIALOG_LOAD_SINGLE_FILE
     //const char *filters = "Source files (*.cpp *.h *.hpp){.cpp,.h,.hpp},Image files (*.png *.gif *.jpg *.jpeg){.png,.gif,.jpg,.jpeg},.md";
     const char *filters = "Image files (*.png *.gif *.jpg *.jpeg){.png,.gif,.jpg,.jpeg},Source files (*.cpp *.h *.hpp){.cpp,.h,.hpp},.md";
     
@@ -35,7 +36,7 @@ void show_file_dialog_f(bool *show_file_dialog, MyState & myState)
     if (myState.file_dialog_mode == FILE_DIALOG_LOAD_VIDEO) 
        filters = "Video files (*.mp4){.mp4}";
 
-   if (myState.file_dialog_mode == FILE_DIALOG_SAVE_VIDEO) 
+    if (myState.file_dialog_mode == FILE_DIALOG_SAVE_VIDEO) 
        filters = "";
      
     ImGuiFileDialog::Instance()->OpenDialog("ChooseFileDlgKey", "Choose a File", filters, config);
@@ -64,7 +65,7 @@ void show_file_dialog_f(bool *show_file_dialog, MyState & myState)
         printf("closing dialog..."); 
         // close
         ImGuiFileDialog::Instance()->Close();
-        *show_file_dialog = false;
+        myState.show_file_dialog = false;
         myState.clicked = false;//to avoid the click going through
     }
 }

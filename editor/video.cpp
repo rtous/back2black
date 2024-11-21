@@ -12,9 +12,6 @@
 #include "gui_utils.h"
 #include "simplify.h"
 
-
-
-
 void read_video(const std::string &videoFilePath, Video &theVideo, int w, int h){//(std::vector<cv::Mat img> & frames) {
     printf("reading video...\n");
     //cv::Mat img = cv::imread(input_path+"/001.png");

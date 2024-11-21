@@ -169,8 +169,8 @@ int main(int, char**)
     bool show_demo_window = true;
     bool show_another_window = false;
     bool show_myWindow = true;
-    bool show_editor = true;
-    bool show_file_dialog = false;
+    //bool show_editor = true;
+    //bool show_file_dialog = false;
     ImVec4 clear_color = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
     MyState myState;
     myState.colors_palette = make_colors_vector(); 
@@ -200,14 +200,14 @@ int main(int, char**)
 
 
     // Main loop
-    bool done = false;
+    //bool done = false; //we will use myState.done
 #ifdef __EMSCRIPTEN__
     // For an Emscripten build we are disabling file-system access, so let's not attempt to do a fopen() of the imgui.ini file.
     // You may manually call LoadIniSettingsFromMemory() to load settings from your own storage.
     io.IniFilename = nullptr;
     EMSCRIPTEN_MAINLOOP_BEGIN
 #else
-    while (!done)
+    while (!myState.done)
 #endif
     {
         // Poll and handle events (inputs, window resize, etc.)
@@ -220,9 +220,9 @@ int main(int, char**)
         {
             ImGui_ImplSDL2_ProcessEvent(&event);
             if (event.type == SDL_QUIT)
-                done = true;
+                myState.done = true;
             if (event.type == SDL_WINDOWEVENT && event.window.event == SDL_WINDOWEVENT_CLOSE && event.window.windowID == SDL_GetWindowID(window))
-                done = true;
+                myState.done = true;
             if (event.type == SDL_MOUSEBUTTONDOWN) {
                 if (event.button.button == SDL_BUTTON_LEFT && myState.img_loaded) {
                     myState.clicked = true;
@@ -279,8 +279,8 @@ int main(int, char**)
         //    myWindow(&show_myWindow);
 
         //EDITOR CODE
-        if (show_editor)
-            editor(&show_editor, &show_file_dialog, myState);
+        if (myState.show_editor)
+            editor(myState);
         //
 
         // Rendering

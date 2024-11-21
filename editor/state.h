@@ -8,7 +8,13 @@
 #include "data_structures.h"
 
 class MyState {      
-  public:  
+  public: 
+
+    //main
+    bool done=false;
+
+    //main window
+    bool show_editor=true; 
 
     //menus
     bool about_version_popup=false;
@@ -18,6 +24,7 @@ class MyState {
     int img_frame_h;
 
     //file dialog
+    bool show_file_dialog = false;
     int file_dialog_mode = -1; //FILE_DIALOG_LOAD_SINGLE_FILE 0, FILE_DIALOG_LOAD_VIDEO 1, FILE_DIALOG_SAVE_VIDEO 2
     bool file_dialog_file_selected = false;  //set in file_dialog.cpp to signal the action //NOTE: In Windows it's not false by default
     std::string filePathName;

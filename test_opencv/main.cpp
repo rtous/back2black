@@ -9,7 +9,8 @@ int main()
 {
 	std::cerr << "Urk!\n";
 	printf("trying to open and image with opencv...\n");
-    std::string image_path = samples::findFile("img.jpg");
+    //std::string image_path = samples::findFile("img.jpg");
+    std::string image_path = "/Users/rtous/dev/back2black/img.jpg";
     Mat img = imread(image_path, IMREAD_COLOR);
     if(img.empty())
     {

@@ -20,8 +20,10 @@ find_package(OpenCV REQUIRED)
 #find_package(dlib REQUIRED)
 include_directories(${dlib_INCLUDE_DIRS})
 
+
+#TODO: for some strange reason if "common" appears before ${OpenCV_LIBS} then it cannot read "jpg" images...
 install(TARGETS ${EXAMPLE_TARGET} RUNTIME)
-target_link_libraries(${EXAMPLE_TARGET} PRIVATE sam common simplify face ${OpenCV_LIBS} dlib imgui-sdl2 ImGuiFileDialog ${CMAKE_THREAD_LIBS_INIT})
+target_link_libraries(${EXAMPLE_TARGET} PRIVATE sam simplify face ${OpenCV_LIBS} common dlib imgui-sdl2 ImGuiFileDialog ${CMAKE_THREAD_LIBS_INIT})
 target_compile_features(${EXAMPLE_TARGET} PUBLIC cxx_std_11)
 
 #If Microsoft Visual C++ or similar

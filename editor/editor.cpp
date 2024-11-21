@@ -24,6 +24,7 @@
 #include "IconsFontAwesome5.h" //see https://github.com/juliettef/IconFontCppHeaders
 #include "face.h"
 
+
 //#include <iostream>
 #include <unistd.h> //sleep funcion (debug)
 
@@ -72,53 +73,41 @@ static void HelpMarker(const char* desc)
 }
 
 
-//-----------------------------------------------------------------------------
-// [SECTION] Example App: Main Menu Bar / ShowExampleAppMainMenuBar()
-//-----------------------------------------------------------------------------
-// - ShowExampleAppMainMenuBar()
-// - ShowExampleMenuFile()
-//-----------------------------------------------------------------------------
-
-// Demonstrate creating a "main" fullscreen menu bar and populating it.
-// Note the difference between BeginMainMenuBar() and BeginMenuBar():
-// - BeginMenuBar() = menu-bar inside current window (which needs the ImGuiWindowFlags_MenuBar flag!)
-// - BeginMainMenuBar() = helper to create menu-bar-sized window at the top of the main viewport + call BeginMenuBar() into it.
-static void ShowExampleAppMainMenuBar(bool *show_file_dialog, MyState &myState)
+//top menu bar
+//params: 
+//  - show_file_dialog to signal the need to call the fileDialog function
+static void mainMenuBar(MyState &myState)
 {
     if (ImGui::BeginMainMenuBar())
     {
         if (ImGui::BeginMenu("File"))
         {
+            //setting show_file_dialog will trigger fileDialog function (below)
             //ImGui::MenuItem("(demo menu)", NULL, false, false);
             if (ImGui::MenuItem("Open Image", "Ctrl+O")) {
-                *show_file_dialog = true;
+                //*show_file_dialog = true;
+                myState.show_file_dialog = true;
                 myState.file_dialog_mode = FILE_DIALOG_LOAD_SINGLE_FILE;
                 myState.clicked = false;//to avoid the click going through
             }
             if (ImGui::MenuItem("Open Video", "Ctrl+V")) {
-                *show_file_dialog = true;
+                //*show_file_dialog = true;
                 //myState.show_file_dialog_video = true;
+                myState.show_file_dialog = true;
                 myState.file_dialog_mode = FILE_DIALOG_LOAD_VIDEO;
                 myState.clicked = false;//to avoid the click going through
             }
             if (ImGui::MenuItem("Save Video", "Ctrl+S")) {
-                *show_file_dialog = true;
+                //*show_file_dialog = true;
                 //myState.show_file_dialog_save_video = true;
+                myState.show_file_dialog = true;
                 myState.file_dialog_mode = FILE_DIALOG_SAVE_VIDEO;
                 myState.clicked = false;//to avoid the click going through
             }
+            if (ImGui::MenuItem("Exit", "Ctrl+F4"))
+               myState.done = true;//this is detected in the main loop in main.cpp
             ImGui::EndMenu();
         }
-        /*if (ImGui::BeginMenu("Edit"))
-        {
-            if (ImGui::MenuItem("Undo", "CTRL+Z")) {}
-            if (ImGui::MenuItem("Redo", "CTRL+Y", false, false)) {}  // Disabled item
-            ImGui::Separator();
-            if (ImGui::MenuItem("Cut", "CTRL+X")) {}
-            if (ImGui::MenuItem("Copy", "CTRL+C")) {}
-            if (ImGui::MenuItem("Paste", "CTRL+V")) {}
-            ImGui::EndMenu();
-        }*/
         if (ImGui::BeginMenu("Tools"))
         {
             //ImGui::MenuItem("(demo menu)", NULL, false, false);
@@ -138,56 +127,9 @@ static void ShowExampleAppMainMenuBar(bool *show_file_dialog, MyState &myState)
             }
             ImGui::EndMenu();
         }
-        /*if (ImGui::BeginMenu("About"))
-        {   
-            if (ImGui::MenuItem("Version information")) {
-                ImGui::OpenPopup("version popup");
-                ImVec2 center = ImGui::GetMainViewport()->GetCenter();
-                ImGui::SetNextWindowPos(center, ImGuiCond_Appearing, ImVec2(0.5f, 0.5f));
-                bool showAboutPopup;
-                if (ImGui::BeginPopupModal("Propagate masks to next frames", &showAboutPopup, ImGuiWindowFlags_AlwaysAutoResize))
-                {
-                    ImGui::Text("Masks in the reference frame will be propagated to next frames till the specified frame (included).\nThis operation is slow.");
-                    ImGui::Separator();
-
-                    if (ImGui::Button("OK", ImVec2(120, 0))) { 
-                        ImGui::CloseCurrentPopup(); 
-                    }
-                    ImGui::SetItemDefaultFocus();
-                    ImGui::EndPopup();
-                } else {
-                    printf("NO BeginPopupModal\n");
-                }
-            }
-            ImGui::EndMenu();
-        }*/
         ImGui::EndMainMenuBar();
     }
 }
-
-/*
-//NOT USED. Textures are computed at the same time masks are computed
-void compute_mask_textures(sam_image_u8 img, const sam_params & params, sam_state & state, std::vector<GLuint> *maskTextures, int x, int y, std::vector<sam_image_u8> & storedMasks, std::vector<int> * mask_colors, int & last_color_id) {
-    maskTextures->clear();
-    for (auto& mask : storedMasks) {
-        sam_image_u8 mask_rgb = { mask.nx, mask.ny, };
-        mask_rgb.data.resize(4*mask.nx*mask.ny);
-        for (int i = 0; i < mask.nx*mask.ny; ++i) {
-            mask_rgb.data[4*i+0] = mask.data[i];
-            mask_rgb.data[4*i+1] = mask.data[i];
-            mask_rgb.data[4*i+2] = mask.data[i];
-            mask_rgb.data[4*i+3] = mask.data[i];
-        }        
-        //assign color
-        int color_id = (last_color_id+1)%256;
-        last_color_id = color_id;
-        printf("Assigned color id: %d\n", color_id);
-        mask_colors->push_back(color_id);
-        GLuint newGLTexture = createGLTexture(mask_rgb, GL_RGBA);
-        maskTextures->push_back(newGLTexture);
-    }
-}
-*/
 
 static void drawAllMasks(MyState &myState, const ImGuiViewport* viewport, ImVec2 newPos, bool simplified) {
 
@@ -222,8 +164,9 @@ static void drawAllMasks(MyState &myState, const ImGuiViewport* viewport, ImVec2
 
 
 
-static void frameWindow(MyState &myState, bool *show_myWindow, const ImGuiViewport* viewport, bool use_work_area, ImGuiWindowFlags flags) 
+static void frameWindow(MyState &myState, const ImGuiViewport* viewport, bool use_work_area, ImGuiWindowFlags flags) 
 {
+    printf("frameWindow...\n");
     ImVec2 size = ImVec2(viewport->WorkSize.x * 0.5f, viewport->WorkSize.y * 0.75f);
     
     myState.img_frame_w = size.x;
@@ -260,6 +203,7 @@ static void frameWindow(MyState &myState, bool *show_myWindow, const ImGuiViewpo
 
     /******* image ******/
     if (myState.img_loaded) {
+        printf("myState.img_loaded...\n");
         //Draw input image (previously loaded)
         //printf("Redrawing image\n");
         //opencv_image2sam(myState.img, myState.aVideo.frames[(rand()%6)+1].img);
@@ -277,6 +221,7 @@ static void frameWindow(MyState &myState, bool *show_myWindow, const ImGuiViewpo
         //int absolute_x = myState.img_frame_pos_x;//ImGui::GetWindowWidth()
         //int absolute_y = myState.img_frame_pos_y;
 
+        printf("myState.img_loaded so adding aFrame.tex to drawlist\n");
         draw_list->AddImage((void*)(intptr_t)aFrame.tex, ImVec2(viewport->WorkPos.x, viewport->WorkPos.y), ImVec2(viewport->WorkPos.x+myState.img.nx, viewport->WorkPos.y+myState.img.ny));
         //draw_list->AddImage((void*)(intptr_t)aFrame.tex, ImVec2(newPos.x, newPos.y), ImVec2(myState.img.nx, myState.img.ny));
         //draw_list->AddImage((void*)(intptr_t)aFrame.tex, ImVec2(myState.img_frame_pos_x,myState.img_frame_pos_y), ImVec2(myState.img.nx, myState.img.ny));
@@ -287,6 +232,7 @@ static void frameWindow(MyState &myState, bool *show_myWindow, const ImGuiViewpo
     /********************/
 
     if (myState.img_loaded) {  
+        //capture click
         if (myState.clicked && ImGui::IsWindowFocused()) {
             printf("Mouse clicked at (%d, %d)\n", myState.clickedX, myState.clickedY);
             printf("Image x = %d, y = %d\n", myState.img.nx, myState.img.ny);
@@ -326,34 +272,12 @@ static void frameWindow(MyState &myState, bool *show_myWindow, const ImGuiViewpo
 
                 //Compute the textures for the mask masks
                 //compute_mask_textures(myState.img, myState.params, *myState.a_sam_state, &myState.masksMaskTextures[myState.selected_mask], myState.clickedX, myState.clickedY, myState.aVideo.frames[myState.selected_frame].masks[myState.selected_mask].masks, &myState.masks_colors, myState.last_color_id);
-
-
             }
             myState.clicked = false;
         }
-    
-        //viewport->Pos origin without menu bars, etc.
-        //viewport->WorkPos origin after menu bars, etc.
-        //The window is located in WorkPos
-
-        //Only draw masks of selected mask
-        //drawMasks(myState, viewport, viewport->Pos);
-        
-        //Draw all masks
-        
-        /*printf("viewport->Pos.x  = %f\n", viewport->Pos.x);
-        printf("viewport->Pos.y  = %f\n", viewport->Pos.y);
-        printf("viewport->WorkPos.x  = %f\n", viewport->WorkPos.x);
-        printf("viewport->WorkPos.y  = %f\n", viewport->WorkPos.y);
-        */
-        //ImVec2 newPos = ImVec2(use_work_area ? viewport->WorkPos : viewport->Pos);
-        
+        //draw all masks
         drawAllMasks(myState, viewport, viewport->WorkPos, false);
-        //drawAllMasks(myState, viewport, newPos, false);
-
     }
-
-
     ImGui::End();
 }
 
@@ -691,7 +615,7 @@ static void masksListWindow(MyState &myState, const ImGuiViewport* viewport, ImG
     ImGui::End();
 }
 
-static void finishingWindow(MyState &myState, bool *show_myWindow, const ImGuiViewport* viewport, ImGuiWindowFlags flags, bool use_work_area) 
+static void finishingWindow(MyState &myState, const ImGuiViewport* viewport, ImGuiWindowFlags flags, bool use_work_area) 
 {
     //ImVec2 size = ImVec2(viewport->WorkSize.x * 0.33f, viewport->WorkSize.y * 0.25f);
     ImVec2 size = ImVec2(viewport->WorkSize.x * 0.5f, viewport->WorkSize.y * 0.75f);
@@ -701,7 +625,8 @@ static void finishingWindow(MyState &myState, bool *show_myWindow, const ImGuiVi
     ImGui::SetNextWindowPos(newPos);
     ImGui::SetNextWindowSize(use_work_area ? size : viewport->Size);
     //ImGui::Begin("FINISHING PANEL", show_myWindow, ImGuiWindowFlags_NoTitleBar);
-    ImGui::Begin("FINISHING PANEL", show_myWindow, ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoCollapse);
+    bool show_myWindow = true;
+    ImGui::Begin("FINISHING PANEL", &show_myWindow, ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoCollapse);
     if (myState.img_loaded) {  
         //Origin considering the bars 
         ImVec2 newPos = ImVec2(viewport->Pos.x + (viewport->WorkSize.x * 0.5f), viewport->Pos.y + 0);
@@ -750,32 +675,57 @@ static void finishingConfigWindow(MyState &myState, const ImGuiViewport* viewpor
     ImGui::End();
 }
 
-/*
-    Show file dialog or process a file related request 
-*/
-/*void propagate(MyState &myState) {
-    //Show file dialog
-    //if (myState.propagate) {
-    propagate_masks2(myState.aVideo.frames, *myState.a_sam_state, myState.params.n_threads);
-        myState.propagate = false;
-    }
-}*/
 
-/*
-    Show file dialog or process a file related request 
-*/
-void fileDialog(MyState &myState, bool *show_file_dialog) {
+//Checks fileDialog related actions:
+//  - show file dialog
+//  - process a file dialog action
+void fileDialog(MyState &myState) {
     //Show file dialog
-    if (*show_file_dialog) {
+    if (myState.show_file_dialog) {
         //TODO: this function always does the same thing and sets myState.filePath and myState.openFile = true;
         //Maybe should be customized for each type of action
-        show_file_dialog_f(show_file_dialog, myState);
+        show_file_dialog_f(myState);
     }
 
-    //Check if opening file
+    //Check if opening single file
     if (myState.file_dialog_file_selected && myState.file_dialog_mode == FILE_DIALOG_LOAD_SINGLE_FILE) {
+        //We will deal with a single file as if it is a video with one frame
+        //myState.img has a copy of myState.aVideo.frames[myState.selected_frame].img_sam_format
         printf("OPENING IMAGE FILE\n");
+
         myState.file_dialog_file_selected = false;
+        std::string image_path = myState.filePath + "/" + myState.filePathName;
+        cv::Mat opencv_img = cv::imread(image_path, cv::IMREAD_COLOR);
+        
+        if(!opencv_img.empty()) {
+            Frame aFrame;
+            aFrame.img = opencv_img;
+            opencv_image2sam(aFrame.img_sam_format, opencv_img);
+            aFrame.order = 0;
+            downscale_img_to_size(aFrame.img_sam_format, myState.img_frame_w, myState.img_frame_h);
+            
+            //load_image_samformat_from_file(image_path, aFrame.img_sam_format);
+
+
+            aFrame.tex = createGLTexture(aFrame.img_sam_format, GL_RGB);
+            myState.aVideo.frames.push_back(aFrame);
+            myState.img_loaded = true;
+            myState.selected_frame = 0;
+            myState.selected_mask = 0;
+
+            myState.img = myState.aVideo.frames[0].img_sam_format;
+            printf("After reading video precompute first frame...\n");
+            if (!sam_compute_embd_img(myState.img, myState.params.n_threads, *myState.a_sam_state)) {
+                fprintf(stderr, "%s: failed to compute encoded image\n", __func__);
+                //return 1;
+            }
+            myState.frame_precomputed = 0;
+            myState.aVideo.loaded = true;
+        } else {
+            printf("Error opening path: %s\n", image_path.c_str());
+        }
+
+        /*myState.file_dialog_file_selected = false;
         std::string fileName = myState.filePath + "/" + myState.filePathName;
         //from common lib
         //NOTE will be rendered in frameWindow()
@@ -783,7 +733,19 @@ void fileDialog(MyState &myState, bool *show_file_dialog) {
             printf("failed to load image from '%s'\n", fileName.c_str());  
         } else {
             printf("successfully loaded image from '%s'\n", fileName.c_str());
+            Frame aFrame;
+            aFrame.img = frame;
+            opencv_image2sam(aFrame.img_sam_format, frame);
+            aFrame.order = 0;
+            downscale_img_to_size(aFrame.img_sam_format, w, h);
+            aFrame.tex = createGLTexture(aFrame.img_sam_format, GL_RGB);
+
+
+            myState.aVideo.frames.push_back(aFrame);
             myState.img_loaded = true;
+            myState.selected_frame = 0;
+            myState.selected_mask = 0;
+            myState.frame_precomputed = 0; 
             if (!myState.a_sam_state) {
                 fprintf(stderr, "%s: failed to load model\n", __func__);
                 //return 1;
@@ -798,6 +760,7 @@ void fileDialog(MyState &myState, bool *show_file_dialog) {
                 printf("t_compute_img_ms = %d ms\n", myState.a_sam_state->t_compute_img_ms);
             }
         }
+        */
     //Check if opening video file
     } else if (myState.file_dialog_file_selected && myState.file_dialog_mode == FILE_DIALOG_LOAD_VIDEO) {
         printf("OPENING VIDEO FILE\n");
@@ -837,6 +800,7 @@ void fileDialog(MyState &myState, bool *show_file_dialog) {
     }
 }
 
+//asks information for the propagation
 void propagateDialog(MyState &myState) {
     //printf("propagateDialog...\n");
     ImGui::OpenPopup("Propagate masks to next frames");
@@ -847,44 +811,6 @@ void propagateDialog(MyState &myState) {
     {
         ImGui::Text("Masks in the reference frame will be propagated to next frames till the specified frame (included).\nThis operation is slow.");
         ImGui::Separator();
-
-        //static int unused_i = 0;
-        //ImGui::Combo("Combo", &unused_i, "Delete\0Delete harder\0");
-
-        //static bool dont_ask_me_next_time = false;
-        //ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(0, 0));
-        //ImGui::Checkbox("Don't ask me next time", &dont_ask_me_next_time);
-        //ImGui::PopStyleVar();
-
-        /* --------- */
-        /*
-        static int item_current_idx = 0; // Here we store our selection data as an index.
-        if (ImGui::BeginListBox("listbox 1"))
-        {
-            int n = 0;
-            for (std::string & item : items)
-            {
-                const bool is_selected = (item_current_idx == n);
-                if (ImGui::Selectable(item.c_str(), is_selected))
-                    item_current_idx = n;
-
-                // Set the initial focus when opening the combo (scrolling + keyboard navigation focus)
-                if (is_selected) {
-                    ImGui::SetItemDefaultFocus();
-                    //printf("Selected item %s\n", item.c_str());
-                    if (myState.selected_frame != n) {
-                        //If selects a different frame
-                    }
-                }
-                n++;
-            }
-            ImGui::EndListBox();
-        }
-        */
-
-        //int frozen_cols = myState.selected_frame;
-        //myState.aVideo.frames.size()
-        //int frozen_cols = 3;
         int num_frames = myState.aVideo.frames.size();
         if (myState.start_frame == -1 && myState.selected_frame < num_frames-1) {
             //If first time.
@@ -919,32 +845,14 @@ void propagateDialog(MyState &myState) {
             ImGui::CloseCurrentPopup(); 
         }
 
-        //PROGRESS BAR
-        /*if (myState.propagating) {
-            //ImGui::ProgressBar(ImGui::GetTime() * -0.2f, ImVec2(0, 0), "Loading...");
-            ImGui::ProgressBar(sinf((float)ImGui::GetTime()) * 0.5f + 0.5f, ImVec2(ImGui::GetFontSize() * 25, 0.0f));
-            
-            // Animate a simple progress bar
-            static float progress = 0.0f, progress_dir = 1.0f;
-            progress += progress_dir * 0.4f * ImGui::GetIO().DeltaTime;
-            if (progress >= +1.1f) { progress = +1.1f; progress_dir *= -1.0f; }
-            if (progress <= -0.1f) { progress = -0.1f; progress_dir *= -1.0f; }
-            ImGui::ProgressBar(progress, ImVec2(0.0f, 0.0f));
-            ImGui::SameLine(0.0f, ImGui::GetStyle().ItemInnerSpacing.x);
-            ImGui::Text("Progress Bar");
-
-            #define IM_CLAMP(V, MN, MX)     ((V) < (MN) ? (MN) : (V) > (MX) ? (MX) : (V))
-            float progress_saturated = IM_CLAMP(progress, 0.0f, 1.0f);
-            char buf[32];
-            sprintf(buf, "%d/%d", (int)(progress_saturated * 1753), 1753);
-            ImGui::ProgressBar(progress, ImVec2(0.f, 0.f), buf);
-        }*/
-        ////////////
+        
         ImGui::EndPopup();
     } else {
         printf("NO BeginPopupModal\n");
     }
 }
+
+//shows the progress bar during propagation
 void propagatingDialog(MyState &myState) {
     ImGui::OpenPopup("Propagating masks to next frames...");
     // Always center this window when appearing
@@ -960,41 +868,9 @@ void propagatingDialog(MyState &myState) {
 
         //PROGRESS BAR
         if (myState.propagating) {
-            /*
-            //ImGui::ProgressBar(ImGui::GetTime() * -0.2f, ImVec2(0, 0), "Loading...");
-            ImGui::ProgressBar(sinf((float)ImGui::GetTime()) * 0.5f + 0.5f, ImVec2(ImGui::GetFontSize() * 25, 0.0f));
-            */
-            // Animate a simple progress bar
-            /*float progress_dir = 1.0f;
-            float progress = 0.0f;
-            //myState.progress = 0.0f;
-            progress += progress_dir * 0.4f * ImGui::GetIO().DeltaTime;
-            if (progress >= +1.1f) { progress = +1.1f; progress_dir *= -1.0f; }
-            if (progress <= -0.1f) { progress = -0.1f; progress_dir *= -1.0f; }
-            ImGui::ProgressBar(progress, ImVec2(0.0f, 0.0f));
-            ImGui::SameLine(0.0f, ImGui::GetStyle().ItemInnerSpacing.x);
-            ImGui::Text("Progress Bar");*/
-
-            //printf("myState.progress=%f\n", myState.progress);
             ImGui::ProgressBar(myState.progress, ImVec2(0.0f, 0.0f));
-    
-
-            // Animate a simple progress bar
-            /*static float progress = 0.0f, progress_dir = 1.0f;
-            progress += progress_dir * 0.4f * ImGui::GetIO().DeltaTime;
-            if (progress >= +1.1f) { progress = +1.1f; progress_dir *= -1.0f; }
-            if (progress <= -0.1f) { progress = -0.1f; progress_dir *= -1.0f; }
-            ImGui::ProgressBar(progress, ImVec2(0.0f, 0.0f));
-            ImGui::SameLine(0.0f, ImGui::GetStyle().ItemInnerSpacing.x);
-            ImGui::Text("Progress Bar");*/
-
-            /*#define IM_CLAMP(V, MN, MX)     ((V) < (MN) ? (MN) : (V) > (MX) ? (MX) : (V))
-            float progress_saturated = IM_CLAMP(progress, 0.0f, 1.0f);
-            char buf[32];
-            sprintf(buf, "%d/%d", (int)(progress_saturated * 1753), 1753);
-            ImGui::ProgressBar(progress, ImVec2(0.f, 0.f), buf);*/
         }
-        ////////////
+        
         ImGui::EndPopup();
     } else {
         printf("NO BeginPopupModal\n");
@@ -1085,48 +961,15 @@ void checkActions(MyState &myState)
         about_version_popup(myState);
     }
 }
-/*
-void IndeterminateProgressBar(const ImVec2& size_arg)
-{
-    using namespace ImGui;
-
-    ImGuiContext& g = *GImGui;
-    ImGuiWindow* window = GetCurrentWindow();
-    if (window->SkipItems)
-        return;
-
-    ImGuiStyle& style = g.Style;
-    ImVec2 size = CalcItemSize(size_arg, CalcItemWidth(), g.FontSize + style.FramePadding.y * 2.0f);
-    ImVec2 pos = window->DC.CursorPos;
-    ImRect bb(pos.x, pos.y, pos.x + size.x, pos.y + size.y);
-    ItemSize(size);
-    if (!ItemAdd(bb, 0))
-        return;
-
-    const float speed = g.FontSize * 0.05f;
-    const float phase = ImFmod((float)g.Time * speed, 1.0f);
-    const float width_normalized = 0.2f;
-    float t0 = phase * (1.0f + width_normalized) - width_normalized;
-    float t1 = t0 + width_normalized;
-
-    RenderFrame(bb.Min, bb.Max, GetColorU32(ImGuiCol_FrameBg), true, style.FrameRounding);
-    bb.Expand(ImVec2(-style.FrameBorderSize, -style.FrameBorderSize));
-    RenderRectFilledRangeH(window->DrawList, bb, GetColorU32(ImGuiCol_PlotHistogram), t0, t1, style.FrameRounding);
-}*/
 
 //Main editor method (called within the main loop)
-void editor(bool *show_myWindow, bool *show_file_dialog, MyState &myState) //WARNING: this is executed within the main loop
+void editor(MyState &myState) //WARNING: this is executed within the main loop
 {
-    //auto& io = ImGui::GetIO();
-    //if (io.WantCaptureMouse || io.WantCaptureKeyboard) {
-    //    return;
-    //}
-
     //Check user actions
     checkActions(myState);
 
     //Main Menu
-    ShowExampleAppMainMenuBar(show_file_dialog, myState);
+    mainMenuBar(myState);
 
     static bool use_work_area = true;
     const ImGuiViewport* viewport = ImGui::GetMainViewport();
@@ -1139,44 +982,20 @@ void editor(bool *show_myWindow, bool *show_file_dialog, MyState &myState) //WAR
     ImVec2 size = ImVec2(viewport->WorkSize.x * 0.6f, viewport->WorkSize.y * 0.6f);
     
     //IMAGE window
-    //printf("frameWindow...\n");
-    frameWindow(myState, show_myWindow, viewport, use_work_area, flags);
+    frameWindow(myState, viewport, use_work_area, flags);
     
-    //FILE dialog
-    //printf("fileDialog...\n");
-    fileDialog(myState, show_file_dialog);
-
-    //MASKS window
-    //masksWindow(myState, viewport, flags, use_work_area);
+    //FILE dialog 
+    fileDialog(myState);
 
     //FRAMES LIST window
-    //printf("framesListWindow...\n");
     framesListWindow(myState, viewport, flags, use_work_area);
     
     //MASKS LIST window
-    //printf("masksListWindow...\n");
     masksListWindow(myState, viewport, flags, use_work_area);
     
     //FINISHING window
-    //printf("finishingWindow...\n");
-    finishingWindow(myState, show_myWindow, viewport, flags, use_work_area);
+    finishingWindow(myState, viewport, flags, use_work_area);
 
     //FINISHING window
-    //printf("finishingWindow...\n");
     finishingConfigWindow(myState, viewport, flags, use_work_area);
-
-    
-
-    //PROPAGATE
-    //printf("propagate...\n");
-    //propagate(myState);
-    
-    //ImGui::End();
-
-    /* 
-        If the user clicks on the image then the masksWindow(...) methods
-        computes the masks and add them to the myState.aVideo.frames[myState.selected_frame].masks[myState.selected_mask].masks
-        myState.selected_mask=0 by default
-        myState.selected_frame=-1 by default but it's set to zero when the video is loaded
-    */
 }

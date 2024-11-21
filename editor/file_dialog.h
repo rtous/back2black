@@ -7,6 +7,6 @@
 #define FILE_DIALOG_SAVE_VIDEO 2
 
 
-void show_file_dialog_f(bool *show_file_dialog, MyState &myState);
+void show_file_dialog_f(MyState &myState);
 
 #endif

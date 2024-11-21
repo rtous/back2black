@@ -2,6 +2,6 @@
 #define __EDITOR_H__
 
 #include "sam.h"
-void editor(bool *show_myWindow, bool *show_file_dialog, MyState &myState);
+void editor(MyState &myState);
 
 #endif

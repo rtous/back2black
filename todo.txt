@@ -8,6 +8,9 @@ Universitat Politecnica de Catalunya
 
 TODO
 
+- el myState.img (sam format) cal ja que faig servir myState.img.nx al draw_list->AddImage(...
+	- però també defineixo myState.img_frame_w
+	- ???
 - al propagar les cares no cal tornar-les a computar si ha ho estan, però què passarà quan pugui canviar el color?
 - propagate mode directe (sense calcular centre)
 - guardo coses que no sempre cal (textures, imatges, etc.)
