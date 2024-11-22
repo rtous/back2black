@@ -63,6 +63,10 @@ class MyState {
     //single file case:
     sam_image_u8 img; 
     GLuint tex; 
+
+    void reset() {  // Method/function defined inside the class
+      aVideo = Video();
+    }
 };
 
 #endif

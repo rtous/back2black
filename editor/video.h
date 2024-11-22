@@ -8,6 +8,7 @@
 
 void read_video(const std::string &videoFilePath, Video &theVideo, int w, int h);
 void save_video(const std::string &videoFilePath, Video &theVideo);
-
+void save_frame(const std::string &frameFilePath, Video &theVideo, int selected_frame);
+void save_video_frames(const std::string &videoFilePath, Video &theVideo);
 
 #endif

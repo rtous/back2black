@@ -26,6 +26,8 @@ void show_file_dialog_f(MyState & myState)
     //glfwGetFramebufferSize(window, &display_w, &display_h);
     IGFD::FileDialogConfig config;
     config.path = ".";
+
+    
     //printf("opening dialog..."); 
 
     //by default FILE_DIALOG_LOAD_SINGLE_FILE
@@ -36,10 +38,28 @@ void show_file_dialog_f(MyState & myState)
     if (myState.file_dialog_mode == FILE_DIALOG_LOAD_VIDEO) 
        filters = "Video files (*.mp4){.mp4}";
 
-    if (myState.file_dialog_mode == FILE_DIALOG_SAVE_VIDEO) 
-       filters = "";
+    if (myState.file_dialog_mode == FILE_DIALOG_SAVE_VIDEO) {
+       //config.filePathName = "output.mp4";
+       config.fileName = "result.mp4"; //this way keeps the extension
+       filters = "Video files (*.mp4){.mp4}";
+       //filters = nullptr; //TO SELECT A DIRECTORY
+    }
+
+    if (myState.file_dialog_mode == FILE_DIALOG_SAVE_VIDEO_FRAMES) {
+       //config.filePathName = "output.mp4";
+       //config.fileName = "result.mp4"; //this way keeps the extension
+       filters = nullptr; //TO SELECT A DIRECTORY
+    }
+
+    if (myState.file_dialog_mode == FILE_DIALOG_SAVE_FRAME) {
+       config.fileName = "result.png"; //this way keeps the extension
+       //config.path = "./output.png";
+       filters = "Video files (*.png){.png}";
+    }
      
+    //ImGuiFileDialog::Instance()->OpenDialog("ChooseFileDlgKey", "Choose a File", filters, config);
     ImGuiFileDialog::Instance()->OpenDialog("ChooseFileDlgKey", "Choose a File", filters, config);
+    
     //ImGuiFileDialog::Instance()->OpenDialog("ChooseFileDlgKey", "Choose File", ".cpp,.h,.hpp,.png,.jpg", config);
     // display
     ImVec2 minSize = ImVec2(0, 0);
@@ -50,9 +70,13 @@ void show_file_dialog_f(MyState & myState)
     //minSize = maxSize * 0.25f;
     //maxSize = ImVec2(300, 300);
     //minSize = ImVec2(100, 100);
+    
+    //if (ImGuiFileDialog::Instance()->Display("ChooseFileDlgKey", ImGuiWindowFlags_NoCollapse, minSize, maxSize)) {
     if (ImGuiFileDialog::Instance()->Display("ChooseFileDlgKey", ImGuiWindowFlags_NoCollapse, minSize, maxSize)) {
         if (ImGuiFileDialog::Instance()->IsOk()) { // action if OK
-          std::string filePathName = ImGuiFileDialog::Instance()->GetFilePathName();
+          std::string filePathName = ImGuiFileDialog::Instance()->GetFilePathName(IGFD_ResultMode_AddIfNoFileExt);
+          //std::string filePathName = ImGuiFileDialog::Instance()->GetFilePathName(IGFD_ResultMode_AddIfNoFileExt);
+          //std::string fileName = ImGuiFileDialog::Instance()->GetFileName(IGFD_ResultMode_AddIfNoFileExt);
           std::string filePath = ImGuiFileDialog::Instance()->GetCurrentPath();
           //std::print("filePathName: {}", filePathName);
           //std::print("filePath: {}", filePath);

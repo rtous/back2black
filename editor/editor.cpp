@@ -97,6 +97,9 @@ static void mainMenuBar(MyState &myState)
                 myState.file_dialog_mode = FILE_DIALOG_LOAD_VIDEO;
                 myState.clicked = false;//to avoid the click going through
             }
+            
+            if (!myState.img_loaded || myState.aVideo.frames.size()<2)
+                ImGui::BeginDisabled();
             if (ImGui::MenuItem("Save Video", "Ctrl+S")) {
                 //*show_file_dialog = true;
                 //myState.show_file_dialog_save_video = true;
@@ -104,6 +107,33 @@ static void mainMenuBar(MyState &myState)
                 myState.file_dialog_mode = FILE_DIALOG_SAVE_VIDEO;
                 myState.clicked = false;//to avoid the click going through
             }
+            if (!myState.img_loaded || myState.aVideo.frames.size()<2)
+                ImGui::EndDisabled();
+
+            if (!myState.img_loaded || myState.aVideo.frames.size()<2)
+                ImGui::BeginDisabled();
+            if (ImGui::MenuItem("Save Video Frames", "Ctrl+S")) {
+                //*show_file_dialog = true;
+                //myState.show_file_dialog_save_video = true;
+                myState.show_file_dialog = true;
+                myState.file_dialog_mode = FILE_DIALOG_SAVE_VIDEO_FRAMES;
+                myState.clicked = false;//to avoid the click going through
+            }
+            if (!myState.img_loaded || myState.aVideo.frames.size()<2)
+                ImGui::EndDisabled();
+
+            if (!myState.img_loaded)
+                ImGui::BeginDisabled();
+            if (ImGui::MenuItem("Save Frame", "Ctrl+S")) {
+                //*show_file_dialog = true;
+                //myState.show_file_dialog_save_video = true;
+                myState.show_file_dialog = true;
+                myState.file_dialog_mode = FILE_DIALOG_SAVE_FRAME;
+                myState.clicked = false;//to avoid the click going through
+            }
+            if (!myState.img_loaded)
+                ImGui::EndDisabled();
+            
             if (ImGui::MenuItem("Exit", "Ctrl+F4"))
                myState.done = true;//this is detected in the main loop in main.cpp
             ImGui::EndMenu();
@@ -111,12 +141,17 @@ static void mainMenuBar(MyState &myState)
         if (ImGui::BeginMenu("Tools"))
         {
             //ImGui::MenuItem("(demo menu)", NULL, false, false);
+            if (!myState.img_loaded || myState.aVideo.frames.size()<2)
+                ImGui::BeginDisabled();
             if (ImGui::MenuItem("Propagate masks to next frames", "Ctrl+P")) {
                 //myState.propagate = true;
                 myState.propagate_dialog = true;
                 myState.clicked = false;//to avoid the click go into the frame
                 
             }
+            if (!myState.img_loaded || myState.aVideo.frames.size()<2)
+                ImGui::EndDisabled();
+            
             ImGui::EndMenu();
         }
         if (ImGui::BeginMenu("About"))
@@ -166,7 +201,6 @@ static void drawAllMasks(MyState &myState, const ImGuiViewport* viewport, ImVec2
 
 static void frameWindow(MyState &myState, const ImGuiViewport* viewport, bool use_work_area, ImGuiWindowFlags flags) 
 {
-    printf("frameWindow...\n");
     ImVec2 size = ImVec2(viewport->WorkSize.x * 0.5f, viewport->WorkSize.y * 0.75f);
     
     myState.img_frame_w = size.x;
@@ -203,7 +237,6 @@ static void frameWindow(MyState &myState, const ImGuiViewport* viewport, bool us
 
     /******* image ******/
     if (myState.img_loaded) {
-        printf("myState.img_loaded...\n");
         //Draw input image (previously loaded)
         //printf("Redrawing image\n");
         //opencv_image2sam(myState.img, myState.aVideo.frames[(rand()%6)+1].img);
@@ -221,7 +254,6 @@ static void frameWindow(MyState &myState, const ImGuiViewport* viewport, bool us
         //int absolute_x = myState.img_frame_pos_x;//ImGui::GetWindowWidth()
         //int absolute_y = myState.img_frame_pos_y;
 
-        printf("myState.img_loaded so adding aFrame.tex to drawlist\n");
         draw_list->AddImage((void*)(intptr_t)aFrame.tex, ImVec2(viewport->WorkPos.x, viewport->WorkPos.y), ImVec2(viewport->WorkPos.x+myState.img.nx, viewport->WorkPos.y+myState.img.ny));
         //draw_list->AddImage((void*)(intptr_t)aFrame.tex, ImVec2(newPos.x, newPos.y), ImVec2(myState.img.nx, myState.img.ny));
         //draw_list->AddImage((void*)(intptr_t)aFrame.tex, ImVec2(myState.img_frame_pos_x,myState.img_frame_pos_y), ImVec2(myState.img.nx, myState.img.ny));
@@ -693,6 +725,8 @@ void fileDialog(MyState &myState) {
         //myState.img has a copy of myState.aVideo.frames[myState.selected_frame].img_sam_format
         printf("OPENING IMAGE FILE\n");
 
+        myState.reset();
+
         myState.file_dialog_file_selected = false;
         std::string image_path = myState.filePath + "/" + myState.filePathName;
         cv::Mat opencv_img = cv::imread(image_path, cv::IMREAD_COLOR);
@@ -724,46 +758,12 @@ void fileDialog(MyState &myState) {
         } else {
             printf("Error opening path: %s\n", image_path.c_str());
         }
-
-        /*myState.file_dialog_file_selected = false;
-        std::string fileName = myState.filePath + "/" + myState.filePathName;
-        //from common lib
-        //NOTE will be rendered in frameWindow()
-        if (!load_image_samformat_from_file(fileName, myState.img)) {
-            printf("failed to load image from '%s'\n", fileName.c_str());  
-        } else {
-            printf("successfully loaded image from '%s'\n", fileName.c_str());
-            Frame aFrame;
-            aFrame.img = frame;
-            opencv_image2sam(aFrame.img_sam_format, frame);
-            aFrame.order = 0;
-            downscale_img_to_size(aFrame.img_sam_format, w, h);
-            aFrame.tex = createGLTexture(aFrame.img_sam_format, GL_RGB);
-
-
-            myState.aVideo.frames.push_back(aFrame);
-            myState.img_loaded = true;
-            myState.selected_frame = 0;
-            myState.selected_mask = 0;
-            myState.frame_precomputed = 0; 
-            if (!myState.a_sam_state) {
-                fprintf(stderr, "%s: failed to load model\n", __func__);
-                //return 1;
-            } else {
-                printf("t_load_ms = %d ms\n", myState.a_sam_state->t_load_ms);
-                //First SAM computes the embedding of the whole image
-                printf("(single photo) Precomputing first frame...\n");
-                if (!sam_compute_embd_img(myState.img, myState.params.n_threads, *myState.a_sam_state)) {
-                    fprintf(stderr, "%s: failed to compute encoded image\n", __func__);
-                    //return 1;
-                }
-                printf("t_compute_img_ms = %d ms\n", myState.a_sam_state->t_compute_img_ms);
-            }
-        }
-        */
     //Check if opening video file
     } else if (myState.file_dialog_file_selected && myState.file_dialog_mode == FILE_DIALOG_LOAD_VIDEO) {
         printf("OPENING VIDEO FILE\n");
+        
+        myState.reset();
+
         myState.file_dialog_file_selected = false;
         std::string fullPath = myState.filePath + "/" + myState.filePathName;
         std::vector<cv::Mat> frames;
@@ -790,12 +790,17 @@ void fileDialog(MyState &myState) {
     } else if (myState.file_dialog_file_selected && myState.file_dialog_mode == FILE_DIALOG_SAVE_VIDEO) {
         printf("Saving video...UNDER CONSTRUCTION\n");
         myState.file_dialog_file_selected = false;
-        //std::string fullPath = myState.filePath + "/" + myState.filePathName;
-        //std::vector<cv::Mat> frames;
-        //Video aVideo;
-        //const ImGuiViewport* viewport = ImGui::GetMainViewport();
-        //ImVec2 win_size =ImGui::GetWindowSize();
         save_video(myState.filePathName, myState.aVideo);
+        printf("Video saved.\n");
+    } else if (myState.file_dialog_file_selected && myState.file_dialog_mode == FILE_DIALOG_SAVE_VIDEO_FRAMES) {
+        printf("Saving video...UNDER CONSTRUCTION\n");
+        myState.file_dialog_file_selected = false;
+        save_video_frames(myState.filePath, myState.aVideo);
+        printf("Video frames saved.\n");
+    } else if (myState.file_dialog_file_selected && myState.file_dialog_mode == FILE_DIALOG_SAVE_FRAME) {
+        printf("Saving image...UNDER CONSTRUCTION\n");
+        myState.file_dialog_file_selected = false;
+        save_frame(myState.filePathName, myState.aVideo, myState.selected_frame);
         printf("Video saved.\n");
     }
 }
@@ -965,6 +970,7 @@ void checkActions(MyState &myState)
 //Main editor method (called within the main loop)
 void editor(MyState &myState) //WARNING: this is executed within the main loop
 {
+
     //Check user actions
     checkActions(myState);
 

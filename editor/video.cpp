@@ -110,3 +110,74 @@ void save_video(const std::string &videoFilePath, Video &theVideo){//(std::vecto
         }
     }
 }
+
+void save_video_frames(const std::string &dirPath, Video &theVideo){//(std::vector<cv::Mat img> & frames) {
+    if (!cv::utils::fs::exists(dirPath)) {
+        printf("Output directory does not exist, creating: %s", dirPath.c_str());
+        cv::utils::fs::createDirectories(dirPath);
+    }
+    printf("saving video to %s...\n", dirPath.c_str());
+    int fps = 25;
+    cv::Size frame_size = theVideo.frames[0].img.size();    
+    
+    int numFrames = theVideo.frames.size();
+    int f = 0;
+    //iterate through all frames 
+    for (Frame & aFrame : theVideo.frames) {
+        printf("PROCESSING FRAME %d \n", f);
+        if (aFrame.masks.size()>0) {
+            //iterate through all the masks of the frame
+            cv::Mat output_image_opencv = cv::Mat::zeros(aFrame.img.size(), CV_8UC4);;
+            for (Mask & aMask : aFrame.masks) {
+                printf("\tPROCESSING MASK %d \n", aMask.maskId);
+                //from simplify.cpp
+                fillContoursWithColorAndAlpha(aMask.simplifiedContours, output_image_opencv, false, aMask.color[0]*255, aMask.color[1]*255, aMask.color[2]*255);
+                printf("\tPROCESSING MASK DONE.\n");
+            }
+            cv::Size a_frame_size = aFrame.img.size(); 
+            printf("writing frame with size %d,%d.\n", a_frame_size.width, a_frame_size.height);
+            
+            cv::Mat bgra;
+            cv::cvtColor(output_image_opencv, bgra, cv::COLOR_RGBA2BGRA);
+            std::string frame_path = dirPath+"/frame"+ std::to_string(f)+".png";
+            printf("saving frame to %s...\n", frame_path.c_str());
+            cv::imwrite(frame_path, bgra);
+
+            
+        }
+        printf("FRAME DONE.\n");
+        f++;
+    }
+        
+}
+
+//save as a single frame
+void save_frame(const std::string &imageFilePath, Video &theVideo, int selected_frame){//(std::vector<cv::Mat img> & frames) {
+    printf("saving frame to %s...\n", imageFilePath.c_str());
+    int fps = 25;
+    cv::Size frame_size = theVideo.frames[selected_frame].img.size();    
+    
+    if (theVideo.frames[selected_frame].masks.size()>0) {
+        //iterate through all the masks of the frame
+        cv::Mat output_image_opencv = cv::Mat::zeros(theVideo.frames[selected_frame].img.size(), CV_8UC4);;
+        for (Mask & aMask : theVideo.frames[selected_frame].masks) {
+            printf("\tPROCESSING MASK %d \n", aMask.maskId);
+            //from simplify.cpp
+            fillContoursWithColorAndAlpha(aMask.simplifiedContours, output_image_opencv, false, aMask.color[0]*255, aMask.color[1]*255, aMask.color[2]*255);
+            printf("\tPROCESSING MASK DONE.\n");
+        }
+        cv::Size a_frame_size = theVideo.frames[0].img.size(); 
+        printf("writing frame with size %d,%d.\n", a_frame_size.width, a_frame_size.height);
+        
+        //TODO: Did this because aFrame.img is RGB instead of BGR
+        //cv::Mat bgr;
+        //cv::cvtColor(aFrame.img, bgr, cv::COLOR_RGB2BGR);
+        
+        cv::Mat bgra;
+        cv::cvtColor(output_image_opencv, bgra, cv::COLOR_RGBA2BGRA);
+        cv::imwrite(imageFilePath, bgra);
+        
+    }
+    printf("FRAME DONE.\n");         
+    
+}
