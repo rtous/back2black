@@ -787,21 +787,15 @@ void fileDialog(MyState &myState) {
             //return 1;
         }
         myState.frame_precomputed = 0;
-    } else if (myState.file_dialog_file_selected && myState.file_dialog_mode == FILE_DIALOG_SAVE_VIDEO) {
-        printf("Saving video...UNDER CONSTRUCTION\n");
+    } else if (myState.file_dialog_file_selected && myState.file_dialog_mode == FILE_DIALOG_SAVE_VIDEO) {   
         myState.file_dialog_file_selected = false;
-        save_video(myState.filePathName, myState.aVideo);
-        printf("Video saved.\n");
-    } else if (myState.file_dialog_file_selected && myState.file_dialog_mode == FILE_DIALOG_SAVE_VIDEO_FRAMES) {
-        printf("Saving video...UNDER CONSTRUCTION\n");
+        save_video(myState.filePathName, myState.aVideo);   
+    } else if (myState.file_dialog_file_selected && myState.file_dialog_mode == FILE_DIALOG_SAVE_VIDEO_FRAMES) {     
         myState.file_dialog_file_selected = false;
-        save_video_frames(myState.filePath, myState.aVideo);
-        printf("Video frames saved.\n");
-    } else if (myState.file_dialog_file_selected && myState.file_dialog_mode == FILE_DIALOG_SAVE_FRAME) {
-        printf("Saving image...UNDER CONSTRUCTION\n");
+        save_video_frames(myState.filePath, myState.aVideo);     
+    } else if (myState.file_dialog_file_selected && myState.file_dialog_mode == FILE_DIALOG_SAVE_FRAME) {        
         myState.file_dialog_file_selected = false;
-        save_frame(myState.filePathName, myState.aVideo, myState.selected_frame);
-        printf("Video saved.\n");
+        save_frame(myState.filePathName, myState.aVideo, myState.selected_frame);        
     }
 }
 
