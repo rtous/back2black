@@ -3,6 +3,6 @@
 
 #include <opencv2/opencv.hpp> 
 
-void face(cv::Mat img, cv::Mat & res, cv::Scalar color, cv::Scalar pupilsColor);
+void face(cv::Mat img, cv::Mat & res_face, cv::Mat & res_eyes, cv::Scalar color, cv::Scalar pupilsColor);
 
 #endif

@@ -472,9 +472,24 @@ int propagate_masks(std::vector<Frame> & frames, sam_state & state, int n_thread
             //TODO: What happens if color changes?
             if (aFrame.faces_check && !aFrame.faces_computed) {
                 printf("Computing face...\n");
-                cv::Mat blankImageWithAlpha = cv::Mat(cv::Size(aFrame.img.cols,aFrame.img.rows), CV_8UC4, cv::Scalar(0,0,0,0));
-                face(aFrame.img, blankImageWithAlpha, cv::Scalar(118, 113, 168, 255), cv::Scalar(61, 71, 118, 255));
-                aFrame.faces = blankImageWithAlpha;
+                
+
+                cv::Mat face_mask = cv::Mat(cv::Size(aFrame.img.cols,aFrame.img.rows), CV_8UC4, cv::Scalar(0,0,0,0));
+                cv::Mat eyes_mask = cv::Mat(cv::Size(aFrame.img.cols,aFrame.img.rows), CV_8UC4, cv::Scalar(0,0,0,0));
+                //TODO
+                //cv::Scalar faceColor = cv::Scalar(myState.face_color[0]*255, myState.face_color[1]*255, myState.face_color[2]*255, myState.face_color[3]*255);
+                //cv::Scalar pupilsColor = cv::Scalar(myState.eyes_color[0]*255, myState.eyes_color[1]*255, myState.eyes_color[2]*255, myState.eyes_color[3]*255);
+                cv::Scalar faceColor = cv::Scalar(168, 113, 118, 255);
+                cv::Scalar pupilsColor = cv::Scalar(118, 71, 61, 255);
+                face(aFrame.img, face_mask, eyes_mask, faceColor, pupilsColor);
+
+
+                //cv::Mat blankImageWithAlpha = cv::Mat(cv::Size(aFrame.img.cols,aFrame.img.rows), CV_8UC4, cv::Scalar(0,0,0,0));
+                //face(aFrame.img, blankImageWithAlpha, cv::Scalar(118, 113, 168, 255), cv::Scalar(61, 71, 118, 255));
+                //aFrame.faces = blankImageWithAlpha;
+                aFrame.faces = face_mask;
+                aFrame.eyes = eyes_mask;
+
                 //GLuint newGLTextureFace = createGLTextureOpenCV(blankImageWithAlpha, GL_RGBA);
                 //aFrame.facesTexture = newGLTextureFace;
                 aFrame.faces_computed = true;
@@ -523,8 +538,16 @@ int propagate_masks(std::vector<Frame> & frames, sam_state & state, int n_thread
                     newMask.color[0] = aMask.color[0];
                     newMask.color[1] = aMask.color[1];
                     newMask.color[2] = aMask.color[2];
-                    newMask.mask_computed_at_x = aMask.mask_center_x;
-                    newMask.mask_computed_at_y = aMask.mask_center_y; 
+                    newMask.track_movement = aMask.track_movement;
+                    if (newMask.track_movement) {
+                        newMask.mask_computed_at_x = aMask.mask_center_x;
+                        newMask.mask_computed_at_y = aMask.mask_center_y; 
+                    } else {
+                        newMask.mask_computed_at_x = aMask.mask_computed_at_x;
+                        newMask.mask_computed_at_y = aMask.mask_computed_at_y; 
+                    }
+                    //newMask.mask_computed_at_x = aMask.mask_center_x;
+                    //newMask.mask_computed_at_y = aMask.mask_center_y; 
                     printf("\tADDING MASK %d TO FRAME %d WITH x=%d, y=%d\n", aMask.maskId, f, newMask.mask_computed_at_x, newMask.mask_computed_at_y);
                     frames[f+1].masks.push_back(newMask);
                 }

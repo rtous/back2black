@@ -65,7 +65,7 @@ void draw_nose(full_object_detection shape, cv::Mat & res, cv::Scalar color){
     cv::fillPoly(res, contour, color);
 }
 
-void face(cv::Mat img, cv::Mat & res, cv::Scalar color, cv::Scalar pupilsColor){
+void face(cv::Mat img, cv::Mat & res_face, cv::Mat & res_eyes, cv::Scalar color, cv::Scalar pupilsColor){
     frontal_face_detector detector = get_frontal_face_detector();
     shape_predictor pose_model;
     deserialize("checkpoints/shape_predictor_68_face_landmarks.dat") >> pose_model;
@@ -87,10 +87,10 @@ void face(cv::Mat img, cv::Mat & res, cv::Scalar color, cv::Scalar pupilsColor){
         // Detect landmarks
         shape = pose_model(cimg, dets[i]);
 
-        draw_eyes_contour(shape, res, color);
-        draw_pupils(shape, res, pupilsColor);
-        draw_mouth(shape, res, color);
-        draw_nose(shape, res, color);
+        draw_eyes_contour(shape, res_face, color);
+        draw_pupils(shape, res_eyes, pupilsColor);
+        draw_mouth(shape, res_face, color);
+        draw_nose(shape, res_face, color);
         
     }
 }

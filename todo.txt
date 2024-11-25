@@ -8,6 +8,15 @@ Universitat Politecnica de Catalunya
 
 TODO
 
+- Faces
+	- el color de la cara estaà harcodejat al propagate
+	- cal canviar el compute_facial_textures_all_frames com hem fet a editor
+
+- El resultat der createGLTextureOpenCV no funciona bé si s'usa com a binary mask al draw_list->AddImage, no conserva el color com createGLTexture
+- no entenc per que a compute_mask_textures aplica color si després no el fa servir
+- al draw_list->AddImage es harcodeja el alpha i s'hauria d'agafar de l'estat!
+- les mascares canvien de color ja que son mascares binaries que constantment s'afegeixen amb un color, cal fer el mateix amb les cares?
+- propagation type per mask (movement, static)
 - el myState.img (sam format) cal ja que faig servir myState.img.nx al draw_list->AddImage(...
 	- però també defineixo myState.img_frame_w
 	- ???

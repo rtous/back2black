@@ -193,8 +193,13 @@ static void drawAllMasks(MyState &myState, const ImGuiViewport* viewport, ImVec2
         }
     }
     if (simplified)
-        if (myState.aVideo.frames[myState.selected_frame].faces_computed)
-            draw_list->AddImage((void*)(intptr_t)myState.aVideo.frames[myState.selected_frame].facesTexture, ImVec2(newPos[0], newPos[1]), ImVec2(newPos[0]+myState.img.nx, newPos[1]+myState.img.ny), ImVec2(0,0), ImVec2(1,1));       
+        if (myState.aVideo.frames[myState.selected_frame].faces_computed) {
+            draw_list->AddImage((void*)(intptr_t)myState.aVideo.frames[myState.selected_frame].facesTexture, ImVec2(newPos[0], newPos[1]), ImVec2(newPos[0]+myState.img.nx, newPos[1]+myState.img.ny), ImVec2(0,0), ImVec2(1,1), IM_COL32(myState.face_color[0]*255, myState.face_color[1]*255, myState.face_color[2]*255, 255));
+            draw_list->AddImage((void*)(intptr_t)myState.aVideo.frames[myState.selected_frame].eyesTexture, ImVec2(newPos[0], newPos[1]), ImVec2(newPos[0]+myState.img.nx, newPos[1]+myState.img.ny), ImVec2(0,0), ImVec2(1,1), IM_COL32(myState.eyes_color[0]*255, myState.eyes_color[1]*255, myState.eyes_color[2]*255, 255));
+            //draw_list->AddImage((void*)(intptr_t)myState.aVideo.frames[myState.selected_frame].facesTexture, ImVec2(newPos[0], newPos[1]), ImVec2(newPos[0]+myState.img.nx, newPos[1]+myState.img.ny), ImVec2(0,0), ImVec2(1,1), IM_COL32(255, 0, 0, 255));
+            
+            //draw_list->AddImage((void*)(intptr_t)myState.aVideo.frames[myState.selected_frame].facesTexture, ImVec2(newPos[0], newPos[1]), ImVec2(newPos[0]+myState.img.nx, newPos[1]+myState.img.ny), ImVec2(0,0), ImVec2(1,1));       
+    }
 }
 
 
@@ -533,7 +538,7 @@ static void masksListWindow(MyState &myState, const ImGuiViewport* viewport, ImG
                 printf("Not deleting, clickedDelete[i]=%d and myState.aVideo.frames[myState.selected_frame].masks.size()=%d\n",clickedDelete[i], myState.aVideo.frames[myState.selected_frame].masks.size());
             }   
 
-            //BUTTON 4
+            //BUTTON 4 (up)
             clickedUp.push_back(0);
             if (i > 0) { //only allow if not the top selected
                 ImGui::SameLine();
@@ -557,7 +562,7 @@ static void masksListWindow(MyState &myState, const ImGuiViewport* viewport, ImG
                 }
             }
 
-            //BUTTON 5
+            //BUTTON 5 (down)
             clickedDown.push_back(0);
             if (i < myState.aVideo.frames[myState.selected_frame].masks.size()-1) { //only allow if not the top selected
                 ImGui::SameLine();
@@ -579,7 +584,16 @@ static void masksListWindow(MyState &myState, const ImGuiViewport* viewport, ImG
                 }
             }
 
-
+            //COMBO 6 (track movement)
+            ImGui::SameLine();
+            /*const char* items[] = { "static", "movement" };
+            static int item_current = 0;
+            ImGui::Combo("##combo", &item_current, items, IM_ARRAYSIZE(items), ImGuiComboFlags_WidthFitPreview);
+            */
+            std::string checkboxID = "checkboxID" + std::to_string(i);
+            char buf3[64];
+            sprintf(buf3, "track movement###%s", checkboxID.c_str());
+            ImGui::Checkbox(buf3, &myState.aVideo.frames[myState.selected_frame].masks[i].track_movement);
             
 
             i++;
@@ -681,27 +695,59 @@ static void finishingConfigWindow(MyState &myState, const ImGuiViewport* viewpor
     ImGui::SetNextWindowSize(use_work_area ? size : viewport->Size);
     ImGui::Begin("FINISHING DETAILS", NULL, ImGuiWindowFlags_NoCollapse); 
     
-    
-
     if (myState.img_loaded) {
         ImGui::Checkbox("Facial traits", &myState.aVideo.frames[myState.selected_frame].faces_check);
         if (myState.aVideo.frames[myState.selected_frame].faces_check && !myState.aVideo.frames[myState.selected_frame].faces_computed) {
             printf("Computing face...\n");
             //myState.aVideo.frames[myState.selected_frame].faces = //myState.aVideo.frames[myState.selected_frame].img.clone();    
-            cv::Mat blankImageWithAlpha = cv::Mat(cv::Size(myState.aVideo.frames[myState.selected_frame].img.cols,myState.aVideo.frames[myState.selected_frame].img.rows), CV_8UC4, cv::Scalar(0,0,0,0));
-            face(myState.aVideo.frames[myState.selected_frame].img, blankImageWithAlpha, cv::Scalar(118, 113, 168, 255), cv::Scalar(61, 71, 118, 255));
-            myState.aVideo.frames[myState.selected_frame].faces = blankImageWithAlpha;
+            cv::Mat face_mask = cv::Mat(cv::Size(myState.aVideo.frames[myState.selected_frame].img.cols,myState.aVideo.frames[myState.selected_frame].img.rows), CV_8UC4, cv::Scalar(0,0,0,0));
+            cv::Mat eyes_mask = cv::Mat(cv::Size(myState.aVideo.frames[myState.selected_frame].img.cols,myState.aVideo.frames[myState.selected_frame].img.rows), CV_8UC4, cv::Scalar(0,0,0,0));
+            
+            //face(myState.aVideo.frames[myState.selected_frame].img, blankImageWithAlpha, cv::Scalar(118, 113, 168, 255), cv::Scalar(61, 71, 118, 255));
+            
+            cv::Scalar faceColor = cv::Scalar(myState.face_color[0]*255, myState.face_color[1]*255, myState.face_color[2]*255, myState.face_color[3]*255);
+            cv::Scalar pupilsColor = cv::Scalar(myState.eyes_color[0]*255, myState.eyes_color[1]*255, myState.eyes_color[2]*255, myState.eyes_color[3]*255);
+            face(myState.aVideo.frames[myState.selected_frame].img, face_mask, eyes_mask, faceColor, pupilsColor);
+
+            myState.aVideo.frames[myState.selected_frame].faces = face_mask;
+            myState.aVideo.frames[myState.selected_frame].eyes = eyes_mask;
+            
+            //With sam2texture (face)
+            sam_image_u8 mask_simplified;
+            opencv_image2sam_binarymask(mask_simplified, face_mask);
+            sam_image_u8 mask_simplified_rgb = sam_image2color(mask_simplified, 255);
+            GLuint newGLTextureFace = createGLTexture(mask_simplified_rgb, GL_RGBA);
+            
+            //With sam2texture (eyes)
+            sam_image_u8 mask_simplified2;
+            opencv_image2sam_binarymask(mask_simplified2, eyes_mask);
+            sam_image_u8 mask_simplified_rgb2 = sam_image2color(mask_simplified2, 255);
+            GLuint newGLTextureFace2 = createGLTexture(mask_simplified_rgb2, GL_RGBA);
+            
+
             //DEBUG
-            cv::imwrite("borrar_faces.png", myState.aVideo.frames[myState.selected_frame].faces);
-            sam_image_u8 sam_img_face;
+            //cv::imwrite("borrar_faces.png", myState.aVideo.frames[myState.selected_frame].faces);
+            //sam_image_u8 sam_img_face;
             //opencv_image2sam(sam_img_face, myState.aVideo.frames[myState.selected_frame].faces);
             //sam_image2opencv_color(sam_img_face, myState.aVideo.frames[myState.selected_frame].faces);
             //sam_image_u8 sam_img_face_rgb = sam_image2color(sam_img_face);
             //GLuint newGLTextureFace = createGLTexture(sam_img_face, GL_RGBA);
-            GLuint newGLTextureFace = createGLTextureOpenCV(blankImageWithAlpha, GL_RGBA);
+            
+            //With opencv2texture
+            //GLuint newGLTextureFace = createGLTextureOpenCV(blankImageWithAlpha, GL_RGBA);
             myState.aVideo.frames[myState.selected_frame].facesTexture = newGLTextureFace;
+            myState.aVideo.frames[myState.selected_frame].eyesTexture = newGLTextureFace2;
             myState.aVideo.frames[myState.selected_frame].faces_computed = true;
         }
+        //face color
+        ImGui::ColorEdit4("Face color", myState.face_color, ImGuiColorEditFlags_NoInputs);
+
+        //eyes color
+        ImGui::ColorEdit4("Eyes color", myState.eyes_color, ImGuiColorEditFlags_NoInputs);
+
+
+        //rimlight size
+        ImGui::SliderInt("Rimlight size", &myState.rimlight_size, 0, 10);
     }
 
     ImGui::End();

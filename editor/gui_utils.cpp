@@ -159,6 +159,8 @@ static bool downscale_img_to_screen(sam_image_u8 &img, SDL_Window* window) {
 }
 
 GLuint createGLTextureOpenCV(const cv::Mat & opencv_img, GLint format) {
+    //TODO: With this method, when used as a binary mask to apply colors
+    //the colors are changed. So it's different from createGLTexture somehow???
     GLuint tex;
     glGenTextures(1, &tex);
     glBindTexture(GL_TEXTURE_2D, tex);

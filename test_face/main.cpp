@@ -86,8 +86,10 @@ int main()
     //cv::Mat res2 = cv::Mat::zeros(cv::Size(img.cols,img.rows), CV_8UC1);
     //cv::Mat res2 = img.clone();
     cv::Mat res2 = cv::Mat(cv::Size(img.cols,img.rows), CV_8UC4, cv::Scalar(0,0,0,0));
+    cv::Mat eyes_mask = cv::Mat(cv::Size(img.cols,img.rows), CV_8UC4, cv::Scalar(0,0,0,0));
+            
 
-    face(img, res2, cv::Scalar(118, 113, 168, 255), cv::Scalar(61, 71, 118, 255));
+    face(img, res2, eyes_mask, cv::Scalar(118, 113, 168, 255), cv::Scalar(61, 71, 118, 255));
     cv::imshow("Display window", res2);
     k = cv::waitKey(0); // Wait for a keystroke in the window
 

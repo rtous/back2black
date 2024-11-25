@@ -28,6 +28,7 @@ class Mask {
     GLuint simplifiedMaskTexture; //simplified mask in OpenGL
     bool textures_computed = false;
     bool visible = true;
+    bool track_movement = true;
     
 
     //contours
@@ -63,10 +64,12 @@ class Frame {
     std::string filePath; //when the input is a directory of images instead of a video (only used to keep the filenames in the output in cli_masks)
     std::vector<Mask> masks; 
     cv::Mat img; //OpenCV format
-    cv::Mat faces; //OpenCV format
+    cv::Mat faces; //OpenCV format (faces mask)
+    cv::Mat eyes; //OpenCV format (eyes mask)
     sam_image_u8 img_sam_format; //the video frame in sam format
     GLuint tex; //OpenGL texture of the original video frame
     GLuint facesTexture;//OpenGL texture of the faces
+    GLuint eyesTexture;//OpenGL texture of the eyes
     bool faces_check = false;
     bool faces_computed = false;
     bool faces_textures_computed = false;
