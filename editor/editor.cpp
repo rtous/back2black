@@ -180,7 +180,7 @@ static void drawAllMasks(MyState &myState, const ImGuiViewport* viewport, ImVec2
 
         Mask aMask = myState.aVideo.frames[myState.selected_frame].masks[j];
 
-        if (aMask.visible) {
+        if (aMask.mask_computed && aMask.visible) {
             const int r = aMask.color[0]*255;
             const int g = aMask.color[1]*255;
             const int b = aMask.color[2]*255;
@@ -188,10 +188,15 @@ static void drawAllMasks(MyState &myState, const ImGuiViewport* viewport, ImVec2
             if (simplified)
                 //ImVec2 mousePositionRelative = ImVec2(mousePositionAbsolute.x - screenPositionAbsolute.x, mousePositionAbsolute.y - screenPositionAbsolute.y);
                 draw_list->AddImage((void*)(intptr_t)aMask.simplifiedMaskTexture, ImVec2(newPos[0], newPos[1]), ImVec2(newPos[0]+myState.img.nx, newPos[1]+myState.img.ny), ImVec2(0,0), ImVec2(1,1), IM_COL32(r, g, b, 255));
-            else 
+            else {
                 draw_list->AddImage((void*)(intptr_t)aMask.maskTexture, ImVec2(newPos[0], newPos[1]), ImVec2(newPos[0]+myState.img.nx, newPos[1]+myState.img.ny), ImVec2(0,0), ImVec2(1,1), IM_COL32(r, g, b, 255));  
+            }
+        }
+        if (!simplified && aMask.visible) {
+            draw_list->AddCircleFilled(ImVec2(newPos[0]+aMask.mask_computed_at_x, newPos[1]+aMask.mask_computed_at_y), 5, IM_COL32(255, 0, 0, 255));
         }
     }
+    //facial textures
     if (simplified)
         if (myState.aVideo.frames[myState.selected_frame].faces_computed) {
             draw_list->AddImage((void*)(intptr_t)myState.aVideo.frames[myState.selected_frame].facesTexture, ImVec2(newPos[0], newPos[1]), ImVec2(newPos[0]+myState.img.nx, newPos[1]+myState.img.ny), ImVec2(0,0), ImVec2(1,1), IM_COL32(myState.face_color[0]*255, myState.face_color[1]*255, myState.face_color[2]*255, 255));
@@ -303,7 +308,7 @@ static void frameWindow(MyState &myState, const ImGuiViewport* viewport, bool us
                 //compute_masks(myState.img, myState.params, *myState.a_sam_state, &selectedMask.maskTextures, myState.clickedX, myState.clickedY, selectedMask.masks, &myState.masks_colors, myState.last_color_id, R, G, B, &selectedMask.simplifiedMaskTextures);
                 int absoluteX = myState.clickedX-viewport->WorkPos.x;
                 int absoluteY = myState.clickedY-viewport->WorkPos.y;
-                compute_mask_and_textures(myState.aVideo.frames[myState.selected_frame], myState.params, *myState.a_sam_state, absoluteX, absoluteY, R, G, B);
+                compute_mask_and_textures(myState.aVideo.frames[myState.selected_frame], myState.params, *myState.a_sam_state, absoluteX, absoluteY, R, G, B, myState);
 
                 //printf("Computed masks. selectedMask.maskTextures.size()=%d\n", selectedMask.maskTextures.size());
 
@@ -368,7 +373,7 @@ static void framesListWindow(MyState &myState, const ImGuiViewport* viewport, Im
                     myState.img = myState.aVideo.frames[n].img_sam_format;
                     //myState.tex = createGLTexture(myState.img, GL_RGB);
                     myState.selected_frame = n;
-                    myState.selected_mask = 0;
+                    myState.selected_mask = -1;
                     //The first time we precompute the frame 0
                     //later we wait till a click
                     if (myState.frame_precomputed == -1) {
@@ -446,15 +451,22 @@ static void masksListWindow(MyState &myState, const ImGuiViewport* viewport, ImG
         {
             ImGui::TableNextColumn();
             //COLUMN 1: SELECTABLES
-            const bool is_selected = (myState.selected_mask == i);
+            bool is_selected = (myState.selected_mask == i);
             //This shows a selectable string 
             //and sets the boolean is_selected to capture input
             //and returns true if the item is selected
             //if (ImGui::Selectable(item.c_str(), is_selected, ImGuiSelectableFlags_SpanAllColumns)) {
             ImGui::AlignTextToFramePadding();
             if (ImGui::Selectable(item.c_str(), is_selected)) {
-                myState.selected_mask = i;
-            }
+                if (myState.selected_mask == i) {
+                    myState.selected_mask = -1;
+                    is_selected = false;
+                }
+                else {
+                    myState.selected_mask = i;
+                }
+            } 
+            //, ImGuiSelectableFlags_None
             
             // Set the initial focus when opening the combo (scrolling + keyboard navigation focus)
             if (is_selected) {
@@ -466,24 +478,36 @@ static void masksListWindow(MyState &myState, const ImGuiViewport* viewport, ImG
             //COLUMN 2: BUTTONS
 
 
-
+            if (!myState.aVideo.frames[myState.selected_frame].masks[i].mask_computed)
+                ImGui::BeginDisabled();
             //BUTTON 1 (color picker)
-            //ImGui::NextColumn();
             ImGui::TableNextColumn();
             std::string color_picker_id = "color " + std::to_string(i);
-            ImGui::ColorEdit4(color_picker_id.c_str(), myState.aVideo.frames[myState.selected_frame].masks[i].color, ImGuiColorEditFlags_NoInputs | ImGuiColorEditFlags_NoLabel);
-            //ImGui::SameLine();
             
-            //"imgui selectable with buttons"
-            //https://github.com/ocornut/imgui/issues/6574
-            //ImGui::SetNextItemAllowOverlap();
+            if (ImGui::ColorEdit4(color_picker_id.c_str(), myState.aVideo.frames[myState.selected_frame].masks[i].color, ImGuiColorEditFlags_NoInputs | ImGuiColorEditFlags_NoLabel)) {
+                //returns true if color changed
+                //only necessary if we need to change also in all frames:
+                if (myState.change_color_all_frames) {
+                    for (Frame & aFrame : myState.aVideo.frames) {
+                        //if a mask with the same id is found change it
+                        int id = myState.aVideo.frames[myState.selected_frame].masks[i].maskId;
+                        Mask *aMask = aFrame.getMaskById(id);
+                        //printf("found mask with same id %d", id);
+                        if (aMask != nullptr) {
+                            aMask->color[0] = myState.aVideo.frames[myState.selected_frame].masks[i].color[0];
+                            aMask->color[1] = myState.aVideo.frames[myState.selected_frame].masks[i].color[1];
+                            aMask->color[2] = myState.aVideo.frames[myState.selected_frame].masks[i].color[2];
+                            aMask->color[3] = myState.aVideo.frames[myState.selected_frame].masks[i].color[3];
+                        }
+                    }
+                }
+            }
+            
+            //myState.change_color_all_frames
 
-
-            ImGui::SameLine();
-            //ImGui::SameLine(0, 50);
-            //draw_list->ChannelsSetCurrent(1);
-
+            
             //BUTTON 2 (eye)
+            ImGui::SameLine();
             clickedVisible.push_back(0);
             ImGui::SameLine();
 
@@ -506,6 +530,8 @@ static void masksListWindow(MyState &myState, const ImGuiViewport* viewport, ImG
                 myState.aVideo.frames[myState.selected_frame].masks[i].visible=!myState.aVideo.frames[myState.selected_frame].masks[i].visible;
                 clickedVisible[i]++;
             }
+            if (!myState.aVideo.frames[myState.selected_frame].masks[i].mask_computed)
+                ImGui::EndDisabled();
 
             //BUTTON 3 (delete)
             ImGui::SameLine();
@@ -528,6 +554,11 @@ static void masksListWindow(MyState &myState, const ImGuiViewport* viewport, ImG
                 ImGui::SameLine();
                 ImGui::Text("Erasing mask!");
                 myState.aVideo.frames[myState.selected_frame].masks.erase(myState.aVideo.frames[myState.selected_frame].masks.begin() + i);//myState.selected_mask);
+                
+                //if (myState.aVideo.frames[myState.selected_frame].masks.size() == 0)
+                //    myState.selected_mask = -1; 
+                if (myState.selected_mask == i)
+                    myState.selected_mask = -1;
                 /*if (myState.aVideo.frames[myState.selected_frame].masks.size() > 0)
                     myState.selected_mask = myState.selected_mask-1;  
                 else  
@@ -595,6 +626,16 @@ static void masksListWindow(MyState &myState, const ImGuiViewport* viewport, ImG
             sprintf(buf3, "track movement###%s", checkboxID.c_str());
             ImGui::Checkbox(buf3, &myState.aVideo.frames[myState.selected_frame].masks[i].track_movement);
             
+            //INFO MASK NOT COMPUTED
+            if (!myState.aVideo.frames[myState.selected_frame].masks[i].mask_computed) {
+                ImGui::SameLine();
+                ImGui::Text("(empty)");
+            }
+            ImGui::SameLine();
+            ImGui::Text(" at (%d, %d)", myState.aVideo.frames[myState.selected_frame].masks[i].mask_computed_at_x, myState.aVideo.frames[myState.selected_frame].masks[i].mask_computed_at_y);
+            ImGui::SameLine();
+            ImGui::Text(" - center (%d, %d)", myState.aVideo.frames[myState.selected_frame].masks[i].mask_center_x, myState.aVideo.frames[myState.selected_frame].masks[i].mask_center_y);
+
 
             i++;
         }
@@ -748,6 +789,8 @@ static void finishingConfigWindow(MyState &myState, const ImGuiViewport* viewpor
 
         //rimlight size
         ImGui::SliderInt("Rimlight size", &myState.rimlight_size, 0, 10);
+    
+        ImGui::Checkbox("Change colors all frames", &myState.change_color_all_frames);
     }
 
     ImGui::End();
@@ -791,7 +834,7 @@ void fileDialog(MyState &myState) {
             myState.aVideo.frames.push_back(aFrame);
             myState.img_loaded = true;
             myState.selected_frame = 0;
-            myState.selected_mask = 0;
+            myState.selected_mask = -1;
 
             myState.img = myState.aVideo.frames[0].img_sam_format;
             printf("After reading video precompute first frame...\n");
@@ -826,7 +869,7 @@ void fileDialog(MyState &myState) {
         //Create a single default mask
         //Mask aMask;
         //myState.aVideo.frames[0].masks.push_back(aMask);
-        myState.selected_mask = 0;        
+        myState.selected_mask = -1;        
         printf("After reading video precompute first frame...\n");
         if (!sam_compute_embd_img(myState.img, myState.params.n_threads, *myState.a_sam_state)) {
             fprintf(stderr, "%s: failed to compute encoded image\n", __func__);

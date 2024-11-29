@@ -8,55 +8,72 @@ Universitat Politecnica de Catalunya
 
 TODO
 
-- Faces
-	- el color de la cara estaà harcodejat al propagate
-	- cal canviar el compute_facial_textures_all_frames com hem fet a editor
+- (propagate) poder propagar una màscara en concret
+- (propagate) si l'area canvia molt donar-ho com a error
+- (propagate) si falla provar al centre de l'anterior
+- sam 1 multiple coords??
+- dilatació també parametritzable
+- save project
+
+TODO/REFACTORING
 
 - El resultat der createGLTextureOpenCV no funciona bé si s'usa com a binary mask al draw_list->AddImage, no conserva el color com createGLTexture
 - no entenc per que a compute_mask_textures aplica color si després no el fa servir
 - al draw_list->AddImage es harcodeja el alpha i s'hauria d'agafar de l'estat!
-- les mascares canvien de color ja que son mascares binaries que constantment s'afegeixen amb un color, cal fer el mateix amb les cares?
-- propagation type per mask (movement, static)
+- (cal provar més) propagation type per mask (movement, static)
 - el myState.img (sam format) cal ja que faig servir myState.img.nx al draw_list->AddImage(...
 	- però també defineixo myState.img_frame_w
 	- ???
-- al propagar les cares no cal tornar-les a computar si ha ho estan, però què passarà quan pugui canviar el color?
-- propagate mode directe (sense calcular centre)
+- (cal provar més) propagate mode directe (sense calcular centre)
 - guardo coses que no sempre cal (textures, imatges, etc.)
-
 - Is the image width and height adjusted to the window?
 - single image vs video vs directory of frames
-- Make mask id's appear in the masks list windows (now appears the order)
-- Mask id is a random value
 - I'm downscaling the images in read_video!
 - The contours field of the object is not set?? Now I'm setting it for simplified contours but the other??
 - El video save es poc robust (detectar si no extensió), que passa amb altres extensions...
 - Veig que aFrame.img és opencv però per gravar el video cal fer cv::COLOR_RGB2BGR. (tambe caldria canviar el nom del camp)
-
-- Si canvies el color d'una màscara hauria de canviar a tots els frames?? es pot associar el color a l'object ID? 
 - WARNING: Hi ha un camp mask al object que es fa servir al cli_masks però no a l'editor (és la màscara opencv, ara sí la faig servir) -> RENOMBRAR
-- Hi ha vegades que no es pot esborrar la màscara (braç dret)
 
 
-- save project
-- Que la llista de colors sempre sigui la mateixa (paleta chahi)
-- paletes de colors
-
-
-
-- Si cliques a un lloc en el qual un altre objecte té la màscara? ara pot quedar amagat -> les mascares noves haurien d'anar al top, i fer màscares semitransparents
-- zoom
-- panning
-- error managment (return -1, exceptions, ...)
 
 
 IMPROVEMENTS:
+- interpolació? o potser no es pot ja que vas calculant en base a l'anterior...
+- Que la llista de colors sempre sigui la mateixa (paleta chahi)
+- zoom
+- panning
+- paletes de colors
+- error managment (return -1, exceptions, ...)
 
-- si canvies un color no canvia als altres frames. Però potser ja ha de ser així
-- les barres de frame i finishing tapen la imatge
 
 ----------------
+-----------------
+
 DONE:
+
+- Hi ha vegades que no es pot esborrar la màscara (braç dret)
+- El id de máscares noves ara pot ser el mateix de les d'altres frames. Això fa que si canvies el color d'unes canvien les altres
+- mascares estables:
+	- deseleccionar una mascara
+	- si hi ha una mascara seleccionada canviar aquella.
+	- si cliques a sobre d'una mascara l'esborra pero la deixa a la llista amb el color disabled
+	- durant la propagació "desactiva" les màscares no trobades però no les esborra
+- (propagate) si no troba una màscara deixa de buscarla als seguents frames
+- (dubte) si elimino una màscara i després en creo una el id no s'aprofita, sempre buca el més gran. Això fa impossible tornar-la a fer servir!
+- (bug) crashes if you empty the masks
+- (propagate) y coordinate seems not changed during propagation??
+- BUG: Una mascara al cabell mal propagada fa que tot surti negre!?? fins i tot si està al bottom??? no, només el fons però complert i negre...
+- Si cliques a un lloc en el qual un altre objecte té la màscara? ara pot quedar amagat -> les mascares noves haurien d'anar al top, i fer màscares semitransparents
+- les barres de frame i finishing tapen la imatge
+- si canvies un color no canvia als altres frames. Però potser ja ha de ser així
+- Si canvies el color d'una màscara hauria de canviar a tots els frames?? es pot associar el color a l'object ID? 
+- Make mask id's appear in the masks list windows (now appears the order)
+- Mask id is a random value
+- al propagar les cares no cal tornar-les a computar si ha ho estan, però què passarà quan pugui canviar el color?
+- les mascares canvien de color ja que son mascares binaries que constantment s'afegeixen amb un color, cal fer el mateix amb les cares? fet
+- Faces
+	- el color de la cara estaà harcodejat al propagate
+	- cal canviar el compute_facial_textures_all_frames com hem fet a editor
 - Faces (propagate) 
 - Fer màscares semitransparents
 - Ordre objectes i canviar-lo

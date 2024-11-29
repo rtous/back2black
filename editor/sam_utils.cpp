@@ -16,6 +16,7 @@
 #include "sam_utils.h"
 #include "gui_utils.h"
 #include "simplify.h"
+#include "state.h"
 
 
 void set_params(sam_params * params) {
@@ -49,20 +50,22 @@ int masks_already_in_list(sam_image_u8 candidateMask, Frame & aFrame) {
     int mask_count = 0;
     printf("Checking if mask exists.\n");
     for (auto& mask : aFrame.masks) {
-        sam_image_u8 samMask = mask.samMask;
-        float pixels_1_any_of_both_masks = 0;
-        float coincidences = 0;
-        for (int i = 0; i < samMask.nx*samMask.ny; ++i) {
-            if (candidateMask.data[i] != 0 || samMask.data[i] != 0) {
-                pixels_1_any_of_both_masks++;
-                if (candidateMask.data[i] == samMask.data[i])
-                    coincidences++;
+        if (mask.mask_computed) {//not checking empty masks
+            sam_image_u8 samMask = mask.samMask;
+            float pixels_1_any_of_both_masks = 0;
+            float coincidences = 0;
+            for (int i = 0; i < samMask.nx*samMask.ny; ++i) {
+                if (candidateMask.data[i] != 0 || samMask.data[i] != 0) {
+                    pixels_1_any_of_both_masks++;
+                    if (candidateMask.data[i] == samMask.data[i])
+                        coincidences++;
+                }
             }
-        }
-        printf("(mask %d) coincidences (%f/%f) = %f percent\n", mask_count, coincidences, pixels_1_any_of_both_masks, coincidences/pixels_1_any_of_both_masks);
-        if (coincidences/pixels_1_any_of_both_masks > 0.75) {
-            //printf("coincidences = %f percent", coincidences/pixels_1_any_of_both_masks);
-            return mask_count;
+            printf("(mask %d) coincidences (%f/%f) = %f percent\n", mask_count, coincidences, pixels_1_any_of_both_masks, coincidences/pixels_1_any_of_both_masks);
+            if (coincidences/pixels_1_any_of_both_masks > 0.75) {
+                //printf("coincidences = %f percent", coincidences/pixels_1_any_of_both_masks);
+                return mask_count;
+            }
         }
         mask_count++;
     }
@@ -173,8 +176,8 @@ void compute_mask_textures_all_frames(std::vector<Frame> & frames)
 //computes the masks at the given point and checks if it's a new one
 //currently the passed storedMasks are just the masks of one mask
 //void compute_masks(sam_image_u8 img, const sam_params & params, sam_state & state, std::vector<GLuint> *maskTextures, int x, int y, std::vector<sam_image_u8> & storedMasks, std::vector<int> * mask_colors, int & last_color_id, int R, int G, int B, std::vector<GLuint> *simplifiedMaskTextures) {
-void compute_mask_and_textures(Frame & aFrame, const sam_params & params, sam_state & state, int x, int y, int R, int G, int B) {
-    printf("compute_masks\n");
+void compute_mask_and_textures(Frame & aFrame, const sam_params & params, sam_state & state, int x, int y, int R, int G, int B, MyState &myState) {
+    printf("compute_masks with selected_mask = %d\n", myState.selected_mask);
     sam_image_u8 mask;
     bool maskFound;
     maskFound = get_best_sam_mask_at_point(x, y, aFrame.img_sam_format, state, params.n_threads, mask); 
@@ -182,21 +185,48 @@ void compute_mask_and_textures(Frame & aFrame, const sam_params & params, sam_st
         //printf("isEmptyMaskDEBUG(mask)=%d\n", isEmptyMaskDEBUG(mask));
         int pos = masks_already_in_list(mask, aFrame);
         
-        if (pos == -1) { //the mask is new, not in storedMasks            
-            Mask newMask;
-            newMask.samMask = mask;
-            newMask.mask_computed = true;
-            newMask.mask_computed_at_x = x;
-            newMask.mask_computed_at_y = y;
-            compute_mask_center(newMask);//from common1.c
-            compute_mask_textures(newMask, R, G, B);
-            //aFrame.masks.push_back(newMask);
-            aFrame.newMask(newMask); 
-            printf("Added mask with id=%d\n", newMask.maskId);
-        } else {
-            //If the mask is already in storedMasks we will delete it
+        if (pos == -1) { //the mask is new, not in storedMasks  
+            printf("the mask is new\n");
+            //If there's a selected mask we will replace it
+            //if not we will create a new mask
+            Mask *targetMask;
+            if (myState.selected_mask == -1) { 
+                Mask newMask;
+                targetMask = &newMask;  
+            } else {
+                targetMask = &aFrame.masks[myState.selected_mask];
+            }    
+            //Mask newMask;
+            targetMask->samMask = mask;
+            targetMask->mask_computed = true;
+            targetMask->mask_computed_at_x = x;
+            targetMask->mask_computed_at_y = y;
+            printf("compute_mask_center...\n");
+            compute_mask_center(*targetMask);//from common1.c
+            printf("compute_mask_textures...\n");
+            compute_mask_textures(*targetMask, R, G, B);
+            //aFrame.newMask(newMask); 
+            if (myState.selected_mask == -1) {  
+                printf("aFrame.newMask...\n");     
+                aFrame.newMask(*targetMask);
+                printf("Added mask with id=%d\n", targetMask->maskId);
+            } else {
+                printf("Changed mask with id=%d\n", targetMask->maskId);
+            }
+
+        } else { //the mask already exists (and is not empty)
+            //OLD: If the mask is already in storedMasks we will delete it
+            //NOW: If the mask is already in storedMasks we will mark is as not computed
+            /*
             printf("Deleting mask %d ", pos);
             aFrame.masks.erase(aFrame.masks.begin() + pos);
+            //If we have erased the selected mask let's deselect
+            if (pos == myState.selected_mask)
+                myState.selected_mask = -1;
+            */
+            aFrame.masks[pos].mask_computed = false;
+            /*if (pos == myState.selected_mask)
+                myState.selected_mask = -1;*/
         }
     }
 }

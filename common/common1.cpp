@@ -512,37 +512,83 @@ int propagate_masks(std::vector<Frame> & frames, sam_state & state, int n_thread
             //printf("\t#Masks in frame %d = %d. \n", f, aFrame.masks.size());
             
 
+            std::vector<int> notFoundMasksIds;
             //iterate through all the masks of the frame
+            int m = 0;
             for (Mask & aMask : aFrame.masks) {
                 printf("\tPROCESSING MASK %d \n", aMask.maskId);
                 printf("\taMask.mask_computed_at_x %d \n", aMask.mask_computed_at_x);
                 printf("\taMask.mask_computed_at_y %d \n", aMask.mask_computed_at_y);
                 //if not the first frame compute the mask
-                bool found = true; //the one in the reference frame
+                bool found = false; //the one in the reference frame
                 if (f>from_frame) { 
                     printf("\t%d>from_frame so computing mask. \n", f);
-                    found = compute_mask(aMask, aFrame.img_sam_format, state, n_threads);
+                    //if the previous failed do not keep computing 
+                    if (frames[f-1].getMaskById(aMask.maskId)->mask_center_x != -1)
+                        found = compute_mask(aMask, aFrame.img_sam_format, state, n_threads);
                     progress = (f-from_frame+1)/(float)(till_frame-from_frame+1);
-                    printf("progress=%f\n", progress);
+                    //printf("progress=%f\n", progress);
+                }
+                if (!found) {
+                    //Instead of removing it, it will remain as mask_computed=false
+                    /*
+                    //Do not delete, it works. 
+                    //Removes masks if not found
+                    printf("\tRemoving mask with id %d because not found...\n", aMask.maskId);
+                    notFoundMasksIds.push_back(aMask.maskId);
+                    if (aFrame.removeMaskById(aMask.maskId)) {
+                        printf("\tRemoved mask with id %d.\n", aMask.maskId);
+                    } else {
+                        printf("\tWARNING: Not removed mask with id %d.\n", aMask.maskId);
+                    }*/
+                } else {
+                    printf("\tMask found\n", aMask.maskId);
                 }
                 //compute mask center
                 //compute_mask_center(aMask, aFrame.img_sam_format, state, n_threads);
                 
                 //if not the last frame
                 //add the mask to the next frame with the next coordinates
-                //if the mask is not found it's not added
+                //if the mask is not found it's not added to the following frame
                 printf("\tf=%d numFrames=%d.\n", f, numFrames);
-                if (f < till_frame && f < numFrames-1 && found) {
+                if (f < till_frame && f < numFrames-1) {// && found) {
                     Mask newMask;
                     newMask.maskId = aMask.maskId;
                     newMask.color[0] = aMask.color[0];
                     newMask.color[1] = aMask.color[1];
                     newMask.color[2] = aMask.color[2];
                     newMask.track_movement = aMask.track_movement;
-                    if (newMask.track_movement) {
-                        newMask.mask_computed_at_x = aMask.mask_center_x;
-                        newMask.mask_computed_at_y = aMask.mask_center_y; 
-                    } else {
+                    
+                    bool repositioned = false;
+                    if (newMask.track_movement && found) {
+                        //the next mask will not be computed at the same point
+                        //it will be computed at the center of this mask
+                        //newMask.mask_computed_at_x = aMask.mask_center_x;
+                        //newMask.mask_computed_at_y = aMask.mask_center_y; 
+
+                        //if there's a previous mask we can use this and previous
+                        //to compute the displacement of the centers
+                        if (f>0) {
+                            Mask *previousMask = frames[f-1].getMaskById(aMask.maskId);
+                            if (previousMask != nullptr && found) {
+                                printf("Recalculating mask pos.\n");
+                                printf("\t previous mask center: %d,%d.\n", previousMask->mask_center_x, previousMask->mask_center_y);
+                                printf("\t current mask center: %d,%d.\n", aMask.mask_center_x, aMask.mask_center_y);
+                                newMask.mask_computed_at_x = aMask.mask_computed_at_x+aMask.mask_center_x-previousMask->mask_center_x;
+                                printf("\t newMask.mask_computed_at_x = %d.\n", newMask.mask_computed_at_x);
+                                
+                                newMask.mask_computed_at_y = aMask.mask_computed_at_y+aMask.mask_center_y-previousMask->mask_center_y;
+                                printf("\t newMask.mask_computed_at_y = %d.\n", newMask.mask_computed_at_y);
+                                
+                                repositioned = true;
+                            } else {
+                                printf("Cannot recalculate mask pos cause not found in previous frame\n");
+                            }
+                        } 
+
+                    }
+                    if (!newMask.track_movement || !repositioned) {
+                        //copy the same pos to next
                         newMask.mask_computed_at_x = aMask.mask_computed_at_x;
                         newMask.mask_computed_at_y = aMask.mask_computed_at_y; 
                     }
@@ -551,8 +597,24 @@ int propagate_masks(std::vector<Frame> & frames, sam_state & state, int n_thread
                     printf("\tADDING MASK %d TO FRAME %d WITH x=%d, y=%d\n", aMask.maskId, f, newMask.mask_computed_at_x, newMask.mask_computed_at_y);
                     frames[f+1].masks.push_back(newMask);
                 }
-                printf("\tMASKS DONE.\n");
+                m++;
             }
+            printf("\tMASKS DONE.\n");
+
+            //remove not found masks
+            /*for (int & aMaskId: notFoundMasksIds) {
+                printf("Removing mask %d because not found...\n", aMaskId);
+                frames[f].masks.erase(frames[f].masks.begin() + aMaskIdx);
+                printf("Removed.\n", aMaskId);
+            }*/
+            /*for (int & aMaskId: notFoundMasksIds) {
+                printf("Removing mask with id %d because not found...\n", aMaskId);
+                if (removeMaskById(aMaskId)) {
+                    printf("Removed mask with id %d.\n", aMaskId);
+                } else {
+                    printf("WARNING: Not removed mask with id %d.\n", aMaskId);
+                }
+            }*/
         } else {
             printf("\t%d<from_frame so NOT analyzing masks. \n", f);
         }

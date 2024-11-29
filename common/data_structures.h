@@ -1,6 +1,8 @@
 #ifndef __DATASTRUCTURES_H__
 #define __DATASTRUCTURES_H__
 
+#define MAX_MASKS_IDS 1000
+
 #include <opencv2/opencv.hpp> 
 #include "sam.h"
 #include <SDL_opengl.h>
@@ -79,12 +81,15 @@ class Frame {
     }
 
     void newMask(Mask & newMask) {  
-      //create a new mask, take the higher id and add 1
+      //create a new mask, 
+      //OLD: take the higher id and add 1
+      //NEW: return the lower available ID (to be able to reconstruct a lost mask)
       //note: the masks are not necessarily stored in id order
       if (masks.size() == 0) {  
         newMask.maskId = 0;
       } else {
-        newMask.maskId = higherId()+1;
+        //newMask.maskId = higherId()+1;
+        newMask.maskId = lowerAvailableId();
       }
       masks.push_back(newMask);
     }
@@ -96,6 +101,46 @@ class Frame {
           maxId = masks[i].maskId;
       }
       return maxId;
+    }
+
+    int lowerAvailableId() { 
+      for (int i=0; i<MAX_MASKS_IDS; i++) {
+        if (getMaskById(i) == nullptr)
+          return i;
+      }
+      printf("WARNING: reached MAX_MASKS_IDS, returning 0");
+      return 0;
+    }
+
+    int getMaskIndexById(int queryId) { 
+      for (int i=0; i<masks.size(); i++) {
+        if (masks[i].maskId == queryId)
+          return i;
+      }
+      return -1;
+    }
+
+    Mask* getMaskById(int queryId) { 
+      int idx = getMaskIndexById(queryId);
+      if (idx>-1)
+        return &masks[idx];
+      else
+        return nullptr;
+      /*for (int i=0; i<masks.size(); i++) {
+        if (masks[i].maskId == queryId)
+          return &masks[i];
+      }
+      return nullptr;*/
+    }
+
+    bool removeMaskById(int queryId) { 
+      int idx = getMaskIndexById(queryId);
+      if (idx>-1) {
+        masks.erase(masks.begin() + idx);
+        return true;
+      } else {
+        return false;
+      }
     }
 };
 

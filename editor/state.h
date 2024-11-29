@@ -53,7 +53,7 @@ class MyState {
     int clickedY;
     
     int selected_frame = 0;
-    int selected_mask = 0;
+    int selected_mask = -1; //set 0 if you want first mask selected by default
     int frame_precomputed = -1;
     Video aVideo;
     
@@ -68,6 +68,8 @@ class MyState {
             
     int rimlight_size = 5;
     //int pixelation_level = 5;
+
+    bool change_color_all_frames = true;
 
     void reset() {  // Method/function defined inside the class
       aVideo = Video();
