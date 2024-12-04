@@ -1,4 +1,4 @@
-set(EXAMPLE_TARGET cli_sam)
+set(EXAMPLE_TARGET test_sam)
 
 add_executable(${EXAMPLE_TARGET}
     main.cpp

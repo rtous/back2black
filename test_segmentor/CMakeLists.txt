@@ -12,6 +12,8 @@ find_package(OpenCV REQUIRED)
 #libraries
 target_link_libraries(${EXAMPLE_TARGET} PRIVATE 
     ${OpenCV_LIBS} 
+    common
+    sam
     segmentor
     segmentor_sam1
     ${CMAKE_THREAD_LIBS_INIT} 
