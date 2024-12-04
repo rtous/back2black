@@ -4,3 +4,4 @@ checkpoints
 build/
 build_macos
 build_windows
+onnxruntime-osx-arm64-1.20.1

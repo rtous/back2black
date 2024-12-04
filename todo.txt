@@ -8,6 +8,15 @@ Universitat Politecnica de Catalunya
 
 TODO
 
+- Remove onnxruntime-osx-arm64-1.20.1 from the root!!!
+CURRENT: integrating SAM2 ONNX
+	- NOW: just testing test_onnx (first with the shared library, later static link)
+	- Potential problems:
+		- Problem with onnx shared library location (
+			I'm statically building!!
+			https://onnxruntime.ai/docs/build/
+		- Potential problem with C++ version
+
 - (propagate) poder propagar una màscara en concret
 - (propagate) si l'area canvia molt donar-ho com a error
 - (propagate) si falla provar al centre de l'anterior

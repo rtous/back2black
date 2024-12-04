@@ -226,3 +226,31 @@ ANNEX 5. dlib (for the facial landmarks)
 
 include_directories(${dlib_INCLUDE_DIRS})
 and dlib within the target_link_libraries (it regconizes the name)
+
+ANNEX 6. onnxruntime 
+
+- too big to include sources in our repo (like opencv) 
+- IMPORTANT: includes possibility to build for Apple Silicon!
+- (OPTION 2) Works with the shared library too.
+	- https://github.com/microsoft/onnxruntime/releases
+    - But problem with Mac code sign verification. Can be skipped this way:
+    	sudo spctl --master-disable
+    	sudo spctl --master-enable 
+
+- (OPTION 1) To build from source (to allows static link?)
+	- CHECK:
+		https://onnxruntime.ai/docs/build/ 
+		https://onnxruntime.ai/docs/build/inferencing.html
+	- For Apple Silicion just do:
+		./build.sh --config RelWithDebInfo --build_shared_lib --parallel --compile_no_warning_as_error --skip_submodule_sync --cmake_extra_defines CMAKE_OSX_ARCHITECTURES=arm64
+	- A guy statically linked it:
+		https://github.com/microsoft/onnxruntime/issues/8555
+	- DID IT! See CMakeLists.txt for test_onnx. 
+
+ANNEX 7. SAM2
+
+- Requires onnxruntime
+- Requires two model files. From the checkpoints dir do (it will create the folder):
+
+	wget https://huggingface.co/rectlabel/segment-anything-onnx-models/resolve/main/sam2.1_tiny.zip
+	unzip sam2.1_tiny.zip
