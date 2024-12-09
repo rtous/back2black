@@ -11,6 +11,7 @@
 
 class SAM2Segmentor : public Segmentor {      
   public:  
+    Sam sam;
     //sam_params params;
     //std::shared_ptr<sam_state> a_sam_state;
 
