@@ -231,18 +231,18 @@ void compute_facial_textures_all_frames(std::vector<Frame> & frames)
             //With sam2texture (face)
             sam_image_u8 mask_simplified;
             opencv_image2sam_binarymask(mask_simplified, aFrame.faces);
-            sam_image_u8 mask_simplified_rgb = sam_image2color(mask_simplified, 255);
+            sam_image_u8 mask_simplified_rgb = sam_mask_to_sam_4channels(mask_simplified, 255);
             GLuint newGLTextureFace = createGLTexture(mask_simplified_rgb, GL_RGBA);
             aFrame.facesTexture = newGLTextureFace;
             
             //With sam2texture (eyes)
             sam_image_u8 mask_simplified2;
             opencv_image2sam_binarymask(mask_simplified2, aFrame.eyes);
-            sam_image_u8 mask_simplified_rgb2 = sam_image2color(mask_simplified2, 255);
+            sam_image_u8 mask_simplified_rgb2 = sam_mask_to_sam_4channels(mask_simplified2, 255);
             GLuint newGLTextureFace2 = createGLTexture(mask_simplified_rgb2, GL_RGBA);
             aFrame.eyesTexture = newGLTextureFace2;
             
-            aFrame.faces_textures_computed = true;
+            aFrame.faces_textures_computed = true; 
         }
     }
 }

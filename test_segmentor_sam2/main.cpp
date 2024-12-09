@@ -2,7 +2,7 @@
 #define STRIP_FLAG_HELP 1
 #include <gflags/gflags.h>
 #include <thread>
-#include "sam.h"
+#include "sam2.h"
 
 DEFINE_string(encoder, "sam2.1_tiny/sam2.1_tiny_preprocess.onnx", "Path to the encoder model");
 DEFINE_string(decoder, "sam2.1_tiny/sam2.1_tiny.onnx", "Path to the decoder model");

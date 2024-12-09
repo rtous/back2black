@@ -1,4 +1,4 @@
-#include "sam.h"
+#include "sam2.h"
 #include <opencv2/opencv.hpp>
 
 Sam::Sam(){}

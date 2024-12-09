@@ -11,8 +11,13 @@
 class Segmentor {      
   public:   
 
+    //WARNING: Do not forget "= 0"
+
   	virtual void test() = 0; //= 0 means "pure virtual"
     virtual bool preprocessImage(cv::Mat& image) = 0;
+    virtual cv::Mat get_best_mask_at_point(int x, int y, cv::Mat& image_opencv) = 0;
+    virtual void close() = 0;
+    
 
     Segmentor() {
       printf("Called Segmentor constructor\n");

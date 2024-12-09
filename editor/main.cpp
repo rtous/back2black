@@ -30,6 +30,8 @@
 #include "sam_utils.h"
 #include "IconsFontAwesome5.h" //see https://github.com/juliettef/IconFontCppHeaders
 #include "myfont.h" //generated with binary_to_compressed from fa-solid-900.ttf
+#include "segmentor_sam1.h"
+
 
 void myWindow(bool *show_myWindow)
 {
@@ -193,6 +195,8 @@ int main(int, char**)
     } else {
         myState.a_sam_state = sam_load_model(myState.params);
     }
+
+    //myState.segmentor = get_sam1_segmentor(); 
     /***************/
 
 

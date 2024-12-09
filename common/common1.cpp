@@ -9,7 +9,7 @@
     //load utils
     load_image_samformat_from_file
     load_frames_from_files
-    load_and_precompute_image_from_file
+    load_and_precompute_image_from_file 
 
     //mask utils
     propagate_masks 
@@ -45,7 +45,7 @@
 #define STB_IMAGE_WRITE_IMPLEMENTATION
 #include "stb_image_write.h"
 
-sam_image_u8 sam_image2color(sam_image_u8 & sam_image, int alpha) {
+sam_image_u8 sam_mask_to_sam_4channels(sam_image_u8 & sam_image, int alpha) {
     //Replicates the intensity (pressumably 0 or 1) to all channels, including alpha
     //Used before calling createGLTexture 
     sam_image_u8 mask_rgb = { sam_image.nx, sam_image.ny, };
@@ -67,7 +67,8 @@ sam_image_u8 sam_image2color(sam_image_u8 & sam_image, int alpha) {
     return mask_rgb;
 }
 
-void sam_image2opencv(sam_image_u8 & sam_image, cv::Mat & opencv_image) {
+//sam image (grayscale) -> opencv (grayscale)
+void sam_image_grayscale2opencv(sam_image_u8 & sam_image, cv::Mat & opencv_image) {
     //WARNING: Only works for grayscale image (look at sam_image2opencv_color otherwise)
     //cv::Mat rows x columns 
     //sam_image_u8 guarda com si recorre tot per fileres
@@ -79,7 +80,28 @@ void sam_image2opencv(sam_image_u8 & sam_image, cv::Mat & opencv_image) {
     }
 }
 
-void sam_image2opencv_color(sam_image_u8 & sam_image, cv::Mat & opencv_image, int R, int G, int B) {
+//sam image (RGB) -> opencv (BGR)
+//NOTE: ignoring the fact that sam stores pixels as floats 
+//USAGE: Only for debugging (by reversing opencv_image2sam)
+void sam_image_color2opencv(sam_image_u8 & sam_image, cv::Mat & opencv_image) {
+    //cv::Mat rows x columns 
+    //sam_image_u8 guarda com si recorre tot per fileres
+    opencv_image = cv::Mat::zeros(sam_image.ny, sam_image.nx, CV_8UC3);
+    for (int i=0; i < opencv_image.rows; ++i){
+        for (int j=0; j < opencv_image.cols; ++j){
+            cv::Vec3b & color = opencv_image.at<cv::Vec3b>(i, j);
+            color[0] = sam_image.data[3*(i*sam_image.nx+j)+2];
+            color[1] = sam_image.data[3*(i*sam_image.nx+j)+1];
+            color[2] = sam_image.data[3*(i*sam_image.nx+j)+0];
+            //color[3] = 255;
+        }
+    }
+}
+
+
+//colorizes a mask
+//WARNING: NOT USAGE DETECTED!!
+void sam_image_grayscale2opencv_colorize(sam_image_u8 & sam_image, cv::Mat & opencv_image, int R, int G, int B) {
     //Input sam mask (grayscale)
     //Output OpenCV color 4 channels with the indicated color (when mask>0)
     
@@ -254,7 +276,7 @@ cv::Mat get_best_opencv_mask_at_point(int x, int y, sam_image_u8 img0, sam_state
     
 	//convert mask to opencv format
     cv::Mat mask_opencv;
-    sam_image2opencv(mask, mask_opencv);
+    sam_image_grayscale2opencv(mask, mask_opencv);
 
     return mask_opencv;
 }
@@ -268,7 +290,7 @@ cv::Mat get_best_opencv_mask_at_point(int x, int y, sam_image_u8 img0, sam_state
 //Called by compute_mask_and_textures
 void compute_mask_center(Mask & aMask) {
     //cv::Mat mask_opencv;
-    sam_image2opencv(aMask.samMask, aMask.opencv_mask);
+    sam_image_grayscale2opencv(aMask.samMask, aMask.opencv_mask);
     printf("\tcompute_mask_center...\n");
     std::vector<cv::Vec4i> hierarchy;
     printf("\t\tfindContours...\n");

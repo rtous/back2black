@@ -1,4 +1,4 @@
-set(EXAMPLE_TARGET test_segmentor)
+set(EXAMPLE_TARGET test_segmentor_sam1)
 
 add_executable(${EXAMPLE_TARGET}
     main.cpp
@@ -16,10 +16,8 @@ target_link_libraries(${EXAMPLE_TARGET} PRIVATE
     sam
     segmentor
     segmentor_sam1
-    segmentor_sam2
-    imgui-sdl2 #dependency of common
+    imgui-sdl2
     ${CMAKE_THREAD_LIBS_INIT} 
-    ${ONNXRUNTIME_LINK_LIBRARIES_GLOBAL}
 )
 
 #target_compile_features(${EXAMPLE_TARGET} PUBLIC cxx_std_11)

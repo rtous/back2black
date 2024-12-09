@@ -135,17 +135,17 @@ int masks_already_in_list(sam_image_u8 candidateMask, Frame & aFrame) {
 
 //Computes the texture of the mask and it's simplified version
 void compute_mask_textures(Mask & aMask, int R, int G, int B) {
-    sam_image_u8 mask_rgb = sam_image2color(aMask.samMask, 180);
+    sam_image_u8 mask_rgb = sam_mask_to_sam_4channels(aMask.samMask, 180);
     GLuint newGLTexture = createGLTexture(mask_rgb, GL_RGBA);
     aMask.maskTexture = newGLTexture;
     cv::Mat input_image_opencv;
-    sam_image2opencv(aMask.samMask, input_image_opencv);//Does initialize the result
+    sam_image_grayscale2opencv(aMask.samMask, input_image_opencv);//Does initialize the result
     cv::Mat output_image_opencv = cv::Mat::zeros(input_image_opencv.size(), CV_8UC4);
     //This one does not initialize the result. From simplify.cpp
     aMask.simplifiedContours = simplifyColorSegment(input_image_opencv, output_image_opencv, false, R, G, B); 
     sam_image_u8 mask_simplified;
     opencv_image2sam_binarymask(mask_simplified, output_image_opencv);
-    sam_image_u8 mask_simplified_rgb = sam_image2color(mask_simplified, 255);
+    sam_image_u8 mask_simplified_rgb = sam_mask_to_sam_4channels(mask_simplified, 255);
     GLuint newGLTextureSimplified = createGLTexture(mask_simplified_rgb, GL_RGBA);
     aMask.simplifiedMaskTexture = newGLTextureSimplified;
     aMask.textures_computed = true;

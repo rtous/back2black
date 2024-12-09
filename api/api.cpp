@@ -57,7 +57,7 @@ bool APIState::compute_mask_opencv(int x, int y, Mat & output_img) {
     sam_image_u8 mask;
     if (masks.size()>0) {
         mask = masks[0]; //the returned masks are ordered by iou and stability_score
-        sam_image2opencv(mask, output_img);
+        sam_image_grayscale2opencv(mask, output_img);
         return true;
     } else return false;
 }

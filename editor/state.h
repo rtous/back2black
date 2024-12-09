@@ -6,6 +6,8 @@
 #include "colors.h"
 #include <SDL_opengl.h>
 #include "data_structures.h"
+#include "segmentor.h"
+#include "segmentor_sam1.h"
 
 class MyState {      
   public: 
@@ -43,6 +45,7 @@ class MyState {
     
 
     //SAM
+    Segmentor& segmentor;
     sam_params params; 
     std::shared_ptr<sam_state> a_sam_state;
 
@@ -58,7 +61,7 @@ class MyState {
     Video aVideo;
     
     //single file case:
-    sam_image_u8 img; 
+    sam_image_u8 img_sam; 
     GLuint tex; 
 
     //finishing details
@@ -75,7 +78,9 @@ class MyState {
       aVideo = Video();
     }
 
-    MyState() {
+    //as segmentor holds a reference it needs to be intitialized this way
+    //"constructor initializer list"
+    MyState() : segmentor(get_sam1_segmentor())  {
       //Default color
       face_color[0] = 168/(float)256;
       face_color[1] = 113/(float)256;

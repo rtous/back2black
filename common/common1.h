@@ -15,11 +15,12 @@ bool compute_mask(Mask & aMask, sam_image_u8 img0, sam_state & state, int n_thre
 void compute_mask_center(Mask & aMask);
 //int propagate_masks(std::vector<Frame> & frames, sam_state & state, int n_threads);
 int propagate_masks(std::vector<Frame> & frames, sam_state & state, int n_threads, int from_frame, int till_frame, float & progress, bool & cancel);
-void sam_image2opencv(sam_image_u8 & sam_image, cv::Mat & opencv_image);
-void opencv_image2sam(sam_image_u8 & sam_image, cv::Mat & opencv_image);
-sam_image_u8 sam_image2color(sam_image_u8 & sam_image, int alpha);
-//void sam_image2opencv_color(sam_image_u8 & sam_image, cv::Mat & opencv_image);
-void sam_image2opencv_color(sam_image_u8 & sam_image, cv::Mat & opencv_image, int R, int G, int B);
+void sam_image_grayscale2opencv(sam_image_u8 & sam_image, cv::Mat & opencv_image);
+void sam_image_color2opencv(sam_image_u8 & sam_image, cv::Mat & opencv_image);
+
+void opencv_image2sam(sam_image_u8 & sam_image, cv::Mat & opencv_image); 
+sam_image_u8 sam_mask_to_sam_4channels(sam_image_u8 & sam_image, int alpha);
+void sam_image_grayscale2opencv_colorize(sam_image_u8 & sam_image, cv::Mat & opencv_image, int R, int G, int B);//WARNING: NOT USAGE DETECTED!!
 void opencv_image2sam_binarymask(sam_image_u8 & sam_image, cv::Mat & opencv_image);
 int load_frames_from_files(std::string input_path, std::vector<Frame> & frames);
 

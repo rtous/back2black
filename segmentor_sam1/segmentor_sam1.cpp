@@ -42,3 +42,23 @@ bool SAM1Segmentor::preprocessImage(cv::Mat & opencv_image) {
     }
     return true;
 }
+
+cv::Mat SAM1Segmentor::get_best_mask_at_point(int x, int y, cv::Mat& image_opencv) {
+    //opencv image to sam
+    sam_image_u8 image_sam;
+    opencv_image2sam(image_sam, image_opencv);
+
+    //compute mask at given point (pick best one)
+    sam_image_u8 mask;
+    bool found = get_best_sam_mask_at_point(x, y, image_sam, *a_sam_state, params.n_threads, mask);
+    
+    //convert mask to opencv format
+    cv::Mat mask_opencv;
+    sam_image_grayscale2opencv(mask, mask_opencv);
+
+    return mask_opencv;
+}
+
+void SAM1Segmentor::close() {
+    sam_deinit(*a_sam_state);
+}

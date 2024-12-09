@@ -53,6 +53,24 @@
     When the user clicks on the frame one mask is computed and added/removed from the mask.
     If a mask is added the simplify algorithm is applied to it.
     When the user selects a different frame and clicks it the frame is precomputed.
+
+    Workflow (masks):
+
+    NOTE: Empty masks are allowed to let user decide which IDs to use to each mask. 
+    The user can select an empty mask and then click to fill that specific ID. The purpose 
+    of this is to let the user fix errors of the propagation using the same original masks 
+    IDs.
+
+    User clicks where no mask exist:
+        If no mask is selected a new mask is added.
+        If a mask is selected the mask is replaced.
+
+    User clicks where a mask exist:
+        The mask is removed but the mask placeholder stays.
+
+    Workflow (propagation):
+
+    Masks are propagated. Some may be lost. 
 */
 
 
@@ -187,9 +205,9 @@ static void drawAllMasks(MyState &myState, const ImGuiViewport* viewport, ImVec2
             
             if (simplified)
                 //ImVec2 mousePositionRelative = ImVec2(mousePositionAbsolute.x - screenPositionAbsolute.x, mousePositionAbsolute.y - screenPositionAbsolute.y);
-                draw_list->AddImage((void*)(intptr_t)aMask.simplifiedMaskTexture, ImVec2(newPos[0], newPos[1]), ImVec2(newPos[0]+myState.img.nx, newPos[1]+myState.img.ny), ImVec2(0,0), ImVec2(1,1), IM_COL32(r, g, b, 255));
+                draw_list->AddImage((void*)(intptr_t)aMask.simplifiedMaskTexture, ImVec2(newPos[0], newPos[1]), ImVec2(newPos[0]+myState.img_sam.nx, newPos[1]+myState.img_sam.ny), ImVec2(0,0), ImVec2(1,1), IM_COL32(r, g, b, 255));
             else {
-                draw_list->AddImage((void*)(intptr_t)aMask.maskTexture, ImVec2(newPos[0], newPos[1]), ImVec2(newPos[0]+myState.img.nx, newPos[1]+myState.img.ny), ImVec2(0,0), ImVec2(1,1), IM_COL32(r, g, b, 255));  
+                draw_list->AddImage((void*)(intptr_t)aMask.maskTexture, ImVec2(newPos[0], newPos[1]), ImVec2(newPos[0]+myState.img_sam.nx, newPos[1]+myState.img_sam.ny), ImVec2(0,0), ImVec2(1,1), IM_COL32(r, g, b, 255));  
             }
         }
         if (!simplified && aMask.visible) {
@@ -199,11 +217,11 @@ static void drawAllMasks(MyState &myState, const ImGuiViewport* viewport, ImVec2
     //facial textures
     if (simplified)
         if (myState.aVideo.frames[myState.selected_frame].faces_computed) {
-            draw_list->AddImage((void*)(intptr_t)myState.aVideo.frames[myState.selected_frame].facesTexture, ImVec2(newPos[0], newPos[1]), ImVec2(newPos[0]+myState.img.nx, newPos[1]+myState.img.ny), ImVec2(0,0), ImVec2(1,1), IM_COL32(myState.face_color[0]*255, myState.face_color[1]*255, myState.face_color[2]*255, 255));
-            draw_list->AddImage((void*)(intptr_t)myState.aVideo.frames[myState.selected_frame].eyesTexture, ImVec2(newPos[0], newPos[1]), ImVec2(newPos[0]+myState.img.nx, newPos[1]+myState.img.ny), ImVec2(0,0), ImVec2(1,1), IM_COL32(myState.eyes_color[0]*255, myState.eyes_color[1]*255, myState.eyes_color[2]*255, 255));
-            //draw_list->AddImage((void*)(intptr_t)myState.aVideo.frames[myState.selected_frame].facesTexture, ImVec2(newPos[0], newPos[1]), ImVec2(newPos[0]+myState.img.nx, newPos[1]+myState.img.ny), ImVec2(0,0), ImVec2(1,1), IM_COL32(255, 0, 0, 255));
+            draw_list->AddImage((void*)(intptr_t)myState.aVideo.frames[myState.selected_frame].facesTexture, ImVec2(newPos[0], newPos[1]), ImVec2(newPos[0]+myState.img_sam.nx, newPos[1]+myState.img_sam.ny), ImVec2(0,0), ImVec2(1,1), IM_COL32(myState.face_color[0]*255, myState.face_color[1]*255, myState.face_color[2]*255, 255));
+            draw_list->AddImage((void*)(intptr_t)myState.aVideo.frames[myState.selected_frame].eyesTexture, ImVec2(newPos[0], newPos[1]), ImVec2(newPos[0]+myState.img_sam.nx, newPos[1]+myState.img_sam.ny), ImVec2(0,0), ImVec2(1,1), IM_COL32(myState.eyes_color[0]*255, myState.eyes_color[1]*255, myState.eyes_color[2]*255, 255));
+            //draw_list->AddImage((void*)(intptr_t)myState.aVideo.frames[myState.selected_frame].facesTexture, ImVec2(newPos[0], newPos[1]), ImVec2(newPos[0]+myState.img_sam.nx, newPos[1]+myState.img_sam.ny), ImVec2(0,0), ImVec2(1,1), IM_COL32(255, 0, 0, 255));
             
-            //draw_list->AddImage((void*)(intptr_t)myState.aVideo.frames[myState.selected_frame].facesTexture, ImVec2(newPos[0], newPos[1]), ImVec2(newPos[0]+myState.img.nx, newPos[1]+myState.img.ny), ImVec2(0,0), ImVec2(1,1));       
+            //draw_list->AddImage((void*)(intptr_t)myState.aVideo.frames[myState.selected_frame].facesTexture, ImVec2(newPos[0], newPos[1]), ImVec2(newPos[0]+myState.img_sam.nx, newPos[1]+myState.img_sam.ny), ImVec2(0,0), ImVec2(1,1));       
     }
 }
 
@@ -249,9 +267,9 @@ static void frameWindow(MyState &myState, const ImGuiViewport* viewport, bool us
     if (myState.img_loaded) {
         //Draw input image (previously loaded)
         //printf("Redrawing image\n");
-        //opencv_image2sam(myState.img, myState.aVideo.frames[(rand()%6)+1].img);
+        //opencv_image2sam(myState.img_sam, myState.aVideo.frames[(rand()%6)+1].img);
 
-        //GLuint tex = createGLTexture(myState.img, GL_RGB);//Done just once at loading
+        //GLuint tex = createGLTexture(myState.img_sam, GL_RGB);//Done just once at loading
         ImDrawList* draw_list = ImGui::GetWindowDrawList();
         
         Frame & aFrame = myState.aVideo.frames[myState.selected_frame];
@@ -264,8 +282,8 @@ static void frameWindow(MyState &myState, const ImGuiViewport* viewport, bool us
         //int absolute_x = myState.img_frame_pos_x;//ImGui::GetWindowWidth()
         //int absolute_y = myState.img_frame_pos_y;
 
-        draw_list->AddImage((void*)(intptr_t)aFrame.tex, ImVec2(viewport->WorkPos.x, viewport->WorkPos.y), ImVec2(viewport->WorkPos.x+myState.img.nx, viewport->WorkPos.y+myState.img.ny));
-        //draw_list->AddImage((void*)(intptr_t)aFrame.tex, ImVec2(newPos.x, newPos.y), ImVec2(myState.img.nx, myState.img.ny));
+        draw_list->AddImage((void*)(intptr_t)aFrame.tex, ImVec2(viewport->WorkPos.x, viewport->WorkPos.y), ImVec2(viewport->WorkPos.x+myState.img_sam.nx, viewport->WorkPos.y+myState.img_sam.ny));
+        //draw_list->AddImage((void*)(intptr_t)aFrame.tex, ImVec2(newPos.x, newPos.y), ImVec2(myState.img_sam.nx, myState.img_sam.ny));
         //draw_list->AddImage((void*)(intptr_t)aFrame.tex, ImVec2(myState.img_frame_pos_x,myState.img_frame_pos_y), ImVec2(myState.img.nx, myState.img.ny));
         //draw_list->AddCircleFilled(ImVec2(100, 100), 5, IM_COL32(255, 0, 0, 255));
     } else {
@@ -277,24 +295,25 @@ static void frameWindow(MyState &myState, const ImGuiViewport* viewport, bool us
         //capture click
         if (myState.clicked && ImGui::IsWindowFocused()) {
             printf("Mouse clicked at (%d, %d)\n", myState.clickedX, myState.clickedY);
-            printf("Image x = %d, y = %d\n", myState.img.nx, myState.img.ny);
+            printf("Image x = %d, y = %d\n", myState.img_sam.nx, myState.img_sam.ny);
 
             //Mask & selectedMask = myState.aVideo.frames[myState.selected_frame].masks[myState.selected_mask];
 
             //TODO make the position relative to the window (now works because image is displayed at 0,0)
-            if (myState.clickedX > viewport->WorkPos.x && myState.clickedX < viewport->WorkPos.x+myState.img.nx && myState.clickedY > viewport->WorkPos.y && myState.clickedY < viewport->WorkPos.y+myState.img.ny) {
+            if (myState.clickedX > viewport->WorkPos.x && myState.clickedX < viewport->WorkPos.x+myState.img_sam.nx && myState.clickedY > viewport->WorkPos.y && myState.clickedY < viewport->WorkPos.y+myState.img_sam.ny) {
                 
                 //When click, need to ensure that the precomputed frame is this one
                 if (myState.frame_precomputed != myState.selected_frame) {
                     printf("clicked but frame_precomputed (%d) != selected_frame (%d) changed so precomputing first frame...\n", myState.frame_precomputed, myState.selected_frame);
-                    if (!sam_compute_embd_img(myState.img, myState.params.n_threads, *myState.a_sam_state)) {
+                    //myState.segmentor.preprocessImage(myState.)
+                    if (!sam_compute_embd_img(myState.img_sam, myState.params.n_threads, *myState.a_sam_state)) {
                         fprintf(stderr, "%s: failed to compute encoded image\n", __func__);
                         //return 1;
                     }
                     myState.frame_precomputed = myState.selected_frame;
                 }
 
-                //compute_masks(myState.img, myState.params, *myState.a_sam_state, &myState.maskTextures, myState.clickedX, myState.clickedY, myState.masks, &myState.masks_colors, myState.last_color_id);
+                //compute_masks(myState.img_sam, myState.params, *myState.a_sam_state, &myState.maskTextures, myState.clickedX, myState.clickedY, myState.masks, &myState.masks_colors, myState.last_color_id);
                 
                 //Each time the user clicks we compute the masks and OpenGL textures
                 //int R = selectedMask.color[0]*255;
@@ -305,7 +324,7 @@ static void frameWindow(MyState &myState, const ImGuiViewport* viewport, bool us
                 int B = 100;
                 //printf("myState.selected_frame=%d,myState.selected_mask=%d\n", myState.selected_frame, myState.selected_mask);
                 printf("R=%d,G=%d,B=%d\n", R, G, B);
-                //compute_masks(myState.img, myState.params, *myState.a_sam_state, &selectedMask.maskTextures, myState.clickedX, myState.clickedY, selectedMask.masks, &myState.masks_colors, myState.last_color_id, R, G, B, &selectedMask.simplifiedMaskTextures);
+                //compute_masks(myState.img_sam, myState.params, *myState.a_sam_state, &selectedMask.maskTextures, myState.clickedX, myState.clickedY, selectedMask.masks, &myState.masks_colors, myState.last_color_id, R, G, B, &selectedMask.simplifiedMaskTextures);
                 int absoluteX = myState.clickedX-viewport->WorkPos.x;
                 int absoluteY = myState.clickedY-viewport->WorkPos.y;
                 compute_mask_and_textures(myState.aVideo.frames[myState.selected_frame], myState.params, *myState.a_sam_state, absoluteX, absoluteY, R, G, B, myState);
@@ -313,7 +332,7 @@ static void frameWindow(MyState &myState, const ImGuiViewport* viewport, bool us
                 //printf("Computed masks. selectedMask.maskTextures.size()=%d\n", selectedMask.maskTextures.size());
 
                 //Compute the textures for the mask masks
-                //compute_mask_textures(myState.img, myState.params, *myState.a_sam_state, &myState.masksMaskTextures[myState.selected_mask], myState.clickedX, myState.clickedY, myState.aVideo.frames[myState.selected_frame].masks[myState.selected_mask].masks, &myState.masks_colors, myState.last_color_id);
+                //compute_mask_textures(myState.img_sam, myState.params, *myState.a_sam_state, &myState.masksMaskTextures[myState.selected_mask], myState.clickedX, myState.clickedY, myState.aVideo.frames[myState.selected_frame].masks[myState.selected_mask].masks, &myState.masks_colors, myState.last_color_id);
             }
             myState.clicked = false;
         }
@@ -368,17 +387,17 @@ static void framesListWindow(MyState &myState, const ImGuiViewport* viewport, Im
                 //printf("Selected item %s\n", item.c_str());
                 if (myState.selected_frame != n) {
                     printf("Changing image %s\n", item.c_str());
-                    printf("opencv_image2sam(myState.img, myState.aVideo.frames[%d].img);\n", n);
-                    //opencv_image2sam(myState.img, myState.aVideo.frames[n].img);
-                    myState.img = myState.aVideo.frames[n].img_sam_format;
-                    //myState.tex = createGLTexture(myState.img, GL_RGB);
+                    printf("opencv_image2sam(myState.img_sam, myState.aVideo.frames[%d].img);\n", n);
+                    //opencv_image2sam(myState.img_sam, myState.aVideo.frames[n].img);
+                    myState.img_sam = myState.aVideo.frames[n].img_sam_format;
+                    //myState.tex = createGLTexture(myState.img_sam, GL_RGB);
                     myState.selected_frame = n;
                     myState.selected_mask = -1;
                     //The first time we precompute the frame 0
                     //later we wait till a click
                     if (myState.frame_precomputed == -1) {
                         printf("First time so precomputing first frame...\n");
-                        if (!sam_compute_embd_img(myState.img, myState.params.n_threads, *myState.a_sam_state)) {
+                        if (!sam_compute_embd_img(myState.img_sam, myState.params.n_threads, *myState.a_sam_state)) {
                             fprintf(stderr, "%s: failed to compute encoded image\n", __func__);
                             //return 1;
                         }
@@ -756,13 +775,13 @@ static void finishingConfigWindow(MyState &myState, const ImGuiViewport* viewpor
             //With sam2texture (face)
             sam_image_u8 mask_simplified;
             opencv_image2sam_binarymask(mask_simplified, face_mask);
-            sam_image_u8 mask_simplified_rgb = sam_image2color(mask_simplified, 255);
+            sam_image_u8 mask_simplified_rgb = sam_mask_to_sam_4channels(mask_simplified, 255);
             GLuint newGLTextureFace = createGLTexture(mask_simplified_rgb, GL_RGBA);
             
             //With sam2texture (eyes)
             sam_image_u8 mask_simplified2;
             opencv_image2sam_binarymask(mask_simplified2, eyes_mask);
-            sam_image_u8 mask_simplified_rgb2 = sam_image2color(mask_simplified2, 255);
+            sam_image_u8 mask_simplified_rgb2 = sam_mask_to_sam_4channels(mask_simplified2, 255);
             GLuint newGLTextureFace2 = createGLTexture(mask_simplified_rgb2, GL_RGBA);
             
 
@@ -811,7 +830,7 @@ void fileDialog(MyState &myState) {
     //Check if opening single file
     if (myState.file_dialog_file_selected && myState.file_dialog_mode == FILE_DIALOG_LOAD_SINGLE_FILE) {
         //We will deal with a single file as if it is a video with one frame
-        //myState.img has a copy of myState.aVideo.frames[myState.selected_frame].img_sam_format
+        //myState.img_sam has a copy of myState.aVideo.frames[myState.selected_frame].img_sam_format
         printf("OPENING IMAGE FILE\n");
 
         myState.reset();
@@ -836,9 +855,9 @@ void fileDialog(MyState &myState) {
             myState.selected_frame = 0;
             myState.selected_mask = -1;
 
-            myState.img = myState.aVideo.frames[0].img_sam_format;
+            myState.img_sam = myState.aVideo.frames[0].img_sam_format;
             printf("After reading video precompute first frame...\n");
-            if (!sam_compute_embd_img(myState.img, myState.params.n_threads, *myState.a_sam_state)) {
+            if (!sam_compute_embd_img(myState.img_sam, myState.params.n_threads, *myState.a_sam_state)) {
                 fprintf(stderr, "%s: failed to compute encoded image\n", __func__);
                 //return 1;
             }
@@ -861,9 +880,9 @@ void fileDialog(MyState &myState) {
         //ImVec2 win_size =ImGui::GetWindowSize();
         read_video(fullPath, myState.aVideo, myState.img_frame_w, myState.img_frame_h);
         printf("Video read.\n");
-        //opencv_image2sam(myState.img, myState.aVideo.frames[0].img);
-        myState.img = myState.aVideo.frames[0].img_sam_format;
-        //myState.tex = createGLTexture(myState.img, GL_RGB);
+        //opencv_image2sam(myState.img_sam, myState.aVideo.frames[0].img);
+        myState.img_sam = myState.aVideo.frames[0].img_sam_format;
+        //myState.tex = createGLTexture(myState.img_sam, GL_RGB);
         myState.selected_frame = 0;
         myState.img_loaded = true;
         //Create a single default mask
@@ -871,7 +890,7 @@ void fileDialog(MyState &myState) {
         //myState.aVideo.frames[0].masks.push_back(aMask);
         myState.selected_mask = -1;        
         printf("After reading video precompute first frame...\n");
-        if (!sam_compute_embd_img(myState.img, myState.params.n_threads, *myState.a_sam_state)) {
+        if (!sam_compute_embd_img(myState.img_sam, myState.params.n_threads, *myState.a_sam_state)) {
             fprintf(stderr, "%s: failed to compute encoded image\n", __func__);
             //return 1;
         }
@@ -1035,7 +1054,7 @@ void checkActions(MyState &myState)
         myState.end_frame = -1;
         printf("PROPAGATED.\n");
         //Precompute actual frame to keep things as they were
-        if (!sam_compute_embd_img(myState.img, myState.params.n_threads, *myState.a_sam_state)) {
+        if (!sam_compute_embd_img(myState.img_sam, myState.params.n_threads, *myState.a_sam_state)) {
             fprintf(stderr, "%s: failed to compute encoded image\n", __func__);
             //return 1;
         }

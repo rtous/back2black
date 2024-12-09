@@ -1,27 +1,27 @@
-#ifndef __SAM1FACTORY_H__
-#define __SAM1FACTORY_H__
+#ifndef __SAM2FACTORY_H__
+#define __SAM2FACTORY_H__
 
-#include "segmentor.h"
+#include "segmentor.h" 
 #include <opencv2/core.hpp>
-#include "sam.h"
+#include "sam2.h"
 //#include <opencv2/imgcodecs.hpp>
 //#include <opencv2/highgui.hpp>
 //#include <iostream>
 //#include <opencv2/video/video.hpp>
 
-class SAM1Segmentor : public Segmentor {      
+class SAM2Segmentor : public Segmentor {      
   public:  
-    sam_params params;
-    std::shared_ptr<sam_state> a_sam_state;
+    //sam_params params;
+    //std::shared_ptr<sam_state> a_sam_state;
 
     
     void test();  
     bool preprocessImage(cv::Mat& image_opencv);  
     cv::Mat get_best_mask_at_point(int x, int y, cv::Mat& image_opencv);
-    SAM1Segmentor();
+    SAM2Segmentor();
     void close();
 };
   
-Segmentor& get_sam1_segmentor();
+Segmentor& get_sam2_segmentor();
 
 #endif
