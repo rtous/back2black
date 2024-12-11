@@ -8,6 +8,7 @@
 #include "data_structures.h"
 #include "segmentor.h"
 #include "segmentor_sam1.h"
+#include "segmentor_sam2.h"
 
 class MyState {      
   public: 
@@ -60,7 +61,8 @@ class MyState {
     int frame_precomputed = -1;
     Video aVideo;
     
-    //single file case:
+    //image and texture in left panel:
+    cv::Mat img_opencv;//NOT CURRENTLY USED, to be used with sam2?
     sam_image_u8 img_sam; 
     GLuint tex; 
 
@@ -80,7 +82,7 @@ class MyState {
 
     //as segmentor holds a reference it needs to be intitialized this way
     //"constructor initializer list"
-    MyState() : segmentor(get_sam1_segmentor())  {
+    MyState() : segmentor(get_sam2_segmentor())  {
       //Default color
       face_color[0] = 168/(float)256;
       face_color[1] = 113/(float)256;

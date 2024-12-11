@@ -17,7 +17,9 @@ class SAM1Segmentor : public Segmentor {
     
     void test();  
     bool preprocessImage(cv::Mat& image_opencv);  
+    bool preprocessImage(sam_image_u8& image_sam);
     cv::Mat get_best_mask_at_point(int x, int y, cv::Mat& image_opencv);
+    bool get_best_mask_at_point(int x, int y, sam_image_u8& image_sam, sam_image_u8& mask_sam);
     SAM1Segmentor();
     void close();
 };

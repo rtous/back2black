@@ -3,6 +3,7 @@
 
 #include "segmentor.h" 
 #include <opencv2/core.hpp>
+#include "sam.h"
 #include "sam2.h"
 //#include <opencv2/imgcodecs.hpp>
 //#include <opencv2/highgui.hpp>
@@ -18,7 +19,9 @@ class SAM2Segmentor : public Segmentor {
     
     void test();  
     bool preprocessImage(cv::Mat& image_opencv);  
+    bool preprocessImage(sam_image_u8& image_sam);
     cv::Mat get_best_mask_at_point(int x, int y, cv::Mat& image_opencv);
+    bool get_best_mask_at_point(int x, int y, sam_image_u8& image_sam, sam_image_u8& mask_sam);
     SAM2Segmentor();
     void close();
 };

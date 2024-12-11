@@ -249,6 +249,7 @@ ANNEX 6. onnxruntime
 
 ANNEX 7. SAM2
 
+- REPO: https://github.com/ryouchinsa/sam-cpp-macos
 - Requires onnxruntime
 - Requires two model files. From the checkpoints dir do (it will create the folder):
 

@@ -24,16 +24,18 @@ include_directories(${dlib_INCLUDE_DIRS})
 #TODO: for some strange reason if "common" appears before ${OpenCV_LIBS} then it cannot read "jpg" images...
 install(TARGETS ${EXAMPLE_TARGET} RUNTIME)
 target_link_libraries(${EXAMPLE_TARGET} PRIVATE 
-    segmentor
+    segmentor 
     segmentor_sam1
+    segmentor_sam2 
     sam simplify 
     face 
     ${OpenCV_LIBS} 
     common 
     dlib 
     imgui-sdl2 
-    ImGuiFileDialog 
+    ImGuiFileDialog  
     ${CMAKE_THREAD_LIBS_INIT}
+    ${ONNXRUNTIME_LINK_LIBRARIES_GLOBAL}
     )
 
 target_compile_features(${EXAMPLE_TARGET} PUBLIC cxx_std_11)

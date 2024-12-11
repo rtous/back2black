@@ -23,6 +23,7 @@ target_link_libraries(${SEGMENTOR_SAM2} PRIVATE
     segmentor 
     imgui-sdl2 #dependency of common
     common 
+    #${PROTOBUF_LINK_LIBRARIES_GLOBAL}
     ${ONNXRUNTIME_LINK_LIBRARIES_GLOBAL}
     )
 

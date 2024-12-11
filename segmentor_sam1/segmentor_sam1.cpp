@@ -34,9 +34,18 @@ void SAM1Segmentor::test()
 
 bool SAM1Segmentor::preprocessImage(cv::Mat & opencv_image) {
     printf("SAM1Segmentor::preprocessImage()\n");
-    sam_image_u8 sam_image;
-    opencv_image2sam(sam_image, opencv_image);
-    if (!sam_compute_embd_img(sam_image, params.n_threads, *a_sam_state)) {
+    sam_image_u8 image_sam;
+    opencv_image2sam(image_sam, opencv_image);
+    return preprocessImage(image_sam);
+    /*if (!sam_compute_embd_img(image_sam, params.n_threads, *a_sam_state)) {
+        fprintf(stderr, "%s: failed to compute encoded image\n", __func__);
+        return false;
+    }
+    return true;*/
+}
+
+bool SAM1Segmentor::preprocessImage(sam_image_u8 & image_sam) {
+    if (!sam_compute_embd_img(image_sam, params.n_threads, *a_sam_state)) {
         fprintf(stderr, "%s: failed to compute encoded image\n", __func__);
         return false;
     }
@@ -48,15 +57,23 @@ cv::Mat SAM1Segmentor::get_best_mask_at_point(int x, int y, cv::Mat& image_openc
     sam_image_u8 image_sam;
     opencv_image2sam(image_sam, image_opencv);
 
-    //compute mask at given point (pick best one)
-    sam_image_u8 mask;
-    bool found = get_best_sam_mask_at_point(x, y, image_sam, *a_sam_state, params.n_threads, mask);
     
+    //compute mask at given point (pick best one)
+    sam_image_u8 mask_sam;
+    //bool found = get_best_sam_mask_at_point(x, y, image_sam, *a_sam_state, params.n_threads, mask);
+    bool found = get_best_mask_at_point(x, y, image_sam, mask_sam); 
+
     //convert mask to opencv format
     cv::Mat mask_opencv;
-    sam_image_grayscale2opencv(mask, mask_opencv);
+    sam_image_grayscale2opencv(mask_sam, mask_opencv);
 
     return mask_opencv;
+}
+
+bool SAM1Segmentor::get_best_mask_at_point(int x, int y, sam_image_u8& image_sam, sam_image_u8& mask_sam) {
+    //compute mask at given point (pick best one)
+    bool found = get_best_sam_mask_at_point(x, y, image_sam, *a_sam_state, params.n_threads, mask_sam);
+    return found;
 }
 
 void SAM1Segmentor::close() {

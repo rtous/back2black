@@ -305,11 +305,11 @@ static void frameWindow(MyState &myState, const ImGuiViewport* viewport, bool us
                 //When click, need to ensure that the precomputed frame is this one
                 if (myState.frame_precomputed != myState.selected_frame) {
                     printf("clicked but frame_precomputed (%d) != selected_frame (%d) changed so precomputing first frame...\n", myState.frame_precomputed, myState.selected_frame);
-                    //myState.segmentor.preprocessImage(myState.)
-                    if (!sam_compute_embd_img(myState.img_sam, myState.params.n_threads, *myState.a_sam_state)) {
+                    /*if (!sam_compute_embd_img(myState.img_sam, myState.params.n_threads, *myState.a_sam_state)) {
                         fprintf(stderr, "%s: failed to compute encoded image\n", __func__);
                         //return 1;
-                    }
+                    }*/
+                    myState.segmentor.preprocessImage(myState.img_sam);
                     myState.frame_precomputed = myState.selected_frame;
                 }
 
@@ -327,7 +327,8 @@ static void frameWindow(MyState &myState, const ImGuiViewport* viewport, bool us
                 //compute_masks(myState.img_sam, myState.params, *myState.a_sam_state, &selectedMask.maskTextures, myState.clickedX, myState.clickedY, selectedMask.masks, &myState.masks_colors, myState.last_color_id, R, G, B, &selectedMask.simplifiedMaskTextures);
                 int absoluteX = myState.clickedX-viewport->WorkPos.x;
                 int absoluteY = myState.clickedY-viewport->WorkPos.y;
-                compute_mask_and_textures(myState.aVideo.frames[myState.selected_frame], myState.params, *myState.a_sam_state, absoluteX, absoluteY, R, G, B, myState);
+                //compute_mask_and_textures(myState.aVideo.frames[myState.selected_frame], myState.params, *myState.a_sam_state, absoluteX, absoluteY, R, G, B, myState);
+                compute_mask_and_textures(myState.aVideo.frames[myState.selected_frame], absoluteX, absoluteY, R, G, B, myState);
 
                 //printf("Computed masks. selectedMask.maskTextures.size()=%d\n", selectedMask.maskTextures.size());
 
@@ -390,17 +391,19 @@ static void framesListWindow(MyState &myState, const ImGuiViewport* viewport, Im
                     printf("opencv_image2sam(myState.img_sam, myState.aVideo.frames[%d].img);\n", n);
                     //opencv_image2sam(myState.img_sam, myState.aVideo.frames[n].img);
                     myState.img_sam = myState.aVideo.frames[n].img_sam_format;
-                    //myState.tex = createGLTexture(myState.img_sam, GL_RGB);
+                    //myState.img_opencv = myState.aVideo.frames[n].img;
                     myState.selected_frame = n;
                     myState.selected_mask = -1;
                     //The first time we precompute the frame 0
                     //later we wait till a click
                     if (myState.frame_precomputed == -1) {
-                        printf("First time so precomputing first frame...\n");
+                        /*printf("First time so precomputing first frame...\n");
                         if (!sam_compute_embd_img(myState.img_sam, myState.params.n_threads, *myState.a_sam_state)) {
                             fprintf(stderr, "%s: failed to compute encoded image\n", __func__);
                             //return 1;
                         }
+                        */
+                        myState.segmentor.preprocessImage(myState.img_sam);
                         printf("First frame precomputed.\n");
                         myState.frame_precomputed = 0;
                     }
@@ -856,11 +859,13 @@ void fileDialog(MyState &myState) {
             myState.selected_mask = -1;
 
             myState.img_sam = myState.aVideo.frames[0].img_sam_format;
+            //myState.img_opencv = myState.aVideo.frames[0].img;
             printf("After reading video precompute first frame...\n");
-            if (!sam_compute_embd_img(myState.img_sam, myState.params.n_threads, *myState.a_sam_state)) {
+            /*if (!sam_compute_embd_img(myState.img_sam, myState.params.n_threads, *myState.a_sam_state)) {
                 fprintf(stderr, "%s: failed to compute encoded image\n", __func__);
                 //return 1;
-            }
+            }*/
+            myState.segmentor.preprocessImage(myState.img_sam);
             myState.frame_precomputed = 0;
             myState.aVideo.loaded = true;
         } else {
@@ -882,7 +887,7 @@ void fileDialog(MyState &myState) {
         printf("Video read.\n");
         //opencv_image2sam(myState.img_sam, myState.aVideo.frames[0].img);
         myState.img_sam = myState.aVideo.frames[0].img_sam_format;
-        //myState.tex = createGLTexture(myState.img_sam, GL_RGB);
+        //myState.img_opencv = myState.aVideo.frames[0].img;
         myState.selected_frame = 0;
         myState.img_loaded = true;
         //Create a single default mask
@@ -890,10 +895,11 @@ void fileDialog(MyState &myState) {
         //myState.aVideo.frames[0].masks.push_back(aMask);
         myState.selected_mask = -1;        
         printf("After reading video precompute first frame...\n");
-        if (!sam_compute_embd_img(myState.img_sam, myState.params.n_threads, *myState.a_sam_state)) {
+        /*if (!sam_compute_embd_img(myState.img_sam, myState.params.n_threads, *myState.a_sam_state)) {
             fprintf(stderr, "%s: failed to compute encoded image\n", __func__);
             //return 1;
-        }
+        }*/
+        myState.segmentor.preprocessImage(myState.img_sam);
         myState.frame_precomputed = 0;
     } else if (myState.file_dialog_file_selected && myState.file_dialog_mode == FILE_DIALOG_SAVE_VIDEO) {   
         myState.file_dialog_file_selected = false;
@@ -1054,10 +1060,12 @@ void checkActions(MyState &myState)
         myState.end_frame = -1;
         printf("PROPAGATED.\n");
         //Precompute actual frame to keep things as they were
-        if (!sam_compute_embd_img(myState.img_sam, myState.params.n_threads, *myState.a_sam_state)) {
+        /*if (!sam_compute_embd_img(myState.img_sam, myState.params.n_threads, *myState.a_sam_state)) {
             fprintf(stderr, "%s: failed to compute encoded image\n", __func__);
             //return 1;
         }
+        */
+        myState.segmentor.preprocessImage(myState.img_sam);
         myState.frame_precomputed = myState.selected_frame; 
         myState.propagate_dialog = false;      
     }

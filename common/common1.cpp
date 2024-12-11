@@ -83,6 +83,7 @@ void sam_image_grayscale2opencv(sam_image_u8 & sam_image, cv::Mat & opencv_image
 //sam image (RGB) -> opencv (BGR)
 //NOTE: ignoring the fact that sam stores pixels as floats 
 //USAGE: Only for debugging (by reversing opencv_image2sam)
+//USAGE: Now used also in segmentor_sam2.cpp
 void sam_image_color2opencv(sam_image_u8 & sam_image, cv::Mat & opencv_image) {
     //cv::Mat rows x columns 
     //sam_image_u8 guarda com si recorre tot per fileres
@@ -154,9 +155,10 @@ void sam_image2opencv_color(sam_image_u8 & sam_image, cv::Mat & opencv_image) {
 //Used in compute_masks in sam_utils.cpp 
 void opencv_image2sam_binarymask(sam_image_u8 & sam_image, cv::Mat & opencv_image) {
     
-    //Convert default OpenCV BGR to GRAYSCALE
-    cv::cvtColor(opencv_image, opencv_image, cv::COLOR_BGR2GRAY);
-
+    if (opencv_image.channels() > 1) {
+        //Convert default OpenCV BGR to GRAYSCALE
+        cv::cvtColor(opencv_image, opencv_image, cv::COLOR_BGR2GRAY);
+    }
     //SAM x=width, y=height
     sam_image.nx = opencv_image.cols;
     sam_image.ny = opencv_image.rows;

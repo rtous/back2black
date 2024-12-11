@@ -31,7 +31,7 @@
 #include "IconsFontAwesome5.h" //see https://github.com/juliettef/IconFontCppHeaders
 #include "myfont.h" //generated with binary_to_compressed from fa-solid-900.ttf
 #include "segmentor_sam1.h"
-
+#include "segmentor_sam2.h"
 
 void myWindow(bool *show_myWindow)
 {
@@ -187,7 +187,7 @@ int main(int, char**)
 
 
     /*****SAM INIT*******/
-    set_params(&myState.params);
+    /*set_params(&myState.params);
     std::shared_ptr<sam_state> state = sam_load_model(myState.params);
     if (!state) {
         fprintf(stderr, "%s: failed to load model\n", __func__);
@@ -195,8 +195,10 @@ int main(int, char**)
     } else {
         myState.a_sam_state = sam_load_model(myState.params);
     }
+    */
 
     //myState.segmentor = get_sam1_segmentor(); 
+    //myState.segmentor = get_sam2_segmentor(); 
     /***************/
 
 
@@ -300,7 +302,8 @@ int main(int, char**)
 #endif
 
     // Cleanup
-    sam_deinit(*myState.a_sam_state);
+    //sam_deinit(*myState.a_sam_state);
+    myState.segmentor.close();
     ImGui_ImplOpenGL3_Shutdown();
     ImGui_ImplSDL2_Shutdown();
     ImGui::DestroyContext();

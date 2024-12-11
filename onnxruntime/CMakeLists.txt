@@ -10,6 +10,9 @@ list(APPEND ONNXRUNTIME_INCLUDES ${CMAKE_CURRENT_SOURCE_DIR}/../../onnxruntime/i
 set(ONNXRUNTIME_INCLUDES_GLOBAL ${ONNXRUNTIME_INCLUDES} PARENT_SCOPE)
 #Need another variable with PARENT_SCOPE visibility
 
+#set(PROTOBUF_LINK_LIBRARIES "")
+#list(APPEND PROTOBUF_LINK_LIBRARIES ${ONNXRUNTIME_DIR}/_deps/protobuf-build/libprotobuf-lite.a)
+
 set(ONNXRUNTIME_LINK_LIBRARIES "")
 #ONNXRUNTIME
 list(APPEND ONNXRUNTIME_LINK_LIBRARIES "-framework Foundation")
@@ -91,6 +94,9 @@ list(APPEND ONNXRUNTIME_LINK_LIBRARIES ${ONNXRUNTIME_DIR}/_deps/abseil_cpp-build
 list(APPEND ONNXRUNTIME_LINK_LIBRARIES ${ONNXRUNTIME_DIR}/_deps/abseil_cpp-build/absl/time/libabsl_time_zone.a)
 list(APPEND ONNXRUNTIME_LINK_LIBRARIES ${ONNXRUNTIME_DIR}/_deps/abseil_cpp-build/absl/time/libabsl_time.a)
 list(APPEND ONNXRUNTIME_LINK_LIBRARIES ${ONNXRUNTIME_DIR}/_deps/pytorch_cpuinfo-build/libcpuinfo.a)
+
+#set(PROTOBUF_LINK_LIBRARIES_GLOBAL ${PROTOBUF_LINK_LIBRARIES} PARENT_SCOPE)
+#Need another variable with PARENT_SCOPE visibility
 
 set(ONNXRUNTIME_LINK_LIBRARIES_GLOBAL ${ONNXRUNTIME_LINK_LIBRARIES} PARENT_SCOPE)
 #Need another variable with PARENT_SCOPE visibility

@@ -176,7 +176,68 @@ void compute_mask_textures_all_frames(std::vector<Frame> & frames)
 //computes the masks at the given point and checks if it's a new one
 //currently the passed storedMasks are just the masks of one mask
 //void compute_masks(sam_image_u8 img, const sam_params & params, sam_state & state, std::vector<GLuint> *maskTextures, int x, int y, std::vector<sam_image_u8> & storedMasks, std::vector<int> * mask_colors, int & last_color_id, int R, int G, int B, std::vector<GLuint> *simplifiedMaskTextures) {
-void compute_mask_and_textures(Frame & aFrame, const sam_params & params, sam_state & state, int x, int y, int R, int G, int B, MyState &myState) {
+//void compute_mask_and_textures(Frame & aFrame, const sam_params & params, sam_state & state, int x, int y, int R, int G, int B, MyState &myState) {
+void compute_mask_and_textures(Frame & aFrame, int x, int y, int R, int G, int B, MyState &myState) {
+    printf("compute_masks with selected_mask = %d\n", myState.selected_mask);
+    sam_image_u8 mask;
+    bool maskFound;
+    //maskFound = get_best_sam_mask_at_point(x, y, aFrame.img_sam_format, state, params.n_threads, mask); 
+    maskFound = myState.segmentor.get_best_mask_at_point(x, y, aFrame.img_sam_format, mask); 
+
+    if (maskFound) {        
+        //printf("isEmptyMaskDEBUG(mask)=%d\n", isEmptyMaskDEBUG(mask));
+        int pos = masks_already_in_list(mask, aFrame);
+        
+        if (pos == -1) { //the mask is new, not in storedMasks  
+            printf("the mask is new\n");
+            //If there's a selected mask we will replace it
+            //if not we will create a new mask
+            Mask *targetMask;
+            if (myState.selected_mask == -1) { 
+                Mask newMask;
+                targetMask = &newMask;  
+            } else {
+                targetMask = &aFrame.masks[myState.selected_mask];
+            }    
+            //Mask newMask;
+            targetMask->samMask = mask;
+            targetMask->mask_computed = true;
+            targetMask->mask_computed_at_x = x;
+            targetMask->mask_computed_at_y = y;
+            printf("compute_mask_center...\n");
+            compute_mask_center(*targetMask);//from common1.c
+            printf("compute_mask_textures...\n");
+            compute_mask_textures(*targetMask, R, G, B);
+            //aFrame.newMask(newMask); 
+            if (myState.selected_mask == -1) {  
+                printf("aFrame.newMask...\n");     
+                aFrame.newMask(*targetMask);
+                printf("Added mask with id=%d\n", targetMask->maskId);
+            } else {
+                printf("Changed mask with id=%d\n", targetMask->maskId);
+            }
+
+        } else { //the mask already exists (and is not empty)
+            //OLD: If the mask is already in storedMasks we will delete it
+            //NOW: If the mask is already in storedMasks we will mark is as not computed
+            /*
+            printf("Deleting mask %d ", pos);
+            aFrame.masks.erase(aFrame.masks.begin() + pos);
+            //If we have erased the selected mask let's deselect
+            if (pos == myState.selected_mask)
+                myState.selected_mask = -1;
+            */
+            aFrame.masks[pos].mask_computed = false;
+            /*if (pos == myState.selected_mask)
+                myState.selected_mask = -1;*/
+        }
+    }
+}
+
+//computes the masks at the given point and checks if it's a new one
+//currently the passed storedMasks are just the masks of one mask
+//void compute_masks(sam_image_u8 img, const sam_params & params, sam_state & state, std::vector<GLuint> *maskTextures, int x, int y, std::vector<sam_image_u8> & storedMasks, std::vector<int> * mask_colors, int & last_color_id, int R, int G, int B, std::vector<GLuint> *simplifiedMaskTextures) {
+void compute_mask_and_texturesOLD(Frame & aFrame, const sam_params & params, sam_state & state, int x, int y, int R, int G, int B, MyState &myState) {
     printf("compute_masks with selected_mask = %d\n", myState.selected_mask);
     sam_image_u8 mask;
     bool maskFound;

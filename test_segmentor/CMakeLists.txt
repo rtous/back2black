@@ -19,6 +19,7 @@ target_link_libraries(${EXAMPLE_TARGET} PRIVATE
     segmentor_sam2
     imgui-sdl2 #dependency of common
     ${CMAKE_THREAD_LIBS_INIT} 
+    #${PROTOBUF_LINK_LIBRARIES_GLOBAL}
     ${ONNXRUNTIME_LINK_LIBRARIES_GLOBAL}
 )
 

@@ -3,6 +3,7 @@
 
 #include "stdio.h"
 #include <opencv2/core.hpp>
+#include "sam.h"
 //#include <opencv2/imgcodecs.hpp>
 //#include <opencv2/highgui.hpp>
 //#include <iostream>
@@ -15,7 +16,9 @@ class Segmentor {
 
   	virtual void test() = 0; //= 0 means "pure virtual"
     virtual bool preprocessImage(cv::Mat& image) = 0;
+    virtual bool preprocessImage(sam_image_u8& image_sam) = 0;
     virtual cv::Mat get_best_mask_at_point(int x, int y, cv::Mat& image_opencv) = 0;
+    virtual bool get_best_mask_at_point(int x, int y, sam_image_u8& image_sam, sam_image_u8& mask_sam) = 0;
     virtual void close() = 0;
     
 
