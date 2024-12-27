@@ -81,7 +81,9 @@ std::vector<std::vector<cv::Point>> simplifyColorSegment(cv::Mat &mask, cv::Mat 
         //for eachcontour
         for( int j = 0; j< contours.size(); j++ )
         {
-            if (cv::contourArea(contours[j]) > 200) {
+            int contour_area = cv::contourArea(contours[j]);
+            printf("contour_area = %d\n", contour_area);
+            if (contour_area > 200) {
                 //cv::Mat drawing = cv::Mat::zeros( mask.size(), CV_8UC3 );
                 //cv::drawContours( drawing, contours, (int)j, color, 2, cv::LINE_8, hierarchy, 0 );
                 //cv::imwrite(output_path+"/mask_contour"+std::to_string(i)+"_"+std::to_string(j)+".jpg", drawing);
