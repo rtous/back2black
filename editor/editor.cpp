@@ -203,10 +203,12 @@ static void drawAllMasks(MyState &myState, const ImGuiViewport* viewport, ImVec2
             const int g = aMask.color[1]*255;
             const int b = aMask.color[2]*255;
             
-            if (simplified)
-                //ImVec2 mousePositionRelative = ImVec2(mousePositionAbsolute.x - screenPositionAbsolute.x, mousePositionAbsolute.y - screenPositionAbsolute.y);
-                draw_list->AddImage((void*)(intptr_t)aMask.simplifiedMaskTexture, ImVec2(newPos[0], newPos[1]), ImVec2(newPos[0]+myState.img_sam.nx, newPos[1]+myState.img_sam.ny), ImVec2(0,0), ImVec2(1,1), IM_COL32(r, g, b, 255));
-            else {
+            if (simplified) {
+                  //Applying colors now (makes easy to change colors on-the-fly)
+                  //draw_list->AddImage((void*)(intptr_t)aMask.simplifiedMaskTexture, ImVec2(newPos[0], newPos[1]), ImVec2(newPos[0]+myState.img_sam.nx, newPos[1]+myState.img_sam.ny), ImVec2(0,0), ImVec2(1,1), IM_COL32(r, g, b, 255));
+                  //With colors within the texture:
+                  draw_list->AddImage((void*)(intptr_t)aMask.simplifiedMaskTexture, ImVec2(newPos[0], newPos[1]), ImVec2(newPos[0]+myState.img_sam.nx, newPos[1]+myState.img_sam.ny));
+            } else {
                 draw_list->AddImage((void*)(intptr_t)aMask.maskTexture, ImVec2(newPos[0], newPos[1]), ImVec2(newPos[0]+myState.img_sam.nx, newPos[1]+myState.img_sam.ny), ImVec2(0,0), ImVec2(1,1), IM_COL32(r, g, b, 255));  
             }
         }
@@ -215,13 +217,11 @@ static void drawAllMasks(MyState &myState, const ImGuiViewport* viewport, ImVec2
         }
     }
     //facial textures
-    if (simplified)
+    if (simplified) {
         if (myState.aVideo.frames[myState.selected_frame].faces_computed) {
             draw_list->AddImage((void*)(intptr_t)myState.aVideo.frames[myState.selected_frame].facesTexture, ImVec2(newPos[0], newPos[1]), ImVec2(newPos[0]+myState.img_sam.nx, newPos[1]+myState.img_sam.ny), ImVec2(0,0), ImVec2(1,1), IM_COL32(myState.face_color[0]*255, myState.face_color[1]*255, myState.face_color[2]*255, 255));
-            draw_list->AddImage((void*)(intptr_t)myState.aVideo.frames[myState.selected_frame].eyesTexture, ImVec2(newPos[0], newPos[1]), ImVec2(newPos[0]+myState.img_sam.nx, newPos[1]+myState.img_sam.ny), ImVec2(0,0), ImVec2(1,1), IM_COL32(myState.eyes_color[0]*255, myState.eyes_color[1]*255, myState.eyes_color[2]*255, 255));
-            //draw_list->AddImage((void*)(intptr_t)myState.aVideo.frames[myState.selected_frame].facesTexture, ImVec2(newPos[0], newPos[1]), ImVec2(newPos[0]+myState.img_sam.nx, newPos[1]+myState.img_sam.ny), ImVec2(0,0), ImVec2(1,1), IM_COL32(255, 0, 0, 255));
-            
-            //draw_list->AddImage((void*)(intptr_t)myState.aVideo.frames[myState.selected_frame].facesTexture, ImVec2(newPos[0], newPos[1]), ImVec2(newPos[0]+myState.img_sam.nx, newPos[1]+myState.img_sam.ny), ImVec2(0,0), ImVec2(1,1));       
+            draw_list->AddImage((void*)(intptr_t)myState.aVideo.frames[myState.selected_frame].eyesTexture, ImVec2(newPos[0], newPos[1]), ImVec2(newPos[0]+myState.img_sam.nx, newPos[1]+myState.img_sam.ny), ImVec2(0,0), ImVec2(1,1), IM_COL32(myState.eyes_color[0]*255, myState.eyes_color[1]*255, myState.eyes_color[2]*255, 255));               
+        }
     }
 }
 

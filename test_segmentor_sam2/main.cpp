@@ -35,6 +35,7 @@ int main(int argc, char** argv) {
   cv::resize(image, image, inputSize);
   std::chrono::steady_clock::time_point begin = std::chrono::steady_clock::now();
   bool successPreprocessImage = sam.preprocessImage(image);
+  printf("embedding time: ");
   std::chrono::steady_clock::time_point end = std::chrono::steady_clock::now();
   std::cout << "sec = " << (std::chrono::duration_cast<std::chrono::microseconds>(end - begin).count()) / 1000000.0 <<std::endl;
   if(!successPreprocessImage){
@@ -130,6 +131,7 @@ int main(int argc, char** argv) {
   points.resize(0);
   
   end = std::chrono::steady_clock::now();
+  printf("mask time: ");
   std::cout << "sec = " << (std::chrono::duration_cast<std::chrono::microseconds>(end - begin).count()) / 1000000.0 <<std::endl;
   return 0;
 }

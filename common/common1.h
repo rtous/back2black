@@ -19,6 +19,8 @@ void sam_image_grayscale2opencv(sam_image_u8 & sam_image, cv::Mat & opencv_image
 void sam_image_color2opencv(sam_image_u8 & sam_image, cv::Mat & opencv_image);
 
 void opencv_image2sam(sam_image_u8 & sam_image, cv::Mat & opencv_image); 
+void opencv_image4channels_to_sam4channels(sam_image_u8 & sam_image, cv::Mat & opencv_image); 
+
 sam_image_u8 sam_mask_to_sam_4channels(sam_image_u8 & sam_image, int alpha);
 void sam_image_grayscale2opencv_colorize(sam_image_u8 & sam_image, cv::Mat & opencv_image, int R, int G, int B);//WARNING: NOT USAGE DETECTED!!
 void opencv_image2sam_binarymask(sam_image_u8 & sam_image, cv::Mat & opencv_image);

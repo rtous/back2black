@@ -33,7 +33,11 @@ int main(int argc, char ** argv)
         printf("Image successfully read.\n");
     }
 
+    cv::imwrite(output_path+"/input.png", img);
     simplify(img, output);
+
+    std::printf("Writing result to %s/output.png\n", output_path.c_str());
+    cv::imwrite(output_path+"/output.png", output);
 
     /*
     ///////// TO GRAYSCALE /////////

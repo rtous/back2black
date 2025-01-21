@@ -44,3 +44,21 @@ Universitat Politecnica de Catalunya
 05/09/2024
 	- editor: Load video ok
 	- PROBLEM: (editor) Currently the image is displayed at 0,0 of the main window, this is why the compute_masks work. But it should be displayed within the visible window and the clicked point recomputed
+
+15/01/2025
+	2 coses a mitges:
+		1) Generar textura de la forma simplificada no binària
+		2) Afegir rim ligth a la forma simplificada
+			- funciona el brightness
+			- peta el overlay
+
+	- A editor.cpp les textures s'apliquen amb draw_list->AddImage. Hi ha dues versions, aplicant colors o sense. Fins ara era guardant només una màscara binària i aplicant colors. Però això impedeix aplicar altres acabats.
+		aFrame.tex -> el frame (no binària)
+		aMask.maskTexture -> la màscara (binària)
+		aMask.simplifiedMaskTexture (fins ara binària però ara ja no)
+	- Fent modificacions a simplify.cpp/simplifyColorSegment
+
+16/01/2025
+	- rim light works, but operates over the full image (within simplify)
+	- still not applied (simplify is not called)
+	- still need to solve the texture problem

@@ -68,6 +68,7 @@ sam_image_u8 sam_mask_to_sam_4channels(sam_image_u8 & sam_image, int alpha) {
 }
 
 //sam image (grayscale) -> opencv (grayscale)
+//returns a 1-channel image
 void sam_image_grayscale2opencv(sam_image_u8 & sam_image, cv::Mat & opencv_image) {
     //WARNING: Only works for grayscale image (look at sam_image2opencv_color otherwise)
     //cv::Mat rows x columns 
@@ -200,6 +201,31 @@ void opencv_image2sam(sam_image_u8 & sam_image, cv::Mat & opencv_image) {
             sam_image.data.push_back(RGB[0]);
             sam_image.data.push_back(RGB[1]);
             sam_image.data.push_back(RGB[2]);
+        }
+    }
+}
+
+//Under development (probably not working yet)
+//To be used in sam_utils.cpp/compute_mask_textures
+void opencv_image4channels_to_sam4channels(sam_image_u8 & sam_image, cv::Mat & opencv_image) {
+    //Convert default OpenCV BGR to RGB
+    cv::cvtColor(opencv_image, opencv_image, cv::COLOR_BGRA2RGBA);
+
+    //SAM x=width, y=height
+    sam_image.nx = opencv_image.cols;
+    sam_image.ny = opencv_image.rows;
+
+    //TODO IMPROVEMENT: Sequential access to opencv_image.data 
+
+    sam_image.data.clear();
+    for (int i=0; i < opencv_image.rows; ++i){
+        for (int j=0; j < opencv_image.cols; ++j){  
+            cv::Vec4b RGBA = opencv_image.at<cv::Vec4b>(i, j);
+            //uchar intensity = opencv_image.at<uchar>(i, j);
+            sam_image.data.push_back(RGBA[0]);
+            sam_image.data.push_back(RGBA[1]);
+            sam_image.data.push_back(RGBA[2]);
+            sam_image.data.push_back(RGBA[3]);
         }
     }
 }

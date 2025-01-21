@@ -140,17 +140,38 @@ void compute_mask_textures(Mask & aMask, int R, int G, int B) {
     aMask.maskTexture = newGLTexture;
     cv::Mat input_image_opencv;
     sam_image_grayscale2opencv(aMask.samMask, input_image_opencv);//Does initialize the result
+    //input_image_opencv = 1-channel image
     cv::Mat output_image_opencv = cv::Mat::zeros(input_image_opencv.size(), CV_8UC4);
     //This one does not initialize the result. From simplify.cpp
     aMask.simplifiedContours = simplifyColorSegment(input_image_opencv, output_image_opencv, false, R, G, B); 
     sam_image_u8 mask_simplified;
     opencv_image2sam_binarymask(mask_simplified, output_image_opencv);
     sam_image_u8 mask_simplified_rgb = sam_mask_to_sam_4channels(mask_simplified, 255);
+    //mask_simplified_rgb = 4-channels but all with same value (1 or 0)
+    //No color information here, color will be applied when draw_list->AddImage...
     GLuint newGLTextureSimplified = createGLTexture(mask_simplified_rgb, GL_RGBA);
     aMask.simplifiedMaskTexture = newGLTextureSimplified;
     aMask.textures_computed = true;
-
 }
+
+//Version which puts color into the mask
+//Still does not work
+/*void compute_mask_textures(Mask & aMask, int R, int G, int B) {
+    sam_image_u8 mask_rgb = sam_mask_to_sam_4channels(aMask.samMask, 180);
+    GLuint newGLTexture = createGLTexture(mask_rgb, GL_RGBA);
+    aMask.maskTexture = newGLTexture;
+    cv::Mat input_image_opencv;
+    sam_image_grayscale2opencv(aMask.samMask, input_image_opencv);//Does initialize the result
+    //input_image_opencv = 1-channel image
+    cv::Mat output_image_opencv = cv::Mat::zeros(input_image_opencv.size(), CV_8UC4);
+    //This one does not initialize the result. From simplify.cpp
+    aMask.simplifiedContours = simplifyColorSegment(input_image_opencv, output_image_opencv, false, R, G, B);  
+    sam_image_u8 mask_simplified_rgb;
+    opencv_image4channels_to_sam4channels(mask_simplified_rgb, output_image_opencv);
+    GLuint newGLTextureSimplified = createGLTexture(mask_simplified_rgb, GL_RGBA);
+    aMask.simplifiedMaskTexture = newGLTextureSimplified;
+    aMask.textures_computed = true;
+}*/
 
 void compute_mask_textures_all_frames(std::vector<Frame> & frames) 
 {

@@ -1,0 +1,46 @@
+Image inference
+	Apple Silicon (M3)
+		C++ (via ONNX Runtime)
+			embedding time: sec = 1.01531 s
+			segmentation time: sec = 0.288045 s
+
+	Google Colab (NVIDIA L4)
+		Python
+			Embedding time = 0.05 seconds
+			Segment time = 0.05 seconds
+			Overall 0.05 second??
+			(Zheshuo: 0.53 seconds overall)
+
+	NVIDIA RTX 4050
+	    Python:
+	        Embedding time: ???? seconds
+	        Prediction time: ???? seconds
+	        Total: ???? seconds
+	    C++ (via ONNX Runtime)
+	        Embedding time: ???? seconds
+	        Prediction time: ???? seconds
+	        Total: 0.25 seconds
+
+Video inference (one frame)
+	Apple Silicon (M3)
+		C++ (via ONNX Runtime)
+			embedding time: sec = N/A
+			segmentation time: sec = N/A
+		Python
+			CPU backend
+
+			embedding time: sec = 2.80 s
+			segmentation time: 0.42 s (però va creixent)
+
+			MPS backend
+
+			embedding time: sec = 1.80 s
+			segmentation time: 0.3 s (però va creixent)
+
+	Google Colab (NVIDIA L4)
+		Python
+			Embedding time = 0.05 seconds
+			Segmentation time = 0.07 seconds
+
+	
+
