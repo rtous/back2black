@@ -86,6 +86,12 @@ ERROR: RuntimeLibrary mismatch. Al CMakeList arrel:
 
 ERROR: Problem with filesystem Mac/Windows: use the OpenCV utils (e.g. cv::utils::fs::exists)
 
+ERROR: Undefined symbols for architecture arm64:
+  	   ld: symbol(s) not found for architecture arm64
+	   clang: error: linker command failed with exit code 1 ...
+
+	   Si fas un canvi a un CMake d'un modul cal tocar algun fitxer del modul per que recompili correctament.
+
 ANNEX 1. OpenCV
 
 Clone OpenCV repo in an independent location

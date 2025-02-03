@@ -132,18 +132,30 @@ int masks_already_in_list(sam_image_u8 candidateMask, Frame & aFrame) {
 
 }*/
 
+void debugInspectImage(cv::Mat &input_image); //from simplify
 
 //Computes the texture of the mask and it's simplified version
 void compute_mask_textures(Mask & aMask, int R, int G, int B) {
-    sam_image_u8 mask_rgb = sam_mask_to_sam_4channels(aMask.samMask, 180);
-    GLuint newGLTexture = createGLTexture(mask_rgb, GL_RGBA);
+    printf("compute_mask_textures R,G,B = %d, %d, %d\n", R, G, B);
+    sam_image_u8 mask_rgba_binary = sam_mask_to_sam_4channels(aMask.samMask, 180);
+    GLuint newGLTexture = createGLTexture(mask_rgba_binary, GL_RGBA);
     aMask.maskTexture = newGLTexture;
+
+    //simplified (
     cv::Mat input_image_opencv;
     sam_image_grayscale2opencv(aMask.samMask, input_image_opencv);//Does initialize the result
+    
+    
     //input_image_opencv = 1-channel image
-    cv::Mat output_image_opencv = cv::Mat::zeros(input_image_opencv.size(), CV_8UC4);
+    cv::Mat output_image_opencv_bgra = cv::Mat::zeros(input_image_opencv.size(), CV_8UC4);
     //This one does not initialize the result. From simplify.cpp
-    aMask.simplifiedContours = simplifyColorSegment(input_image_opencv, output_image_opencv, false, R, G, B); 
+    //The color is added here
+    aMask.simplifiedContours = simplifyColorSegment(input_image_opencv, output_image_opencv_bgra, false, R, G, B); 
+    //cv::imshow("image", output_image_opencv_bgra);
+    //debugInspectImage(output_image_opencv_bgra);
+
+
+    /*
     sam_image_u8 mask_simplified;
     opencv_image2sam_binarymask(mask_simplified, output_image_opencv);
     sam_image_u8 mask_simplified_rgb = sam_mask_to_sam_4channels(mask_simplified, 255);
@@ -151,6 +163,25 @@ void compute_mask_textures(Mask & aMask, int R, int G, int B) {
     //No color information here, color will be applied when draw_list->AddImage...
     GLuint newGLTextureSimplified = createGLTexture(mask_simplified_rgb, GL_RGBA);
     aMask.simplifiedMaskTexture = newGLTextureSimplified;
+    */
+
+    
+    //DEBUG
+    //printf("R,G,B = %.2lf, %.2lf, %.2lf\n", R, G, B);
+    //sam_image_u8 mask_simplified_rgb;
+    //opencv_image2sam(mask_simplified_rgb, output_image_opencv_bgra);
+    //opencv_image4channels_to_sam4channels(mask_simplified_rgb, output_image_opencv_bgra);
+
+    //GLuint newGLTextureSimplified = createGLTexture(mask_simplified_rgb, GL_RGB);
+    GLuint newGLTextureSimplified = createGLTextureOpenCV(output_image_opencv_bgra, GL_RGBA);
+    
+        
+
+    aMask.simplifiedMaskTexture = newGLTextureSimplified;
+    aMask.opencv_mask_simplified = output_image_opencv_bgra;
+    //
+    
+
     aMask.textures_computed = true;
 }
 
@@ -186,6 +217,7 @@ void compute_mask_textures_all_frames(std::vector<Frame> & frames)
             printf("\tPROCESSING MASK...\n", f);
             if (aMask.mask_computed && !aMask.textures_computed) {
                 printf("\t\tcompute_mask_textures...\n", f);
+                printf("compute_mask_textures_all_frames R,G,B = %d, %d, %d\n", aMask.color[0]*255, aMask.color[1]*255, aMask.color[2]*255);
                 compute_mask_textures(aMask, aMask.color[0]*255, aMask.color[1]*255, aMask.color[2]*255);
                 printf("\t\tcomputed textures...\n", f);
             }
@@ -194,6 +226,7 @@ void compute_mask_textures_all_frames(std::vector<Frame> & frames)
     }
 }
 
+//called by the editor in frameWindow() and if clicked
 //computes the masks at the given point and checks if it's a new one
 //currently the passed storedMasks are just the masks of one mask
 //void compute_masks(sam_image_u8 img, const sam_params & params, sam_state & state, std::vector<GLuint> *maskTextures, int x, int y, std::vector<sam_image_u8> & storedMasks, std::vector<int> * mask_colors, int & last_color_id, int R, int G, int B, std::vector<GLuint> *simplifiedMaskTextures) {
@@ -204,6 +237,8 @@ void compute_mask_and_textures(Frame & aFrame, int x, int y, int R, int G, int B
     bool maskFound;
     //maskFound = get_best_sam_mask_at_point(x, y, aFrame.img_sam_format, state, params.n_threads, mask); 
     maskFound = myState.segmentor.get_best_mask_at_point(x, y, aFrame.img_sam_format, mask); 
+    printf("COMPUTED MASK (%d,%d) from (%d,%d): \n", aFrame.img_sam_format.nx, aFrame.img_sam_format.ny, mask.nx, mask.ny);
+        
 
     if (maskFound) {        
         //printf("isEmptyMaskDEBUG(mask)=%d\n", isEmptyMaskDEBUG(mask));
@@ -228,7 +263,10 @@ void compute_mask_and_textures(Frame & aFrame, int x, int y, int R, int G, int B
             printf("compute_mask_center...\n");
             compute_mask_center(*targetMask);//from common1.c
             printf("compute_mask_textures...\n");
-            compute_mask_textures(*targetMask, R, G, B);
+            printf("compute_mask_and_textures R,G,B = %d, %d, %d\n", R, G, B);
+
+            //compute_mask_textures(*targetMask, R, G, B);
+            compute_mask_textures(*targetMask, targetMask->color[0]*256, targetMask->color[1]*256, targetMask->color[2]*256);
             //aFrame.newMask(newMask); 
             if (myState.selected_mask == -1) {  
                 printf("aFrame.newMask...\n");     
@@ -237,6 +275,7 @@ void compute_mask_and_textures(Frame & aFrame, int x, int y, int R, int G, int B
             } else {
                 printf("Changed mask with id=%d\n", targetMask->maskId);
             }
+
 
         } else { //the mask already exists (and is not empty)
             //OLD: If the mask is already in storedMasks we will delete it
@@ -311,6 +350,41 @@ void compute_mask_and_texturesOLD(Frame & aFrame, const sam_params & params, sam
                 myState.selected_mask = -1;*/
         }
     }
+}
+
+
+//Called from the editor/frameWindow si myState.clicked 
+void simplify_segmented_frame(MyState &myState) 
+{
+    //takes all the masks from myState.aVideo.frames[myState.selected_frame].masks
+    //, simplify everything and
+    //generates myState.aVideo.frames[myState.selected_frame].tex_simplified
+
+    Frame & aFrame = myState.aVideo.frames[myState.selected_frame];
+    //cv::Mat input_image_opencv = aFrame.img;
+
+    cv::Mat output_image_opencv_bgra = cv::Mat::zeros(cv::Size(aFrame.img_sam_format.nx,aFrame.img_sam_format.ny), CV_8UC4);
+    for (auto& aMask : aFrame.masks) {
+        if (aMask.mask_computed && aMask.visible) {
+
+            //cv::imshow("image", output_image_opencv_bgra);
+            printf("OVERLAYING (%d,%d) over (%d,%d): \n", aMask.opencv_mask_simplified.cols, aMask.opencv_mask_simplified.rows, output_image_opencv_bgra.cols, output_image_opencv_bgra.rows);
+            //aMask.simplifiedContours = simplifyColorSegment(input_image_opencv, output_image_opencv_bgra, false, R, G, B);   
+            
+            overlay(output_image_opencv_bgra, output_image_opencv_bgra, aMask.opencv_mask_simplified);
+            //output_image_opencv_bgra = output_image_opencv_bgra + aMask.opencv_mask_simplified;
+
+
+            //DEBUG: output_image_opencv_bgra = output_image_opencv_bgra + aMask.opencv_mask_simplified;
+        }
+    }
+    addRimLight(output_image_opencv_bgra, output_image_opencv_bgra, 5);
+    GLuint newGLTextureSimplified = createGLTextureOpenCV(output_image_opencv_bgra, GL_RGBA);
+    
+    printf("DEBUG aFrame.tex_simplified = newGLTextureSimplified;\n");
+    aFrame.tex_simplified = newGLTextureSimplified;
+    //DEBUG
+    //aFrame.tex_simplified = aFrame.tex;
 }
 
 

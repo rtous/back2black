@@ -8,6 +8,9 @@ Universitat Politecnica de Catalunya
 
 TODO
 
+
+- PROBLEM: Colors are not updated now...
+- PENSAR: potser no computar els details (rimlight, pixelació) fins a una fase de render final  
 - CRITICAL: get_best_mask_at_point in segmentor_sam2 always returns true!
 - CRITICAL: refactored single mask but need recfactoring PROPAGATE!!
 - faces uncheck
@@ -21,6 +24,7 @@ TODO
 
 TODO/REFACTORING
 
+- common depen de sam, potser es podria eliminar
 - El resultat der createGLTextureOpenCV no funciona bé si s'usa com a binary mask al draw_list->AddImage, no conserva el color com createGLTexture
 - no entenc per que a compute_mask_textures aplica color si després no el fa servir
 - al draw_list->AddImage es harcodeja el alpha i s'hauria d'agafar de l'estat!
@@ -60,6 +64,8 @@ SAM2:
 
 DONE:
 
+- Colors are wrong...
+- WARNING: In simplify_segmented_frame (sam_utils.cpp) I replaced overlay with just the sum and it works but maybe will be a problem with transparency
 - integrating SAM2 ONNX
 	- NOW: just testing test_onnx (first with the shared library, later static link)
 	- Potential problems:

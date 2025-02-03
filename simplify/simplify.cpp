@@ -1,4 +1,5 @@
 #include "simplify.h"
+#include "common1.h" 
 
 /**
  * Splits a mask in N masks, one for each unique color
@@ -49,9 +50,9 @@ void fillContoursWithColorAndAlpha(std::vector<std::vector<cv::Point>> contours,
 
     cv::Scalar color_with_alpha = cv::Scalar( std::rand()%256, std::rand()%256, std::rand()%256, 255);
     if (!randomColor) {
-        color_with_alpha = cv::Scalar( R, G, B, 255);
+        color_with_alpha = cv::Scalar( B, G, R, 255);
     }
-    printf("Random color = %.2lf, %.2lf, %.2lf\n", color_with_alpha[0], color_with_alpha[1], color_with_alpha[2]);
+    printf("color_with_alpha = %.2lf, %.2lf, %.2lf\n", color_with_alpha[0], color_with_alpha[1], color_with_alpha[2]);
 
     for(int j = 0; j< contours.size(); j++ ) {
         cv::fillPoly(output_image, cv::Mat(contours[j]), color_with_alpha);
@@ -124,7 +125,11 @@ std::vector<std::vector<cv::Point>> simplifyColorSegment(cv::Mat &mask, cv::Mat 
             }
         }
         //We do this appart because the Editor saves just the contours and fills them to export the video
+        
         fillContoursWithColorAndAlpha(simplifiedContours, output_image, randomColor, R, G, B);
+        //cv::imshow("image", output_image);
+
+
         //DEBUG
         //cv::imwrite("output/example1/contour.png", output_image);
         //exit(0);
@@ -237,6 +242,7 @@ void simplify(cv::Mat &input_image, cv::Mat &output_image)
 
 }
 
+
 /*
 def pixelate(input, w, h): # w,h  Desired "pixelated" size
     height, width = input.shape[:2]
@@ -274,7 +280,7 @@ def addShadow(imcolor, shadowSize=10):
     return result
 */
 
-
+/*
 void overlay(cv::Mat &resultImage, cv::Mat &bottomImage, cv::Mat &topImage) { 
     //topImage = original bottomImage = bright displaced to the right
     
@@ -292,7 +298,7 @@ void overlay(cv::Mat &resultImage, cv::Mat &bottomImage, cv::Mat &topImage) {
 
     //fill the missing pixels in the bottom image with the ones in the top image 
     resultImage = bottomImageMinusTopImage + topImage;
-}  
+} */ 
 
 void change_brightness(cv::Mat &input_image, cv::Mat &output_image) { 
     printf("change_brightness\n");

@@ -50,7 +50,7 @@
     Workflow:
 
     When the user loads the video the first frame is precomputed.
-    When the user clicks on the frame one mask is computed and added/removed from the mask.
+    When the user clicks on the frame one mask is computed and added/removed from the frame.
     If a mask is added the simplify algorithm is applied to it.
     When the user selects a different frame and clicks it the frame is precomputed.
 
@@ -207,7 +207,13 @@ static void drawAllMasks(MyState &myState, const ImGuiViewport* viewport, ImVec2
                   //Applying colors now (makes easy to change colors on-the-fly)
                   //draw_list->AddImage((void*)(intptr_t)aMask.simplifiedMaskTexture, ImVec2(newPos[0], newPos[1]), ImVec2(newPos[0]+myState.img_sam.nx, newPos[1]+myState.img_sam.ny), ImVec2(0,0), ImVec2(1,1), IM_COL32(r, g, b, 255));
                   //With colors within the texture:
-                  draw_list->AddImage((void*)(intptr_t)aMask.simplifiedMaskTexture, ImVec2(newPos[0], newPos[1]), ImVec2(newPos[0]+myState.img_sam.nx, newPos[1]+myState.img_sam.ny));
+                  
+                  //v2:the texture already have color 
+                  //last version uses a overall texture for the frame
+                  //draw_list->AddImage((void*)(intptr_t)aMask.simplifiedMaskTexture, ImVec2(newPos[0], newPos[1]), ImVec2(newPos[0]+myState.img_sam.nx, newPos[1]+myState.img_sam.ny));
+                  
+                  //v1:applying color here:
+                  //draw_list->AddImage((void*)(intptr_t)myState.aVideo.frames[myState.selected_frame].tex, ImVec2(newPos[0], newPos[1]), ImVec2(newPos[0]+myState.img_sam.nx, newPos[1]+myState.img_sam.ny));
             } else {
                 draw_list->AddImage((void*)(intptr_t)aMask.maskTexture, ImVec2(newPos[0], newPos[1]), ImVec2(newPos[0]+myState.img_sam.nx, newPos[1]+myState.img_sam.ny), ImVec2(0,0), ImVec2(1,1), IM_COL32(r, g, b, 255));  
             }
@@ -216,13 +222,21 @@ static void drawAllMasks(MyState &myState, const ImGuiViewport* viewport, ImVec2
             draw_list->AddCircleFilled(ImVec2(newPos[0]+aMask.mask_computed_at_x, newPos[1]+aMask.mask_computed_at_y), 5, IM_COL32(255, 0, 0, 255));
         }
     }
-    //facial textures
+    
     if (simplified) {
+        //facial textures
         if (myState.aVideo.frames[myState.selected_frame].faces_computed) {
             draw_list->AddImage((void*)(intptr_t)myState.aVideo.frames[myState.selected_frame].facesTexture, ImVec2(newPos[0], newPos[1]), ImVec2(newPos[0]+myState.img_sam.nx, newPos[1]+myState.img_sam.ny), ImVec2(0,0), ImVec2(1,1), IM_COL32(myState.face_color[0]*255, myState.face_color[1]*255, myState.face_color[2]*255, 255));
             draw_list->AddImage((void*)(intptr_t)myState.aVideo.frames[myState.selected_frame].eyesTexture, ImVec2(newPos[0], newPos[1]), ImVec2(newPos[0]+myState.img_sam.nx, newPos[1]+myState.img_sam.ny), ImVec2(0,0), ImVec2(1,1), IM_COL32(myState.eyes_color[0]*255, myState.eyes_color[1]*255, myState.eyes_color[2]*255, 255));               
         }
+        //overall masks texture (with rimlight)
+        //myState.aVideo.frames[myState.selected_frame].tex_simplified = myState.aVideo.frames[myState.selected_frame].tex;
+        draw_list->AddImage((void*)(intptr_t)myState.aVideo.frames[myState.selected_frame].tex_simplified, ImVec2(newPos[0], newPos[1]), ImVec2(newPos[0]+myState.img_sam.nx, newPos[1]+myState.img_sam.ny));
+
+        //DEBUG
+        //draw_list->AddImage((void*)(intptr_t)myState.aVideo.frames[myState.selected_frame].tex, ImVec2(newPos[0], newPos[1]), ImVec2(newPos[0]+myState.img_sam.nx, newPos[1]+myState.img_sam.ny));
     }
+
 }
 
 
@@ -330,6 +344,10 @@ static void frameWindow(MyState &myState, const ImGuiViewport* viewport, bool us
                 //compute_mask_and_textures(myState.aVideo.frames[myState.selected_frame], myState.params, *myState.a_sam_state, absoluteX, absoluteY, R, G, B, myState);
                 compute_mask_and_textures(myState.aVideo.frames[myState.selected_frame], absoluteX, absoluteY, R, G, B, myState);
 
+                //need to update the simplified image
+                //simplify(myState.aVideo.frames[myState.selected_frame].tex_simplified, myState.aVideo.frames[myState.selected_frame].tex_simplified);  
+                simplify_segmented_frame(myState);
+
                 //printf("Computed masks. selectedMask.maskTextures.size()=%d\n", selectedMask.maskTextures.size());
 
                 //Compute the textures for the mask masks
@@ -419,6 +437,8 @@ static void framesListWindow(MyState &myState, const ImGuiViewport* viewport, Im
 
 static void masksListWindow(MyState &myState, const ImGuiViewport* viewport, ImGuiWindowFlags flags, bool use_work_area) 
 {
+    bool need_to_update_textures = false;
+
     ImVec2 size = ImVec2(viewport->WorkSize.x * 0.42f, viewport->WorkSize.y * 0.25f);
     flags = ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoSavedSettings;
     //ImVec2 newPos = ImVec2(viewport->WorkPos.x + (viewport->WorkSize.x * 0.33f), viewport->WorkPos.y + (viewport->WorkSize.y * 0.75f));
@@ -576,7 +596,8 @@ static void masksListWindow(MyState &myState, const ImGuiViewport* viewport, ImG
                 ImGui::SameLine();
                 ImGui::Text("Erasing mask!");
                 myState.aVideo.frames[myState.selected_frame].masks.erase(myState.aVideo.frames[myState.selected_frame].masks.begin() + i);//myState.selected_mask);
-                
+                need_to_update_textures = true;
+
                 //if (myState.aVideo.frames[myState.selected_frame].masks.size() == 0)
                 //    myState.selected_mask = -1; 
                 if (myState.selected_mask == i)
@@ -598,8 +619,10 @@ static void masksListWindow(MyState &myState, const ImGuiViewport* viewport, ImG
                 //static int clicked3 = 0;
                 //if (ImGui::Button("U"))
                 std::string buttonID = "upButton" + std::to_string(i);
-                if (ImGui::ArrowButton(buttonID.c_str(), ImGuiDir_Up))
+                if (ImGui::ArrowButton(buttonID.c_str(), ImGuiDir_Up)) {
                     clickedUp[i]++;
+                    need_to_update_textures = true;
+                }
                 if (clickedUp[i] & 1 && myState.aVideo.frames[myState.selected_frame].masks.size() > 1)
                 {
                     //ImGui::SameLine();
@@ -612,6 +635,7 @@ static void masksListWindow(MyState &myState, const ImGuiViewport* viewport, ImG
                     if (myState.selected_mask == i)
                         myState.selected_mask = myState.selected_mask-1;    
                     clickedUp[i] = 0;
+                    
                 }
             }
 
@@ -620,8 +644,10 @@ static void masksListWindow(MyState &myState, const ImGuiViewport* viewport, ImG
             if (i < myState.aVideo.frames[myState.selected_frame].masks.size()-1) { //only allow if not the top selected
                 ImGui::SameLine();
                 std::string buttonID = "downButton" + std::to_string(i);
-                if (ImGui::ArrowButton(buttonID.c_str(), ImGuiDir_Down))
+                if (ImGui::ArrowButton(buttonID.c_str(), ImGuiDir_Down)) {
                     clickedDown[i]++;
+                    need_to_update_textures = true;
+                }
                 if (clickedDown[i] & 1 && myState.aVideo.frames[myState.selected_frame].masks.size() > 1)
                 {
                     //ImGui::SameLine();
@@ -634,6 +660,7 @@ static void masksListWindow(MyState &myState, const ImGuiViewport* viewport, ImG
                     if (myState.selected_mask == i)
                         myState.selected_mask = myState.selected_mask+1;    
                     clickedDown[i] = 0;
+
                 }
             }
 
@@ -719,7 +746,9 @@ static void masksListWindow(MyState &myState, const ImGuiViewport* viewport, ImG
         }
     }*/
 
-    
+    if (need_to_update_textures) {
+        simplify_segmented_frame(myState);
+    }
 
     ImGui::End();
 }

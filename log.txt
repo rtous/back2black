@@ -62,3 +62,32 @@ Universitat Politecnica de Catalunya
 	- rim light works, but operates over the full image (within simplify)
 	- still not applied (simplify is not called)
 	- still need to solve the texture problem
+
+21/06/2025
+	- working on solving the simplified mask display problem
+	- de moment vull mostrar segment a segment, però després caldrà fer-ho tot
+	- NOTA: abans guardava la màscara binaria només i li donava color al fer , ara vull guardar la textura de la màscara amb color i mostrar
+	- el problema és opencv_image4channels_to_sam4channels que no funciona
+		- ara té la funcionalitat duplicada a opencv_image2sam
+		- cal solucionar-ho o fer que el CreateGLTexuture treballi sense passar per SAM. 
+		- IDEA: Provar a carregar una imatge amb alpha amb sam
+
+22/01/2025
+	- Solucionat el problema de mostrar imatge opencv amb transparència, utilitzo
+	  directament createGLTextureOpenCV (gui_utils.cpp) which works with 4 channels 
+	  (he deixat sense arregalar opencv_image4channels_to_sam4channels)
+	- PROBLEM: Colors are not updated now...
+	- Working on simplify_segmented_frame. Not displaying nothing...
+	- ERROR: Works but accumulates all segments
+	- OK solved but many things pending:
+		- update after changes in the mask list
+		- change color 
+		- export video
+		- face 
+		- ....
+
+03/02/2025
+	- PROBLEMA: Tot i que afegeix rimlight a tot sembla com si no...
+	- veig que hi ha un "simplify_segmented_frame"...
+	- SOLUCIONAT: Era un problema amb l'overlay dels segments. La suma no era suficient, cal fer servir la funció overlay. De lo contrari les parts solapades es sumen també i cambien de color.
+	- SOLUCIONAT tema color, al fill polly feia RGB i havia de fer BGR

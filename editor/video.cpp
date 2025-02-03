@@ -30,10 +30,14 @@ void read_video(const std::string &videoFilePath, Video &theVideo, int w, int h)
             //aFrame.filePath = filepath;
             aFrame.img = frame;
             opencv_image2sam(aFrame.img_sam_format, frame);
+            printf("SAM (%d,%d) FROM OPENCV (%d,%d): \n", aFrame.img_sam_format.nx, aFrame.img_sam_format.ny, frame.cols, frame.rows);
+
             aFrame.order = frameNum;
             //viewport->Window
             //SDL_Window* sdl_window = SDL_GetWindowFromID(gpu_screen->context->windowID); 
             downscale_img_to_size(aFrame.img_sam_format, w, h);
+            printf("DOWNSCALED SAM TO (%d,%d) video.cpp: \n", aFrame.img_sam_format.nx, aFrame.img_sam_format.ny);
+
             aFrame.tex = createGLTexture(aFrame.img_sam_format, GL_RGB);
 
             theVideo.frames.push_back(aFrame);

@@ -10,7 +10,12 @@ set(OpenCV_DIR "${CMAKE_CURRENT_SOURCE_DIR}/../../opencv/build")
 find_package(OpenCV REQUIRED) 
 
 install(TARGETS ${SIMPLIFY_LIB} RUNTIME)
-target_link_libraries(${SIMPLIFY_LIB} PRIVATE ${OpenCV_LIBS} ${CMAKE_THREAD_LIBS_INIT})
+target_link_libraries(${SIMPLIFY_LIB} PRIVATE 
+    ${OpenCV_LIBS} 
+    ${CMAKE_THREAD_LIBS_INIT} 
+    sam
+    common
+    imgui-sdl2)
 
 target_compile_features(${SIMPLIFY_LIB} PUBLIC cxx_std_17)
 

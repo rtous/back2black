@@ -26,6 +26,7 @@ void sam_image_grayscale2opencv_colorize(sam_image_u8 & sam_image, cv::Mat & ope
 void opencv_image2sam_binarymask(sam_image_u8 & sam_image, cv::Mat & opencv_image);
 int load_frames_from_files(std::string input_path, std::vector<Frame> & frames);
 
+void overlay(cv::Mat &resultImage, cv::Mat &bottomImage, cv::Mat &topImage);
 
 //void example_func();
 

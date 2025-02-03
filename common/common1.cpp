@@ -183,9 +183,20 @@ void opencv_image2sam_binarymask(sam_image_u8 & sam_image, cv::Mat & opencv_imag
 //TODO: It does not work I guess...
 //Potentially used to convert the face -> sam -> GLTexture
 //But trying directly face -> GLTexture
+//WARNING: The 4 channels logic is not working. 
+//         Not sure if it's related to the sam image of to 
+//         createGLtexture
+//         It's also duplicated in "opencv_image4channels_to_sam4channels"
+//         But I'm using directly createGLTextureOpenCV (gui_utils.cpp) which works with 4 channels 
 void opencv_image2sam(sam_image_u8 & sam_image, cv::Mat & opencv_image) {
-    //Convert default OpenCV BGR to RGB
-    cv::cvtColor(opencv_image, opencv_image, cv::COLOR_BGR2RGB);
+    if (opencv_image.channels() == 3) {
+        //Convert default OpenCV BGR to RGB
+        cv::cvtColor(opencv_image, opencv_image, cv::COLOR_BGR2RGB);
+    } else if (opencv_image.channels() == 4) {
+        cv::cvtColor(opencv_image, opencv_image, cv::COLOR_BGRA2RGBA);
+    } else {
+        printf("WARNING: only %d channels detected in opencv_image2sam.\n", opencv_image.channels());
+    }
 
     //SAM x=width, y=height
     sam_image.nx = opencv_image.cols;
@@ -195,15 +206,27 @@ void opencv_image2sam(sam_image_u8 & sam_image, cv::Mat & opencv_image) {
 
     sam_image.data.clear();
     for (int i=0; i < opencv_image.rows; ++i){
-        for (int j=0; j < opencv_image.cols; ++j){  
-            cv::Vec3b RGB = opencv_image.at<cv::Vec3b>(i, j);
-            //uchar intensity = opencv_image.at<uchar>(i, j);
-            sam_image.data.push_back(RGB[0]);
-            sam_image.data.push_back(RGB[1]);
-            sam_image.data.push_back(RGB[2]);
+        for (int j=0; j < opencv_image.cols; ++j){
+            if (opencv_image.channels() == 3) {
+                cv::Vec3b RGB = opencv_image.at<cv::Vec3b>(i, j);
+                //uchar intensity = opencv_image.at<uchar>(i, j);
+                sam_image.data.push_back(RGB[0]);
+                sam_image.data.push_back(RGB[1]);
+                sam_image.data.push_back(RGB[2]);
+            } else if (opencv_image.channels() == 4) {
+                cv::Vec4b RGBA = opencv_image.at<cv::Vec4b>(i, j);
+                //uchar intensity = opencv_image.at<uchar>(i, j);
+                sam_image.data.push_back(RGBA[0]);
+                sam_image.data.push_back(RGBA[1]);
+                sam_image.data.push_back(RGBA[2]);
+                sam_image.data.push_back(RGBA[3]);
+            } else {
+                printf("WARNING: only %d channels detected in opencv_image2sam.\n", opencv_image.channels());
+            }
         }
     }
 }
+
 
 //Under development (probably not working yet)
 //To be used in sam_utils.cpp/compute_mask_textures
@@ -214,6 +237,7 @@ void opencv_image4channels_to_sam4channels(sam_image_u8 & sam_image, cv::Mat & o
     //SAM x=width, y=height
     sam_image.nx = opencv_image.cols;
     sam_image.ny = opencv_image.rows;
+    sam_image.data.resize(sam_image.nx * sam_image.ny * 4);
 
     //TODO IMPROVEMENT: Sequential access to opencv_image.data 
 
@@ -225,7 +249,7 @@ void opencv_image4channels_to_sam4channels(sam_image_u8 & sam_image, cv::Mat & o
             sam_image.data.push_back(RGBA[0]);
             sam_image.data.push_back(RGBA[1]);
             sam_image.data.push_back(RGBA[2]);
-            sam_image.data.push_back(RGBA[3]);
+            sam_image.data.push_back(RGBA[3]); 
         }
     }
 }
@@ -678,3 +702,22 @@ int propagate_masks(std::vector<Frame> & frames, sam_state & state, int n_thread
     }*/
 	return 0;
 }
+
+void overlay(cv::Mat &resultImage, cv::Mat &bottomImage, cv::Mat &topImage) { 
+    //topImage = original bottomImage = bright displaced to the right
+    
+    //Convert the topImage into a mask
+    cv::Mat mask;
+    threshold(topImage, mask, 0, 255, cv::THRESH_BINARY);
+    
+    //Invert the mask
+    cv::bitwise_not(mask, mask); 
+
+    //Use the mask to cut the intersection from the bottomImage
+    //erase the top image pixels  from the bottom image
+    cv::Mat bottomImageMinusTopImage = cv::Mat::zeros(bottomImage.rows, bottomImage.cols, bottomImage.type());
+    bottomImage.copyTo(bottomImageMinusTopImage, mask);
+
+    //fill the missing pixels in the bottom image with the ones in the top image 
+    resultImage = bottomImageMinusTopImage + topImage;
+} 
