@@ -364,23 +364,57 @@ void compute_mask_center(Mask & aMask) {
 
 //called by propagate_masks (called by editor and cli_masks)
 //but the editor also calls compute_mask_and_textures in sam_utils.cpp
-bool compute_mask(Mask & aMask, sam_image_u8 img0, Segmentor & segmentor) {
+bool compute_mask(Mask & aMask, sam_image_u8 img0, sam_state & state, int n_threads) {
 
     //Compute the frame: Obtain the best mask at the point
     //cv::Mat output = get_best_opencv_mask_at_point(aMask.mask_computed_at_x, aMask.mask_computed_at_y, img0, state, n_threads);
     
     //compute mask at given point (pick best one)
-    //bool found = get_best_sam_mask_at_point(aMask.mask_computed_at_x, aMask.mask_computed_at_y, img0, state, n_threads, aMask.samMask);
-    bool found = segmentor.get_best_mask_at_point(aMask.mask_computed_at_x, aMask.mask_computed_at_y, img0, aMask.samMask); 
+    bool found = get_best_sam_mask_at_point(aMask.mask_computed_at_x, aMask.mask_computed_at_y, img0, state, n_threads, aMask.samMask);
     
     if (found) {
         compute_mask_center(aMask);
         aMask.mask_computed = true;
     }
     return found;
+
+     
+
+    /*
+    //convert mask to opencv format
+    sam_image2opencv(aMask.samMask, aMask.opencv_mask);
+
+    //aMask.opencv_mask = get_best_opencv_mask_at_point(aMask.mask_computed_at_x, aMask.mask_computed_at_y, img0, state, n_threads);
+    aMask.mask_computed = true;
+
+    cv::Point center2(aMask.mask_computed_at_x, aMask.mask_computed_at_y); 
+    circle(aMask.opencv_mask, center2, 5, cv::Scalar(128,128,0), -1);//DEBUG
+
+    //aMask.opencv_mask = output;//DOES NOT WORKK output is a local variable?
+    //cv::imwrite("output/example2/masks/test.png", aMask.opencv_mask);
+
+    //Obtain the first contour
+    //std::vector<std::vector<cv::Point>> contours;
+    std::vector<cv::Vec4i> hierarchy;
+    cv:findContours(aMask.opencv_mask, aMask.contours, hierarchy, cv::RETR_LIST, cv::CHAIN_APPROX_SIMPLE );
+    if (aMask.contours.size() == 0) 
+        printf("WARNING: No countours found for the mask!\n");
+
+    //TODO: Multiple contours
+
+    aMask.mask_contour_size = cv::contourArea(aMask.contours[0]);
+    printf("new_contour_area = %d \n", aMask.mask_contour_size);
+
+    // compute the center of the contour https://pyimagesearch.com/2016/02/01/opencv-center-of-contour/
+    cv::Moments M = cv::moments(aMask.contours[0]);
+    cv::Point center(M.m10/M.m00, M.m01/M.m00);  
+    aMask.mask_center_x = center.x;
+    aMask.mask_center_y = center.y;
+    printf("aMask.mask_center_x=%d\n", aMask.mask_center_x);
+
+    circle(aMask.opencv_mask, center, 5, cv::Scalar(128,0,0), -1);//DEBUG
+    */
 } 
-
-
 
 /*void example_func() {
     int a = 2;
@@ -476,7 +510,8 @@ int propagate_masks(std::vector<Frame> & frames, sam_state & state, int n_thread
 //and also the computation 
 //frames are in memory
 //ONGOING
-int propagate_masks(std::vector<Frame> & frames, Segmentor & segmentor, int from_frame, int till_frame, float & progress, bool & cancel) 
+//int propagate_masks(std::vector<Frame> & frames, sam_state & state, int n_threads) 
+int propagate_masks(std::vector<Frame> & frames, sam_state & state, int n_threads, int from_frame, int till_frame, float & progress, bool & cancel) 
 {
     printf("propagating from %d (reference) to %d\n", from_frame, till_frame);
     //int MAX = 5;
@@ -502,7 +537,10 @@ int propagate_masks(std::vector<Frame> & frames, Segmentor & segmentor, int from
         //only if not the first frame: compute faces
         if (f>from_frame) {
             printf("\t%d>from_frame so precomputing. \n", f);
-            segmentor.preprocessImage(aFrame.img_sam_format);
+            if (!sam_compute_embd_img(aFrame.img_sam_format, n_threads, state)) {
+                fprintf(stderr, "%s: failed to compute encoded image\n", __func__);
+                return 1;
+            }
             //compute faces, but only if weren't computed before
             //does not make sense to recompute faces
             //TODO: What happens if color changes?
@@ -561,7 +599,7 @@ int propagate_masks(std::vector<Frame> & frames, Segmentor & segmentor, int from
                     printf("\t%d>from_frame so computing mask. \n", f);
                     //if the previous failed do not keep computing 
                     if (frames[f-1].getMaskById(aMask.maskId)->mask_center_x != -1)
-                        found = compute_mask(aMask, aFrame.img_sam_format, segmentor);
+                        found = compute_mask(aMask, aFrame.img_sam_format, state, n_threads);
                     progress = (f-from_frame+1)/(float)(till_frame-from_frame+1);
                     //printf("progress=%f\n", progress);
                 }
@@ -662,7 +700,7 @@ int propagate_masks(std::vector<Frame> & frames, Segmentor & segmentor, int from
         fprintf(stderr, "%s: failed to compute encoded image\n", __func__);
         return 1;
     }*/
-    return 0;
+	return 0;
 }
 
 void overlay(cv::Mat &resultImage, cv::Mat &bottomImage, cv::Mat &topImage) { 

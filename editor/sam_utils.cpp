@@ -364,7 +364,11 @@ void simplify_segmented_frame(MyState &myState)
     //cv::Mat input_image_opencv = aFrame.img;
 
     cv::Mat output_image_opencv_bgra = cv::Mat::zeros(cv::Size(aFrame.img_sam_format.nx,aFrame.img_sam_format.ny), CV_8UC4);
-    for (auto& aMask : aFrame.masks) {
+    
+    //need to traverse masks in reverse order to display the first latest (on top)
+    for (int j =  int(myState.aVideo.frames[myState.selected_frame].masks.size())-1; j >= 0; --j) {
+    //for (auto& aMask : aFrame.masks) {
+        Mask & aMask = myState.aVideo.frames[myState.selected_frame].masks[j];
         if (aMask.mask_computed && aMask.visible) {
 
             //cv::imshow("image", output_image_opencv_bgra);

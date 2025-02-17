@@ -11,6 +11,9 @@ find_package(OpenCV REQUIRED)
 
 install(TARGETS ${SIMPLIFY_LIB} RUNTIME)
 target_link_libraries(${SIMPLIFY_LIB} PRIVATE 
+    segmentor 
+    segmentor_sam1
+    segmentor_sam2 
     ${OpenCV_LIBS} 
     ${CMAKE_THREAD_LIBS_INIT} 
     sam

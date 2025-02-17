@@ -13,10 +13,17 @@ find_package(OpenCV REQUIRED)
 
 install(TARGETS ${EXAMPLE_TARGET} RUNTIME)
 #NOTE: If it uses the library common, then it need to add imgui-sdl2 too
-target_link_libraries(${EXAMPLE_TARGET} PRIVATE sam imgui-sdl2 common ${OpenCV_LIBS} ${CMAKE_THREAD_LIBS_INIT})
-
-#disabled
-#target_link_libraries(${EXAMPLE_TARGET} PRIVATE imgui-sdl2 ${CMAKE_THREAD_LIBS_INIT})
+target_link_libraries(${EXAMPLE_TARGET} PRIVATE 
+    segmentor 
+    segmentor_sam1
+    segmentor_sam2 
+    sam
+    ${OpenCV_LIBS} 
+    common 
+    imgui-sdl2
+    ${CMAKE_THREAD_LIBS_INIT}
+    ${ONNXRUNTIME_LINK_LIBRARIES_GLOBAL}
+)
 
 #target_compile_features(${EXAMPLE_TARGET} PUBLIC cxx_std_11)
 target_compile_features(${EXAMPLE_TARGET} PUBLIC cxx_std_17)

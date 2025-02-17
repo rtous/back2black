@@ -13,6 +13,10 @@
 #include "common1.h"
 #include "data_structures.h"
 
+#include "segmentor.h"
+#include "segmentor_sam1.h"
+#include "segmentor_sam2.h"
+
 #if defined(_MSC_VER)
 #pragma warning(disable: 4244 4267) // possible loss of data
 #endif
@@ -61,67 +65,15 @@ static bool params_parse(int argc, char ** argv, sam_params & params) {
 }
 
 
-/*
-    propagate_masks 
-*/
-/*void propagate_masks(Frame baseFrame, std::vector<Frame> toFrames) 
-{
-
-    for (Object & anObject : baseFrame.objects) {
-        //for (Contour & aContour : anObject.contours) {
-        //we know the contour center, r
-        printf("\tprocessing object %d...\n", anObject.objectId);
-        for (Frame & aFrame : toFrames) {
-            //obtain mask at reference point
-            //update reference point
-        }
-    }
-
-}*/
-
-//We assume the first frame has already the objects and the user coordinates
-int propagate_masks(std::vector<Frame> frames, sam_state & state, int n_threads) 
-{
-    int numFrames = frames.size();
-    int f = 0;
-    //iterate through all frames
-    for (Frame & aFrame : frames) {
-        //load the frame
-        sam_image_u8 img0;
-        if (!load_and_precompute_image_from_file(aFrame.filePath, img0, state, n_threads)) {
-            fprintf(stderr, "%s: failed load_and_precompute_image_from_file from '%s'\n", __func__, aFrame.filePath.c_str());
-            return 1;
-        }
-
-        //iterate through all the objects of the frame
-        for (Object & anObject : aFrame.objects) {
-            compute_object(anObject, img0, state, n_threads);
-            
-            //if there are previous objects can check if the mask makes sense:
-            //bool isMaskConsistent = true; //th first mask is consistent
-            //if (f > 0)
-            //    isMaskConsistent =  mask contour similar to previous mask contour
-
-            
-            //add the object to the next frame with the next coordinates
-            if (f < numFrames-1) {
-                Object newObject;
-                newObject.objectId = anObject.objectId;
-                newObject.mask_computed_at_x = anObject.mask_center_x;
-                newObject.mask_computed_at_y = anObject.mask_center_y; 
-                frames[f+1].objects.push_back(newObject);
-            }
-                  //if isMaskConsistent new coordinates are the mask coordinates
-                  //otherwise use given coordinates
-            //    frames[f+1].addObject(new coordinates); 
-        }
-        f++;
-    }
-}
-
 // Main code
 int main(int argc, char ** argv) 
 {
+    //DEBUG TEST
+    /*Mask aMask;
+    example_func(aMask);
+    printf("aMask.maskId = %d \n", aMask.maskId);
+    */
+    ///////////
 
     printf("CLI tool v 0.1");
     
@@ -135,10 +87,10 @@ int main(int argc, char ** argv)
     }
     fprintf(stderr, "%s: seed = %d\n", __func__, params.seed);
 
-    std::string input_path = "data/example1/images";
-    std::string output_path = "output/example1/masks";
+    std::string input_path = "data/example2/images";
+    std::string output_path = "output/example2/masks";
 
-    if (!fs::exists(output_path)) {
+    if (!cv::utils::fs::exists(output_path)) {
         printf("Output directory does not exist, creating: %s", output_path.c_str());
         cv::utils::fs::createDirectories(output_path);
     }
@@ -153,84 +105,69 @@ int main(int argc, char ** argv)
     }
     printf("t_load_ms = %d ms\n", state->t_load_ms);
 
-    /**********/
     
-    //To traverse the directory alphabetically:
-    //Necessary to process the frames in order
-    /*std::vector<fs::directory_entry> files_in_directory;
-    std::copy(fs::directory_iterator(input_path), fs::directory_iterator(), std::back_inserter(files_in_directory));
-    std::sort(files_in_directory.begin(), files_in_directory.end());
-	*/
 	
-    //sam_point pt { 499, 346};
-    sam_point pt { 539, 309};
+    //sam_point pt { 500, 347}; 539, 309
+    //sam_point pt { 539, 309};
     int contour_area = -1;
-    printf("INITIAL POINT: pt.x=%f, pt.y=%f\n", pt.x, pt.y);
+    //printf("INITIAL POINT: pt.x=%f, pt.y=%f\n", pt.x, pt.y);
+
+    std::vector<Frame> frames;
 	
-	std::vector<std::string> filepaths_in_directory;
-	cv::glob(input_path, filepaths_in_directory);
+    //load frames from the directory
+    load_frames_from_files(input_path, frames);
 
-    //Iterate all frames
-    //for (const auto & entry : files_in_directory) {
-	for (std::string filepath : filepaths_in_directory) {
-		//std::string filepath = entry.path();
-	
-		
-        std::cout << filepath << std::endl;
+    //precompute first frame
+    if (!sam_compute_embd_img(frames[0].img_sam_format, params.n_threads, *state)) {
+        fprintf(stderr, "%s: failed to compute encoded image\n", __func__);
+        return false;
+    }
 
-        //std::string filename = entry.path().filename();
-		std::string filename = filepath.substr(filepath.find_last_of("/\\") + 1);
-        std::string filename_noext = filename.substr(0, filename.find_last_of(".")); 
-		//std::string extension = entry.path().extension();
-		std::string extension = filename.substr(filename.find_last_of(".")+1); 
+    //Manually add two masks to the first frame
+    Mask aMask;
+    aMask.maskId = 0;
+    aMask.mask_computed_at_x = 539;
+    aMask.mask_computed_at_y = 309;
+    compute_mask(aMask, frames[0].img_sam_format, *state, params.n_threads);
+    frames[0].masks.push_back(aMask);
+    printf("frames[0].masks[0].mask_center_x=%d\n", frames[0].masks[0].mask_center_x);
 
-        std::cout << extension << std::endl;
-
-        if (extension == "jpg" || extension == "png") {
-            sam_image_u8 img0;
-
-            //Precompute the frame
-            if (!load_and_precompute_image_from_file(filepath, img0, *state, params.n_threads)) {
-                fprintf(stderr, "%s: failed load_and_precompute_image_from_file from '%s'\n", __func__, filepath.c_str());
-                return 1;
-            }
-
-            //Compute the frame: Obtain the best mask at the point
-            cv::Mat output = get_best_opencv_mask_at_point(pt.x, pt.y, img0, *state, params.n_threads);
-
-            //Obtain the first contour
-            std::vector<std::vector<cv::Point> > contours;
-            std::vector<cv::Vec4i> hierarchy;
-            cv:findContours(output, contours, hierarchy, cv::RETR_LIST, cv::CHAIN_APPROX_SIMPLE );
-
-            //TODO: Multiple contours
-
-            int new_contour_area = cv::contourArea(contours[0]);
-            printf("new_contour_area = %d \n", new_contour_area);
-
-            if (new_contour_area > 1000) {
-
-                // compute the center of the contour https://pyimagesearch.com/2016/02/01/opencv-center-of-contour/
-                cv::Moments M = cv::moments(contours[0]);
-                cv::Point center(M.m10/M.m00, M.m01/M.m00);  
-                circle(output, center, 5, cv::Scalar(128,0,0), -1);   
-
-                //contour area
-                
-                if (contour_area == -1 || (new_contour_area < contour_area*1.2 && new_contour_area > contour_area*0.8)) {
-                    contour_area = new_contour_area; 
-                    pt.x = center.x;
-                    pt.y = center.y;
-                    printf("UPDATED POINT: pt.x=%f, pt.y=%f\n", pt.x, pt.y);
-                } else {
-                    printf("POINT NOT UPDATED BECAUSE CONTOUR AREA DIFFERS (BEFORE: %d, NOW: %d) \n", contour_area, new_contour_area);
-                }
-
-                cv::imwrite(output_path+"/"+filename_noext+"_.png", output);
-            }
+    Mask aMask2;
+    aMask2.maskId = 1;
+    aMask2.mask_computed_at_x = 500;
+    aMask2.mask_computed_at_y = 347; 
+    compute_mask(aMask2, frames[0].img_sam_format, *state, params.n_threads);
+    frames[0].masks.push_back(aMask2);
+    printf("frames[0].masks[1].mask_center_x=%d\n", frames[0].masks[1].mask_center_x);
             
-        }   
-        
+    printf("frames.size()=%d\n",frames.size());
+
+
+    //Propagate the masks (currently only to 5 frames)
+    float progress;
+    bool cancel = false;
+    propagate_masks(frames, *state, params.n_threads, 0, 4, progress, cancel);
+
+
+    printf("ANALYSIS DONE, WRITING IMAGE FILES!\n");
+    /////////////
+    // write masks to files
+    ////////////
+    int f = 0;
+    for (Frame & aFrame : frames) {
+        printf("PROCESSING FRAME %d \n", f);
+        std::string filename = aFrame.filePath.substr(aFrame.filePath.find_last_of("/\\") + 1);
+        std::string filename_noext = filename.substr(0, filename.find_last_of(".")); 
+        int o = 0;
+        for (Mask & aMask : aFrame.masks) {
+            printf("PROCESSING MASK %d \n", o);
+            std::string path = output_path+"/"+filename_noext+"_"+std::to_string(o)+".png";
+            
+            cv::imwrite(path, aMask.opencv_mask);
+            printf("File written: %s\n", path.c_str());
+            o++;
+        }
+        f++;
     }
 
     sam_deinit(*state);

@@ -224,15 +224,14 @@ static void drawAllMasks(MyState &myState, const ImGuiViewport* viewport, ImVec2
     }
     
     if (simplified) {
+        //overall masks texture (with rimlight)
+        //myState.aVideo.frames[myState.selected_frame].tex_simplified = myState.aVideo.frames[myState.selected_frame].tex;
+        draw_list->AddImage((void*)(intptr_t)myState.aVideo.frames[myState.selected_frame].tex_simplified, ImVec2(newPos[0], newPos[1]), ImVec2(newPos[0]+myState.img_sam.nx, newPos[1]+myState.img_sam.ny));
         //facial textures
         if (myState.aVideo.frames[myState.selected_frame].faces_computed) {
             draw_list->AddImage((void*)(intptr_t)myState.aVideo.frames[myState.selected_frame].facesTexture, ImVec2(newPos[0], newPos[1]), ImVec2(newPos[0]+myState.img_sam.nx, newPos[1]+myState.img_sam.ny), ImVec2(0,0), ImVec2(1,1), IM_COL32(myState.face_color[0]*255, myState.face_color[1]*255, myState.face_color[2]*255, 255));
             draw_list->AddImage((void*)(intptr_t)myState.aVideo.frames[myState.selected_frame].eyesTexture, ImVec2(newPos[0], newPos[1]), ImVec2(newPos[0]+myState.img_sam.nx, newPos[1]+myState.img_sam.ny), ImVec2(0,0), ImVec2(1,1), IM_COL32(myState.eyes_color[0]*255, myState.eyes_color[1]*255, myState.eyes_color[2]*255, 255));               
         }
-        //overall masks texture (with rimlight)
-        //myState.aVideo.frames[myState.selected_frame].tex_simplified = myState.aVideo.frames[myState.selected_frame].tex;
-        draw_list->AddImage((void*)(intptr_t)myState.aVideo.frames[myState.selected_frame].tex_simplified, ImVec2(newPos[0], newPos[1]), ImVec2(newPos[0]+myState.img_sam.nx, newPos[1]+myState.img_sam.ny));
-
         //DEBUG
         //draw_list->AddImage((void*)(intptr_t)myState.aVideo.frames[myState.selected_frame].tex, ImVec2(newPos[0], newPos[1]), ImVec2(newPos[0]+myState.img_sam.nx, newPos[1]+myState.img_sam.ny));
     }
@@ -518,8 +517,6 @@ static void masksListWindow(MyState &myState, const ImGuiViewport* viewport, ImG
             //ImGui::Text(item.c_str());
 
             //COLUMN 2: BUTTONS
-
-
             if (!myState.aVideo.frames[myState.selected_frame].masks[i].mask_computed)
                 ImGui::BeginDisabled();
             //BUTTON 1 (color picker)
@@ -528,7 +525,13 @@ static void masksListWindow(MyState &myState, const ImGuiViewport* viewport, ImG
             
             if (ImGui::ColorEdit4(color_picker_id.c_str(), myState.aVideo.frames[myState.selected_frame].masks[i].color, ImGuiColorEditFlags_NoInputs | ImGuiColorEditFlags_NoLabel)) {
                 //returns true if color changed
-                //only necessary if we need to change also in all frames:
+                //the color of the mask will change as will be applied during addView...
+                //but the simplified segment need to be updates
+                Mask *targetMask = &myState.aVideo.frames[myState.selected_frame].masks[i];
+                compute_mask_textures(*targetMask, targetMask->color[0]*256, targetMask->color[1]*256, targetMask->color[2]*256);
+                //also the overall simplified frame need to be updated (rimlight, etc.)
+                need_to_update_textures = true;
+                printf("need_to_update_textures!\n");
                 if (myState.change_color_all_frames) {
                     for (Frame & aFrame : myState.aVideo.frames) {
                         //if a mask with the same id is found change it
@@ -746,7 +749,11 @@ static void masksListWindow(MyState &myState, const ImGuiViewport* viewport, ImG
         }
     }*/
 
+    /*if (need_to_update_simplified_mask_and_texture) {
+        compute_mask_textures(*targetMask, targetMask->color[0]*256, targetMask->color[1]*256, targetMask->color[2]*256);
+    } */  
     if (need_to_update_textures) {
+        printf("simplify_segmented_frame\n");
         simplify_segmented_frame(myState);
     }
 
@@ -1023,7 +1030,9 @@ void propagatingDialog(MyState &myState) {
 //It allows to display a progress bar during propagation and to cancel it before the end
 void asynch_task(MyState &myState)
 {    
-    propagate_masks(myState.aVideo.frames, *myState.a_sam_state, myState.params.n_threads, myState.start_frame, myState.end_frame, myState.progress, myState.propagate_cancel);
+    //propagate_masks from common1.cpp
+    //propagate_masks(myState.aVideo.frames, *myState.a_sam_state, myState.params.n_threads, myState.start_frame, myState.end_frame, myState.progress, myState.propagate_cancel);
+    propagate_masks(myState.aVideo.frames, myState.segmentor, myState.start_frame, myState.end_frame, myState.progress, myState.propagate_cancel);
     myState.propagated = true; 
 }
 
@@ -1071,7 +1080,8 @@ void checkActions(MyState &myState)
             std::thread thread_1(asynch_task, std::ref(myState));
 		    thread_1.detach(); //to avoid crashing when the thread ends
         } else {
-            propagate_masks(myState.aVideo.frames, *myState.a_sam_state, myState.params.n_threads, myState.start_frame, myState.end_frame, myState.progress, myState.propagate_cancel);
+            //propagate_masks(myState.aVideo.frames, *myState.a_sam_state, myState.params.n_threads, myState.start_frame, myState.end_frame, myState.progress, myState.propagate_cancel);
+            propagate_masks(myState.aVideo.frames, myState.segmentor, myState.start_frame, myState.end_frame, myState.progress, myState.propagate_cancel);
             myState.propagated = true;
         }
     }

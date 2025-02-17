@@ -27,7 +27,8 @@ target_link_libraries(${EXAMPLE_TARGET} PRIVATE
     segmentor 
     segmentor_sam1
     segmentor_sam2 
-    sam simplify 
+    sam 
+    simplify 
     face 
     ${OpenCV_LIBS} 
     common 

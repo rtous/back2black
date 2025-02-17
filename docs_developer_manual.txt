@@ -92,6 +92,11 @@ ERROR: Undefined symbols for architecture arm64:
 
 	   Si fas un canvi a un CMake d'un modul cal tocar algun fitxer del modul per que recompili correctament.
 
+ERROR: Duplicate symbol (entre opencv i onnxruntime)
+	Al target_link_libraries cal posar_
+		${ONNXRUNTIME_LINK_LIBRARIES_GLOBAL}
+
+
 ANNEX 1. OpenCV
 
 Clone OpenCV repo in an independent location

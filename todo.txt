@@ -8,8 +8,10 @@ Universitat Politecnica de Catalunya
 
 TODO
 
-
-- PROBLEM: Colors are not updated now...
+- El propagate sembla funcionar però no es veuen els resultats
+- refactoring:simplify fa servir common i això obliga a incloure les llibreries de segmentació. També imgui-sdl2 
+- generate video
+- Estic fent servir aMask.simplifiedMaskTexture que es calcula a compute_mask_textures??
 - PENSAR: potser no computar els details (rimlight, pixelació) fins a una fase de render final  
 - CRITICAL: get_best_mask_at_point in segmentor_sam2 always returns true!
 - CRITICAL: refactored single mask but need recfactoring PROPAGATE!!
@@ -64,6 +66,8 @@ SAM2:
 
 DONE:
 
+- Where is the face?
+- PROBLEM: Colors are not updated now...
 - Colors are wrong...
 - WARNING: In simplify_segmented_frame (sam_utils.cpp) I replaced overlay with just the sum and it works but maybe will be a problem with transparency
 - integrating SAM2 ONNX

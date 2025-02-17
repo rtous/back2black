@@ -1,5 +1,5 @@
 #include <stdio.h>
-#include "sam.h"
+//#include "sam.h" 
 
 #include <string>
 #include <iostream>
@@ -12,6 +12,10 @@
 
 #include "common1.h"
 #include "data_structures.h"
+
+#include "segmentor.h"
+#include "segmentor_sam1.h"
+#include "segmentor_sam2.h"
 
 #if defined(_MSC_VER)
 #pragma warning(disable: 4244 4267) // possible loss of data
@@ -94,14 +98,14 @@ int main(int argc, char ** argv)
 
     /**********/
     //Load SAM MODEL
-    std::shared_ptr<sam_state> state = sam_load_model(params);
+    /*std::shared_ptr<sam_state> state = sam_load_model(params);
     if (!state) {
         fprintf(stderr, "%s: failed to load model\n", __func__);
         return 1;
     }
     printf("t_load_ms = %d ms\n", state->t_load_ms);
-
-    
+    */
+    Segmentor& segmentor = get_sam1_segmentor();
 	
     //sam_point pt { 500, 347}; 539, 309
     //sam_point pt { 539, 309};
@@ -114,17 +118,19 @@ int main(int argc, char ** argv)
     load_frames_from_files(input_path, frames);
 
     //precompute first frame
-    if (!sam_compute_embd_img(frames[0].img_sam_format, params.n_threads, *state)) {
+    /*if (!sam_compute_embd_img(frames[0].img_sam_format, params.n_threads, *state)) {
         fprintf(stderr, "%s: failed to compute encoded image\n", __func__);
         return false;
-    }
+    }*/
+    segmentor.preprocessImage(frames[0].img_sam_format);
 
     //Manually add two masks to the first frame
     Mask aMask;
     aMask.maskId = 0;
     aMask.mask_computed_at_x = 539;
     aMask.mask_computed_at_y = 309;
-    compute_mask(aMask, frames[0].img_sam_format, *state, params.n_threads);
+    //compute_mask(aMask, frames[0].img_sam_format, *state, params.n_threads);
+    compute_mask(aMask, frames[0].img_sam_format, segmentor);
     frames[0].masks.push_back(aMask);
     printf("frames[0].masks[0].mask_center_x=%d\n", frames[0].masks[0].mask_center_x);
 
@@ -132,7 +138,8 @@ int main(int argc, char ** argv)
     aMask2.maskId = 1;
     aMask2.mask_computed_at_x = 500;
     aMask2.mask_computed_at_y = 347; 
-    compute_mask(aMask2, frames[0].img_sam_format, *state, params.n_threads);
+    //compute_mask(aMask2, frames[0].img_sam_format, *state, params.n_threads);
+    compute_mask(aMask2, frames[0].img_sam_format, segmentor);
     frames[0].masks.push_back(aMask2);
     printf("frames[0].masks[1].mask_center_x=%d\n", frames[0].masks[1].mask_center_x);
             
@@ -142,8 +149,8 @@ int main(int argc, char ** argv)
     //Propagate the masks (currently only to 5 frames)
     float progress;
     bool cancel = false;
-    propagate_masks(frames, *state, params.n_threads, 0, 4, progress, cancel);
-
+    //propagate_masks(frames, *state, params.n_threads, 0, 4, progress, cancel);
+    propagate_masks(frames, segmentor, 0, 4, progress, cancel);
 
     printf("ANALYSIS DONE, WRITING IMAGE FILES!\n");
     /////////////
@@ -166,7 +173,8 @@ int main(int argc, char ** argv)
         f++;
     }
 
-    sam_deinit(*state);
+    segmentor.close();
+    //sam_deinit(*state);
 
     return 0;
 }

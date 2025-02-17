@@ -91,3 +91,5 @@ Universitat Politecnica de Catalunya
 	- veig que hi ha un "simplify_segmented_frame"...
 	- SOLUCIONAT: Era un problema amb l'overlay dels segments. La suma no era suficient, cal fer servir la funció overlay. De lo contrari les parts solapades es sumen també i cambien de color.
 	- SOLUCIONAT tema color, al fill polly feia RGB i havia de fer BGR
+	- També fet que canvii el color (falta veure que passa amb la resta de frames)
+	- Solucionat l'ordre en que es mostren les màscares

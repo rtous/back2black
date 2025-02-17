@@ -82,7 +82,8 @@ class MyState {
 
     //as segmentor holds a reference it needs to be intitialized this way
     //"constructor initializer list"
-    MyState() : segmentor(get_sam2_segmentor())  {
+    //MyState() : segmentor(get_sam2_segmentor())  {
+    MyState() : segmentor(get_sam1_segmentor())  {
       //Default color
       face_color[0] = 168/(float)256;
       face_color[1] = 113/(float)256;
