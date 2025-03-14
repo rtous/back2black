@@ -72,7 +72,7 @@ class MyState {
     //face(myState.aVideo.frames[myState.selected_frame].img, blankImageWithAlpha, cv::Scalar(118, 113, 168, 255), cv::Scalar(61, 71, 118, 255));
             
     int rimlight_size = 5;
-    //int pixelation_level = 5;
+    int pixelation_level = 5;
 
     bool change_color_all_frames = true;
 
@@ -82,8 +82,8 @@ class MyState {
 
     //as segmentor holds a reference it needs to be intitialized this way
     //"constructor initializer list"
-    //MyState() : segmentor(get_sam2_segmentor())  {
-    MyState() : segmentor(get_sam1_segmentor())  {
+    MyState() : segmentor(get_sam2_segmentor())  {
+    //MyState() : segmentor(get_sam1_segmentor())  {
       //Default color
       face_color[0] = 168/(float)256;
       face_color[1] = 113/(float)256;

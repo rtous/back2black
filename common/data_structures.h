@@ -67,7 +67,7 @@ class Frame {
     std::string filePath; //when the input is a directory of images instead of a video (only used to keep the filenames in the output in cli_masks)
     std::vector<Mask> masks; 
     cv::Mat img; //OpenCV format (WARNING: original, not downscaled. The img_sam_format is scaled in video.cpp)
-    //cv::Mat img_simplified; //OpenCV format (just keep the texture)
+    cv::Mat img_simplified; //OpenCV format (just keep the texture)
     cv::Mat faces; //OpenCV format (faces mask)
     cv::Mat eyes; //OpenCV format (eyes mask)
     sam_image_u8 img_sam_format; //the video frame in sam format

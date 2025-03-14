@@ -80,9 +80,16 @@ void show_file_dialog_f(MyState & myState)
           std::string filePath = ImGuiFileDialog::Instance()->GetCurrentPath();
           //std::print("filePathName: {}", filePathName);
           //std::print("filePath: {}", filePath);
-          std::cout << filePath;
+          //std::cout << filePath;
+          
+          //To bypass a strange behavior in which the filePathName is the full path:
+          if (filePathName.find_last_of("/\\") != -1)
+            filePathName = filePathName.substr(filePathName.find_last_of("/\\") + 1);
+
           myState.filePathName = filePathName;
           myState.filePath = filePath;
+          printf("myState.filePathName=%s\n",myState.filePathName.c_str());
+          printf("myState.filePath=%s\n",myState.filePath.c_str());
           myState.file_dialog_file_selected = true;
           // action
         }

@@ -242,16 +242,13 @@ void simplify(cv::Mat &input_image, cv::Mat &output_image)
 
 }
 
+void pixelate(cv::Mat &input_image, cv::Mat &output_image, int pixelation_level) {    
+    cv::Mat tmp_downscaled_image;
+    cv::Size downscaling_size = input_image.size()/pixelation_level;
+    cv::resize(input_image, tmp_downscaled_image, downscaling_size, 0, 0, cv::INTER_NEAREST); //cv2.INTER_LINEAR antialiasing                  
+    cv::resize(tmp_downscaled_image, output_image, input_image.size(), 0, 0, cv::INTER_NEAREST);
+}
 
-/*
-def pixelate(input, w, h): # w,h  Desired "pixelated" size
-    height, width = input.shape[:2]
-    # Resize input to "pixelated" size
-    temp = cv2.resize(input, (w, h),  interpolation=cv2.INTER_NEAREST)#cv2.INTER_LINEAR antialiasing
-    # Initialize output image
-    output = cv2.resize(temp, (width, height), interpolation=cv2.INTER_NEAREST)
-    return output
-*/
 
 /*def change_brightness(img, value=100):
     _, _, _, a_channel = cv2.split(img)

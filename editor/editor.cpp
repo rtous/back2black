@@ -345,7 +345,7 @@ static void frameWindow(MyState &myState, const ImGuiViewport* viewport, bool us
 
                 //need to update the simplified image
                 //simplify(myState.aVideo.frames[myState.selected_frame].tex_simplified, myState.aVideo.frames[myState.selected_frame].tex_simplified);  
-                simplify_segmented_frame(myState);
+                simplify_segmented_frame(myState, myState.selected_frame);
 
                 //printf("Computed masks. selectedMask.maskTextures.size()=%d\n", selectedMask.maskTextures.size());
 
@@ -357,6 +357,30 @@ static void frameWindow(MyState &myState, const ImGuiViewport* viewport, bool us
         //draw all masks
         drawAllMasks(myState, viewport, viewport->WorkPos, false);
     }
+
+    /*
+
+    BUTTONS:
+
+    */
+    ///////////////
+    //std::string negativePointButtonID = "negativePointButton" + std::to_string(i);
+    std::string negativePointButtonID = "negativePointButton";
+    char buf[64];
+    sprintf(buf, "-###%s", negativePointButtonID.c_str());
+    bool clickedNegativePointButton = false;
+    ImGui::SetCursorScreenPos(ImVec2(size.x-50, size.y-50));
+    //if (ImGui::Button(buf, ImVec2(500,500))) { //to specify button size
+    if (ImGui::Button(buf)) {
+        printf("Clicked negativePointButton\n");  
+        clickedNegativePointButton = true;   
+        //myState.clicked = false;  
+    }
+    if (clickedNegativePointButton) {
+        printf("Clicked negativePointButton\n");  
+    }
+    ///////////////
+
     ImGui::End();
 }
 
@@ -754,7 +778,7 @@ static void masksListWindow(MyState &myState, const ImGuiViewport* viewport, ImG
     } */  
     if (need_to_update_textures) {
         printf("simplify_segmented_frame\n");
-        simplify_segmented_frame(myState);
+        simplify_segmented_frame(myState, myState.selected_frame);
     }
 
     ImGui::End();
@@ -847,6 +871,9 @@ static void finishingConfigWindow(MyState &myState, const ImGuiViewport* viewpor
 
         //rimlight size
         ImGui::SliderInt("Rimlight size", &myState.rimlight_size, 0, 10);
+
+        //rimlight size
+        ImGui::SliderInt("Pixelation level", &myState.pixelation_level, 0, 10);
     
         ImGui::Checkbox("Change colors all frames", &myState.change_color_all_frames);
     }
@@ -1075,11 +1102,11 @@ void checkActions(MyState &myState)
         myState.propagate = false;
         myState.propagating = true;
         
-        bool using_threads = true; //CURRENTLY DISABLED
+        bool using_threads = true; 
         if (using_threads) { 
             std::thread thread_1(asynch_task, std::ref(myState));
 		    thread_1.detach(); //to avoid crashing when the thread ends
-        } else {
+        } else { //FOR DEBUG, CURRENTLY NOT USED
             //propagate_masks(myState.aVideo.frames, *myState.a_sam_state, myState.params.n_threads, myState.start_frame, myState.end_frame, myState.progress, myState.propagate_cancel);
             propagate_masks(myState.aVideo.frames, myState.segmentor, myState.start_frame, myState.end_frame, myState.progress, myState.propagate_cancel);
             myState.propagated = true;
@@ -1091,7 +1118,7 @@ void checkActions(MyState &myState)
         myState.propagated = false;
         myState.propagating = false;
         //review textures for all frame (only the propated will take effect)
-        compute_mask_textures_all_frames(myState.aVideo.frames);
+        compute_mask_textures_all_frames(myState.aVideo.frames, myState);
         //review facial textures for all frames (only the propagated will take effect)
         //TODO: never recomputed, maybe change this if allow color changes
         compute_facial_textures_all_frames(myState.aVideo.frames);

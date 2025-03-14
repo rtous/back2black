@@ -93,3 +93,15 @@ Universitat Politecnica de Catalunya
 	- SOLUCIONAT tema color, al fill polly feia RGB i havia de fer BGR
 	- També fet que canvii el color (falta veure que passa amb la resta de frames)
 	- Solucionat l'ordre en que es mostren les màscares
+
+13/03/2025
+	- Change behavior, delete mask when clicked instead of keeping an empty mask. 
+		In theory this may be problemmatic if the user clicks another mask because the id will be ...
+
+14/03/2025
+	- Error opening video:
+		- Cannot open videos outside the script folder (show_file_dialog_f puts file path instead of the file name into myState.filePathName)
+		- If there's a video with the same name in the script folder then works
+		- After that works, you can delete the video and still works
+		- But The behavior repeats if imgui.ini is deleted
+		SOLVED with a patchy fix (detect if a full path and cut it)

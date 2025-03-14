@@ -8,6 +8,10 @@ Universitat Politecnica de Catalunya
 
 TODO
 
+- IMPORTANT: change behavior of keeping old masks...
+- change pixelation after change 
+- parametrizable rimlight size
+- IMPORTANT: Ara treballem amb el frame reescalat i el reescalem per escriure el vídeo. Convindria treballar amb el frame nadiu i reescalarlo només quan es mostra en pantalla no?
 - El propagate sembla funcionar però no es veuen els resultats
 - refactoring:simplify fa servir common i això obliga a incloure les llibreries de segmentació. També imgui-sdl2 
 - generate video

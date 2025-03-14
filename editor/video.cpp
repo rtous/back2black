@@ -84,6 +84,8 @@ void save_video(const std::string &videoFilePath, Video &theVideo){//(std::vecto
             for (Frame & aFrame : theVideo.frames) {
                 printf("PROCESSING FRAME %d \n", f);
                 if (aFrame.masks.size()>0) {
+                    /*
+                    //OLD WAY
                     //iterate through all the masks of the frame
                     cv::Mat output_image_opencv = cv::Mat::zeros(aFrame.img.size(), CV_8UC4);;
                     for (Mask & aMask : aFrame.masks) {
@@ -95,14 +97,16 @@ void save_video(const std::string &videoFilePath, Video &theVideo){//(std::vecto
                     cv::Size a_frame_size = aFrame.img.size(); 
                     printf("writing frame with size %d,%d.\n", a_frame_size.width, a_frame_size.height);
                     
-                    //TODO: Did this because aFrame.img is RGB instead of BGR
-                    //cv::Mat bgr;
-                    //cv::cvtColor(aFrame.img, bgr, cv::COLOR_RGB2BGR);
-                    
                     cv::Mat bgr;
                     cv::cvtColor(output_image_opencv, bgr, cv::COLOR_RGB2BGR);
                     vidwriter.write(bgr);
-                    
+                    */
+
+                    //New way, directly aFrame.img_simplified
+                    //TODO: Instead of rescaling work with native size
+                    cv::Mat outImg;                    
+                    cv::resize(aFrame.img_simplified, outImg, aFrame.img.size(), 0, 0, cv::INTER_LINEAR);
+                    vidwriter.write(outImg);        
                 }
                 printf("FRAME DONE.\n");
                 f++;

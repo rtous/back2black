@@ -204,7 +204,7 @@ void compute_mask_textures(Mask & aMask, int R, int G, int B) {
     aMask.textures_computed = true;
 }*/
 
-void compute_mask_textures_all_frames(std::vector<Frame> & frames) 
+void compute_mask_textures_all_frames(std::vector<Frame> & frames, MyState &myState) 
 {
     int numFrames = frames.size();
     int f = 0;
@@ -222,6 +222,7 @@ void compute_mask_textures_all_frames(std::vector<Frame> & frames)
                 printf("\t\tcomputed textures...\n", f);
             }
         }
+        simplify_segmented_frame(myState, f);
         f++;
     }
 }
@@ -280,16 +281,17 @@ void compute_mask_and_textures(Frame & aFrame, int x, int y, int R, int G, int B
         } else { //the mask already exists (and is not empty)
             //OLD: If the mask is already in storedMasks we will delete it
             //NOW: If the mask is already in storedMasks we will mark is as not computed
-            /*
+            //     This way we avoid the mask id being assigned to other masks
+            //NOW2: Delete or bery weird
+        
             printf("Deleting mask %d ", pos);
             aFrame.masks.erase(aFrame.masks.begin() + pos);
             //If we have erased the selected mask let's deselect
             if (pos == myState.selected_mask)
                 myState.selected_mask = -1;
-            */
-            aFrame.masks[pos].mask_computed = false;
-            /*if (pos == myState.selected_mask)
-                myState.selected_mask = -1;*/
+            
+            //NOW: If the mask is already in storedMasks we will mark is as not computed
+            //aFrame.masks[pos].mask_computed = false;
         }
     }
 }
@@ -352,7 +354,51 @@ void compute_mask_and_texturesOLD(Frame & aFrame, const sam_params & params, sam
     }
 }
 
+//Called from the editor/frameWindow si myState.clicked 
+void simplify_segmented_frame(MyState &myState, int frame_idx) 
+{
+    //takes all the masks from myState.aVideo.frames[myState.selected_frame].masks
+    //, simplify everything and
+    //generates myState.aVideo.frames[myState.selected_frame].tex_simplified
 
+    Frame & aFrame = myState.aVideo.frames[frame_idx];
+    //cv::Mat input_image_opencv = aFrame.img;
+
+    cv::Mat output_image_opencv_bgra = cv::Mat::zeros(cv::Size(aFrame.img_sam_format.nx,aFrame.img_sam_format.ny), CV_8UC4);
+    
+    //need to traverse masks in reverse order to display the first latest (on top)
+    for (int j =  int(myState.aVideo.frames[frame_idx].masks.size())-1; j >= 0; --j) {
+    //for (auto& aMask : aFrame.masks) {
+        Mask & aMask = myState.aVideo.frames[frame_idx].masks[j];
+        if (aMask.mask_computed && aMask.visible) {
+
+            //cv::imshow("image", output_image_opencv_bgra);
+            printf("OVERLAYING (%d,%d) over (%d,%d): \n", aMask.opencv_mask_simplified.cols, aMask.opencv_mask_simplified.rows, output_image_opencv_bgra.cols, output_image_opencv_bgra.rows);
+            //aMask.simplifiedContours = simplifyColorSegment(input_image_opencv, output_image_opencv_bgra, false, R, G, B);   
+            
+            overlay(output_image_opencv_bgra, output_image_opencv_bgra, aMask.opencv_mask_simplified);
+            //output_image_opencv_bgra = output_image_opencv_bgra + aMask.opencv_mask_simplified;
+
+
+            //DEBUG: output_image_opencv_bgra = output_image_opencv_bgra + aMask.opencv_mask_simplified;
+        }
+    }
+    addRimLight(output_image_opencv_bgra, output_image_opencv_bgra, 5);
+
+    if (myState.pixelation_level > 0)
+        pixelate(output_image_opencv_bgra, output_image_opencv_bgra, myState.pixelation_level);
+
+
+    GLuint newGLTextureSimplified = createGLTextureOpenCV(output_image_opencv_bgra, GL_RGBA);
+    
+    printf("DEBUG aFrame.tex_simplified = newGLTextureSimplified;\n");
+    aFrame.tex_simplified = newGLTextureSimplified;
+    aFrame.img_simplified = output_image_opencv_bgra;
+    //DEBUG
+    //aFrame.tex_simplified = aFrame.tex;
+}
+
+/*
 //Called from the editor/frameWindow si myState.clicked 
 void simplify_segmented_frame(MyState &myState) 
 {
@@ -390,6 +436,8 @@ void simplify_segmented_frame(MyState &myState)
     //DEBUG
     //aFrame.tex_simplified = aFrame.tex;
 }
+*/
+
 
 
 /*
