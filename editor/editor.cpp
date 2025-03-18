@@ -238,11 +238,73 @@ static void drawAllMasks(MyState &myState, const ImGuiViewport* viewport, ImVec2
 
 }
 
+static void toolbarWindow(MyState &myState, const ImGuiViewport* viewport, ImGuiWindowFlags flags, bool use_work_area) 
+{
+    bool need_to_update_textures = false;
 
+    ImVec2 size = ImVec2(viewport->WorkSize.x * 0.05f, viewport->WorkSize.y * 0.75f);
+    flags = ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoSavedSettings;
+    //ImVec2 newPos = ImVec2(viewport->WorkPos.x + (viewport->WorkSize.x * 0.33f), viewport->WorkPos.y + (viewport->WorkSize.y * 0.75f));
+    ImVec2 newPos = ImVec2(viewport->WorkPos.x + (viewport->WorkSize.x * 0.0f), viewport->WorkPos.y + (viewport->WorkSize.y * 0.0f));
+    //ImVec2 newPos = ImVec2(viewport->WorkPos.x + (viewport->WorkSize.x * 0.08f), viewport->WorkPos.y + (viewport->WorkSize.y * 0.75f);
+    ImGui::SetNextWindowPos(newPos);
+    ImGui::SetNextWindowSize(use_work_area ? size : viewport->Size);
+    ImGui::Begin("TOOLBAR", NULL, ImGuiWindowFlags_NoCollapse);
+    //ImGui::Text("MASKS WINDOW"); 
+
+    //float spacing = ImGui::GetStyle().ItemInnerSpacing.x;
+
+
+    ImGui::BeginTable("table1", 1); //1c column
+    //setup first col
+    //ImGui::TableSetupColumn("AAA", ImGuiTableColumnFlags_WidthFixed);
+    ImGui::TableSetupColumn("AAA", ImGuiTableColumnFlags_WidthStretch);  
+    //setup second col
+    //ImGui::TableSetupColumn("BBB", ImGuiTableColumnFlags_WidthStretch);  
+    //NOTE: No need of nextrow, just nextcolumn and imgui will know when nextrow
+    //////
+    ImGui::TableNextColumn();
+    ImGui::Text("MODE");
+    static int e = 0;
+    ImGui::RadioButton("1", &e, 0);
+    ImGui::RadioButton("+", &e, 1);
+    ImGui::RadioButton("-", &e, 2);
+    
+
+
+    ///////////////
+    ImGui::TableNextColumn();
+    //std::string negativePointButtonID = "negativePointButton" + std::to_string(i);
+    std::string positivePointButtonID = "positivePointButton";
+    char buf[64];
+    sprintf(buf, ICON_FA_EYE"###%s""###%s", positivePointButtonID.c_str());
+    bool clickedPositivePointButton = false;
+    //ImGui::SetCursorScreenPos(ImVec2(size.x-50, size.y-50));
+    //if (ImGui::Button(buf, ImVec2(500,500))) { //to specify button size
+    //ImVec2 sz = ImVec2(2.0f, 2.0f);
+    //if (ImGui::Button(buf, sz)) {
+    if (ImGui::Button(buf)) {
+        printf("Clicked positivePointButton\n");  
+        clickedPositivePointButton = true;   
+        //myState.clicked = false;  
+    }
+    if (clickedPositivePointButton) {
+        printf("Clicked positivePointButton\n");  
+    }
+    ///////////////
+    //ImGui::SameLine();
+    ///////////////
+             
+    
+    ImGui::EndTable();
+
+    ImGui::End();
+}
 
 static void frameWindow(MyState &myState, const ImGuiViewport* viewport, bool use_work_area, ImGuiWindowFlags flags) 
 {
-    ImVec2 size = ImVec2(viewport->WorkSize.x * 0.5f, viewport->WorkSize.y * 0.75f);
+
+    ImVec2 size = ImVec2(viewport->WorkSize.x * 0.45f, viewport->WorkSize.y * 0.75f);
     
     myState.img_frame_w = size.x;
     myState.img_frame_h = size.y;
@@ -255,6 +317,8 @@ static void frameWindow(MyState &myState, const ImGuiViewport* viewport, bool us
     
     //printf("use_work_area  = %d\n", use_work_area);
     ImVec2 newPos = ImVec2(use_work_area ? viewport->WorkPos : viewport->Pos);
+    newPos.x += viewport->WorkSize.x * 0.05f;
+
     /*
     printf("newPos.x  = %f\n", newPos.x);
     printf("newPos.y  = %f\n", newPos.y);
@@ -1161,7 +1225,10 @@ void editor(MyState &myState) //WARNING: this is executed within the main loop
 
     //printf("viewport->WorkSize.x=%f\n", viewport->WorkSize.x);
     //printf("viewport->WorkSize.y=%f\n", viewport->WorkSize.y);
-    ImVec2 size = ImVec2(viewport->WorkSize.x * 0.6f, viewport->WorkSize.y * 0.6f);
+    //ImVec2 size = ImVec2(viewport->WorkSize.x * 0.6f, viewport->WorkSize.y * 0.6f);
+    
+    //TOOLBAR
+    toolbarWindow(myState, viewport, use_work_area, flags);
     
     //IMAGE window
     frameWindow(myState, viewport, use_work_area, flags);

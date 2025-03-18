@@ -105,3 +105,4 @@ Universitat Politecnica de Catalunya
 		- After that works, you can delete the video and still works
 		- But The behavior repeats if imgui.ini is deleted
 		SOLVED with a patchy fix (detect if a full path and cut it)
+	- Started working on + - buttons
