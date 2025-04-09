@@ -32,6 +32,17 @@ Universitat Politecnica de Catalunya
 
 1.2 Building
 
+1.2.1 MacOS
+
+.\build_macos.sh
+
+1.2.2 Windows
+
+.\build_windows_msvc.bat
+
+1.2.3 Build details
+
+
 NOTE: The -DBUILD_SHARED_LIBS=OFF flag makes excutable bigger but independent
 
 From the root of the repo (better):
@@ -46,6 +57,8 @@ From the build_macos:
 	cmake --build .
 
 2. Testing
+
+2.1 MacOS
 
 From the root of the repo:
 
@@ -63,6 +76,9 @@ From the build_macos folder:
 
 	./bin/test_opencv
 
+2.2 Windows
+
+	.\test_opencv_msvc.bat
 
 3. Troubleshooting
 
@@ -72,6 +88,8 @@ TIP: Inspecting cmake variables
 
 	include(CMakePrintHelpers)
 	cmake_print_variables(${CMAKE_CURRENT_SOURCE_DIR})
+	
+ERROR: Compte amb errors de compilació d'OpenCV no fos cas que estiguem fent build_windows.bat en comptes de .\build_windows_msvc.bat
 
 ERROR: fatal error: 'string.h' file not found mac
 	- Remove the contents of the build folder and retry 
@@ -140,6 +158,8 @@ For Windows compile this way:
 
 WARNING: Need to copy the build/opencv_ffmpegXXX.dll to the place the .exe is.
 
+NOTA: Després de borrar el build_windows he tornat a compilar i provar i funciona (sense haver copiat la dll...). Ho he fet tenint a DockerFile una carpeta opencv (versió Debug) i una carpeta opencv_MSVC_Release que està ignorant.
+
 ANNEX 2. ImGuiFileDialog
 
 	https://github.com/aiekick/ImGuiFileDialog
@@ -148,7 +168,7 @@ ANNEX 2. ImGuiFileDialog
 	
 ANNEX 3. Windows
 
-3.1 WITH MingW
+3.1 WITH MingW (NO HO FAIG SERVIR, EXCEPTE PEL CMAKE CREC, FAIG SERVIR MSVC JA QUE ES REQUISIT PER OPENCV)
 
 - Install MinGW and CMAKE
 - type:
@@ -240,8 +260,11 @@ and dlib within the target_link_libraries (it regconizes the name)
 
 ANNEX 6. onnxruntime 
 
+A6.1 Installing onnxruntime on macOS
+
 - too big to include sources in our repo (like opencv) 
 - IMPORTANT: includes possibility to build for Apple Silicon!
+
 - (OPTION 2) Works with the shared library too.
 	- https://github.com/microsoft/onnxruntime/releases
     - But problem with Mac code sign verification. Can be skipped this way:
@@ -257,6 +280,18 @@ ANNEX 6. onnxruntime
 	- A guy statically linked it:
 		https://github.com/microsoft/onnxruntime/issues/8555
 	- DID IT! See CMakeLists.txt for test_onnx. 
+
+A6.2 Installing onnxruntime on windows
+
+	Following instructions from here: https://onnxruntime.ai/docs/build/inferencing.html
+
+	git clone --recursive https://github.com/Microsoft/onnxruntime.git
+	cd onnxruntime
+	//check cmake version 3.28 or higher with cmake --version
+	//.\build.bat --config RelWithDebInfo --build_shared_lib --parallel --compile_no_warning_as_error --skip_submodule_sync
+	.\build.bat --config RelWithDebInfo --build_shared_lib --parallel --compile_no_warning_as_error --skip_submodule_sync --cmake_extra_defines CMAKE_CXX_COMPILER="C:\Program Files (x86)\Microsoft Visual Studio\2022\BuildTools\MSBuild\Current\Bin\MSBuild.exe"
+
+	sembla que ha funcionat
 
 ANNEX 7. SAM2
 
