@@ -14,15 +14,15 @@
 #include "stb_image.h"
 //#define STB_IMAGE_WRITE_IMPLEMENTATION
 //#include "stb_image_write.h"
-
+ 
 void print_MNIST_digit(unsigned char image_stb[], int nx, int ny) 
 {
   //row,col -> image y,x (the intuitive way)
   for (unsigned i = 0; i < nx; i++) {
     for (unsigned j = 0; j < ny; j++) {
         //printf("%u\n", image_stb[i*ny+j]);
-        if (image_stb[(i*ny+j)*3]>30)
-          printf("# ");
+        if (image_stb[(i*ny+j)*3]>30) 
+          printf("# "); 
         else
           printf("  ");
     }

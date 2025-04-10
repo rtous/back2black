@@ -59,7 +59,12 @@ struct MNIST {
  private:
   Ort::Env env;
   //Ort::Session session_{env, L"mnist.onnx", Ort::SessionOptions{nullptr}};
-  Ort::Session session_{env, "checkpoints_repo/mnist.onnx", Ort::SessionOptions{nullptr}};
+  
+  
+  
+  
+  //Ort::Session session_{env, "checkpoints_repo/mnist.onnx", Ort::SessionOptions{nullptr}}; //Does not work in Windows
+  Ort::Session session_{env, L"checkpoints_repo/mnist.onnx", Ort::SessionOptions{nullptr}};
 
   Ort::Value input_tensor_{nullptr};
   std::array<int64_t, 4> input_shape_{1, 1, width_, height_};

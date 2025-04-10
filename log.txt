@@ -106,3 +106,11 @@ Universitat Politecnica de Catalunya
 		- But The behavior repeats if imgui.ini is deleted
 		SOLVED with a patchy fix (detect if a full path and cut it)
 	- Started working on + - buttons
+	
+10/04/2025
+	- Intentant fer funcionar ONNX a Windows
+	- He hagut de tocar els paths
+	- Problema amb com he compilat onnxruntime, diria que em va passar a Mac també. No estic segur de si el build que tinc anotat de mac és el darrer. 
+	- El problema diria que només és a Windows. l'aplicació, onnxruntime i opencv han d'estar compilats amb el mateix tipus (static i debug). 
+	- Solucionat pel test, cal veure l'altre
+	- Falta fer servir el CMakeList generic per qualsevol projecte que usa onnx (em dona un error ara a Windows).
