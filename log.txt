@@ -114,3 +114,8 @@ Universitat Politecnica de Catalunya
 	- El problema diria que només és a Windows. l'aplicació, onnxruntime i opencv han d'estar compilats amb el mateix tipus (static i debug). 
 	- Solucionat pel test, cal veure l'altre
 	- Falta fer servir el CMakeList generic per qualsevol projecte que usa onnx (em dona un error ara a Windows).
+
+11/04/2025
+	- Arreglat un error amb un wide string a mnist.h dins test_onnx (L'...).
+	- Tocant la toolbar
+	- Arreglat un error al tocar dimensions de finstres al codi. Penso que és un error degut a que imgui guarda un fitxer amb info

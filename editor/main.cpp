@@ -33,16 +33,6 @@
 #include "segmentor_sam1.h"
 #include "segmentor_sam2.h"
 
-void myWindow(bool *show_myWindow)
-{
-    ImGui::Begin("Another Window2", show_myWindow);   // Pass a pointer to our bool variable (the window will have a closing button that will clear the bool when clicked)
-    ImGui::Text("Hello from another window!");
-    if (ImGui::Button("Close Me"))
-        *show_myWindow = false;
-    ImGui::End();
-
-}
-
 // Main code
 int main(int, char**)
 {
@@ -169,44 +159,11 @@ int main(int, char**)
 
     /***** STATE ******/
     bool show_demo_window = true;
-    bool show_another_window = false;
-    bool show_myWindow = true;
-    //bool show_editor = true;
-    //bool show_file_dialog = false;
     ImVec4 clear_color = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
     MyState myState;
     myState.colors_palette = make_colors_vector(); 
     /*****************/
 
-    /*****************/
-    //sam_image_u8 img;
-    //bool img_loaded = false;
-    //GLuint tex = createGLTexture(img, GL_RGB);
-    //tex = createGLTexture(new_img, GL_RGB);
-    /********************/
-
-
-    /*****SAM INIT*******/
-    /*set_params(&myState.params);
-    std::shared_ptr<sam_state> state = sam_load_model(myState.params);
-    if (!state) {
-        fprintf(stderr, "%s: failed to load model\n", __func__);
-        //return 1;
-    } else {
-        myState.a_sam_state = sam_load_model(myState.params);
-    }
-    */
-
-    //myState.segmentor = get_sam1_segmentor(); 
-    //myState.segmentor = get_sam2_segmentor(); 
-    /***************/
-
-
-    /*****************/
-
-
-    // Main loop
-    //bool done = false; //we will use myState.done
 #ifdef __EMSCRIPTEN__
     // For an Emscripten build we are disabling file-system access, so let's not attempt to do a fopen() of the imgui.ini file.
     // You may manually call LoadIniSettingsFromMemory() to load settings from your own storage.
@@ -244,45 +201,8 @@ int main(int, char**)
         ImGui::NewFrame();
 
         // 1. Show the big demo window (Most of the sample code is in ImGui::ShowDemoWindow()! You can browse its code to learn more about Dear ImGui!).
-        if (show_demo_window)
-            ImGui::ShowDemoWindow(&show_demo_window);
-
-        // 2. Show a simple window that we create ourselves. We use a Begin/End pair to create a named window.
-        //{
-        /*static float f = 0.0f;
-        static int counter = 0;
-
-        ImGui::Begin("Hello, world Ruben!");                          // Create a window called "Hello, world!" and append into it.
-
-        ImGui::Text("This is some useful text.");               // Display some text (you can use a format strings too)
-        ImGui::Checkbox("Demo Window", &show_demo_window);      // Edit bools storing our window open/close state
-        ImGui::Checkbox("Another Window", &show_another_window);
-
-        ImGui::SliderFloat("float", &f, 0.0f, 1.0f);            // Edit 1 float using a slider from 0.0f to 1.0f
-        ImGui::ColorEdit3("clear color", (float*)&clear_color); // Edit 3 floats representing a color
-
-        if (ImGui::Button("Button"))                            // Buttons return true when clicked (most widgets return true when edited/activated)
-            counter++;
-        ImGui::SameLine();
-        ImGui::Text("counter = %d", counter);
-
-        ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / io.Framerate, io.Framerate);
-        ImGui::End();
-        //}*/
-
-        // 3. Show another simple window.
-        if (show_another_window)
-        {
-            ImGui::Begin("Another Window", &show_another_window);   // Pass a pointer to our bool variable (the window will have a closing button that will clear the bool when clicked)
-            ImGui::Text("Hello from another window!");
-            if (ImGui::Button("Close Me"))
-                show_another_window = false;
-            ImGui::End();
-        }
-
-        //My own window
-        //if (show_myWindow)
-        //    myWindow(&show_myWindow);
+        //if (show_demo_window)
+            //ImGui::ShowDemoWindow(&show_demo_window);
 
         //EDITOR CODE
         if (myState.show_editor)

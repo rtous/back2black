@@ -8,10 +8,18 @@ Universitat Politecnica de Catalunya
 
 TODO
 
-- IMPORTANT: change behavior of keeping old masks...
+- IMPORTANT: Ara treballem amb el frame reescalat i el reescalem per escriure el vídeo. Convindria treballar amb el frame nadiu i reescalarlo només quan es mostra en pantalla no?
+	- downscale_img_to_size (en el cas del video es fa a video.cpp)
+	- warning: there's an img_sam in state.h (single image case) and also in the frames of a video
+	- need to fix: 
+		- keep the original image 
+		- rescale coordinates (from window to image)
+		- rescale resulting masks (from image to window) but keep the good ones too
+		- ensure the generated video uses the original
+- IMPORTANT: change behavior of keeping old masks... fet?
 - change pixelation after change 
 - parametrizable rimlight size
-- IMPORTANT: Ara treballem amb el frame reescalat i el reescalem per escriure el vídeo. Convindria treballar amb el frame nadiu i reescalarlo només quan es mostra en pantalla no?
+
 - El propagate sembla funcionar però no es veuen els resultats
 - refactoring:simplify fa servir common i això obliga a incloure les llibreries de segmentació. També imgui-sdl2 
 - generate video
