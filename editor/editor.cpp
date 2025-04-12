@@ -191,6 +191,11 @@ static void drawAllMasks(MyState &myState, const ImGuiViewport* viewport, ImVec2
     //DRAW MASKS
     ImDrawList* draw_list = ImGui::GetWindowDrawList();
 
+    //Click coordinates are generated in original size, need to downscale to window for display
+    float downscale_factor_x = myState.img_sam_format_downscaled.nx/(float)myState.img_sam.nx;
+    float downscale_factor_y = myState.img_sam_format_downscaled.ny/(float)myState.img_sam.ny;
+
+
     //printf("Found %d masks.\n", myState.aVideo.frames[myState.selected_frame].masks.size());
     //for (int j = 0; j < int(myState.aVideo.frames[myState.selected_frame].masks.size()); ++j) {
     //draw in reverse order (mask 0 is on top)
@@ -215,18 +220,18 @@ static void drawAllMasks(MyState &myState, const ImGuiViewport* viewport, ImVec2
                   //v1:applying color here:
                   //draw_list->AddImage((void*)(intptr_t)myState.aVideo.frames[myState.selected_frame].tex, ImVec2(newPos[0], newPos[1]), ImVec2(newPos[0]+myState.img_sam.nx, newPos[1]+myState.img_sam.ny));
             } else {
-                draw_list->AddImage((void*)(intptr_t)aMask.maskTexture, ImVec2(newPos[0], newPos[1]), ImVec2(newPos[0]+myState.img_sam.nx, newPos[1]+myState.img_sam.ny), ImVec2(0,0), ImVec2(1,1), IM_COL32(r, g, b, 255));  
+                draw_list->AddImage((void*)(intptr_t)aMask.maskTexture, ImVec2(newPos[0], newPos[1]), ImVec2(newPos[0]+myState.img_sam_format_downscaled.nx, newPos[1]+myState.img_sam_format_downscaled.ny), ImVec2(0,0), ImVec2(1,1), IM_COL32(r, g, b, 255));  
             }
         }
         if (!simplified && aMask.visible) {
-            draw_list->AddCircleFilled(ImVec2(newPos[0]+aMask.mask_computed_at_x, newPos[1]+aMask.mask_computed_at_y), 5, IM_COL32(255, 0, 0, 255));
+            draw_list->AddCircleFilled(ImVec2(newPos[0]+aMask.mask_computed_at_x*downscale_factor_x, newPos[1]+aMask.mask_computed_at_y*downscale_factor_y), 5, IM_COL32(255, 0, 0, 255));
         }
     }
     
     if (simplified) {
         //overall masks texture (with rimlight)
         //myState.aVideo.frames[myState.selected_frame].tex_simplified = myState.aVideo.frames[myState.selected_frame].tex;
-        draw_list->AddImage((void*)(intptr_t)myState.aVideo.frames[myState.selected_frame].tex_simplified, ImVec2(newPos[0], newPos[1]), ImVec2(newPos[0]+myState.img_sam.nx, newPos[1]+myState.img_sam.ny));
+        draw_list->AddImage((void*)(intptr_t)myState.aVideo.frames[myState.selected_frame].tex_simplified, ImVec2(newPos[0], newPos[1]), ImVec2(newPos[0]+myState.img_sam_format_downscaled.nx, newPos[1]+myState.img_sam_format_downscaled.ny));
         //facial textures
         if (myState.aVideo.frames[myState.selected_frame].faces_computed) {
             draw_list->AddImage((void*)(intptr_t)myState.aVideo.frames[myState.selected_frame].facesTexture, ImVec2(newPos[0], newPos[1]), ImVec2(newPos[0]+myState.img_sam.nx, newPos[1]+myState.img_sam.ny), ImVec2(0,0), ImVec2(1,1), IM_COL32(myState.face_color[0]*255, myState.face_color[1]*255, myState.face_color[2]*255, 255));
@@ -332,7 +337,7 @@ static void frameWindow(MyState &myState, const ImGuiViewport* viewport, ImGuiWi
         //int absolute_y = myState.img_frame_pos_y;
 
         //draw_list->AddImage((void*)(intptr_t)aFrame.tex, ImVec2(viewport->WorkPos.x, viewport->WorkPos.y), ImVec2(viewport->WorkPos.x+myState.img_sam.nx, viewport->WorkPos.y+myState.img_sam.ny));
-        draw_list->AddImage((void*)(intptr_t)aFrame.tex, ImVec2(window_pos.x, window_pos.y), ImVec2(window_pos.x+myState.img_sam.nx, window_pos.y+myState.img_sam.ny));
+        draw_list->AddImage((void*)(intptr_t)aFrame.tex, ImVec2(window_pos.x, window_pos.y), ImVec2(window_pos.x+myState.img_sam_format_downscaled.nx, window_pos.y+myState.img_sam_format_downscaled.ny));
         
         
 
@@ -348,12 +353,12 @@ static void frameWindow(MyState &myState, const ImGuiViewport* viewport, ImGuiWi
         //capture click
         if (myState.clicked && ImGui::IsWindowFocused()) {
             printf("Mouse clicked at (%d, %d)\n", myState.clickedX, myState.clickedY);
-            printf("Image x = %d, y = %d\n", myState.img_sam.nx, myState.img_sam.ny);
+            printf("Image x = %d, y = %d\n", myState.img_sam_format_downscaled.nx, myState.img_sam_format_downscaled.ny);
 
             //Mask & selectedMask = myState.aVideo.frames[myState.selected_frame].masks[myState.selected_mask];
 
             //TODO make the position relative to the window (now works because image is displayed at 0,0)
-            if (myState.clickedX > window_pos.x && myState.clickedX < window_pos.x+myState.img_sam.nx && myState.clickedY > window_pos.y && myState.clickedY < window_pos.y+myState.img_sam.ny) {
+            if (myState.clickedX > window_pos.x && myState.clickedX < window_pos.x+myState.img_sam_format_downscaled.nx && myState.clickedY > window_pos.y && myState.clickedY < window_pos.y+myState.img_sam_format_downscaled.ny) {
                 
                 //When click, need to ensure that the precomputed frame is this one
                 if (myState.frame_precomputed != myState.selected_frame) {
@@ -381,7 +386,9 @@ static void frameWindow(MyState &myState, const ImGuiViewport* viewport, ImGuiWi
                 int absoluteX = myState.clickedX-window_pos.x;
                 int absoluteY = myState.clickedY-window_pos.y;
                 //compute_mask_and_textures(myState.aVideo.frames[myState.selected_frame], myState.params, *myState.a_sam_state, absoluteX, absoluteY, R, G, B, myState);
-                compute_mask_and_textures(myState.aVideo.frames[myState.selected_frame], absoluteX, absoluteY, R, G, B, myState);
+                int absoluteX_upscaled =  absoluteX * (myState.img_sam.nx/(float)myState.img_sam_format_downscaled.nx);
+                int absoluteY_upscaled =  absoluteY * (myState.img_sam.ny/(float)myState.img_sam_format_downscaled.ny);
+                compute_mask_and_textures(myState.aVideo.frames[myState.selected_frame], absoluteX_upscaled, absoluteY_upscaled, R, G, B, myState);
 
                 //need to update the simplified image
                 //simplify(myState.aVideo.frames[myState.selected_frame].tex_simplified, myState.aVideo.frames[myState.selected_frame].tex_simplified);  
@@ -475,6 +482,7 @@ static void framesListWindow(MyState &myState, const ImGuiViewport* viewport, Im
                     printf("opencv_image2sam(myState.img_sam, myState.aVideo.frames[%d].img);\n", n);
                     //opencv_image2sam(myState.img_sam, myState.aVideo.frames[n].img);
                     myState.img_sam = myState.aVideo.frames[n].img_sam_format;
+                    myState.img_sam_format_downscaled = myState.aVideo.frames[n].img_sam_format_downscaled;
                     //myState.img_opencv = myState.aVideo.frames[n].img;
                     myState.selected_frame = n;
                     myState.selected_mask = -1;
@@ -929,7 +937,7 @@ void fileDialog(MyState &myState) {
         show_file_dialog_f(myState);
     }
 
-    //Check if opening single file
+    //Check if opening SINGLE FILE (NOTE: we will create a video with one frame)
     if (myState.file_dialog_file_selected && myState.file_dialog_mode == FILE_DIALOG_LOAD_SINGLE_FILE) {
         //We will deal with a single file as if it is a video with one frame
         //myState.img_sam has a copy of myState.aVideo.frames[myState.selected_frame].img_sam_format
@@ -946,18 +954,19 @@ void fileDialog(MyState &myState) {
             aFrame.img = opencv_img;
             opencv_image2sam(aFrame.img_sam_format, opencv_img);
             aFrame.order = 0;
-            downscale_img_to_size(aFrame.img_sam_format, myState.img_frame_w, myState.img_frame_h);
+            downscale_img_to_size(aFrame.img_sam_format, aFrame.img_sam_format_downscaled, myState.img_frame_w, myState.img_frame_h);
             
             //load_image_samformat_from_file(image_path, aFrame.img_sam_format);
 
 
-            aFrame.tex = createGLTexture(aFrame.img_sam_format, GL_RGB);
+            aFrame.tex = createGLTexture(aFrame.img_sam_format_downscaled, GL_RGB);
             myState.aVideo.frames.push_back(aFrame);
             myState.img_loaded = true;
             myState.selected_frame = 0;
             myState.selected_mask = -1;
 
             myState.img_sam = myState.aVideo.frames[0].img_sam_format;
+            myState.img_sam_format_downscaled = myState.aVideo.frames[0].img_sam_format_downscaled;
             //myState.img_opencv = myState.aVideo.frames[0].img;
             printf("After reading video precompute first frame...\n");
             /*if (!sam_compute_embd_img(myState.img_sam, myState.params.n_threads, *myState.a_sam_state)) {
@@ -970,7 +979,8 @@ void fileDialog(MyState &myState) {
         } else {
             printf("Error opening path: %s\n", image_path.c_str());
         }
-    //Check if opening video file
+
+    //Check if opening VIDEO FILE
     } else if (myState.file_dialog_file_selected && myState.file_dialog_mode == FILE_DIALOG_LOAD_VIDEO) {
         printf("OPENING VIDEO FILE\n");
         
@@ -986,6 +996,7 @@ void fileDialog(MyState &myState) {
         printf("Video read.\n");
         //opencv_image2sam(myState.img_sam, myState.aVideo.frames[0].img);
         myState.img_sam = myState.aVideo.frames[0].img_sam_format;
+        myState.img_sam_format_downscaled = myState.aVideo.frames[0].img_sam_format_downscaled;
         //myState.img_opencv = myState.aVideo.frames[0].img;
         myState.selected_frame = 0;
         myState.img_loaded = true;

@@ -93,7 +93,7 @@ static sam_image_u8 downscale_img(sam_image_u8 &img , float scale) {
 }*/
 
 //my version of downscale_img_to_screen (need to unify both)
-bool downscale_img_to_size(sam_image_u8 &img, int dw, int dh) {
+bool downscale_img_to_size(sam_image_u8 &img, sam_image_u8 &downscaled_img, int dw, int dh) {
     /*SDL_DisplayMode dm = {};
     if (!get_screen_size(dm, window)) {
         fprintf(stderr, "%s: failed to get screen size of the display.\n", __func__);
@@ -121,12 +121,12 @@ bool downscale_img_to_size(sam_image_u8 &img, int dw, int dh) {
         const float scale_x = (float)img.nx / max_width;
         const float scale = std::max(scale_x, scale_y);
 
-        img = downscale_img(img, scale);
+        downscaled_img = downscale_img(img, scale);
     }
 
     return true;
 }
-
+/*
 static bool downscale_img_to_screen(sam_image_u8 &img, SDL_Window* window) {
     SDL_DisplayMode dm = {};
     if (!get_screen_size(dm, window)) {
@@ -157,6 +157,7 @@ static bool downscale_img_to_screen(sam_image_u8 &img, SDL_Window* window) {
 
     return true;
 }
+*/
 
 GLuint createGLTextureOpenCV(const cv::Mat & opencv_img, GLint format) {
     //TODO: With this method, when used as a binary mask to apply colors

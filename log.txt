@@ -119,3 +119,19 @@ Universitat Politecnica de Catalunya
 	- Arreglat un error amb un wide string a mnist.h dins test_onnx (L'...).
 	- Tocant la toolbar
 	- Arreglat un error al tocar dimensions de finstres al codi. Penso que és un error degut a que imgui guarda un fitxer amb info
+
+12/04/2025
+	- Abordo el tema tricky de treballar amb imatges downscaled
+	- He afegit una img_sam_format_downscaled (tant al frame com al state)
+	- Cal tocar:
+		 editor.cpp
+		 sam_utils.cpp (compute_mask_and_textures i simplify_segmented_frame)
+		 common1.cpp (la propagació)
+	- Tres casos: imatge sola, video i propagació.
+	- De moment fa servir sempre la img_sam_format_downscaled
+	- Falta:
+		1) Que faci servir la no downscaled
+		2) Escalar els clicks del mouse
+		3) Escalar les mascares resultats abants de generar les textures
+		4) Veure que passa amb la generació del video
+	- DONE

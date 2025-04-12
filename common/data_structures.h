@@ -70,7 +70,11 @@ class Frame {
     cv::Mat img_simplified; //OpenCV format (just keep the texture)
     cv::Mat faces; //OpenCV format (faces mask)
     cv::Mat eyes; //OpenCV format (eyes mask)
-    sam_image_u8 img_sam_format; //the video frame in sam format
+    //NOTE: These two hold the current image.
+    //      A copy of the image in the selected frame (both in the video and single image case)
+    //      I think I should remove them
+    sam_image_u8 img_sam_format; //the video frame in sam format (downscaled to window size)
+    sam_image_u8 img_sam_format_downscaled; //the video frame in sam format (downscaled to window size)
     GLuint tex; //OpenGL texture of the original video frame
     GLuint tex_simplified; //OpenGL texture of simplified masks
     GLuint facesTexture;//OpenGL texture of the faces

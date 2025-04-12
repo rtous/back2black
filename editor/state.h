@@ -63,7 +63,8 @@ class MyState {
     
     //image and texture in left panel:
     cv::Mat img_opencv;//NOT CURRENTLY USED, to be used with sam2?
-    sam_image_u8 img_sam; //Used for processing and for rendering. Currently downscaled to window size
+    sam_image_u8 img_sam; //Used for processing and for rendering. 
+    sam_image_u8 img_sam_format_downscaled; //Used for processing and for rendering. Currently downscaled to window size
     GLuint tex; 
 
     //finishing details
