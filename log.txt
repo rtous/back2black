@@ -135,3 +135,7 @@ Universitat Politecnica de Catalunya
 		3) Escalar les mascares resultats abants de generar les textures
 		4) Veure que passa amb la generació del video
 	- DONE
+
+13/04/2025
+	- Corregit actualització rimlight i pixelation
+	- Detectat problema amb el canvi de colors i els altres frames, quan s'actualitzen les textures? A l'entrar al frame potser...

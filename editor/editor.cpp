@@ -234,8 +234,8 @@ static void drawAllMasks(MyState &myState, const ImGuiViewport* viewport, ImVec2
         draw_list->AddImage((void*)(intptr_t)myState.aVideo.frames[myState.selected_frame].tex_simplified, ImVec2(newPos[0], newPos[1]), ImVec2(newPos[0]+myState.img_sam_format_downscaled.nx, newPos[1]+myState.img_sam_format_downscaled.ny));
         //facial textures
         if (myState.aVideo.frames[myState.selected_frame].faces_computed) {
-            draw_list->AddImage((void*)(intptr_t)myState.aVideo.frames[myState.selected_frame].facesTexture, ImVec2(newPos[0], newPos[1]), ImVec2(newPos[0]+myState.img_sam.nx, newPos[1]+myState.img_sam.ny), ImVec2(0,0), ImVec2(1,1), IM_COL32(myState.face_color[0]*255, myState.face_color[1]*255, myState.face_color[2]*255, 255));
-            draw_list->AddImage((void*)(intptr_t)myState.aVideo.frames[myState.selected_frame].eyesTexture, ImVec2(newPos[0], newPos[1]), ImVec2(newPos[0]+myState.img_sam.nx, newPos[1]+myState.img_sam.ny), ImVec2(0,0), ImVec2(1,1), IM_COL32(myState.eyes_color[0]*255, myState.eyes_color[1]*255, myState.eyes_color[2]*255, 255));               
+            draw_list->AddImage((void*)(intptr_t)myState.aVideo.frames[myState.selected_frame].facesTexture, ImVec2(newPos[0], newPos[1]), ImVec2(newPos[0]+myState.img_sam_format_downscaled.nx, newPos[1]+myState.img_sam_format_downscaled.ny), ImVec2(0,0), ImVec2(1,1), IM_COL32(myState.face_color[0]*255, myState.face_color[1]*255, myState.face_color[2]*255, 255));
+            draw_list->AddImage((void*)(intptr_t)myState.aVideo.frames[myState.selected_frame].eyesTexture, ImVec2(newPos[0], newPos[1]), ImVec2(newPos[0]+myState.img_sam_format_downscaled.nx, newPos[1]+myState.img_sam_format_downscaled.ny), ImVec2(0,0), ImVec2(1,1), IM_COL32(myState.eyes_color[0]*255, myState.eyes_color[1]*255, myState.eyes_color[2]*255, 255));               
         }
         //DEBUG
         //draw_list->AddImage((void*)(intptr_t)myState.aVideo.frames[myState.selected_frame].tex, ImVec2(newPos[0], newPos[1]), ImVec2(newPos[0]+myState.img_sam.nx, newPos[1]+myState.img_sam.ny));
@@ -853,6 +853,8 @@ static void finishingWindow(MyState &myState, const ImGuiViewport* viewport, ImG
 
 static void finishingConfigWindow(MyState &myState, const ImGuiViewport* viewport, ImGuiWindowFlags flags, bool use_work_area) 
 {
+    bool need_to_update_textures = false;
+
     ImVec2 size = ImVec2(viewport->WorkSize.x * 0.50f, viewport->WorkSize.y * 0.25f);
     flags = ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoSavedSettings;
     //ImVec2 newPos = ImVec2(viewport->WorkPos.x + (viewport->WorkSize.x * 0.33f), viewport->WorkPos.y + (viewport->WorkSize.y * 0.75f));
@@ -914,12 +916,27 @@ static void finishingConfigWindow(MyState &myState, const ImGuiViewport* viewpor
 
 
         //rimlight size
+        int rimlight_size_old = myState.rimlight_size;
         ImGui::SliderInt("Rimlight size", &myState.rimlight_size, 0, 10);
+        if (rimlight_size_old != myState.rimlight_size) {
+            need_to_update_textures = true;
+        }
 
-        //rimlight size
+        //pixelation level
+        int pixelation_level_old = myState.pixelation_level;
         ImGui::SliderInt("Pixelation level", &myState.pixelation_level, 0, 10);
-    
+        if (pixelation_level_old != myState.pixelation_level) {
+            need_to_update_textures = true;
+        }
+
+
         ImGui::Checkbox("Change colors all frames", &myState.change_color_all_frames);
+    
+        if (need_to_update_textures) {
+            simplify_segmented_frame(myState, myState.selected_frame);
+            need_to_update_textures = false;
+        }
+
     }
 
     ImGui::End();

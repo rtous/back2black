@@ -383,7 +383,7 @@ void simplify_segmented_frame(MyState &myState, int frame_idx)
             //DEBUG: output_image_opencv_bgra = output_image_opencv_bgra + aMask.opencv_mask_simplified;
         }
     }
-    addRimLight(output_image_opencv_bgra, output_image_opencv_bgra, 5);
+    addRimLight(output_image_opencv_bgra, output_image_opencv_bgra, myState.rimlight_size);
 
     if (myState.pixelation_level > 0)
         pixelate(output_image_opencv_bgra, output_image_opencv_bgra, myState.pixelation_level);

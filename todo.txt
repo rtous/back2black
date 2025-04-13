@@ -8,36 +8,21 @@ Universitat Politecnica de Catalunya
 
 TODO
 
-- IMPORTANT: Ara treballem amb el frame reescalat i el reescalem per escriure el vídeo. Convindria treballar amb el frame nadiu i reescalarlo només quan es mostra en pantalla no?
-	- downscale_img_to_size (en el cas del video es fa a video.cpp)
-	- warning: there's an img_sam in state.h (single image case) and also in the frames of a video
-	- need to fix: 
-		- keep the original image 
-		- rescale coordinates (from window to image)
-		- rescale resulting masks (from image to window) but keep the good ones too
-		- ensure the generated video uses the original
-- IMPORTANT: change behavior of keeping old masks... fet?
-- change pixelation after change 
-- parametrizable rimlight size
-
-- El propagate sembla funcionar però no es veuen els resultats
-- refactoring:simplify fa servir common i això obliga a incloure les llibreries de segmentació. També imgui-sdl2 
-- generate video
-- Estic fent servir aMask.simplifiedMaskTexture que es calcula a compute_mask_textures??
-- PENSAR: potser no computar els details (rimlight, pixelació) fins a una fase de render final  
-- CRITICAL: get_best_mask_at_point in segmentor_sam2 always returns true!
-- CRITICAL: refactored single mask but need recfactoring PROPAGATE!!
+- + i -
+	- Guardar el mode de masking 
+	- Guardar els punts
+	- Mostrar els punts
+	- Computar els punts com sempre i esborrar els punts
 - faces uncheck
-- faces save
-- (propagate) poder propagar una màscara en concret
-- (propagate) si l'area canvia molt donar-ho com a error
-- (propagate) si falla provar al centre de l'anterior
-- sam 1 multiple coords??
-- dilatació també parametritzable
-- save project
+- faces save??
 
 TODO/REFACTORING
 
+- sam 1 multiple coords??
+- CRITICAL: get_best_mask_at_point in segmentor_sam2 always returns true!
+- CRITICAL: refactored single mask but need recfactoring PROPAGATE!!
+- Estic fent servir aMask.simplifiedMaskTexture que es calcula a compute_mask_textures??
+- refactoring:simplify fa servir common i això obliga a incloure les llibreries de segmentació. També imgui-sdl2 
 - common depen de sam, potser es podria eliminar
 - El resultat der createGLTextureOpenCV no funciona bé si s'usa com a binary mask al draw_list->AddImage, no conserva el color com createGLTexture
 - no entenc per que a compute_mask_textures aplica color si després no el fa servir
@@ -57,9 +42,13 @@ TODO/REFACTORING
 - WARNING: Hi ha un camp mask al object que es fa servir al cli_masks però no a l'editor (és la màscara opencv, ara sí la faig servir) -> RENOMBRAR
 
 
-
-
 IMPROVEMENTS:
+- (propagate) si l'area canvia molt donar-ho com a error
+- (propagate) poder propagar una màscara en concret
+- (propagate) si falla provar al centre de l'anterior
+- dilatació també parametritzable
+- save project
+- PENSAR: potser no computar els details (rimlight, pixelació) fins a una fase de render final  
 - IMPORTANT: There's a CoreML model for SAM2.1 (CoreML compilers support are Objective-C and Swift.)
 - IMPORTANT: "For example, at reduced resolutions, SAMv2 gets a ~4x speed up on video segmentation"
 SAM2:
@@ -73,11 +62,25 @@ SAM2:
 - error managment (return -1, exceptions, ...)
 - check https://github.com/heyoeyo/muggled_sam?tab=readme-ov-file#run-image
 
-----------------
------------------
+------------------------------------------------------------------------------
+------------------------------------------------------------------------------
+------------------------------------------------------------------------------
 
 DONE:
 
+- generate video
+- El propagate sembla funcionar però no es veuen els resultats
+- IMPORTANT: change behavior of keeping old masks... fet?
+- change pixelation after change 
+- parametrizable rimlight size
+- IMPORTANT: Ara treballem amb el frame reescalat i el reescalem per escriure el vídeo. Convindria treballar amb el frame nadiu i reescalarlo només quan es mostra en pantalla no?
+	- downscale_img_to_size (en el cas del video es fa a video.cpp)
+	- warning: there's an img_sam in state.h (single image case) and also in the frames of a video
+	- need to fix: 
+		- keep the original image 
+		- rescale coordinates (from window to image)
+		- rescale resulting masks (from image to window) but keep the good ones too
+		- ensure the generated video uses the original
 - Where is the face?
 - PROBLEM: Colors are not updated now...
 - Colors are wrong...
