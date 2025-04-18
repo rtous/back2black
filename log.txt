@@ -139,3 +139,7 @@ Universitat Politecnica de Catalunya
 13/04/2025
 	- Corregit actualització rimlight i pixelation
 	- Detectat problema amb el canvi de colors i els altres frames, quan s'actualitzen les textures? A l'entrar al frame potser...
+
+18/04/2024
+	- Incorporat multipoint click
+	- Falta tocar el propagate (potser desplaçant tots els punts igual que el centre?)

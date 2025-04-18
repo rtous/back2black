@@ -6,6 +6,15 @@
 #include <thread>
 #include <memory>
 
+//Afegit per mi
+class MaskPoint {      
+  public:             
+    int x;
+    int y;
+    bool positive;
+};
+////////
+
 struct sam_point {
     float x = 0;
     float y = 0;

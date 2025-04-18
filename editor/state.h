@@ -10,6 +10,13 @@
 #include "segmentor_sam1.h"
 #include "segmentor_sam2.h"
 
+/*class MaskPoint {      
+  public:             
+    int x;
+    int y;
+    bool positive;
+};*/
+
 class MyState {      
   public: 
 
@@ -52,10 +59,15 @@ class MyState {
 
     //masks
     t_colors colors_palette;
-    bool clicked;
-    int clickedX;
-    int clickedY;
+    bool clicked; //the user clicked somewhere
+    int clickedX; //raw imgui general windows coordinate
+    int clickedY; //raw imgui general windows coordinate
+
+    int mask_mode = 0; //0=click2mask, 1=positive, 2=negative
+    std::vector<MaskPoint> sam2_points; //scaled to the original image
+    bool mask_button_clicked = false; 
     
+    //frames
     int selected_frame = 0;
     int selected_mask = -1; //set 0 if you want first mask selected by default
     int frame_precomputed = -1;

@@ -8,18 +8,15 @@ Universitat Politecnica de Catalunya
 
 TODO
 
-- + i -
-	- Guardar el mode de masking 
-	- Guardar els punts
-	- Mostrar els punts
-	- Computar els punts com sempre i esborrar els punts
+- modificar el propagate per a les màscares multipunt
 - faces uncheck
 - faces save??
+- windows
 
 TODO/REFACTORING
 
-- sam 1 multiple coords??
 - CRITICAL: get_best_mask_at_point in segmentor_sam2 always returns true!
+	- Això ja m'ha donat alguna petada xunga, cal corregir-ho
 - CRITICAL: refactored single mask but need recfactoring PROPAGATE!!
 - Estic fent servir aMask.simplifiedMaskTexture que es calcula a compute_mask_textures??
 - refactoring:simplify fa servir common i això obliga a incloure les llibreries de segmentació. També imgui-sdl2 
@@ -68,6 +65,11 @@ SAM2:
 
 DONE:
 
+ + i -
+	- Guardar el mode de masking 
+	- Guardar els punts
+	- Mostrar els punts
+	- Computar els punts com sempre i esborrar els punts
 - generate video
 - El propagate sembla funcionar però no es veuen els resultats
 - IMPORTANT: change behavior of keeping old masks... fet?

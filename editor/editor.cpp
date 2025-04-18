@@ -228,6 +228,7 @@ static void drawAllMasks(MyState &myState, const ImGuiViewport* viewport, ImVec2
         }
     }
     
+    //finishing window
     if (simplified) {
         //overall masks texture (with rimlight)
         //myState.aVideo.frames[myState.selected_frame].tex_simplified = myState.aVideo.frames[myState.selected_frame].tex;
@@ -241,6 +242,20 @@ static void drawAllMasks(MyState &myState, const ImGuiViewport* viewport, ImVec2
         //draw_list->AddImage((void*)(intptr_t)myState.aVideo.frames[myState.selected_frame].tex, ImVec2(newPos[0], newPos[1]), ImVec2(newPos[0]+myState.img_sam.nx, newPos[1]+myState.img_sam.ny));
     }
 
+    //sam2 points
+    if (!simplified) {
+        for (int i = 0; i < myState.sam2_points.size(); i++) {
+            MaskPoint sam2_point = myState.sam2_points[i];
+            if (sam2_point.positive) {
+                //draw_list->AddCircleFilled(ImVec2(newPos[0]+sam2_point.x*downscale_factor_x, newPos[1]+sam2_point.y*downscale_factor_y), 5, IM_COL32(100, 100, 0, 255));
+                draw_list->AddCircleFilled(ImVec2(newPos[0]+sam2_point.x*downscale_factor_x, newPos[1]+sam2_point.y*downscale_factor_y), 2, IM_COL32(0, 255, 0, 255));
+                //draw_list->AddText(NULL, 40, ImVec2(newPos[0]+sam2_point.x*downscale_factor_x, newPos[1]+sam2_point.y*downscale_factor_y), IM_COL32(255, 0, 0, 255), "+");
+            } else {
+                draw_list->AddCircleFilled(ImVec2(newPos[0]+sam2_point.x*downscale_factor_x, newPos[1]+sam2_point.y*downscale_factor_y), 2, IM_COL32(255, 0, 0, 255));
+                //draw_list->AddText(NULL, 40, ImVec2(newPos[0]+sam2_point.x*downscale_factor_x, newPos[1]+sam2_point.y*downscale_factor_y), IM_COL32(0, 255, 0, 255), "-");
+            }
+        }
+    }
 }
 
 static void toolbarWindow(MyState &myState, ImGuiWindowFlags flags, ImVec2 window_size, ImVec2 window_pos) 
@@ -254,26 +269,16 @@ static void toolbarWindow(MyState &myState, ImGuiWindowFlags flags, ImVec2 windo
     
     //////        
     ImGui::Text("MASK MODE:"); //ImGui::SameLine();
-    static int e1 = 0;
-    ImGui::RadioButton("Click to mask", &e1, 0); 
+    //static int e1 = 0;
+    ImGui::RadioButton("Click to mask", &myState.mask_mode, 0); 
     //ImGui::Text("WITH POINTS:"); ; ImGui::SameLine();
-    ImGui::RadioButton("+", &e1, 1); ImGui::SameLine();
-    ImGui::RadioButton("-", &e1, 2); ImGui::SameLine();
+    ImGui::RadioButton("+", &myState.mask_mode, 1); ImGui::SameLine();
+    ImGui::RadioButton("-", &myState.mask_mode, 2); ImGui::SameLine();
     ////////
     ImGui::Spacing(); ImGui::SameLine();
-    bool clickedPositivePointButton1 = false;
     if (ImGui::Button("MASK")) {
-        printf("Clicked positivePointButton\n");  
-        clickedPositivePointButton1 = true;   
-        //myState.clicked = false;  
-    }
-    if (clickedPositivePointButton1) {
-        printf("Clicked positivePointButton\n");  
-    }
-
-
-
-
+        myState.mask_button_clicked = true;
+    } 
     ImGui::End();
 }
 
@@ -355,49 +360,58 @@ static void frameWindow(MyState &myState, const ImGuiViewport* viewport, ImGuiWi
             printf("Mouse clicked at (%d, %d)\n", myState.clickedX, myState.clickedY);
             printf("Image x = %d, y = %d\n", myState.img_sam_format_downscaled.nx, myState.img_sam_format_downscaled.ny);
 
-            //Mask & selectedMask = myState.aVideo.frames[myState.selected_frame].masks[myState.selected_mask];
-
-            //TODO make the position relative to the window (now works because image is displayed at 0,0)
             if (myState.clickedX > window_pos.x && myState.clickedX < window_pos.x+myState.img_sam_format_downscaled.nx && myState.clickedY > window_pos.y && myState.clickedY < window_pos.y+myState.img_sam_format_downscaled.ny) {
                 
-                //When click, need to ensure that the precomputed frame is this one
-                if (myState.frame_precomputed != myState.selected_frame) {
-                    printf("clicked but frame_precomputed (%d) != selected_frame (%d) changed so precomputing first frame...\n", myState.frame_precomputed, myState.selected_frame);
-                    /*if (!sam_compute_embd_img(myState.img_sam, myState.params.n_threads, *myState.a_sam_state)) {
-                        fprintf(stderr, "%s: failed to compute encoded image\n", __func__);
-                        //return 1;
-                    }*/
-                    myState.segmentor.preprocessImage(myState.img_sam);
-                    myState.frame_precomputed = myState.selected_frame;
-                }
-
-                //compute_masks(myState.img_sam, myState.params, *myState.a_sam_state, &myState.maskTextures, myState.clickedX, myState.clickedY, myState.masks, &myState.masks_colors, myState.last_color_id);
-                
-                //Each time the user clicks we compute the masks and OpenGL textures
-                //int R = selectedMask.color[0]*255;
-                //int G = selectedMask.color[1]*255;
-                //int B = selectedMask.color[2]*255;
-                int R = 100;
-                int G = 100;
-                int B = 100;
-                //printf("myState.selected_frame=%d,myState.selected_mask=%d\n", myState.selected_frame, myState.selected_mask);
-                printf("R=%d,G=%d,B=%d\n", R, G, B);
-                //compute_masks(myState.img_sam, myState.params, *myState.a_sam_state, &selectedMask.maskTextures, myState.clickedX, myState.clickedY, selectedMask.masks, &myState.masks_colors, myState.last_color_id, R, G, B, &selectedMask.simplifiedMaskTextures);
                 int absoluteX = myState.clickedX-window_pos.x;
                 int absoluteY = myState.clickedY-window_pos.y;
-                //compute_mask_and_textures(myState.aVideo.frames[myState.selected_frame], myState.params, *myState.a_sam_state, absoluteX, absoluteY, R, G, B, myState);
                 int absoluteX_upscaled =  absoluteX * (myState.img_sam.nx/(float)myState.img_sam_format_downscaled.nx);
                 int absoluteY_upscaled =  absoluteY * (myState.img_sam.ny/(float)myState.img_sam_format_downscaled.ny);
-                compute_mask_and_textures(myState.aVideo.frames[myState.selected_frame], absoluteX_upscaled, absoluteY_upscaled, R, G, B, myState);
+                    
 
-                //need to update the simplified image
-                //simplify(myState.aVideo.frames[myState.selected_frame].tex_simplified, myState.aVideo.frames[myState.selected_frame].tex_simplified);  
-                simplify_segmented_frame(myState, myState.selected_frame);
+                if (myState.mask_mode == 0) {
+                    //When click, need to ensure that the precomputed frame is this one
+                    if (myState.frame_precomputed != myState.selected_frame) {
+                        printf("clicked but frame_precomputed (%d) != selected_frame (%d) changed so precomputing first frame...\n", myState.frame_precomputed, myState.selected_frame);
+                        /*if (!sam_compute_embd_img(myState.img_sam, myState.params.n_threads, *myState.a_sam_state)) {
+                            fprintf(stderr, "%s: failed to compute encoded image\n", __func__);
+                            //return 1;
+                        }*/
+                        myState.segmentor.preprocessImage(myState.img_sam);
+                        myState.frame_precomputed = myState.selected_frame;
+                    }
 
-                //printf("Computed masks. selectedMask.maskTextures.size()=%d\n", selectedMask.maskTextures.size());
+                    //compute_masks(myState.img_sam, myState.params, *myState.a_sam_state, &myState.maskTextures, myState.clickedX, myState.clickedY, myState.masks, &myState.masks_colors, myState.last_color_id);
+                    
+                    //Each time the user clicks we compute the masks and OpenGL textures
+                    //int R = selectedMask.color[0]*255;
+                    //int G = selectedMask.color[1]*255;
+                    //int B = selectedMask.color[2]*255;
+                    int R = 100;
+                    int G = 100;
+                    int B = 100;
+                    //printf("myState.selected_frame=%d,myState.selected_mask=%d\n", myState.selected_frame, myState.selected_mask);
+                    printf("R=%d,G=%d,B=%d\n", R, G, B);
+                    //compute_masks(myState.img_sam, myState.params, *myState.a_sam_state, &selectedMask.maskTextures, myState.clickedX, myState.clickedY, selectedMask.masks, &myState.masks_colors, myState.last_color_id, R, G, B, &selectedMask.simplifiedMaskTextures);
+                    
+                    //compute_mask_and_textures(myState.aVideo.frames[myState.selected_frame], myState.params, *myState.a_sam_state, absoluteX, absoluteY, R, G, B, myState);
+                    compute_mask_and_textures(myState.aVideo.frames[myState.selected_frame], absoluteX_upscaled, absoluteY_upscaled, R, G, B, myState);
 
-                //Compute the textures for the mask masks
-                //compute_mask_textures(myState.img_sam, myState.params, *myState.a_sam_state, &myState.masksMaskTextures[myState.selected_mask], myState.clickedX, myState.clickedY, myState.aVideo.frames[myState.selected_frame].masks[myState.selected_mask].masks, &myState.masks_colors, myState.last_color_id);
+                    //need to update the simplified image
+                    //simplify(myState.aVideo.frames[myState.selected_frame].tex_simplified, myState.aVideo.frames[myState.selected_frame].tex_simplified);  
+                    simplify_segmented_frame(myState, myState.selected_frame);
+
+                    //printf("Computed masks. selectedMask.maskTextures.size()=%d\n", selectedMask.maskTextures.size());
+
+                    //Compute the textures for the mask masks
+                    //compute_mask_textures(myState.img_sam, myState.params, *myState.a_sam_state, &myState.masksMaskTextures[myState.selected_mask], myState.clickedX, myState.clickedY, myState.aVideo.frames[myState.selected_frame].masks[myState.selected_mask].masks, &myState.masks_colors, myState.last_color_id);
+                } else if (myState.mask_mode == 1 || myState.mask_mode == 2) {
+                    MaskPoint sam2_point;
+                    sam2_point.x = absoluteX_upscaled;
+                    sam2_point.y = absoluteY_upscaled;
+                    if (myState.mask_mode == 1) sam2_point.positive = true;
+                    else sam2_point.positive = false;
+                    myState.sam2_points.push_back(sam2_point);
+                }
             }
             myState.clicked = false;
         }
@@ -1152,6 +1166,40 @@ void about_version_popup(MyState &myState) {
     }
 }
 
+
+//compute_mask
+//multi point case, the single point is in the frame_window() TODO: unify
+void compute_mask(MyState &myState) {
+    if (myState.frame_precomputed != myState.selected_frame) {
+        printf("mask requested but frame_precomputed (%d) != selected_frame (%d) changed so precomputing first frame...\n", myState.frame_precomputed, myState.selected_frame);
+        myState.segmentor.preprocessImage(myState.img_sam);
+        myState.frame_precomputed = myState.selected_frame;
+    }
+
+    //compute_masks(myState.img_sam, myState.params, *myState.a_sam_state, &myState.maskTextures, myState.clickedX, myState.clickedY, myState.masks, &myState.masks_colors, myState.last_color_id);
+    
+    //Each time the user clicks we compute the masks and OpenGL textures
+    //int R = selectedMask.color[0]*255;
+    //int G = selectedMask.color[1]*255;
+    //int B = selectedMask.color[2]*255;
+    int R = 100;
+    int G = 100;
+    int B = 100;
+    //printf("myState.selected_frame=%d,myState.selected_mask=%d\n", myState.selected_frame, myState.selected_mask);
+    printf("R=%d,G=%d,B=%d\n", R, G, B);
+    //compute_masks(myState.img_sam, myState.params, *myState.a_sam_state, &selectedMask.maskTextures, myState.clickedX, myState.clickedY, selectedMask.masks, &myState.masks_colors, myState.last_color_id, R, G, B, &selectedMask.simplifiedMaskTextures);
+    
+    //compute_mask_and_textures(myState.aVideo.frames[myState.selected_frame], myState.params, *myState.a_sam_state, absoluteX, absoluteY, R, G, B, myState);
+    compute_mask_and_textures(myState.aVideo.frames[myState.selected_frame], myState.sam2_points, R, G, B, myState);
+
+    //need to update the simplified image
+    //simplify(myState.aVideo.frames[myState.selected_frame].tex_simplified, myState.aVideo.frames[myState.selected_frame].tex_simplified);  
+    simplify_segmented_frame(myState, myState.selected_frame);
+
+    //Remove points
+    myState.sam2_points.clear();
+}
+
 //checks user actions (e.g. open a file, etc.)
 void checkActions(MyState &myState) 
 {
@@ -1205,12 +1253,16 @@ void checkActions(MyState &myState)
     if (myState.about_version_popup) {
         about_version_popup(myState);
     }
+    if (myState.mask_button_clicked) {
+        compute_mask(myState); 
+        printf("compute mask requested in mode multipoint: NOT IMPLEMENTED YET\n");
+        myState.mask_button_clicked = false;
+    }
 }
 
 //Main editor method (called within the main loop)
 void editor(MyState &myState) //WARNING: this is executed within the main loop
 {
-
     //Check user actions
     checkActions(myState);
 

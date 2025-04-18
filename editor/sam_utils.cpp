@@ -227,6 +227,7 @@ void compute_mask_textures_all_frames(std::vector<Frame> & frames, MyState &mySt
     }
 }
 
+
 //called by the editor in frameWindow() and if clicked
 //computes the masks at the given point and checks if it's a new one
 //currently the passed storedMasks are just the masks of one mask
@@ -237,6 +238,7 @@ void compute_mask_and_textures(Frame & aFrame, int x, int y, int R, int G, int B
     sam_image_u8 mask;
     bool maskFound;
     //maskFound = get_best_sam_mask_at_point(x, y, aFrame.img_sam_format, state, params.n_threads, mask); 
+
     maskFound = myState.segmentor.get_best_mask_at_point(x, y, aFrame.img_sam_format, mask); 
     printf("COMPUTED MASK (%d,%d) from (%d,%d): \n", aFrame.img_sam_format.nx, aFrame.img_sam_format.ny, mask.nx, mask.ny);
         
@@ -292,6 +294,132 @@ void compute_mask_and_textures(Frame & aFrame, int x, int y, int R, int G, int B
             
             //NOW: If the mask is already in storedMasks we will mark is as not computed
             //aFrame.masks[pos].mask_computed = false;
+        }
+    }
+}
+
+/*
+//called by the editor in frameWindow() and if clicked
+//computes the masks at the given point and checks if it's a new one
+//currently the passed storedMasks are just the masks of one mask
+//void compute_masks(sam_image_u8 img, const sam_params & params, sam_state & state, std::vector<GLuint> *maskTextures, int x, int y, std::vector<sam_image_u8> & storedMasks, std::vector<int> * mask_colors, int & last_color_id, int R, int G, int B, std::vector<GLuint> *simplifiedMaskTextures) {
+//void compute_mask_and_textures(Frame & aFrame, const sam_params & params, sam_state & state, int x, int y, int R, int G, int B, MyState &myState) {
+void compute_mask_and_textures(Frame & aFrame, int x, int y, int R, int G, int B, MyState &myState) {
+    printf("compute_masks with selected_mask = %d\n", myState.selected_mask);
+    sam_image_u8 mask;
+    bool maskFound;
+    //maskFound = get_best_sam_mask_at_point(x, y, aFrame.img_sam_format, state, params.n_threads, mask); 
+
+    //maskFound = myState.segmentor.get_best_mask_at_point(x, y, aFrame.img_sam_format, mask); 
+    std::vector<MaskPoint> sam2_points;
+    MaskPoint mask_point;
+    mask_point.x = x;
+    mask_point.y = y;
+    mask_point.positive = true;
+    sam2_points.push_back(mask_point); 
+    //maskFound = myState.segmentor.get_best_mask_at_point(x, y, aFrame.img_sam_format, mask); 
+    maskFound = myState.segmentor.get_best_mask_at_points(sam2_points, aFrame.img_sam_format, mask); 
+    printf("COMPUTED MASK (%d,%d) from (%d,%d): \n", aFrame.img_sam_format.nx, aFrame.img_sam_format.ny, mask.nx, mask.ny);
+        
+
+    if (maskFound) {        
+        //printf("isEmptyMaskDEBUG(mask)=%d\n", isEmptyMaskDEBUG(mask));
+        int pos = masks_already_in_list(mask, aFrame);
+        
+        if (pos == -1) { //the mask is new, not in storedMasks  
+            printf("the mask is new\n");
+            //If there's a selected mask we will replace it
+            //if not we will create a new mask
+            Mask *targetMask;
+            if (myState.selected_mask == -1) { 
+                Mask newMask;
+                targetMask = &newMask;  
+            } else {
+                targetMask = &aFrame.masks[myState.selected_mask];
+            }    
+            //Mask newMask;
+            targetMask->samMask = mask;
+            targetMask->mask_computed = true;
+            targetMask->mask_computed_at_x = x;
+            targetMask->mask_computed_at_y = y;
+            printf("compute_mask_center...\n");
+            compute_mask_center(*targetMask);//from common1.c
+            printf("compute_mask_textures...\n");
+            printf("compute_mask_and_textures R,G,B = %d, %d, %d\n", R, G, B);
+
+            //compute_mask_textures(*targetMask, R, G, B);
+            compute_mask_textures(*targetMask, targetMask->color[0]*256, targetMask->color[1]*256, targetMask->color[2]*256);
+            //aFrame.newMask(newMask); 
+            if (myState.selected_mask == -1) {  
+                printf("aFrame.newMask...\n");     
+                aFrame.newMask(*targetMask);
+                printf("Added mask with id=%d\n", targetMask->maskId);
+            } else {
+                printf("Changed mask with id=%d\n", targetMask->maskId);
+            }
+
+
+        } else { //the mask already exists (and is not empty)
+            //OLD: If the mask is already in storedMasks we will delete it
+            //NOW: If the mask is already in storedMasks we will mark is as not computed
+            //     This way we avoid the mask id being assigned to other masks
+            //NOW2: Delete or bery weird
+        
+            printf("Deleting mask %d ", pos);
+            aFrame.masks.erase(aFrame.masks.begin() + pos);
+            //If we have erased the selected mask let's deselect
+            if (pos == myState.selected_mask)
+                myState.selected_mask = -1;
+            
+            //NOW: If the mask is already in storedMasks we will mark is as not computed
+            //aFrame.masks[pos].mask_computed = false;
+        }
+    }
+}
+*/
+
+//version with multiple points
+//called by the editor 
+//does not remove mask if coincident (maybe integrate with previous)
+void compute_mask_and_textures(Frame & aFrame, std::vector<MaskPoint> sam2_points, int R, int G, int B, MyState &myState) {
+    printf("compute_masks with selected_mask = %d\n", myState.selected_mask);
+    sam_image_u8 mask;
+    bool maskFound;
+    //maskFound = get_best_sam_mask_at_point(x, y, aFrame.img_sam_format, state, params.n_threads, mask); 
+
+    maskFound = myState.segmentor.get_best_mask_at_points(sam2_points, aFrame.img_sam_format, mask); 
+    printf("COMPUTED MASK (%d,%d) from (%d,%d): \n", aFrame.img_sam_format.nx, aFrame.img_sam_format.ny, mask.nx, mask.ny);
+        
+    if (maskFound) {        
+        //If there's a selected mask we will replace it
+        //if not we will create a new mask
+        Mask *targetMask;
+        if (myState.selected_mask == -1) { 
+            Mask newMask;
+            targetMask = &newMask;  
+        } else {
+            targetMask = &aFrame.masks[myState.selected_mask];
+        }    
+        //Mask newMask;
+        targetMask->samMask = mask;
+        targetMask->mask_computed = true;
+        //targetMask->mask_computed_at_x = x;
+        //targetMask->mask_computed_at_y = y;
+        targetMask->mask_computed_at_points = sam2_points;
+        printf("compute_mask_center...\n");
+        compute_mask_center(*targetMask);//from common1.c
+        printf("compute_mask_textures...\n");
+        printf("compute_mask_and_textures R,G,B = %d, %d, %d\n", R, G, B);
+
+        //compute_mask_textures(*targetMask, R, G, B);
+        compute_mask_textures(*targetMask, targetMask->color[0]*256, targetMask->color[1]*256, targetMask->color[2]*256);
+        //aFrame.newMask(newMask); 
+        if (myState.selected_mask == -1) {  
+            printf("aFrame.newMask...\n");     
+            aFrame.newMask(*targetMask);
+            printf("Added mask with id=%d\n", targetMask->maskId);
+        } else {
+            printf("Changed mask with id=%d\n", targetMask->maskId);
         }
     }
 }

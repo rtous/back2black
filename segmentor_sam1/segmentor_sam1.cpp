@@ -76,6 +76,11 @@ bool SAM1Segmentor::get_best_mask_at_point(int x, int y, sam_image_u8& image_sam
     return found;
 }
 
+bool SAM1Segmentor::get_best_mask_at_points(std::vector<MaskPoint>& points, sam_image_u8& image_sam, sam_image_u8& mask_sam) {
+    //TODO
+    return true;//TODO
+}
+
 void SAM1Segmentor::close() {
     sam_deinit(*a_sam_state);
 }
