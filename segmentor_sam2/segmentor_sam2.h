@@ -20,8 +20,10 @@ class SAM2Segmentor : public Segmentor {
     void test();  
     bool preprocessImage(cv::Mat& image_opencv);  
     bool preprocessImage(sam_image_u8& image_sam);
+    //es pot eliminar:
     cv::Mat get_best_mask_at_point(int x, int y, cv::Mat& image_opencv);
     cv::Mat get_best_mask_at_points(std::vector<MaskPoint>& points, cv::Mat& image_opencv);
+    //es pot eliminar:
     bool get_best_mask_at_point(int x, int y, sam_image_u8& image_sam, sam_image_u8& mask_sam);
     bool get_best_mask_at_points(std::vector<MaskPoint>& points, sam_image_u8& image_sam, sam_image_u8& mask_sam);
     SAM2Segmentor();

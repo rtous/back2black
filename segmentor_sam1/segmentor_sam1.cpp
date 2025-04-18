@@ -52,6 +52,7 @@ bool SAM1Segmentor::preprocessImage(sam_image_u8 & image_sam) {
     return true;
 }
 
+//es pot eliminar:
 cv::Mat SAM1Segmentor::get_best_mask_at_point(int x, int y, cv::Mat& image_opencv) {
     //opencv image to sam
     sam_image_u8 image_sam;
@@ -70,6 +71,7 @@ cv::Mat SAM1Segmentor::get_best_mask_at_point(int x, int y, cv::Mat& image_openc
     return mask_opencv;
 }
 
+//es pot eliminar:
 bool SAM1Segmentor::get_best_mask_at_point(int x, int y, sam_image_u8& image_sam, sam_image_u8& mask_sam) {
     //compute mask at given point (pick best one)
     bool found = get_best_sam_mask_at_point(x, y, image_sam, *a_sam_state, params.n_threads, mask_sam);
