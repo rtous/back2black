@@ -285,12 +285,13 @@ void compute_mask(MyState &myState) {
     compute_mask_and_textures(myState.aVideo.frames[myState.selected_frame], myState.sam2_points, R, G, B, myState);
 
     //compute_mask_and_textures(myState.aVideo.frames[myState.selected_frame], myState.params, *myState.a_sam_state, absoluteX, absoluteY, R, G, B, myState);
-    if (myState.mask_button_clicked) {
+    /*if (myState.mask_button_clicked) {
         //compute_mask_and_textures(myState.aVideo.frames[myState.selected_frame], myState.sam2_points, R, G, B, myState);
         myState.sam2_points.clear();
     } else {
         //compute_mask_and_textures(myState.aVideo.frames[myState.selected_frame], myState.sam2_points[0].x, myState.sam2_points[0].y, R, G, B, myState);
-    }
+    }*/
+    myState.sam2_points.clear();
 
     //need to update the simplified image
     //simplify(myState.aVideo.frames[myState.selected_frame].tex_simplified, myState.aVideo.frames[myState.selected_frame].tex_simplified);  
@@ -314,8 +315,11 @@ static void toolbarWindow(MyState &myState, ImGuiWindowFlags flags, ImVec2 windo
     //////        
     ImGui::Text("MASK MODE:"); //ImGui::SameLine();
     //static int e1 = 0;
-    ImGui::RadioButton("Click to mask", &myState.mask_mode, 0); 
-    //ImGui::Text("WITH POINTS:"); ; ImGui::SameLine();
+    if(ImGui::RadioButton("Click to mask", &myState.mask_mode, 0)) {
+        myState.sam2_points.clear();
+    }
+    //myState.sam2_points.clear();
+    //ImGui::Text("WITH POINTS:"); ; ImGui::SameLine(); 
     ImGui::RadioButton("+", &myState.mask_mode, 1); ImGui::SameLine();
     ImGui::RadioButton("-", &myState.mask_mode, 2); ImGui::SameLine();
     ////////
