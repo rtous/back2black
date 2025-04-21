@@ -211,15 +211,15 @@ void compute_mask_textures_all_frames(std::vector<Frame> & frames, MyState &mySt
     //iterate through all frames 
     //assumes that the first frame has been already computed
     for (Frame & aFrame : frames) {
-        printf("PROCESSING TEXTURES FROM FRAME %d \n", f);
+        //printf("PROCESSING TEXTURES FROM FRAME %d \n", f);
         //iterate through all the masks of the frame
         for (Mask & aMask : aFrame.masks) {
-            printf("\tPROCESSING MASK...\n", f);
+            //printf("\tPROCESSING MASK...\n", f);
             if (aMask.mask_computed && !aMask.textures_computed) {
-                printf("\t\tcompute_mask_textures...\n", f);
-                printf("compute_mask_textures_all_frames R,G,B = %d, %d, %d\n", aMask.color[0]*255, aMask.color[1]*255, aMask.color[2]*255);
+                //printf("\t\tcompute_mask_textures...\n", f);
+                //printf("compute_mask_textures_all_frames R,G,B = %d, %d, %d\n", aMask.color[0]*255, aMask.color[1]*255, aMask.color[2]*255);
                 compute_mask_textures(aMask, aMask.color[0]*255, aMask.color[1]*255, aMask.color[2]*255);
-                printf("\t\tcomputed textures...\n", f);
+                //printf("\t\tcomputed textures...\n", f);
             }
         }
         simplify_segmented_frame(myState, f);
@@ -325,7 +325,7 @@ void compute_mask_and_textures(Frame & aFrame, std::vector<MaskPoint> sam2_point
             pos = masks_already_in_list(mask, aFrame);
         }
         
-        if (sam2_points.size() > 1 || pos == -1) { //the mask is new, not in storedMasks  
+        if (sam2_points.size() > 1 || pos == -1) { //mask with multiple points or the mask is new, not in storedMasks  
             printf("the mask is new\n");
             //If there's a selected mask we will replace it
             //if not we will create a new mask
@@ -343,8 +343,10 @@ void compute_mask_and_textures(Frame & aFrame, std::vector<MaskPoint> sam2_point
                 targetMask->mask_computed_at_x = sam2_points[0].x;
                 targetMask->mask_computed_at_y = sam2_points[0].y;
             } else {
-                targetMask->mask_computed_at_points = sam2_points;
+                //targetMask->mask_computed_at_points = sam2_points;
             }
+            //use of multiple points always (TODO: delete mask_computed_at_x, etc.)
+            targetMask->mask_computed_at_points = sam2_points;
             printf("compute_mask_center...\n");
             compute_mask_center(*targetMask);//from common1.c
             printf("compute_mask_textures...\n");
@@ -605,7 +607,7 @@ void simplify_segmented_frame(MyState &myState, int frame_idx)
 
     GLuint newGLTextureSimplified = createGLTextureOpenCV(output_image_opencv_bgra, GL_RGBA);
     
-    printf("DEBUG aFrame.tex_simplified = newGLTextureSimplified;\n");
+    //printf("DEBUG aFrame.tex_simplified = newGLTextureSimplified;\n");
     aFrame.tex_simplified = newGLTextureSimplified;
     aFrame.img_simplified = output_image_opencv_bgra;
     //DEBUG

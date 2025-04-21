@@ -349,13 +349,25 @@ void compute_mask_center(Mask & aMask) {
     cv:findContours(aMask.opencv_mask, aMask.contours, hierarchy, cv::RETR_LIST, cv::CHAIN_APPROX_SIMPLE );
     if (aMask.contours.size() == 0) 
         printf("WARNING: No countours found for the mask!\n");
+    
+    int biggest_contour_index = 0;
+    int biggest_contour_area = 0;
+    for (int i=0; i<aMask.contours.size(); i++) {
+        int contour_area = cv::contourArea(aMask.contours[i]);
+        if (contour_area > biggest_contour_area) {
+            biggest_contour_area = contour_area;
+            biggest_contour_index = i;
+        }
+    }
+    printf("Biggest contour is %d with area %d\n", biggest_contour_index, biggest_contour_area);
+
     //TODO: Multiple contours
-    printf("\t\tcontourArea...\n");
-    aMask.mask_contour_size = cv::contourArea(aMask.contours[0]);
-    printf("new_contour_area = %d \n", aMask.mask_contour_size);
+    //printf("\t\tcontourArea...\n");
+    aMask.mask_contour_size = biggest_contour_area;//TODO WHY DO WE USE THAT???
+    //printf("new_contour_area = %d \n", aMask.mask_contour_size);
 
     // compute the center of the contour https://pyimagesearch.com/2016/02/01/opencv-center-of-contour/
-    cv::Moments M = cv::moments(aMask.contours[0]);
+    cv::Moments M = cv::moments(aMask.contours[biggest_contour_index]);
     cv::Point center(M.m10/M.m00, M.m01/M.m00);  
     aMask.mask_center_x = center.x;
     aMask.mask_center_y = center.y;
@@ -371,8 +383,12 @@ bool compute_mask(Mask & aMask, sam_image_u8 img0, Segmentor & segmentor) {
     
     //compute mask at given point (pick best one)
     //bool found = get_best_sam_mask_at_point(aMask.mask_computed_at_x, aMask.mask_computed_at_y, img0, state, n_threads, aMask.samMask);
-    bool found = segmentor.get_best_mask_at_point(aMask.mask_computed_at_x, aMask.mask_computed_at_y, img0, aMask.samMask); 
     
+    //one point version:
+    //bool found = segmentor.get_best_mask_at_point(aMask.mask_computed_at_x, aMask.mask_computed_at_y, img0, aMask.samMask); 
+    //multiple points
+    bool found = segmentor.get_best_mask_at_points(aMask.mask_computed_at_points, img0, aMask.samMask); 
+
     if (found) {
         compute_mask_center(aMask);
         aMask.mask_computed = true;
@@ -614,6 +630,15 @@ int propagate_masks(std::vector<Frame> & frames, Segmentor & segmentor, int from
                                 printf("\t newMask.mask_computed_at_x = %d.\n", newMask.mask_computed_at_x);
                                 
                                 newMask.mask_computed_at_y = aMask.mask_computed_at_y+aMask.mask_center_y-previousMask->mask_center_y;
+                                
+                                //TODO: Is this a deep copy or not??
+                                newMask.mask_computed_at_points = aMask.mask_computed_at_points;
+                                for (int p=0; p<newMask.mask_computed_at_points.size(); p++) {
+                                    newMask.mask_computed_at_points[p].x =  newMask.mask_computed_at_points[0].x+aMask.mask_center_x-previousMask->mask_center_x;
+                                    newMask.mask_computed_at_points[p].y =  newMask.mask_computed_at_points[0].y+aMask.mask_center_y-previousMask->mask_center_y;
+                                }
+
+                                
                                 printf("\t newMask.mask_computed_at_y = %d.\n", newMask.mask_computed_at_y);
                                 
                                 repositioned = true;
@@ -623,10 +648,14 @@ int propagate_masks(std::vector<Frame> & frames, Segmentor & segmentor, int from
                         } 
 
                     }
+
                     if (!newMask.track_movement || !repositioned) {
+                        //NOTE: Will always enter here for the first frame as repositioned will be false
+                        printf("No repositioned because newMask.track_movement == %d or repositioned= %d\n", newMask.track_movement, repositioned); 
                         //copy the same pos to next
                         newMask.mask_computed_at_x = aMask.mask_computed_at_x;
                         newMask.mask_computed_at_y = aMask.mask_computed_at_y; 
+                        newMask.mask_computed_at_points = aMask.mask_computed_at_points;
                     }
                     //newMask.mask_computed_at_x = aMask.mask_center_x;
                     //newMask.mask_computed_at_y = aMask.mask_center_y; 

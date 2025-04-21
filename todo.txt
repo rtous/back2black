@@ -9,6 +9,10 @@ Universitat Politecnica de Catalunya
 TODO
 
 - modificar el propagate per a les màscares multipunt
+	- el contour_area surt zero, potser ja que troba multiples contorns
+	cal triar el contorn més gran? 
+	- diria que peta si no hi ha cap contorn, cal polir
+- refactoring: eliminar el computed_at_x, computed_at_y de tot arreu
 - faces uncheck
 - faces save??
 - windows

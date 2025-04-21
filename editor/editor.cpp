@@ -224,7 +224,9 @@ static void drawAllMasks(MyState &myState, const ImGuiViewport* viewport, ImVec2
             }
         }
         if (!simplified && aMask.visible) {
-            draw_list->AddCircleFilled(ImVec2(newPos[0]+aMask.mask_computed_at_x*downscale_factor_x, newPos[1]+aMask.mask_computed_at_y*downscale_factor_y), 5, IM_COL32(255, 0, 0, 255));
+            for (int k = 0; k<aMask.mask_computed_at_points.size(); k++)
+                draw_list->AddCircleFilled(ImVec2(newPos[0]+aMask.mask_computed_at_points[k].x*downscale_factor_x, newPos[1]+aMask.mask_computed_at_points[k].y*downscale_factor_y), 5, IM_COL32(0, 0, 255, 255));
+            //draw_list->AddCircleFilled(ImVec2(newPos[0]+aMask.mask_computed_at_x*downscale_factor_x, newPos[1]+aMask.mask_computed_at_y*downscale_factor_y), 5, IM_COL32(0, 0, 255, 255));
         }
     }
     

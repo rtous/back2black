@@ -92,7 +92,7 @@ std::vector<std::vector<cv::Point>> simplifyColorSegment(cv::Mat &mask, cv::Mat 
         for( int j = 0; j< contours.size(); j++ )
         {
             int contour_area = cv::contourArea(contours[j]);
-            printf("contour_area = %d\n", contour_area);
+            //printf("contour_area = %d\n", contour_area);
             if (contour_area > 200) {
                 //DEBUG
                 //cv::Mat drawing = cv::Mat::zeros( mask.size(), CV_8UC3 );
@@ -298,7 +298,7 @@ void overlay(cv::Mat &resultImage, cv::Mat &bottomImage, cv::Mat &topImage) {
 } */ 
 
 void change_brightness(cv::Mat &input_image, cv::Mat &output_image) { 
-    printf("change_brightness\n");
+    //printf("change_brightness\n");
     //input_image.convertTo(output_image, -1, 1, 30);
     /*
     _, _, _, a_channel = cv2.split(img)
