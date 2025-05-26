@@ -513,6 +513,7 @@ int propagate_masks(std::vector<Frame> & frames, Segmentor & segmentor, int from
         }
         printf("PROCESSING FRAME %d \n", f);
         
+        //1) PREPROCESS FRAME AND COMPUTE FACIAL TRAINTS (all frames except the first one)
         //to do at frame level (not at mask level)
         //only if not the first frame: precompute the image
         //only if not the first frame: compute faces
@@ -524,13 +525,13 @@ int propagate_masks(std::vector<Frame> & frames, Segmentor & segmentor, int from
             //TODO: What happens if color changes?
             if (aFrame.faces_check && !aFrame.faces_computed) {
                 printf("Computing face...\n");
-                
-
                 cv::Mat face_mask = cv::Mat(cv::Size(aFrame.img.cols,aFrame.img.rows), CV_8UC4, cv::Scalar(0,0,0,0));
                 cv::Mat eyes_mask = cv::Mat(cv::Size(aFrame.img.cols,aFrame.img.rows), CV_8UC4, cv::Scalar(0,0,0,0));
                 //TODO
                 //cv::Scalar faceColor = cv::Scalar(myState.face_color[0]*255, myState.face_color[1]*255, myState.face_color[2]*255, myState.face_color[3]*255);
                 //cv::Scalar pupilsColor = cv::Scalar(myState.eyes_color[0]*255, myState.eyes_color[1]*255, myState.eyes_color[2]*255, myState.eyes_color[3]*255);
+                //NOTE: Currently the face mask is treated as a binary mask and these colors are ignored
+                //      The colors are applied in the editor when rendering the binary texture (draw_list->AddImage)
                 cv::Scalar faceColor = cv::Scalar(168, 113, 118, 255);
                 cv::Scalar pupilsColor = cv::Scalar(118, 71, 61, 255);
                 face(aFrame.img, face_mask, eyes_mask, faceColor, pupilsColor);
@@ -549,6 +550,8 @@ int propagate_masks(std::vector<Frame> & frames, Segmentor & segmentor, int from
             }
 
         } 
+        //2) COPY ALL MASKS PARAMS (all frames) AND COMPUTE ALL MASKS (all except the first one)
+
         //to do at mask level 
         //all frames, including the first
         //the first one to copy mask parameters to next ones
@@ -571,7 +574,8 @@ int propagate_masks(std::vector<Frame> & frames, Segmentor & segmentor, int from
                 printf("\tPROCESSING MASK %d \n", aMask.maskId);
                 printf("\taMask.mask_computed_at_x %d \n", aMask.mask_computed_at_x);
                 printf("\taMask.mask_computed_at_y %d \n", aMask.mask_computed_at_y);
-                //if not the first frame compute the mask
+                
+                //COMPUTE MASK (if not the first frame)
                 bool found = false; //the one in the reference frame
                 if (f>from_frame) { 
                     printf("\t%d>from_frame so computing mask. \n", f);
@@ -599,6 +603,7 @@ int propagate_masks(std::vector<Frame> & frames, Segmentor & segmentor, int from
                 //compute mask center
                 //compute_mask_center(aMask, aFrame.img_sam_format, state, n_threads);
                 
+                //COPY MASK TO NEXT FRAME
                 //if not the last frame
                 //add the mask to the next frame with the next coordinates
                 //if the mask is not found it's not added to the following frame
@@ -630,17 +635,16 @@ int propagate_masks(std::vector<Frame> & frames, Segmentor & segmentor, int from
                                 printf("\t newMask.mask_computed_at_x = %d.\n", newMask.mask_computed_at_x);
                                 
                                 newMask.mask_computed_at_y = aMask.mask_computed_at_y+aMask.mask_center_y-previousMask->mask_center_y;
-                                
+                                printf("\t newMask.mask_computed_at_y = %d.\n", newMask.mask_computed_at_y);
+
                                 //TODO: Is this a deep copy or not??
                                 newMask.mask_computed_at_points = aMask.mask_computed_at_points;
                                 for (int p=0; p<newMask.mask_computed_at_points.size(); p++) {
-                                    newMask.mask_computed_at_points[p].x =  newMask.mask_computed_at_points[0].x+aMask.mask_center_x-previousMask->mask_center_x;
-                                    newMask.mask_computed_at_points[p].y =  newMask.mask_computed_at_points[0].y+aMask.mask_center_y-previousMask->mask_center_y;
+                                    newMask.mask_computed_at_points[p].x =  aMask.mask_computed_at_points[p].x+aMask.mask_center_x-previousMask->mask_center_x;
+                                    newMask.mask_computed_at_points[p].y =  aMask.mask_computed_at_points[p].y+aMask.mask_center_y-previousMask->mask_center_y;
+                                    //printf("\t newMask.mask_computed_at_points[p].x = %d.\n", newMask.mask_computed_at_points[p].x);
                                 }
 
-                                
-                                printf("\t newMask.mask_computed_at_y = %d.\n", newMask.mask_computed_at_y);
-                                
                                 repositioned = true;
                             } else {
                                 printf("Cannot recalculate mask pos cause not found in previous frame\n");
@@ -648,7 +652,7 @@ int propagate_masks(std::vector<Frame> & frames, Segmentor & segmentor, int from
                         } 
 
                     }
-
+                    //COPY MASK COORDS WITHOUT CHANGES
                     if (!newMask.track_movement || !repositioned) {
                         //NOTE: Will always enter here for the first frame as repositioned will be false
                         printf("No repositioned because newMask.track_movement == %d or repositioned= %d\n", newMask.track_movement, repositioned); 

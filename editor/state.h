@@ -20,6 +20,9 @@
 class MyState {      
   public: 
 
+    //general
+    bool DEBUG_MODE=true;
+
     //main
     bool done=false;
 

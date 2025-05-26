@@ -59,6 +59,7 @@ void fillContoursWithColorAndAlpha(std::vector<std::vector<cv::Point>> contours,
     }
 }
 
+//simplifies and gives color
 std::vector<std::vector<cv::Point>> simplifyColorSegment(cv::Mat &mask, cv::Mat &output_image, bool randomColor, int R, int G, int B) 
 {
         //cv::RNG rng(12345);//random number generator

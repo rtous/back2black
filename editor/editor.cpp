@@ -223,19 +223,22 @@ static void drawAllMasks(MyState &myState, const ImGuiViewport* viewport, ImVec2
                 draw_list->AddImage((void*)(intptr_t)aMask.maskTexture, ImVec2(newPos[0], newPos[1]), ImVec2(newPos[0]+myState.img_sam_format_downscaled.nx, newPos[1]+myState.img_sam_format_downscaled.ny), ImVec2(0,0), ImVec2(1,1), IM_COL32(r, g, b, 255));  
             }
         }
-        if (!simplified && aMask.visible) {
-            for (int k = 0; k<aMask.mask_computed_at_points.size(); k++)
-                draw_list->AddCircleFilled(ImVec2(newPos[0]+aMask.mask_computed_at_points[k].x*downscale_factor_x, newPos[1]+aMask.mask_computed_at_points[k].y*downscale_factor_y), 5, IM_COL32(0, 0, 255, 255));
-            //draw_list->AddCircleFilled(ImVec2(newPos[0]+aMask.mask_computed_at_x*downscale_factor_x, newPos[1]+aMask.mask_computed_at_y*downscale_factor_y), 5, IM_COL32(0, 0, 255, 255));
+        if (myState.DEBUG_MODE) {
+            //(DEBUG) Show the blue coordinates for the masks
+            if (!simplified && aMask.visible) {
+                for (int k = 0; k<aMask.mask_computed_at_points.size(); k++)
+                    draw_list->AddCircleFilled(ImVec2(newPos[0]+aMask.mask_computed_at_points[k].x*downscale_factor_x, newPos[1]+aMask.mask_computed_at_points[k].y*downscale_factor_y), 5, IM_COL32(0, 0, 255, 255));
+                //draw_list->AddCircleFilled(ImVec2(newPos[0]+aMask.mask_computed_at_x*downscale_factor_x, newPos[1]+aMask.mask_computed_at_y*downscale_factor_y), 5, IM_COL32(0, 0, 255, 255));
+            }
         }
     }
     
     //finishing window
     if (simplified) {
-        //overall masks texture (with rimlight)
+        //Simplified masks with finishing details (as a single colored texture)
         //myState.aVideo.frames[myState.selected_frame].tex_simplified = myState.aVideo.frames[myState.selected_frame].tex;
         draw_list->AddImage((void*)(intptr_t)myState.aVideo.frames[myState.selected_frame].tex_simplified, ImVec2(newPos[0], newPos[1]), ImVec2(newPos[0]+myState.img_sam_format_downscaled.nx, newPos[1]+myState.img_sam_format_downscaled.ny));
-        //facial textures
+        //Facial textures (as binary masks applying color here)
         if (myState.aVideo.frames[myState.selected_frame].faces_computed) {
             draw_list->AddImage((void*)(intptr_t)myState.aVideo.frames[myState.selected_frame].facesTexture, ImVec2(newPos[0], newPos[1]), ImVec2(newPos[0]+myState.img_sam_format_downscaled.nx, newPos[1]+myState.img_sam_format_downscaled.ny), ImVec2(0,0), ImVec2(1,1), IM_COL32(myState.face_color[0]*255, myState.face_color[1]*255, myState.face_color[2]*255, 255));
             draw_list->AddImage((void*)(intptr_t)myState.aVideo.frames[myState.selected_frame].eyesTexture, ImVec2(newPos[0], newPos[1]), ImVec2(newPos[0]+myState.img_sam_format_downscaled.nx, newPos[1]+myState.img_sam_format_downscaled.ny), ImVec2(0,0), ImVec2(1,1), IM_COL32(myState.eyes_color[0]*255, myState.eyes_color[1]*255, myState.eyes_color[2]*255, 255));               
@@ -297,7 +300,7 @@ void compute_mask(MyState &myState) {
 
     //need to update the simplified image
     //simplify(myState.aVideo.frames[myState.selected_frame].tex_simplified, myState.aVideo.frames[myState.selected_frame].tex_simplified);  
-    simplify_segmented_frame(myState, myState.selected_frame);
+    finishing_frame(myState, myState.selected_frame);
 
     //printf("Computed masks. selectedMask.maskTextures.size()=%d\n", selectedMask.maskTextures.size());
 
@@ -679,7 +682,11 @@ static void masksListWindow(MyState &myState, const ImGuiViewport* viewport, ImG
                 //the color of the mask will change as will be applied during addView...
                 //but the simplified segment need to be updates
                 Mask *targetMask = &myState.aVideo.frames[myState.selected_frame].masks[i];
+                
                 compute_mask_textures(*targetMask, targetMask->color[0]*256, targetMask->color[1]*256, targetMask->color[2]*256);
+                //compute_mask_textures_all_frames(myState.aVideo.frames, myState);
+                
+
                 //also the overall simplified frame need to be updated (rimlight, etc.)
                 need_to_update_textures = true;
                 printf("need_to_update_textures!\n");
@@ -694,8 +701,13 @@ static void masksListWindow(MyState &myState, const ImGuiViewport* viewport, ImG
                             aMask->color[1] = myState.aVideo.frames[myState.selected_frame].masks[i].color[1];
                             aMask->color[2] = myState.aVideo.frames[myState.selected_frame].masks[i].color[2];
                             aMask->color[3] = myState.aVideo.frames[myState.selected_frame].masks[i].color[3];
+                            compute_mask_textures(*aMask, aMask->color[0]*256, aMask->color[1]*256, aMask->color[2]*256);
                         }
                     }
+                    //Need to recompute all textures
+                    //printf("compute_mask_textures_all_frames!\n");
+                    //compute_mask_textures_all_frames(myState.aVideo.frames, myState, true);//true to recompute color
+                    //change_mask_color_all_frames(myState.aVideo.frames, myState, aMask->maskId); 
                 }
             }
             
@@ -844,68 +856,21 @@ static void masksListWindow(MyState &myState, const ImGuiViewport* viewport, ImG
         }
         ImGui::EndTable();
         ImGui::EndListBox();
-    }
-    //BUTTONS THAT AFFECT ALL MASKS (OR THE SELECTED MASK)
-    /*if (myState.aVideo.loaded) {
-        //If there are mask then show color picker
-        if (myState.aVideo.frames[myState.selected_frame].masks.size()>0) {
-            ImGui::SameLine(); HelpMarker(
-                "Click on the color square to open a color picker.\n"
-                "Click and hold to use drag and drop.\n"
-                "Right-click on the color square to show options.\n"
-                "CTRL+click on individual component to input value.\n");
-            ImGui::ColorEdit4("color 2", myState.aVideo.frames[myState.selected_frame].masks[myState.selected_mask].color, ImGuiColorEditFlags_NoInputs | ImGuiColorEditFlags_NoLabel);
-            //ImGui::ColorEdit4("MyColor##3", (float*)&color, ImGuiColorEditFlags_NoInputs | ImGuiColorEditFlags_NoLabel | misc_flags);
-
-            //ImGui::ColorEdit4("color 2", col);
-        }
-        
-
-        //BUTTON 2
-        ImGui::SameLine();
-        static int clicked2 = 0;
-        if (ImGui::Button("-"))
-            clicked2++;
-        if (clicked2 & 1 && myState.aVideo.frames[myState.selected_frame].masks.size() > 0)
-        {
-            ImGui::SameLine();
-            ImGui::Text("Erasing mask!");
-            myState.aVideo.frames[myState.selected_frame].masks.erase(myState.aVideo.frames[myState.selected_frame].masks.begin() + myState.selected_mask);
-            if (myState.aVideo.frames[myState.selected_frame].masks.size() > 0)
-                myState.selected_mask = myState.selected_mask-1;  
-            else  
-                myState.selected_mask = 0;    
-            clicked2 = 0;
-        }
-
-        //BUTTON 3
-        if (myState.selected_mask > 0) { //only allow if not the top selected
-            ImGui::SameLine();
-            static int clicked3 = 0;
-            //if (ImGui::Button("U"))
-            if (ImGui::ArrowButton("MoveUp", ImGuiDir_Up))
-                clicked3++;
-            if (clicked3 & 1 && myState.aVideo.frames[myState.selected_frame].masks.size() > 1)
-            {
-                ImGui::SameLine();
-                ImGui::Text("Moving mask!");
-
-                //swap masks
-                Mask aboveMask = myState.aVideo.frames[myState.selected_frame].masks[myState.selected_mask-1];
-                myState.aVideo.frames[myState.selected_frame].masks[myState.selected_mask-1] = myState.aVideo.frames[myState.selected_frame].masks[myState.selected_mask];
-                myState.aVideo.frames[myState.selected_frame].masks[myState.selected_mask] = aboveMask;
-                myState.selected_mask = myState.selected_mask-1;    
-                clicked3 = 0;
-            }
-        }
-    }*/
-
-    /*if (need_to_update_simplified_mask_and_texture) {
-        compute_mask_textures(*targetMask, targetMask->color[0]*256, targetMask->color[1]*256, targetMask->color[2]*256);
-    } */  
+    }  
     if (need_to_update_textures) {
-        printf("simplify_segmented_frame\n");
-        simplify_segmented_frame(myState, myState.selected_frame);
+        printf("finishing_frame\n");
+        finishing_frame(myState, myState.selected_frame);
+        printf("compute_mask_textures_all_frames!\n");
+        compute_mask_textures_all_frames(myState.aVideo.frames, myState, false);//false to recompute color
+
+        /*
+        int f = 0;
+        for (Frame & aFrame : myState.aVideo.frames) {
+            simplify_segmented_frame(myState, f);
+            f++;
+        }
+        */
+
     }
 
     ImGui::End();
@@ -1009,7 +974,7 @@ static void finishingConfigWindow(MyState &myState, const ImGuiViewport* viewpor
         ImGui::Checkbox("Change colors all frames", &myState.change_color_all_frames);
     
         if (need_to_update_textures) {
-            simplify_segmented_frame(myState, myState.selected_frame);
+            finishing_frame(myState, myState.selected_frame);
             need_to_update_textures = false;
         }
 
@@ -1295,7 +1260,7 @@ void checkActions(MyState &myState)
         myState.propagated = false;
         myState.propagating = false;
         //review textures for all frame (only the propated will take effect)
-        compute_mask_textures_all_frames(myState.aVideo.frames, myState);
+        compute_mask_textures_all_frames(myState.aVideo.frames, myState, true);
         //review facial textures for all frames (only the propagated will take effect)
         //TODO: never recomputed, maybe change this if allow color changes
         compute_facial_textures_all_frames(myState.aVideo.frames);

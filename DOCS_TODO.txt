@@ -8,16 +8,22 @@ Universitat Politecnica de Catalunya
 
 TODO
 
-- modificar el propagate per a les màscares multipunt
-	- el contour_area surt zero, potser ja que troba multiples contorns
-	cal triar el contorn més gran? 
-	- diria que peta si no hi ha cap contorn, cal polir
+- Cal eliminar els punts blau de debug
+- BUG: si fas un propagate amb tres màscares i després, al primer frame esborres totes, crees una (amb punts positius i negatius) i tornes a fer propagate peta
+
+- compute_mask_textures també simplifica, potser també caldria canviar el nom.
+- Documentar que finishing s'aplica a tot i simplify i color a la mascara
+- No canvia els finishing a tots els frames (ara el color ja sí)
+- Propagar canvis a tots els frames potser és lent i s'hauria de fer només si canviem de frame???
+- Per canviar el color ha de simplificar, potser estalviar-ho
+- Quan canvio de frame fa opencv_image2sam???
 - refactoring: eliminar el computed_at_x, computed_at_y de tot arreu
 - faces uncheck
 - faces save??
 - windows
 
 TODO/REFACTORING
+
 
 - CRITICAL: get_best_mask_at_point in segmentor_sam2 always returns true!
 	- Això ja m'ha donat alguna petada xunga, cal corregir-ho
@@ -69,6 +75,15 @@ SAM2:
 
 DONE:
 
+- BUG: En màscara multipunt, al fer propagate condensa tots els punts al mateix lloc
+- Si hi ha múltiples frames segmentats no canvia el color de les simplificades
+	- if (need_to_update_textures) {
+        printf("simplify_segmented_frame\n");
+        simplify_segmented_frame
+- modificar el propagate per a les màscares multipunt
+	- el contour_area surt zero, potser ja que troba multiples contorns
+	cal triar el contorn més gran? 
+	- diria que peta si no hi ha cap contorn, cal polir
  + i -
 	- Guardar el mode de masking 
 	- Guardar els punts

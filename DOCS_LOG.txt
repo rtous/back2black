@@ -140,6 +140,25 @@ Universitat Politecnica de Catalunya
 	- Corregit actualització rimlight i pixelation
 	- Detectat problema amb el canvi de colors i els altres frames, quan s'actualitzen les textures? A l'entrar al frame potser...
 
-18/04/2024
+18/04/2025
 	- Incorporat multipoint click
 	- Falta tocar el propagate (potser desplaçant tots els punts igual que el centre?)
+
+28/04/2025
+	- Si hi ha múltiples frames segmentats no canvia el color de les simplificades
+		- editor si hi ha canvi de color: 
+			-> compute_mask_textures (i need_to_update_textures = true;)     
+				-> simplifyColorSegment (una màscara)   
+			-> També canvia el color assignat a tots els frames (però no els recomputa)
+		- editor al final dels controls de màscara: if (need_to_update_textures) {
+        	simplify_segmented_frame (tot el frame)
+        		-> NO resimplifica cada màscara (asumeix que simplifyColorSegment s'ha cridat abans)
+        SOLUCIÓ:
+        	- cal fer un compute_mask_textures_all_frames si canvia el color però ÉS LENT
+        		- AMB AIXÒ HAURA DE SER SUFICIENT JA QUE EL compute_mask_textures_all_frames fa un simplify_segmented_frame al final 
+
+26/05/2025
+	- Detectats alguns bug (mirar al todo)
+	- Mirant el propagate si multipoint mask. Aparentment ho tracto però condensa tots els punts al mateix lloc. Hi havia un error, corregit.
+	- Afegit a state.h un bool DEBUG_MODE (cal posar a fals en el release)
+

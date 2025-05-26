@@ -135,8 +135,9 @@ int masks_already_in_list(sam_image_u8 candidateMask, Frame & aFrame) {
 void debugInspectImage(cv::Mat &input_image); //from simplify
 
 //Computes the texture of the mask and it's simplified version
+//Does not change the finishing details
 void compute_mask_textures(Mask & aMask, int R, int G, int B) {
-    printf("compute_mask_textures R,G,B = %d, %d, %d\n", R, G, B);
+    printf("compute_mask_textures mask %d R,G,B = %d, %d, %d\n", aMask.maskId, R, G, B);
     sam_image_u8 mask_rgba_binary = sam_mask_to_sam_4channels(aMask.samMask, 180);
     GLuint newGLTexture = createGLTexture(mask_rgba_binary, GL_RGBA);
     aMask.maskTexture = newGLTexture;
@@ -150,6 +151,7 @@ void compute_mask_textures(Mask & aMask, int R, int G, int B) {
     cv::Mat output_image_opencv_bgra = cv::Mat::zeros(input_image_opencv.size(), CV_8UC4);
     //This one does not initialize the result. From simplify.cpp
     //The color is added here
+    printf("compute_mask_textures calling simplifyColorSegment with R,G,B = %d, %d, %d\n", R, G, B);
     aMask.simplifiedContours = simplifyColorSegment(input_image_opencv, output_image_opencv_bgra, false, R, G, B); 
     //cv::imshow("image", output_image_opencv_bgra);
     //debugInspectImage(output_image_opencv_bgra);
@@ -204,7 +206,22 @@ void compute_mask_textures(Mask & aMask, int R, int G, int B) {
     aMask.textures_computed = true;
 }*/
 
-void compute_mask_textures_all_frames(std::vector<Frame> & frames, MyState &myState) 
+/*void change_mask_color_all_frames(std::vector<Frame> & frames, MyState &myState, int maskId) 
+{
+    int numFrames = frames.size();
+    int f = 0;
+    for (Frame & aFrame : frames) {
+        for (Mask & aMask : aFrame.masks) {
+            if (aMask.maskId == maskId) {
+                compute_mask_textures(aMask, aMask.color[0]*255, aMask.color[1]*255, aMask.color[2]*255);
+            }
+        }
+        f++;
+    }
+}*/
+
+void compute_mask_textures_all_frames(std::vector<Frame> & frames, MyState &myState, bool simplify_and_color) 
+//void compute_mask_textures_all_frames(std::vector<Frame> & frames, MyState &myState, bool simplify_and_color) 
 {
     int numFrames = frames.size();
     int f = 0;
@@ -215,14 +232,15 @@ void compute_mask_textures_all_frames(std::vector<Frame> & frames, MyState &mySt
         //iterate through all the masks of the frame
         for (Mask & aMask : aFrame.masks) {
             //printf("\tPROCESSING MASK...\n", f);
-            if (aMask.mask_computed && !aMask.textures_computed) {
+            //if (aMask.mask_computed && !aMask.textures_computed) {
+            if (aMask.mask_computed && simplify_and_color) {
                 //printf("\t\tcompute_mask_textures...\n", f);
                 //printf("compute_mask_textures_all_frames R,G,B = %d, %d, %d\n", aMask.color[0]*255, aMask.color[1]*255, aMask.color[2]*255);
                 compute_mask_textures(aMask, aMask.color[0]*255, aMask.color[1]*255, aMask.color[2]*255);
                 //printf("\t\tcomputed textures...\n", f);
             }
         }
-        simplify_segmented_frame(myState, f);
+        finishing_frame(myState, f);
         f++;
     }
 }
@@ -571,7 +589,9 @@ void compute_mask_and_texturesOLD(Frame & aFrame, const sam_params & params, sam
 }
 
 //Called from the editor/frameWindow si myState.clicked 
-void simplify_segmented_frame(MyState &myState, int frame_idx) 
+//ALL MASKS
+//Currently does not simplify the mask again
+void finishing_frame(MyState &myState, int frame_idx) 
 {
     //takes all the masks from myState.aVideo.frames[myState.selected_frame].masks
     //, simplify everything and
