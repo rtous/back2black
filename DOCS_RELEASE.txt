@@ -1,0 +1,38 @@
+
+Computer Architecture Department							Ruben Tous
+Universitat Politecnica de Catalunya                       
+                                                              												  
+															  
+					back2black release manual 
+
+
+1 MacOS
+
+- Cal generar un MacOS Application Bundle
+- Es pot fer mitjançant CMake
+- No és el mateix fer-ho amb MACOSX_BUNDLE que amb CPACK_BUNDLE
+    - MACOSX_BUNDLE with CPACK_BUNDLE
+
+WARNING: Cal afegir al install de l'editor:
+    install(TARGETS ${EXAMPLE_TARGET} RUNTIME BUNDLE DESTINATION ${CMAKE_SOURCE_DIR}/editor/release_macos)
+
+No peta però no tinc clar que fa. Genera com una app però no funciona.
+-------
+Links:
+
+https://www.ferranpujolcamins.cat/2020/11/27/Notes-CMake-macOS-bundle.html
+
+- Cal generar un application bundle: https://developer.apple.com/library/archive/documentation/CoreFoundation/Conceptual/CFBundles/BundleTypes/BundleTypes.html
+
+foo.app/
+    Contents/
+        Info.plist
+        MacOS/
+            foo
+        Resources/
+            foo.icns
+
+- Millor: fer-ho amb cmake
+- Tutorial: https://bartkessels.net/cmake/building-a-qt-macos-bundle
+
+- Alternativa: https://www.reddit.com/r/rust/comments/5od04d/how_to_make_macos_app_bundles/

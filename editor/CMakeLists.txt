@@ -1,6 +1,7 @@
 set(EXAMPLE_TARGET editor)
-
-add_executable(${EXAMPLE_TARGET}
+add_executable(
+    ${EXAMPLE_TARGET}
+    MACOSX_BUNDLE
     colors.cpp
     gui_utils.cpp
     main.cpp
@@ -22,7 +23,8 @@ include_directories(${dlib_INCLUDE_DIRS})
 
 
 #TODO: for some strange reason if "common" appears before ${OpenCV_LIBS} then it cannot read "jpg" images...
-install(TARGETS ${EXAMPLE_TARGET} RUNTIME)
+#install(TARGETS ${EXAMPLE_TARGET} RUNTIME) #sense bundle
+install(TARGETS ${EXAMPLE_TARGET} RUNTIME BUNDLE DESTINATION ${CMAKE_SOURCE_DIR}/editor/release_macos)
 target_link_libraries(${EXAMPLE_TARGET} PRIVATE 
     segmentor 
     segmentor_sam1
@@ -57,3 +59,22 @@ add_custom_command(
     VERBATIM)
 endif()
 
+##############
+# MacOS bundle
+##############
+
+#add_subdirectory(release_macos)
+#https://www.ferranpujolcamins.cat/2020/11/27/Notes-CMake-macOS-bundle.html
+if(APPLE)
+     # Bundling macOS application
+     set_target_properties(
+        ${CUR_TARGET} 
+        PROPERTIES
+        #BUNDLE True
+        MACOSX_BUNDLE_GUI_IDENTIFIER my.domain.style.identifier.${EXAMPLE_TARGET}
+        MACOSX_BUNDLE_BUNDLE_NAME ${EXAMPLE_TARGET}
+        MACOSX_BUNDLE_BUNDLE_VERSION "0.1"
+        MACOSX_BUNDLE_SHORT_VERSION_STRING "0.1"
+        MACOSX_BUNDLE_INFO_PLIST ${CMAKE_SOURCE_DIR}/editor/release_macos/customtemplate.plist.in
+    )
+endif()

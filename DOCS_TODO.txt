@@ -8,8 +8,7 @@ Universitat Politecnica de Catalunya
 
 TODO
 
-- Cal eliminar els punts blau de debug
-- BUG: si fas un propagate amb tres màscares i després, al primer frame esborres totes, crees una (amb punts positius i negatius) i tornes a fer propagate peta
+
 
 - compute_mask_textures també simplifica, potser també caldria canviar el nom.
 - Documentar que finishing s'aplica a tot i simplify i color a la mascara
@@ -21,10 +20,12 @@ TODO
 - faces uncheck
 - faces save??
 - windows
+- BUG: si fas un propagate amb tres màscares i després, al primer frame esborres totes, crees una (amb punts positius i negatius) i tornes a fer propagate peta
+
 
 TODO/REFACTORING
 
-
+- Quan afegeixes una màscara nova, si el número ja està a una altra estaria bé que tinguès el mateix color
 - CRITICAL: get_best_mask_at_point in segmentor_sam2 always returns true!
 	- Això ja m'ha donat alguna petada xunga, cal corregir-ho
 - CRITICAL: refactored single mask but need recfactoring PROPAGATE!!
@@ -75,6 +76,7 @@ SAM2:
 
 DONE:
 
+- Cal eliminar els punts blau de debug
 - BUG: En màscara multipunt, al fer propagate condensa tots els punts al mateix lloc
 - Si hi ha múltiples frames segmentats no canvia el color de les simplificades
 	- if (need_to_update_textures) {

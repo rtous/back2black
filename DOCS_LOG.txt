@@ -1,9 +1,9 @@
 
-Computer Architecture Department							Ruben Tous
+Computer Architecture Department							         Ruben Tous
 Universitat Politecnica de Catalunya                       
                                                               												  
 															  
-													back2black Developer's Log
+						 back2black Developer's Log
 
 
 18/04/2024
@@ -162,3 +162,5 @@ Universitat Politecnica de Catalunya
 	- Mirant el propagate si multipoint mask. Aparentment ho tracto però condensa tots els punts al mateix lloc. Hi havia un error, corregit.
 	- Afegit a state.h un bool DEBUG_MODE (cal posar a fals en el release)
 
+27/05/2025
+	- Fent proves 
