@@ -1,7 +1,21 @@
 set(EXAMPLE_TARGET editor)
+
+#For the apple bundle (TODO)
+set(resource_files
+    ${CMAKE_SOURCE_DIR}/checkpoints/ggml-model-f16.bin
+    ${CMAKE_SOURCE_DIR}/checkpoints/shape_predictor_68_face_landmarks.dat
+)
+set(resource_files2
+    ${CMAKE_SOURCE_DIR}/checkpoints/sam2.1_tiny/sam2.1_tiny_preprocess.onnx
+    ${CMAKE_SOURCE_DIR}/checkpoints/sam2.1_tiny/sam2.1_tiny.onnx
+)
+##
+
 add_executable(
     ${EXAMPLE_TARGET}
     MACOSX_BUNDLE
+    "${resource_files}" #for the apple bundle
+    "${resource_files2}" #for the apple bundle
     colors.cpp
     gui_utils.cpp
     main.cpp
@@ -10,6 +24,19 @@ add_executable(
     sam_utils.cpp
     video.cpp
 )
+
+#for the apple bundle
+set_source_files_properties(${resource_files}
+    PROPERTIES
+    MACOSX_PACKAGE_LOCATION "Resources/checkpoints"
+)
+set_source_files_properties(${resource_files2}
+    PROPERTIES
+    MACOSX_PACKAGE_LOCATION "Resources/checkpoints/sam2.1_tiny"
+)
+##
+
+
 
 #OpenCV stuff
 set(OpenCV_STATIC ON)
@@ -24,7 +51,7 @@ include_directories(${dlib_INCLUDE_DIRS})
 
 #TODO: for some strange reason if "common" appears before ${OpenCV_LIBS} then it cannot read "jpg" images...
 #install(TARGETS ${EXAMPLE_TARGET} RUNTIME) #sense bundle
-install(TARGETS ${EXAMPLE_TARGET} RUNTIME BUNDLE DESTINATION ${CMAKE_SOURCE_DIR}/editor/release_macos)
+install(TARGETS ${EXAMPLE_TARGET} RUNTIME BUNDLE DESTINATION ${CMAKE_INSTALL_BINDIR})
 target_link_libraries(${EXAMPLE_TARGET} PRIVATE 
     segmentor 
     segmentor_sam1
@@ -62,11 +89,19 @@ endif()
 ##############
 # MacOS bundle
 ##############
-
 #add_subdirectory(release_macos)
 #https://www.ferranpujolcamins.cat/2020/11/27/Notes-CMake-macOS-bundle.html
+#https://discourse.cmake.org/t/how-to-add-resources-to-macos-bundle/9323
+
 if(APPLE)
+
+    
+
+     message("Generating MACOSX bundle...")
+     message("Resource files:" ${resource_files})
      # Bundling macOS application
+
+     
      set_target_properties(
         ${CUR_TARGET} 
         PROPERTIES
@@ -75,6 +110,7 @@ if(APPLE)
         MACOSX_BUNDLE_BUNDLE_NAME ${EXAMPLE_TARGET}
         MACOSX_BUNDLE_BUNDLE_VERSION "0.1"
         MACOSX_BUNDLE_SHORT_VERSION_STRING "0.1"
-        MACOSX_BUNDLE_INFO_PLIST ${CMAKE_SOURCE_DIR}/editor/release_macos/customtemplate.plist.in
+        #RESOURCE "${resource_files}"
+        #MACOSX_BUNDLE_INFO_PLIST ${CMAKE_SOURCE_DIR}/editor/release_macos/customtemplate.plist.in
     )
 endif()

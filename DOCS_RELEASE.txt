@@ -8,12 +8,21 @@ Universitat Politecnica de Catalunya
 
 1 MacOS
 
+- IMPORTANT: Es poden veure els errors a l'app Consola
 - Cal generar un MacOS Application Bundle
 - Es pot fer mitjançant CMake
 - No és el mateix fer-ho amb MACOSX_BUNDLE que amb CPACK_BUNDLE
     - MACOSX_BUNDLE with CPACK_BUNDLE
 
-WARNING: Cal afegir al install de l'editor:
+1.1 Amb MACOSX_BUNDLE:
+
+LINK clau: https://discourse.cmake.org/t/how-to-add-resources-to-macos-bundle/9323
+
+A tenir en compte:
+
+a) Cal afegir 
+a) Cal afegir al install de l'editor:
+
     install(TARGETS ${EXAMPLE_TARGET} RUNTIME BUNDLE DESTINATION ${CMAKE_SOURCE_DIR}/editor/release_macos)
 
 No peta però no tinc clar que fa. Genera com una app però no funciona.
