@@ -1,4 +1,4 @@
-set(EXAMPLE_TARGET editor)
+set(EXAMPLE_TARGET test_applebundle)
 
 #For the apple bundle (TODO)
 set(resource_files
@@ -106,22 +106,22 @@ endif()
 #https://www.ferranpujolcamins.cat/2020/11/27/Notes-CMake-macOS-bundle.html
 #https://discourse.cmake.org/t/how-to-add-resources-to-macos-bundle/9323
 
-if(APPLE)
+#if(APPLE)
 
-     message("Generating MACOSX bundle...")
-     message("Resource files:" ${resource_files})
-     # Bundling macOS application
+#     message("Generating MACOSX bundle...")
+#     message("Resource files:" ${resource_files})
+#     # Bundling macOS application
 
      
-     set_target_properties(
-        ${CUR_TARGET} 
-        PROPERTIES
-        #BUNDLE True
-        MACOSX_BUNDLE_GUI_IDENTIFIER my.domain.style.identifier.${EXAMPLE_TARGET}
-        MACOSX_BUNDLE_BUNDLE_NAME ${EXAMPLE_TARGET}
-        MACOSX_BUNDLE_BUNDLE_VERSION "0.1"
-        MACOSX_BUNDLE_SHORT_VERSION_STRING "0.1"
-        #RESOURCE "${resource_files}"
-        #MACOSX_BUNDLE_INFO_PLIST ${CMAKE_SOURCE_DIR}/editor/release_macos/customtemplate.plist.in
-    )
-endif()
+#     set_target_properties(
+#        ${CUR_TARGET} 
+#        PROPERTIES
+#        #BUNDLE True
+#        MACOSX_BUNDLE_GUI_IDENTIFIER my.domain.style.identifier.${EXAMPLE_TARGET}
+#        MACOSX_BUNDLE_BUNDLE_NAME ${EXAMPLE_TARGET}
+#        MACOSX_BUNDLE_BUNDLE_VERSION "0.1"
+#        MACOSX_BUNDLE_SHORT_VERSION_STRING "0.1"
+#        #RESOURCE "${resource_files}"
+#        #MACOSX_BUNDLE_INFO_PLIST ${CMAKE_SOURCE_DIR}/editor/release_macos/customtemplate.plist.in
+#    )
+#endif()

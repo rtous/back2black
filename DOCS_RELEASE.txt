@@ -8,7 +8,30 @@ Universitat Politecnica de Catalunya
 
 1 MacOS
 
+- Cal generar un MacOS Application Bundle
+    - Es pot executar fent doble click o amb open (mirar més avall)
+- Es pot fer mitjançant CMake (mirar CMake de l'editor)
+- IMPORTANT: Per veure els logs cal executar desde terminal així:
+
+    open build_macos/bin/test_applebundle.app/Contents/MacOS/test_applebundle 
+
+- Per accedir als fitxers dins l'aplicació cal fer-ho amb una llibreria (mirar segmentor_sam2.cpp). 
+
+
+
+
+---------------------------- OLD -----
+
 - IMPORTANT: Es poden veure els errors a l'app Consola
+    #include <syslog.h>
+
+    O:
+
+    sudo log show --last 1m
+
+- IMPORTANT: Es pot executar des de terminal per veure els logs
+    - ./build_macos/bin/test_applebundle.app/Contents/MacOS/test_applebundle
+
 - Cal generar un MacOS Application Bundle
 - Es pot fer mitjançant CMake
 - No és el mateix fer-ho amb MACOSX_BUNDLE que amb CPACK_BUNDLE
@@ -20,12 +43,15 @@ LINK clau: https://discourse.cmake.org/t/how-to-add-resources-to-macos-bundle/93
 
 A tenir en compte:
 
-a) Cal afegir 
 a) Cal afegir al install de l'editor:
 
     install(TARGETS ${EXAMPLE_TARGET} RUNTIME BUNDLE DESTINATION ${CMAKE_SOURCE_DIR}/editor/release_macos)
 
 No peta però no tinc clar que fa. Genera com una app però no funciona.
+-------
+
+
+
 -------
 Links:
 

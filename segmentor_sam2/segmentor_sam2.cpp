@@ -1,6 +1,14 @@
 #include "stdio.h"
 #include "segmentor_sam2.h"
 #include "common1.h"
+#include <filesystem>
+#ifdef __APPLE__
+    #include "CoreFoundation/CoreFoundation.h"
+    #include <unistd.h>
+    #include <libgen.h>
+#endif
+
+namespace fs = std::filesystem;
 
 Segmentor& get_sam2_segmentor() 
 {
@@ -13,7 +21,38 @@ SAM2Segmentor::SAM2Segmentor()
     printf("called SAM2Segmentor::SAM2Segmentor()\n");
     //TODO
     sam.changeMode(SAM2);
-    bool successLoadModel = sam.loadModel("checkpoints/sam2.1_tiny/sam2.1_tiny_preprocess.onnx", "checkpoints/sam2.1_tiny/sam2.1_tiny.onnx", std::thread::hardware_concurrency(), "cpu");
+
+    std::string model1_absolutepath;
+    std::string model2_absolutepath;
+    std::string model1_relativepath = "checkpoints/sam2.1_tiny/sam2.1_tiny_preprocess.onnx";
+    std::string model2_relativepath = "checkpoints/sam2.1_tiny/sam2.1_tiny.onnx";
+
+    #ifdef __APPLE__
+        printf("APPLE detected, inspecting bundle path...\n");
+        CFBundleRef bundle = CFBundleGetMainBundle();
+        CFURLRef bundleURL = CFBundleCopyBundleURL(bundle);
+        char path[PATH_MAX];
+        Boolean success = CFURLGetFileSystemRepresentation(bundleURL, TRUE, (UInt8 *)path, PATH_MAX);
+        assert(success);
+        CFRelease(bundleURL);
+        printf(path);
+        model1_absolutepath = std::string(path)+"/Contents/Resources/"+model1_relativepath;
+        model2_absolutepath = std::string(path)+"/Contents/Resources/"+model2_relativepath;
+    #else
+        printf("APPLE NOT detected\n");
+        model1_absolutepath = model1_relativepath;
+        model2_absolutepath = model2_relativepath;
+    #endif
+
+    if (!fs::exists(model1_absolutepath)) {
+        printf("ERROR: cannot find file: %s\n", model1_absolutepath.c_str());
+    }
+    if (!fs::exists(model2_absolutepath)) {
+        printf("ERROR: cannot find file: %s\n", model2_absolutepath.c_str());
+    }
+
+    bool successLoadModel = sam.loadModel(model1_absolutepath, model2_absolutepath, std::thread::hardware_concurrency(), "cpu");
+    //bool successLoadModel = sam.loadModel("checkpoints/sam2.1_tiny/sam2.1_tiny_preprocess.onnx", "checkpoints/sam2.1_tiny/sam2.1_tiny.onnx", std::thread::hardware_concurrency(), "cpu");
     if(!successLoadModel){
         std::cout<<"loadModel error"<<std::endl;
         exit(1);
