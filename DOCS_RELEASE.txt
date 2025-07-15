@@ -8,6 +8,13 @@ Universitat Politecnica de Catalunya
 
 1 MacOS
 
+1.1 Per fer un release
+
+    ./build_macos.sh
+    ./release_macos.sh
+
+1.1 Generate an MacOS Application Bundle
+
 - Cal generar un MacOS Application Bundle
     - Es pot executar fent doble click o amb open (mirar més avall)
 - Es pot fer mitjançant CMake (mirar CMake de l'editor)
@@ -16,6 +23,47 @@ Universitat Politecnica de Catalunya
     open build_macos/bin/test_applebundle.app/Contents/MacOS/test_applebundle 
 
 - Per accedir als fitxers dins l'aplicació cal fer-ho amb una llibreria (mirar segmentor_sam2.cpp). 
+
+1.2 Put the bundle within a DMG
+
+- Can do it with the disk utility but better with:
+
+(https://github.com/create-dmg/create-dmg)
+
+brew install create-dmg
+
+create-dmg \
+--volname "Application Installer" \
+--volicon "application_icon.icns" \
+--background "installer_background.png" \
+--window-pos 200 120 \
+--window-size 800 400 \
+--icon-size 100 \
+--icon "Application.app" 200 190 \
+--hide-extension "Application.app" \
+--app-drop-link 600 185 \
+"Application-Installer.dmg" \
+"source_folder/"
+
+create-dmg \
+--volname "Lester Installer" \
+--volicon "macos_release_assets/application_icon.icns" \
+--background "macos_release_assets/installer_background.png" \
+--window-pos 200 120 \
+--window-size 800 400 \
+--icon-size 100 \
+--icon "editor.app" 200 190 \
+--hide-extension "editor.app" \
+--app-drop-link 600 185 \
+"Lester-Installer.dmg" \
+"build_macos/bin/"
+
+
+
+
+
+
+
 
 
 

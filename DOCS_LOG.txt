@@ -176,4 +176,10 @@ Universitat Politecnica de Catalunya
 	- No aconsegueixo veure els logs (he fet una cosa a main.cpp del test_applebundle però no funciona)
 	- Executant des del terminal sí funciona... estrany
 	- Cal seguir debugant la inicialització del sam2 a test_applebundle. 
-	- 
+
+15/07/2025
+	- He fet funcionar apple bundle. 
+	- Es podie debuggar obrint al terminal amb la comanda open
+	- Cal accedir als recursos amb adreces absolutes i una llibreria (mirar sam2_segmentor)
+
+
