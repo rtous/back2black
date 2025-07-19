@@ -182,4 +182,11 @@ Universitat Politecnica de Catalunya
 	- Es podie debuggar obrint al terminal amb la comanda open
 	- Cal accedir als recursos amb adreces absolutes i una llibreria (mirar sam2_segmentor)
 
+16/07/2025
+	- Fet el icon (veure release doc)
+	- Fixa't una grandària i un default path inicial pel filedialog
+	
+19/07/2025
+	- Corregint petits TODOs
+	
 

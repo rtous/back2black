@@ -17,15 +17,45 @@
 #include "state.h"
 #include "file_dialog.h"
 
+#include <pwd.h>
+#include <unistd.h>
+
+//To determine the initial path in the filedialog.
+//TODO: NOT in windows??
+std::string get_homedir() 
+{
+   #ifdef __APPLE__
+      printf("Setting default filedialog path for Macos...\n");
+      const char *homeDir = getenv("HOME");
+
+      if (!homeDir) {
+           struct passwd* pwd = getpwuid(getuid());
+           if (pwd)
+              homeDir = pwd->pw_dir;
+      }
+      return std::string(homeDir);
+   #else
+      printf("Setting default filedialog path for Windows...\n");
+      const char *homeDir = getenv("USERPROFILE");
+      return std::string(homeDir);
+    #endif
+} 
 
 void show_file_dialog_f(MyState & myState)
 {
     //Testing this:
-    int32_t display_w = 2000;
-    int32_t display_h = 500;
+    int32_t display_w = 2500;
+    int32_t display_h = 2000;
     //glfwGetFramebufferSize(window, &display_w, &display_h);
     IGFD::FileDialogConfig config;
+
+    
+
     config.path = ".";
+    
+    std::string home_dir = get_homedir();
+    config.filePathName = home_dir+"/";
+    //config.filePathName = "/Users/rtous/";
 
     
     //printf("opening dialog..."); 

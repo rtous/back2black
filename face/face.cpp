@@ -12,6 +12,12 @@
 #include <dlib/gui_widgets.h>
 #include <dlib/image_io.h>
 
+#ifdef __APPLE__
+    #include "CoreFoundation/CoreFoundation.h"
+    #include <unistd.h>
+    #include <libgen.h>
+#endif
+
 using namespace dlib;
 using namespace std;
 
@@ -68,7 +74,33 @@ void draw_nose(full_object_detection shape, cv::Mat & res, cv::Scalar color){
 void face(cv::Mat img, cv::Mat & res_face, cv::Mat & res_eyes, cv::Scalar color, cv::Scalar pupilsColor){
     frontal_face_detector detector = get_frontal_face_detector();
     shape_predictor pose_model;
-    deserialize("checkpoints/shape_predictor_68_face_landmarks.dat") >> pose_model;
+
+    //Obtain model file from the release
+    std::string model1_absolutepath;
+    std::string model1_relativepath = "checkpoints/shape_predictor_68_face_landmarks.dat";
+    #ifdef __APPLE__
+        printf("APPLE detected, inspecting bundle path...\n");
+        CFBundleRef bundle = CFBundleGetMainBundle();
+        CFURLRef bundleURL = CFBundleCopyBundleURL(bundle);
+        char path[PATH_MAX];
+        Boolean success = CFURLGetFileSystemRepresentation(bundleURL, TRUE, (UInt8 *)path, PATH_MAX);
+        assert(success);
+        CFRelease(bundleURL);
+        printf(path);
+        model1_absolutepath = std::string(path)+"/Contents/Resources/"+model1_relativepath;
+    #else
+        printf("APPLE NOT detected\n");
+        model1_absolutepath = model1_relativepath;
+    #endif
+    //
+
+    deserialize(model1_absolutepath) >> pose_model;
+    
+
+
+
+    //deserialize("checkpoints/shape_predictor_68_face_landmarks.dat") >> pose_model;
+    
     // Turn OpenCV's Mat into something dlib can deal with.  Note that this just
     // wraps the Mat object, it doesn't copy anything.  So cimg is only valid as
     // long as temp is valid.  Also don't do anything to temp that would cause it

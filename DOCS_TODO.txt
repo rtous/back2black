@@ -9,22 +9,20 @@ Universitat Politecnica de Catalunya
 TODO
 
 
+- windows
+	- Check if initial path in filedialog also works in windows
+- BUG: si fas un propagate amb tres màscares i després, al primer frame esborres totes, crees una (amb punts positius i negatius) i tornes a fer propagate peta
+- faces save??
 
-- compute_mask_textures també simplifica, potser també caldria canviar el nom.
-- Documentar que finishing s'aplica a tot i simplify i color a la mascara
-- No canvia els finishing a tots els frames (ara el color ja sí)
+TODO/PERFORMANCE/REFACTORING
+
+- Comprovar el clic dins de frameWindow potser millor a checkActions...
 - Propagar canvis a tots els frames potser és lent i s'hauria de fer només si canviem de frame???
 - Per canviar el color ha de simplificar, potser estalviar-ho
 - Quan canvio de frame fa opencv_image2sam???
 - refactoring: eliminar el computed_at_x, computed_at_y de tot arreu
-- faces uncheck
-- faces save??
-- windows
-- BUG: si fas un propagate amb tres màscares i després, al primer frame esborres totes, crees una (amb punts positius i negatius) i tornes a fer propagate peta
-
-
-TODO/REFACTORING
-
+- compute_mask_textures també simplifica, potser també caldria canviar el nom.
+- Documentar que finishing s'aplica a tot i simplify i color a la mascara
 - Quan afegeixes una màscara nova, si el número ja està a una altra estaria bé que tinguès el mateix color
 - CRITICAL: get_best_mask_at_point in segmentor_sam2 always returns true!
 	- Això ja m'ha donat alguna petada xunga, cal corregir-ho
@@ -73,9 +71,15 @@ SAM2:
 ------------------------------------------------------------------------------
 ------------------------------------------------------------------------------
 ------------------------------------------------------------------------------
+------------------------------------------------------------------------------
+------------------------------------------------------------------------------
 
 DONE:
 
+- No canvia els finishing a tots els frames (ara el color ja sí)
+- faces uncheck
+- BUG: Facial traits peta (segurament al accedir a Resources al bundle)
+- Inicialment surt un finished frame raro
 - Cal eliminar els punts blau de debug
 - BUG: En màscara multipunt, al fer propagate condensa tots els punts al mateix lloc
 - Si hi ha múltiples frames segmentats no canvia el color de les simplificades

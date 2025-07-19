@@ -16,8 +16,8 @@ Universitat Politecnica de Catalunya
 1.1 Generate an MacOS Application Bundle
 
 - Cal generar un MacOS Application Bundle
+    - Es pot fer mitjançant CMake (mirar CMake de l'editor)
     - Es pot executar fent doble click o amb open (mirar més avall)
-- Es pot fer mitjançant CMake (mirar CMake de l'editor)
 - IMPORTANT: Per veure els logs cal executar desde terminal així:
 
     open build_macos/bin/test_applebundle.app/Contents/MacOS/test_applebundle 
@@ -33,89 +33,55 @@ Universitat Politecnica de Catalunya
 brew install create-dmg
 
 create-dmg \
---volname "Application Installer" \
---volicon "application_icon.icns" \
---background "installer_background.png" \
---window-pos 200 120 \
---window-size 800 400 \
---icon-size 100 \
---icon "Application.app" 200 190 \
---hide-extension "Application.app" \
---app-drop-link 600 185 \
-"Application-Installer.dmg" \
-"source_folder/"
-
-create-dmg \
 --volname "Lester Installer" \
---volicon "macos_release_assets/application_icon.icns" \
+--volicon "macos_release_assets/lester.icns" \
 --background "macos_release_assets/installer_background.png" \
 --window-pos 200 120 \
 --window-size 800 400 \
 --icon-size 100 \
---icon "editor.app" 200 190 \
---hide-extension "editor.app" \
+--icon "lester.app" 200 190 \
+--hide-extension "lester.app" \
 --app-drop-link 600 185 \
 "Lester-Installer.dmg" \
 "build_macos/bin/"
 
+(script a release_macos.sh)
+
+Les icones són problemàtiques:
+    - Mirar el CMAKE
+    - conve que tingui el mateix nom que el bundle??
+    - cal declarar-ho al create-dmg però també dins el CMAKE
+    - de vegades cal esborrar el installer per que el torni a generar bé.
+
+2 Windows
+
+3 Github
+
+- Límit of Github LFS: 2 GB
+- Mirar això: https://stackoverflow.com/questions/54451856/how-can-i-tell-if-a-file-will-be-uploaded-to-git-lfs-correctly
+- https://github.com/rtous/lester.github.io
+
+    brew update
+    brew install git-lfs
+
+    git clone https://github.com/rtous/lester-release.git   
+    cd lester-release
+    git lfs install
+    git lfs track "*.dmg" (This generates .gitattributes. Leave it unstaged.)
+    cp /Users/rtous/dev/back2black/Lester-Installer.dmg .
+    git add Lester-Installer.dmg
+    git lfs status (just for debug, to check that the file will be tracked by lfs)
+    git lfs ls-files (just for debug)
+    git commit -m "add Lester-Installer.dmg"
+    git config http.postBuffer 2048576000 (ha de ser molt gran o peta)
+    git push
+
+    Link:
+    
+[Beta release](https://github.com/rtous/lester-release/raw/refs/heads/main/Lester-Installer.dmg?download=).
 
 
 
 
 
 
-
-
-
-
----------------------------- OLD -----
-
-- IMPORTANT: Es poden veure els errors a l'app Consola
-    #include <syslog.h>
-
-    O:
-
-    sudo log show --last 1m
-
-- IMPORTANT: Es pot executar des de terminal per veure els logs
-    - ./build_macos/bin/test_applebundle.app/Contents/MacOS/test_applebundle
-
-- Cal generar un MacOS Application Bundle
-- Es pot fer mitjançant CMake
-- No és el mateix fer-ho amb MACOSX_BUNDLE que amb CPACK_BUNDLE
-    - MACOSX_BUNDLE with CPACK_BUNDLE
-
-1.1 Amb MACOSX_BUNDLE:
-
-LINK clau: https://discourse.cmake.org/t/how-to-add-resources-to-macos-bundle/9323
-
-A tenir en compte:
-
-a) Cal afegir al install de l'editor:
-
-    install(TARGETS ${EXAMPLE_TARGET} RUNTIME BUNDLE DESTINATION ${CMAKE_SOURCE_DIR}/editor/release_macos)
-
-No peta però no tinc clar que fa. Genera com una app però no funciona.
--------
-
-
-
--------
-Links:
-
-https://www.ferranpujolcamins.cat/2020/11/27/Notes-CMake-macOS-bundle.html
-
-- Cal generar un application bundle: https://developer.apple.com/library/archive/documentation/CoreFoundation/Conceptual/CFBundles/BundleTypes/BundleTypes.html
-
-foo.app/
-    Contents/
-        Info.plist
-        MacOS/
-            foo
-        Resources/
-            foo.icns
-
-- Millor: fer-ho amb cmake
-- Tutorial: https://bartkessels.net/cmake/building-a-qt-macos-bundle
-
-- Alternativa: https://www.reddit.com/r/rust/comments/5od04d/how_to_make_macos_app_bundles/

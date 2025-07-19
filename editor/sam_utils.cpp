@@ -588,11 +588,15 @@ void compute_mask_and_texturesOLD(Frame & aFrame, const sam_params & params, sam
     }
 }
 
-//Called from the editor/frameWindow si myState.clicked 
-//ALL MASKS
+//Called from the editor
+    //from compute_mask (called when the user clicks)
+    //from finishingConfigWindow (if the user changes the GUI setttings)
+//Called from compute_mask_textures_all_frames
+//Processes ALL MASKS in the frame
 //Currently does not simplify the mask again
 void finishing_frame(MyState &myState, int frame_idx) 
 {
+    printf("Finishing frame %d", frame_idx);
     //takes all the masks from myState.aVideo.frames[myState.selected_frame].masks
     //, simplify everything and
     //generates myState.aVideo.frames[myState.selected_frame].tex_simplified
@@ -632,6 +636,18 @@ void finishing_frame(MyState &myState, int frame_idx)
     aFrame.img_simplified = output_image_opencv_bgra;
     //DEBUG
     //aFrame.tex_simplified = aFrame.tex;
+}
+
+void finishing_all_frames(MyState &myState) 
+{
+    printf("finishing_all_frames\n");
+    int f = 0;
+    for (Frame & aFrame : myState.aVideo.frames) {
+        if (aFrame.masks.size() > 0) {
+            finishing_frame(myState, f);
+        }
+        f++;
+    }
 }
 
 /*

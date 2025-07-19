@@ -36,8 +36,7 @@
     Concepts:
 
     For a given video frame:
-        - N masks. An mask = set of masks with the same color.
-            - N masks. A mask = a single binary image but can have multiple segments (contours)
+        - N masks. A mask = a single binary image but can have multiple segments (contours)
     
     
     Panels:
@@ -52,6 +51,8 @@
     When the user loads the video the first frame is precomputed.
     When the user clicks on the frame one mask is computed and added/removed from the frame.
     If a mask is added the simplify algorithm is applied to it.
+        - All the masks of the frame are processed and the result stored in .tex_simplified
+
     When the user selects a different frame and clicks it the frame is precomputed.
 
     Workflow (masks):
@@ -199,6 +200,8 @@ static void drawAllMasks(MyState &myState, const ImGuiViewport* viewport, ImVec2
     //printf("Found %d masks.\n", myState.aVideo.frames[myState.selected_frame].masks.size());
     //for (int j = 0; j < int(myState.aVideo.frames[myState.selected_frame].masks.size()); ++j) {
     //draw in reverse order (mask 0 is on top)
+    
+    //bool any_mask_to_be_simplified = false;
     for (int j =  int(myState.aVideo.frames[myState.selected_frame].masks.size())-1; j >= 0; --j) {
 
         Mask aMask = myState.aVideo.frames[myState.selected_frame].masks[j];
@@ -234,12 +237,12 @@ static void drawAllMasks(MyState &myState, const ImGuiViewport* viewport, ImVec2
     }
     
     //finishing window
-    if (simplified) {
+    if (simplified && myState.aVideo.frames[myState.selected_frame].masks.size()>0) {
         //Simplified masks with finishing details (as a single colored texture)
         //myState.aVideo.frames[myState.selected_frame].tex_simplified = myState.aVideo.frames[myState.selected_frame].tex;
         draw_list->AddImage((void*)(intptr_t)myState.aVideo.frames[myState.selected_frame].tex_simplified, ImVec2(newPos[0], newPos[1]), ImVec2(newPos[0]+myState.img_sam_format_downscaled.nx, newPos[1]+myState.img_sam_format_downscaled.ny));
         //Facial textures (as binary masks applying color here)
-        if (myState.aVideo.frames[myState.selected_frame].faces_computed) {
+        if (myState.aVideo.frames[myState.selected_frame].faces_computed && myState.aVideo.frames[myState.selected_frame].faces_check) {
             draw_list->AddImage((void*)(intptr_t)myState.aVideo.frames[myState.selected_frame].facesTexture, ImVec2(newPos[0], newPos[1]), ImVec2(newPos[0]+myState.img_sam_format_downscaled.nx, newPos[1]+myState.img_sam_format_downscaled.ny), ImVec2(0,0), ImVec2(1,1), IM_COL32(myState.face_color[0]*255, myState.face_color[1]*255, myState.face_color[2]*255, 255));
             draw_list->AddImage((void*)(intptr_t)myState.aVideo.frames[myState.selected_frame].eyesTexture, ImVec2(newPos[0], newPos[1]), ImVec2(newPos[0]+myState.img_sam_format_downscaled.nx, newPos[1]+myState.img_sam_format_downscaled.ny), ImVec2(0,0), ImVec2(1,1), IM_COL32(myState.eyes_color[0]*255, myState.eyes_color[1]*255, myState.eyes_color[2]*255, 255));               
         }
@@ -263,6 +266,8 @@ static void drawAllMasks(MyState &myState, const ImGuiViewport* viewport, ImVec2
     }
 }
 
+//Called from frameWindow (if user clicked)
+//Called from checkActions (if myState.mask_button_clicked)
 void compute_mask(MyState &myState) {
     if (myState.frame_precomputed != myState.selected_frame) {
         printf("clicked but frame_precomputed (%d) != selected_frame (%d) changed so precomputing first frame...\n", myState.frame_precomputed, myState.selected_frame);
@@ -858,8 +863,15 @@ static void masksListWindow(MyState &myState, const ImGuiViewport* viewport, ImG
         ImGui::EndListBox();
     }  
     if (need_to_update_textures) {
+        //If added or removed masks, or changed order, need to recompute the
+        //finsishing of the overall frame.
+        //If the color is changed all frames need to be recomputed but it's done specifically
+        //in that line (above) instead of here (no finishing_all_frames here)
         printf("finishing_frame\n");
         finishing_frame(myState, myState.selected_frame);
+        //finishing_all_frames(myState);
+
+
         printf("compute_mask_textures_all_frames!\n");
         compute_mask_textures_all_frames(myState.aVideo.frames, myState, false);//false to recompute color
 
@@ -974,7 +986,8 @@ static void finishingConfigWindow(MyState &myState, const ImGuiViewport* viewpor
         ImGui::Checkbox("Change colors all frames", &myState.change_color_all_frames);
     
         if (need_to_update_textures) {
-            finishing_frame(myState, myState.selected_frame);
+            //finishing_frame(myState, myState.selected_frame);
+            finishing_all_frames(myState);
             need_to_update_textures = false;
         }
 
