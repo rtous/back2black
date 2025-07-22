@@ -88,8 +88,15 @@ bool Sam::loadModel(const std::string& encoderPath, const std::string& decoderPa
         option.AppendExecutionProvider_CUDA(options);
       }
     }
-    sessionEncoder = std::make_unique<Ort::Session>(env, encoderPath.c_str(), sessionOptions[0]);
-    sessionDecoder = std::make_unique<Ort::Session>(env, decoderPath.c_str(), sessionOptions[1]);
+    #ifdef _WIN32 //WIN32
+		std::wstring encoderPath_widestr = std::wstring(encoderPath.begin(), encoderPath.end());
+		sessionEncoder = std::make_unique<Ort::Session>(env, encoderPath_widestr.c_str(), sessionOptions[0]);
+		std::wstring decoderPath_widestr = std::wstring(decoderPath.begin(), decoderPath.end());
+		sessionDecoder = std::make_unique<Ort::Session>(env, decoderPath_widestr.c_str(), sessionOptions[1]);
+	#else
+		sessionEncoder = std::make_unique<Ort::Session>(env, encoderPath.c_str(), sessionOptions[0]);
+		sessionDecoder = std::make_unique<Ort::Session>(env, decoderPath.c_str(), sessionOptions[1]);
+	#endif
     inputShapeEncoder = sessionEncoder->GetInputTypeInfo(0).GetTensorTypeAndShapeInfo().GetShape();
     outputShapeEncoder = sessionEncoder->GetOutputTypeInfo(0).GetTensorTypeAndShapeInfo().GetShape();
     if(mode == SAM2){

@@ -17,8 +17,12 @@
 #include "state.h"
 #include "file_dialog.h"
 
-#include <pwd.h>
-#include <unistd.h>
+#ifdef _WIN32 //WIN32
+#else
+	#include <pwd.h>
+	#include <unistd.h>
+#endif
+
 
 //To determine the initial path in the filedialog.
 //TODO: NOT in windows??

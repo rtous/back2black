@@ -1,0 +1,69 @@
+set(EXAMPLE_TARGET test_onnx)
+
+add_executable(${EXAMPLE_TARGET}
+    main.cpp
+)
+
+#SETUP ONNXRUNTIME
+if(MSVC)
+	message(STATUS "RUBEN: MSVC DETECTED")
+	set(ONNXRUNTIME_DIR "${CMAKE_CURRENT_SOURCE_DIR}/../../onnxruntime/build/Windows/Debug" )
+else()
+	message(STATUS "RUBEN: NO MSVC DETECTED")
+	set(ONNXRUNTIME_DIR "${CMAKE_CURRENT_SOURCE_DIR}/../../onnxruntime/build/MacOS/RelWithDebInfo" )
+
+endif()
+
+
+#set(ONNXRUNTIME_ROOTDIR ${CMAKE_SOURCE_DIR}/../onnxruntime)
+#include_directories("${ONNXRUNTIME_ROOTDIR}/include")
+#find_package(ONNXRUNTIME REQUIRED)
+
+#target_link_libraries(${EXAMPLE_TARGET} PRIVATE ${CMAKE_THREAD_LIBS_INIT} ${myonnxruntimelib} )
+
+target_include_directories(
+    ${EXAMPLE_TARGET} PUBLIC 
+    ${CMAKE_CURRENT_SOURCE_DIR}/../../onnxruntime/include/onnxruntime/core/common
+    ${CMAKE_CURRENT_SOURCE_DIR}/../../onnxruntime/include/onnxruntime/core/eager
+    ${CMAKE_CURRENT_SOURCE_DIR}/../../onnxruntime/include/onnxruntime/core/framework
+    ${CMAKE_CURRENT_SOURCE_DIR}/../../onnxruntime/include/onnxruntime/core/graph
+    ${CMAKE_CURRENT_SOURCE_DIR}/../../onnxruntime/include/onnxruntime/core/optimizer
+    ${CMAKE_CURRENT_SOURCE_DIR}/../../onnxruntime/include/onnxruntime/core/platform
+    ${CMAKE_CURRENT_SOURCE_DIR}/../../onnxruntime/include/onnxruntime/core/providers
+    ${CMAKE_CURRENT_SOURCE_DIR}/../../onnxruntime/include/onnxruntime/core/session
+)
+
+target_link_libraries(${EXAMPLE_TARGET} PRIVATE ${CMAKE_THREAD_LIBS_INIT}
+    ${ONNXRUNTIME_LINK_LIBRARIES_GLOBAL}
+)
+
+
+
+target_compile_features(${EXAMPLE_TARGET} PUBLIC cxx_std_17)
+
+#set(CMAKE_CXX_STANDARD 17)
+
+#If Microsoft Visual C++ or similar
+#if(MSVC)
+#    target_compile_definitions(${EXAMPLE_TARGET} PRIVATE -D_CRT_SECURE_NO_WARNINGS=1)
+#endif()
+
+
+
+
+#if (WIN32)
+# this code copies the onnxruntime library to the same folder as the executable
+#add_custom_command(
+#    TARGET ${EXAMPLE_TARGET} POST_BUILD
+#    COMMAND ${CMAKE_COMMAND} -E copy_if_different
+#    "${PROJECT_SOURCE_DIR}/../onnxruntime-osx-arm64-1.20.1/libonnxruntime.1.20.1.dylib"
+#    $<TARGET_FILE_DIR:${EXAMPLE_TARGET}>
+#    VERBATIM)
+#endif()
+
+#To avoid macos code signing check error
+#set(CMAKE_XCODE_ATTRIBUTE_CODE_SIGNING_ALLOWED "NO")
+#set_target_properties(test_onnx PROPERTIES
+#        XCODE_ATTRIBUTE_CODE_SIGN_IDENTITY ""
+#        XCODE_ATTRIBUTE_CODE_SIGNING_ALLOWED "NO" 
+#    )

@@ -1,6 +1,10 @@
 #include <opencv2/opencv.hpp>
 #define STRIP_FLAG_HELP 1
-#include <gflags/gflags.h>
+#ifdef _WIN32 //WIN32
+	//
+#else
+	#include <gflags/gflags.h>
+#endif
 #include <thread>
 #include "sam2.h"
 
@@ -11,17 +15,18 @@ DEFINE_string(device, "cpu", "cpu or cuda:0(1,2,3...)");
 DEFINE_bool(h, false, "Show help");
 
 int main(int argc, char** argv) {
-  gflags::ParseCommandLineNonHelpFlags(&argc, &argv, true);
-  if(FLAGS_h){
-    std::cout<<"Example: ./build/sam_cpp_test -encoder=\"sam2.1_tiny/sam2.1_tiny_preprocess.onnx\" "
+  
+	gflags::ParseCommandLineNonHelpFlags(&argc, &argv, true);
+	if(FLAGS_h){
+		std::cout<<"Example: ./build/sam_cpp_test -encoder=\"sam2.1_tiny/sam2.1_tiny_preprocess.onnx\" "
                "-decoder=\"sam2.1_tiny/sam2.1_tiny.onnx\" "
                "-image=\"david-tomaseti-Vw2HZQ1FGjU-unsplash.jpg\" -device=\"cpu\""<< std::endl;
-    return 0;
-  }
-  Sam sam;
-  if(FLAGS_encoder.find("sam2") != std::string::npos){
-    sam.changeMode(SAM2);
-  }
+		return 0;
+	}
+	Sam sam;
+	if(FLAGS_encoder.find("sam2") != std::string::npos){
+		sam.changeMode(SAM2);
+	}
   std::cout<<"loadModel started"<<std::endl;
   bool successLoadModel = sam.loadModel(FLAGS_encoder, FLAGS_decoder, std::thread::hardware_concurrency(), FLAGS_device);
   if(!successLoadModel){

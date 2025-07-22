@@ -86,7 +86,6 @@ find_package(OpenCV REQUIRED)
 #find_package(dlib REQUIRED)
 include_directories(${dlib_INCLUDE_DIRS})
 
-
 #TODO: for some strange reason if "common" appears before ${OpenCV_LIBS} then it cannot read "jpg" images...
 #install(TARGETS ${EXAMPLE_TARGET} RUNTIME) #sense bundle
 install(TARGETS ${EXAMPLE_TARGET} RUNTIME BUNDLE DESTINATION ${CMAKE_INSTALL_BINDIR})
