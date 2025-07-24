@@ -58,7 +58,8 @@ void show_file_dialog_f(MyState & myState)
     config.path = ".";
     
     std::string home_dir = get_homedir();
-    config.filePathName = home_dir+"/";
+    config.filePathName = home_dir+"/"; 
+    
     //config.filePathName = "/Users/rtous/";
 
     

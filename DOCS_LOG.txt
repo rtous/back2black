@@ -189,4 +189,8 @@ Universitat Politecnica de Catalunya
 19/07/2025
 	- Corregint petits TODOs
 	
+24/07/2025
+	- Corregit un bug al guardar video al mac, calia la ruta absoluta
+	- he afegit una consola per depurar més facil
+	
 

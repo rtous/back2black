@@ -996,6 +996,20 @@ static void finishingConfigWindow(MyState &myState, const ImGuiViewport* viewpor
     ImGui::End();
 }
 
+static void consoleWindow(MyState &myState, ImGuiWindowFlags flags, ImVec2 window_size, ImVec2 window_pos) 
+{
+    bool need_to_update_textures = false;
+
+    ImGui::SetNextWindowPos(window_pos);
+    ImGui::SetNextWindowSize(window_size);
+    ImGui::Begin("CONSOLE", NULL, ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoCollapse);
+    
+    for (int i=0; i<myState.num_console_messages; i++)
+        ImGui::Text(myState.console_messages[i].c_str()); //ImGui::SameLine();
+
+    ImGui::End();
+}
+
 
 //Checks fileDialog related actions:
 //  - show file dialog
@@ -1083,8 +1097,13 @@ void fileDialog(MyState &myState) {
         myState.segmentor.preprocessImage(myState.img_sam);
         myState.frame_precomputed = 0;
     } else if (myState.file_dialog_file_selected && myState.file_dialog_mode == FILE_DIALOG_SAVE_VIDEO) {   
+        std::string path = myState.filePath+"/"+myState.filePathName;
         myState.file_dialog_file_selected = false;
-        save_video(myState.filePathName, myState.aVideo);   
+        myState.add_console_message("writing video to "+path);
+        myState.add_console_message("myState.filePathName =  "+myState.filePathName);
+        myState.add_console_message("myState.filePath =  "+myState.filePath);  
+        save_video(path, myState.aVideo);  
+        myState.add_console_message("video written to "+path); 
     } else if (myState.file_dialog_file_selected && myState.file_dialog_mode == FILE_DIALOG_SAVE_VIDEO_FRAMES) {     
         myState.file_dialog_file_selected = false;
         save_video_frames(myState.filePath, myState.aVideo);     
@@ -1364,4 +1383,10 @@ void editor(MyState &myState) //WARNING: this is executed within the main loop
 
     //FINISHING window
     finishingConfigWindow(myState, viewport, flags, use_work_area);
+
+    //CONSOLE
+    ImVec2 console_window_size = ImVec2(viewport->WorkSize.x, viewport->WorkSize.y * 0.10f);
+    ImVec2 console_window_pos = ImVec2(viewport->WorkPos.x, viewport->WorkPos.y+(viewport->WorkSize.y - viewport->WorkSize.y*0.10f));
+    consoleWindow(myState, flags, console_window_size, console_window_pos);  
+
 }

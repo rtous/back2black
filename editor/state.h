@@ -85,12 +85,27 @@ class MyState {
     //finishing details
     float face_color[4]; //R,G,B,A (WARNING: values between 0 and 1)
     float eyes_color[4]; //R,G,B,A (WARNING: values between 0 and 1)
-    //face(myState.aVideo.frames[myState.selected_frame].img, blankImageWithAlpha, cv::Scalar(118, 113, 168, 255), cv::Scalar(61, 71, 118, 255));
-            
+    //face(myState.aVideo.frames[myState.selected_frame].img, blankImageWithAlpha, cv::Scalar(118, 113, 168, 255), cv::Scalar(61, 71, 118, 255));          
     int rimlight_size = 5;
     int pixelation_level = 5;
-
     bool change_color_all_frames = true;
+
+    //Console
+    std::string console_messages[4];
+    int num_console_messages=0;
+
+    void add_console_message(std::string message) {  // Method/function defined inside the class
+      if (num_console_messages < 4) {
+        console_messages[num_console_messages] = message;
+        num_console_messages++;
+      } else {
+        int i;
+        for (i = 0; i<num_console_messages-1; i++) {//displace all
+          console_messages[i] = console_messages[i+1];
+        }
+        console_messages[i] = message;
+      }
+    }
 
     void reset() {  // Method/function defined inside the class
       aVideo = Video();
