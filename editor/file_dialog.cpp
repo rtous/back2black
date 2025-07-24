@@ -53,12 +53,16 @@ void show_file_dialog_f(MyState & myState)
     //glfwGetFramebufferSize(window, &display_w, &display_h);
     IGFD::FileDialogConfig config;
 
-    
-
     config.path = ".";
-    
-    std::string home_dir = get_homedir();
-    config.filePathName = home_dir+"/"; 
+    if (myState.remembered_path == "") {
+       myState.add_console_message("remembered_path not set, setting to "+config.filePathName);
+       std::string home_dir = get_homedir();
+       config.filePathName = home_dir+"/"; 
+       myState.remembered_path = config.filePathName;
+   } else {
+      myState.add_console_message("remembered_path already set ("+myState.remembered_path+")");
+      config.filePathName = myState.remembered_path; 
+   }
     
     //config.filePathName = "/Users/rtous/";
 
@@ -126,6 +130,7 @@ void show_file_dialog_f(MyState & myState)
           printf("myState.filePathName=%s\n",myState.filePathName.c_str());
           printf("myState.filePath=%s\n",myState.filePath.c_str());
           myState.file_dialog_file_selected = true;
+          myState.remembered_path = myState.filePath;
           // action
         }
         printf("closing dialog..."); 

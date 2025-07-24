@@ -94,6 +94,9 @@ class MyState {
     std::string console_messages[4];
     int num_console_messages=0;
 
+    //File path memory
+    std::string remembered_path="";
+
     void add_console_message(std::string message) {  // Method/function defined inside the class
       if (num_console_messages < 4) {
         console_messages[num_console_messages] = message;

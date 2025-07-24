@@ -10,9 +10,10 @@ TODO
 
 
 - windows
-	- Check if initial path in filedialog also works in windows
+- Check if initial path in filedialog also works in windows
 - BUG: si fas un propagate amb tres màscares i després, al primer frame esborres totes, crees una (amb punts positius i negatius) i tornes a fer propagate peta
 - faces save??
+- imgui.ini per tot arreu
 
 TODO/PERFORMANCE/REFACTORING
 
