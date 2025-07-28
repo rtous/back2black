@@ -51,7 +51,7 @@ void read_video(const std::string &videoFilePath, Video &theVideo, int w, int h)
     }
 }
 //accepts only mp4?
-void save_video(const std::string &videoFilePath, Video &theVideo){//(std::vector<cv::Mat img> & frames) {
+void save_video(MyState &myState, const std::string &videoFilePath, Video &theVideo){//(std::vector<cv::Mat img> & frames) {
     printf("saving video to %s...\n", videoFilePath.c_str());
     int fps = 25;
     cv::Size frame_size = theVideo.frames[0].img.size();    
@@ -103,9 +103,22 @@ void save_video(const std::string &videoFilePath, Video &theVideo){//(std::vecto
                     */
 
                     //New way, directly aFrame.img_simplified
+                    //cv::Mat outImg; 
+                    //Facial traits
+                    cv::Mat img_simplified_withFace = aFrame.img_simplified.clone();
+                    if (aFrame.faces_computed && aFrame.faces_check) {
+                        //we are working in BGRA so we need to switch from RGBA
+                        cv::Scalar faceColor = cv::Scalar(myState.face_color[2]*255, myState.face_color[1]*255, myState.face_color[0]*255, myState.face_color[3]*255);
+                        cv::Scalar pupilsColor = cv::Scalar(myState.eyes_color[2]*255, myState.eyes_color[1]*255, myState.eyes_color[0]*255, myState.eyes_color[3]*255);
+                        //overlay(img_simplified_withFace, img_simplified_withFace, aFrame.faces);
+                        img_simplified_withFace.setTo(faceColor, aFrame.faces);
+                        //overlay(img_simplified_withFace, img_simplified_withFace, aFrame.eyes);
+                        img_simplified_withFace.setTo(pupilsColor, aFrame.eyes);
+                    }
+                    //img_simplified_withFace = aFrame.faces.clone();
                     //TODO: Instead of rescaling work with native size
                     cv::Mat outImg;                    
-                    cv::resize(aFrame.img_simplified, outImg, aFrame.img.size(), 0, 0, cv::INTER_LINEAR);
+                    cv::resize(img_simplified_withFace, outImg, aFrame.img.size(), 0, 0, cv::INTER_LINEAR);
                     vidwriter.write(outImg);        
                 }
                 printf("FRAME DONE.\n");
@@ -119,6 +132,7 @@ void save_video(const std::string &videoFilePath, Video &theVideo){//(std::vecto
     }
 }
 
+/*
 void save_video_frames(const std::string &dirPath, Video &theVideo){//(std::vector<cv::Mat img> & frames) {
     if (!cv::utils::fs::exists(dirPath)) {
         printf("Output directory does not exist, creating: %s", dirPath.c_str());
@@ -152,6 +166,52 @@ void save_video_frames(const std::string &dirPath, Video &theVideo){//(std::vect
             cv::imwrite(frame_path, bgra);
 
             
+        }
+        printf("FRAME DONE.\n");
+        f++;
+    }
+        
+}
+*/
+void save_video_frames(MyState &myState, const std::string &dirPath, Video &theVideo){//(std::vector<cv::Mat img> & frames) {
+    if (!cv::utils::fs::exists(dirPath)) {
+        printf("Output directory does not exist, creating: %s", dirPath.c_str());
+        cv::utils::fs::createDirectories(dirPath);
+    }
+    printf("saving video to %s...\n", dirPath.c_str());
+    int fps = 25;
+    cv::Size frame_size = theVideo.frames[0].img.size();    
+    
+    int numFrames = theVideo.frames.size();
+    int f = 0;
+    //iterate through all frames 
+    for (Frame & aFrame : theVideo.frames) {
+        printf("PROCESSING FRAME %d \n", f);
+        if (aFrame.masks.size()>0) {
+            
+            cv::Mat img_simplified_withFace = aFrame.img_simplified.clone();
+            if (aFrame.faces_computed && aFrame.faces_check) {
+                //we are working in BGRA so we need to switch from RGBA
+                cv::Scalar faceColor = cv::Scalar(myState.face_color[2]*255, myState.face_color[1]*255, myState.face_color[0]*255, myState.face_color[3]*255);
+                cv::Scalar pupilsColor = cv::Scalar(myState.eyes_color[2]*255, myState.eyes_color[1]*255, myState.eyes_color[0]*255, myState.eyes_color[3]*255);
+                //overlay(img_simplified_withFace, img_simplified_withFace, aFrame.faces);
+                img_simplified_withFace.setTo(faceColor, aFrame.faces);
+                //overlay(img_simplified_withFace, img_simplified_withFace, aFrame.eyes);
+                img_simplified_withFace.setTo(pupilsColor, aFrame.eyes);
+            }
+            //img_simplified_withFace = aFrame.faces.clone();
+            //TODO: Instead of rescaling work with native size
+            cv::Mat outImg;                    
+            cv::resize(img_simplified_withFace, outImg, aFrame.img.size(), 0, 0, cv::INTER_LINEAR);
+
+
+            //cv::Mat bgra;
+            //cv::cvtColor(img_simplified_withFace, bgra, cv::COLOR_RGBA2BGRA);
+            std::string frame_path = dirPath+"/frame"+ std::to_string(f)+".png";
+            printf("saving frame to %s...\n", frame_path.c_str());
+            //cv::imwrite(frame_path, bgra);  
+            cv::imwrite(frame_path, img_simplified_withFace);  
+
         }
         printf("FRAME DONE.\n");
         f++;

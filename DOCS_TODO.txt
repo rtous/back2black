@@ -8,6 +8,7 @@ Universitat Politecnica de Catalunya
 
 TODO
 
+- Diria que el save video i save video frames fa un resize innecessari que esborrona
 
 - windows
 - Check if initial path in filedialog also works in windows
@@ -77,6 +78,8 @@ SAM2:
 
 DONE:
 
+- La cara no surt al save video!
+- save frames
 - No canvia els finishing a tots els frames (ara el color ja sí)
 - faces uncheck
 - BUG: Facial traits peta (segurament al accedir a Resources al bundle)

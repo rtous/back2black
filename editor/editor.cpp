@@ -1102,11 +1102,11 @@ void fileDialog(MyState &myState) {
         myState.add_console_message("writing video to "+path);
         myState.add_console_message("myState.filePathName =  "+myState.filePathName);
         myState.add_console_message("myState.filePath =  "+myState.filePath);  
-        save_video(path, myState.aVideo);  
+        save_video(myState, path, myState.aVideo);  
         myState.add_console_message("video written to "+path); 
     } else if (myState.file_dialog_file_selected && myState.file_dialog_mode == FILE_DIALOG_SAVE_VIDEO_FRAMES) {     
         myState.file_dialog_file_selected = false;
-        save_video_frames(myState.filePath, myState.aVideo);     
+        save_video_frames(myState, myState.filePath, myState.aVideo);     
     } else if (myState.file_dialog_file_selected && myState.file_dialog_mode == FILE_DIALOG_SAVE_FRAME) {        
         myState.file_dialog_file_selected = false;
         save_frame(myState.filePathName, myState.aVideo, myState.selected_frame);        
