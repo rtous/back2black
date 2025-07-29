@@ -1,1 +1,1 @@
-start /WAIT /B ./build_windows/bin/Debug/editor.exe
+start /WAIT /B ./build_windows/bin/Debug/Lester.exe

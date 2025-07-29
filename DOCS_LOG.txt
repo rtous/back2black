@@ -198,3 +198,8 @@ Universitat Politecnica de Catalunya
 	- Colors -> fet
 	- Fent el mateix a save_video_frames -> fet
 
+29/07/2025
+	- Detectat problema a windows: 
+		- Al editor necessito incloure onnxruntime.lib o peta, però en execució això provoca (potser agafa onnxruntime.dll del System32):
+			The requested API version [22] is not available, only API versions [1, 17] are supported in this build. Current ORT Version is: 1.17.1
+		- Però el test_onnx no inclou i funciona!

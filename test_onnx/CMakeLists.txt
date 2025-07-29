@@ -15,12 +15,6 @@ else()
 endif()
 
 
-#set(ONNXRUNTIME_ROOTDIR ${CMAKE_SOURCE_DIR}/../onnxruntime)
-#include_directories("${ONNXRUNTIME_ROOTDIR}/include")
-#find_package(ONNXRUNTIME REQUIRED)
-
-#target_link_libraries(${EXAMPLE_TARGET} PRIVATE ${CMAKE_THREAD_LIBS_INIT} ${myonnxruntimelib} )
-
 target_include_directories(
     ${EXAMPLE_TARGET} PUBLIC 
     ${CMAKE_CURRENT_SOURCE_DIR}/../../onnxruntime/include/onnxruntime/core/common
@@ -33,14 +27,13 @@ target_include_directories(
     ${CMAKE_CURRENT_SOURCE_DIR}/../../onnxruntime/include/onnxruntime/core/session
 )
 
-#target_link_libraries(${EXAMPLE_TARGET} PRIVATE 
-#    ${ONNXRUNTIME_LINK_LIBRARIES_GLOBAL}
-#)
-
 if(MSVC)
 	target_link_libraries(
 		${EXAMPLE_TARGET} PRIVATE 
 		${CMAKE_THREAD_LIBS_INIT}
+		
+		#${ONNXRUNTIME_DIR}/Debug/onnxruntime.lib
+
 
 		${ONNXRUNTIME_DIR}/Debug/onnxruntime_session.lib  
 		${ONNXRUNTIME_DIR}/Debug/onnxruntime_optimizer.lib
@@ -265,6 +258,16 @@ else()
 	)
 endif()
 
+#target_link_libraries(${EXAMPLE_TARGET} PRIVATE 
+#    ${CMAKE_THREAD_LIBS_INIT}
+#    ${ONNXRUNTIME_LINK_LIBRARIES_GLOBAL}
+#    )
+
+
+
+#target_link_libraries(${EXAMPLE_TARGET} PRIVATE     
+    #${ONNXRUNTIME_LINK_LIBRARIES_GLOBAL}
+#    )
 
 
 target_compile_features(${EXAMPLE_TARGET} PUBLIC cxx_std_17)
