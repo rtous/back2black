@@ -93,6 +93,16 @@ bool SAM2Segmentor::preprocessImage(sam_image_u8 & image_sam) {
     return preprocessImage(image_opencv);
 }
 
+bool SAM2Segmentor::preprocessImage_and_remember(cv::Mat & opencv_image) {
+    //TODO
+    return true;
+}
+
+bool SAM2Segmentor::preprocessImage_and_remember(sam_image_u8 & image_sam) {
+    //TODO
+    return true;
+}
+
 //es pot eliminar:
 //one point, image opencv format
 cv::Mat SAM2Segmentor::get_best_mask_at_point(int x, int y, cv::Mat& image_opencv) {
@@ -171,6 +181,14 @@ bool SAM2Segmentor::get_best_mask_at_points(std::vector<MaskPoint>& points, sam_
     return true;//TODO
 }
 
+bool SAM2Segmentor::get_best_mask_at_points_video(std::vector<MaskPoint>& points, sam_image_u8& image_sam, sam_image_u8& mask_sam, int frame_idx) {
+    //TODO
+    return true;//TODO
+}
+
+void SAM2Segmentor::reset_memory() {
+    //TODO
+}
 
 void SAM2Segmentor::close() {
     //TODO

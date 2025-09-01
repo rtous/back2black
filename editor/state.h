@@ -9,6 +9,7 @@
 #include "segmentor.h"
 #include "segmentor_sam1.h"
 #include "segmentor_sam2.h"
+#include "segmentor_sam21.h"
 
 /*class MaskPoint {      
   public:             
@@ -116,7 +117,8 @@ class MyState {
 
     //as segmentor holds a reference it needs to be intitialized this way
     //"constructor initializer list"
-    MyState() : segmentor(get_sam2_segmentor())  {
+    //MyState() : segmentor(get_sam2_segmentor())  {
+    MyState() : segmentor(get_sam21_segmentor())  {
     //MyState() : segmentor(get_sam1_segmentor())  {
       //Default color
       face_color[0] = 168/(float)256;

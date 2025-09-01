@@ -135,6 +135,7 @@ int masks_already_in_list(sam_image_u8 candidateMask, Frame & aFrame) {
 void debugInspectImage(cv::Mat &input_image); //from simplify
 
 //Computes the texture of the mask and it's simplified version
+//1) Re-simplifies (and colors) of one masks
 //Does not change the finishing details
 void compute_mask_textures(Mask & aMask, int R, int G, int B) {
     printf("compute_mask_textures mask %d R,G,B = %d, %d, %d\n", aMask.maskId, R, G, B);
@@ -220,6 +221,8 @@ void compute_mask_textures(Mask & aMask, int R, int G, int B) {
     }
 }*/
 
+//1)Re-simplifies (and colors) all the masks, finishing details (stack the masks, rimlight and pixelte) of all the frames
+//2)Re-computes textures for imgui to display
 void compute_mask_textures_all_frames(std::vector<Frame> & frames, MyState &myState, bool simplify_and_color) 
 //void compute_mask_textures_all_frames(std::vector<Frame> & frames, MyState &myState, bool simplify_and_color) 
 {
@@ -337,12 +340,13 @@ void compute_mask_and_textures(Frame & aFrame, std::vector<MaskPoint> sam2_point
     if (maskFound) {        
         //printf("isEmptyMaskDEBUG(mask)=%d\n", isEmptyMaskDEBUG(mask));
         
-        //If it's a one point mask we see if it exists to remove it
-        int pos = -1;
-        if (sam2_points.size() == 1) {
+        //Check if there's already a mask there (only for one point masks).
+        int pos = -1; //We start assuming no mask there.
+        if (sam2_points.size() == 1) {//If it's a one point mask 
+            //Already a mask there? (pos will be >-1)
             pos = masks_already_in_list(mask, aFrame);
         }
-        
+        //If new mask or multiple points let's create a new mask.
         if (sam2_points.size() > 1 || pos == -1) { //mask with multiple points or the mask is new, not in storedMasks  
             printf("the mask is new\n");
             //If there's a selected mask we will replace it
@@ -381,7 +385,7 @@ void compute_mask_and_textures(Frame & aFrame, std::vector<MaskPoint> sam2_point
                 printf("Changed mask with id=%d\n", targetMask->maskId);
             }
         }
-
+        //If single-point mode and already a mask there let's delete the mask
         if (sam2_points.size() == 1 && pos != -1) { 
             //the mask already exists (and is not empty)
             //OLD: If the mask is already in storedMasks we will delete it
@@ -594,6 +598,7 @@ void compute_mask_and_texturesOLD(Frame & aFrame, const sam_params & params, sam
 //Called from compute_mask_textures_all_frames
 //Processes ALL MASKS in the frame
 //Currently does not simplify the mask again
+//Layers all the simplified masks in order and applies rimlight and pixelation
 void finishing_frame(MyState &myState, int frame_idx) 
 {
     printf("Finishing frame %d", frame_idx);

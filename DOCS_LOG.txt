@@ -203,3 +203,46 @@ Universitat Politecnica de Catalunya
 		- Al editor necessito incloure onnxruntime.lib o peta, però en execució això provoca (potser agafa onnxruntime.dll del System32):
 			The requested API version [22] is not available, only API versions [1, 17] are supported in this build. Current ORT Version is: 1.17.1
 		- Però el test_onnx no inclou i funciona!
+
+17/08/2025
+	- He afegit un set(CMAKE_CXX_STANDARD 20) al CMakeLists.txt general per veure si puc fer servir xtensor. Sembla funcionar però caldria verificar tot.
+
+27/08/2025
+	- He aconseguit migrar sam2.1 video a C++ (carpeta sam2-cpp). Cal integrar a Lester.
+	- Estic provant test_segmentor21.
+		- Faig una prova simple amb get_best_mask_at_points
+		- Detecto que ara estic treballant amb la versió amb imatges sam
+		- He provat a fer conversions però no funciona.
+		- Cal polir-ho encara que funcioni.
+		- Les coordenades d'entrada no s'han d'escalar abans??
+28/08/2025
+	- SOLVED: SAM 2.1 image inference integrated
+	- MISSING: propagation
+	- PROBLEM image inference too slow
+	- solved, I was running encoding always
+	- polishing...
+	- IMPORTANT: Quan faig propagation he de fer-ho per tots els frames, inclos el primer
+	- Working on PROPAGATION
+		- problem: many masks...
+	- Adapting Segmentor for the video task
+	- TODO: Add a way to make Segmentor keep a vector of the precomputed embeddings.
+		- Currently I call preprocess without specifying the frame position.
+	- Testing without the precomputed embeddings
+	- The resulting masks seem incorrect
+
+29/08/2025
+	- PROBLEM IDENTIFIED: SAM2.1 returns float value and I'm translating to binary
+	- But why it works with one image?... because I wasn't converting...
+	- Jugant amb el threshold a common1.cpp/opencv_image2sam_binarymask, ara a 90 (de 255)
+	- Per què sense simplificar es veu perfectament???
+		- Potser no s'aprecia però no està tant bé.
+	- TODO: No binaritzar la màscara??
+
+30/08/2025
+	- DEBUGGING SAM21:
+		- Fer les proves amb test_without_segmentor_parent() per evitar barrejar problemes de conversions.
+		- PROBLEMES DETECTATS:
+			- Artefactes en alguns frames. Passa a l'original? I amb large?
+			- Perd la pilota al frame 30 o així (motion blur)
+		- IMPORTANT: Assegurar que sempre agafa la millor màscara...
+		- IMPORTANT: Quina és la finestra de la memòria a l'original?? (jo ara tinc 4) 

@@ -26,13 +26,19 @@ class Segmentor {
   	virtual void test() = 0; //= 0 means "pure virtual"
     virtual bool preprocessImage(cv::Mat& image) = 0;
     virtual bool preprocessImage(sam_image_u8& image_sam) = 0;
+    virtual bool preprocessImage_and_remember(cv::Mat& image) = 0;//assumes frames are preprocessed in order
+    virtual bool preprocessImage_and_remember(sam_image_u8& image_sam) = 0;//assumes frames are preprocessed in order
     //es pot eliminar:
     virtual cv::Mat get_best_mask_at_point(int x, int y, cv::Mat& image_opencv) = 0;
     //es pot eliminar:
     virtual bool get_best_mask_at_point(int x, int y, sam_image_u8& image_sam, sam_image_u8& mask_sam) = 0;
     virtual bool get_best_mask_at_points(std::vector<MaskPoint>& points, sam_image_u8& image_sam, sam_image_u8& mask_sam) = 0;
-    virtual void close() = 0;
+    virtual bool get_best_mask_at_points_video(std::vector<MaskPoint>& points, sam_image_u8& image_sam, sam_image_u8& mask_sam, int frame_idx) = 0;
+    virtual void reset_memory() = 0;
     
+
+    //virtual cv::Mat get_best_mask_at_points(std::vector<MaskPoint>& points, cv::Mat& image_opencv);
+    virtual void close() = 0;
 
     Segmentor() {
       printf("Called Segmentor constructor\n");

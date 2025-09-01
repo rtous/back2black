@@ -36,4 +36,5 @@ int main()
     cv::Mat mask_opencv2 = s2.get_best_mask_at_point(600, 450, image_opencv2);
     cv::imwrite("/Users/rtous/dev/back2black/borrar_sam2.png", mask_opencv2);   
     s2.close();
+
 }

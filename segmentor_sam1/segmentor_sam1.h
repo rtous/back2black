@@ -18,10 +18,14 @@ class SAM1Segmentor : public Segmentor {
     void test();  
     bool preprocessImage(cv::Mat& image_opencv);  
     bool preprocessImage(sam_image_u8& image_sam);
+    bool preprocessImage_and_remember(cv::Mat& image);
+    bool preprocessImage_and_remember(sam_image_u8& image_sam);
     cv::Mat get_best_mask_at_point(int x, int y, cv::Mat& image_opencv);
     cv::Mat get_best_mask_at_points(std::vector<MaskPoint> points, cv::Mat& image_opencv);
     bool get_best_mask_at_point(int x, int y, sam_image_u8& image_sam, sam_image_u8& mask_sam);
     bool get_best_mask_at_points(std::vector<MaskPoint>& points, sam_image_u8& image_sam, sam_image_u8& mask_sam);
+    bool get_best_mask_at_points_video(std::vector<MaskPoint>& points, sam_image_u8& image_sam, sam_image_u8& mask_sam, int frame_idx);
+    void reset_memory();
     SAM1Segmentor();
     void close();
 };

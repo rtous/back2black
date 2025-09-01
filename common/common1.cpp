@@ -77,6 +77,7 @@ void sam_image_grayscale2opencv(sam_image_u8 & sam_image, cv::Mat & opencv_image
     for (int i=0; i < opencv_image.rows; ++i){
         for (int j=0; j < opencv_image.cols; ++j){
             opencv_image.at<uchar>(i, j) = sam_image.data[i*sam_image.nx+j];
+            if (i==0 and j<10) printf("sam_image.data[i*sam_image.nx+j]=%d\n", sam_image.data[i*sam_image.nx+j]); //DEBUG
         }
     }
 }
@@ -154,25 +155,34 @@ void sam_image2opencv_color(sam_image_u8 & sam_image, cv::Mat & opencv_image) {
 //Given a grayscale or color OpenCV image, it translates it into a binary mask in sam format
 //Intensities become 0 or 255
 //Used in compute_masks in sam_utils.cpp 
+//WARNING: Binarizes values (0..255) into 0/255. Currently threshold=130
 void opencv_image2sam_binarymask(sam_image_u8 & sam_image, cv::Mat & opencv_image) {
-    
+    cv::Mat opencv_image_gray;
     if (opencv_image.channels() > 1) {
         //Convert default OpenCV BGR to GRAYSCALE
-        cv::cvtColor(opencv_image, opencv_image, cv::COLOR_BGR2GRAY);
+        printf("WARNING: Convert default OpenCV BGR to GRAYSCALE in opencv_image2sam_binarymask\n");
+        cv::cvtColor(opencv_image, opencv_image_gray, cv::COLOR_BGR2GRAY);
+    } else {
+        opencv_image_gray = opencv_image; // shallow copy ok
     }
     //SAM x=width, y=height
-    sam_image.nx = opencv_image.cols;
-    sam_image.ny = opencv_image.rows;
+    sam_image.nx = opencv_image_gray.cols;
+    sam_image.ny = opencv_image_gray.rows;
 
     //TODO IMPROVEMENT: Sequential access to opencv_image.data 
 
     sam_image.data.clear();
-    for (int i=0; i < opencv_image.rows; ++i){
-        for (int j=0; j < opencv_image.cols; ++j){  
+    for (int i=0; i < opencv_image_gray.rows; ++i){
+        for (int j=0; j < opencv_image_gray.cols; ++j){  
             //cv::Vec3b RGB = opencv_image.at<cv::Vec3b>(i, j);
-            uchar intensity = opencv_image.at<uchar>(i, j);
-            if (intensity > 0)
-                intensity = 255;
+            uchar intensity = opencv_image_gray.at<uchar>(i, j);
+            //if (intensity > 0)
+            //    intensity = 255;
+            if (i==0 and j<10) printf("intensity=%d\n", intensity); //DEBUG
+            //binarize
+            intensity = (intensity > 130 ? 255 : 0); //values between 0 and 255 -> 0 or 255
+            //if (i==0 and j<10)
+            //    printf("intensity=%d\n", intensity);
             sam_image.data.push_back(intensity);
         }
     }
@@ -189,39 +199,40 @@ void opencv_image2sam_binarymask(sam_image_u8 & sam_image, cv::Mat & opencv_imag
 //         It's also duplicated in "opencv_image4channels_to_sam4channels"
 //         But I'm using directly createGLTextureOpenCV (gui_utils.cpp) which works with 4 channels 
 void opencv_image2sam(sam_image_u8 & sam_image, cv::Mat & opencv_image) {
+    cv::Mat converted;
     if (opencv_image.channels() == 3) {
         //Convert default OpenCV BGR to RGB
-        cv::cvtColor(opencv_image, opencv_image, cv::COLOR_BGR2RGB);
+        cv::cvtColor(opencv_image, converted, cv::COLOR_BGR2RGB);
     } else if (opencv_image.channels() == 4) {
-        cv::cvtColor(opencv_image, opencv_image, cv::COLOR_BGRA2RGBA);
+        cv::cvtColor(opencv_image, converted, cv::COLOR_BGRA2RGBA);
     } else {
         printf("WARNING: only %d channels detected in opencv_image2sam.\n", opencv_image.channels());
     }
 
     //SAM x=width, y=height
-    sam_image.nx = opencv_image.cols;
-    sam_image.ny = opencv_image.rows;
+    sam_image.nx = converted.cols;
+    sam_image.ny = converted.rows;
 
     //TODO IMPROVEMENT: Sequential access to opencv_image.data 
 
     sam_image.data.clear();
-    for (int i=0; i < opencv_image.rows; ++i){
-        for (int j=0; j < opencv_image.cols; ++j){
-            if (opencv_image.channels() == 3) {
-                cv::Vec3b RGB = opencv_image.at<cv::Vec3b>(i, j);
+    for (int i=0; i < converted.rows; ++i){
+        for (int j=0; j < converted.cols; ++j){
+            if (converted.channels() == 3) {
+                cv::Vec3b RGB = converted.at<cv::Vec3b>(i, j);
                 //uchar intensity = opencv_image.at<uchar>(i, j);
                 sam_image.data.push_back(RGB[0]);
                 sam_image.data.push_back(RGB[1]);
                 sam_image.data.push_back(RGB[2]);
-            } else if (opencv_image.channels() == 4) {
-                cv::Vec4b RGBA = opencv_image.at<cv::Vec4b>(i, j);
+            } else if (converted.channels() == 4) {
+                cv::Vec4b RGBA = converted.at<cv::Vec4b>(i, j);
                 //uchar intensity = opencv_image.at<uchar>(i, j);
                 sam_image.data.push_back(RGBA[0]);
                 sam_image.data.push_back(RGBA[1]);
                 sam_image.data.push_back(RGBA[2]);
                 sam_image.data.push_back(RGBA[3]);
             } else {
-                printf("WARNING: only %d channels detected in opencv_image2sam.\n", opencv_image.channels());
+                printf("WARNING: only %d channels detected in opencv_image2sam.\n", converted.channels());
             }
         }
     }
@@ -491,8 +502,7 @@ int propagate_masks(std::vector<Frame> & frames, sam_state & state, int n_thread
 //We assume the first frame has already the masks and the user coordinates
 //and also the computation 
 //frames are in memory
-//ONGOING
-int propagate_masks(std::vector<Frame> & frames, Segmentor & segmentor, int from_frame, int till_frame, float & progress, bool & cancel) 
+int propagate_masks_naive(std::vector<Frame> & frames, Segmentor & segmentor, int from_frame, int till_frame, float & progress, bool & cancel) 
 {
     printf("propagating from %d (reference) to %d\n", from_frame, till_frame);
     //int MAX = 5;
@@ -696,6 +706,76 @@ int propagate_masks(std::vector<Frame> & frames, Segmentor & segmentor, int from
         return 1;
     }*/
     return 0;
+}
+
+//We assume the first frame has already the masks and the user coordinates
+//and also the computation 
+//frames are in memory
+//ONGOING
+int propagate_masks(std::vector<Frame> & frames, Segmentor & segmentor, int from_frame, int till_frame, float & progress, bool & cancel) 
+{
+    /*
+    for (Frame & aFrame : frames) {
+        printf("\tPreprocessing frame... \n");
+        segmentor.preprocessImage_and_remember(aFrame.img_sam_format);
+    }
+    */
+
+    int numFrames = frames.size();
+
+    //I need to keep all the embeddings first.
+    Frame firstFrame = frames[from_frame];
+
+    //iterate through all the masks
+    int m = 0;
+    for (Mask & aMask : firstFrame.masks) {
+
+        //Each mask is a complete new run of the segmentor
+        segmentor.reset_memory();
+        printf("\tPROCESSING MASK %d \n", aMask.maskId);
+        int f = 0;
+        for (Frame & aFrame : frames) {
+            if (cancel) {
+                printf("propagation cancelled\n");
+                progress = 1;
+                cancel = false;
+                break;
+            }
+            if (f > till_frame) {
+                break;
+            }
+            progress = (f-from_frame+1)/(float)(till_frame-from_frame+1);
+            
+            //TODO replace by preprocessImage_and_remember
+            segmentor.preprocessImage(aFrame.img_sam_format);
+
+            Mask *currentMask = aFrame.getMaskById(aMask.maskId);
+
+
+            bool found = segmentor.get_best_mask_at_points_video(currentMask->mask_computed_at_points, aFrame.img_sam_format, currentMask->samMask, f); 
+
+            if (found && f < till_frame && f < numFrames-1) {
+                currentMask->mask_computed = true;
+
+                //COPY NO NEXT FRAME:
+                Mask newMask;
+                newMask.maskId = currentMask->maskId;
+                newMask.color[0] = currentMask->color[0];
+                newMask.color[1] = currentMask->color[1];
+                newMask.color[2] = currentMask->color[2];
+                //newMask.track_movement = aMask.track_movement;
+                newMask.mask_computed_at_x = currentMask->mask_computed_at_x;
+                newMask.mask_computed_at_y = currentMask->mask_computed_at_y; 
+                newMask.mask_computed_at_points = currentMask->mask_computed_at_points;
+                printf("\tADDING MASK %d TO FRAME %d WITH x=%d, y=%d\n", currentMask->maskId, f, newMask.mask_computed_at_x, newMask.mask_computed_at_y);
+                frames[f+1].masks.push_back(newMask);
+            } else 
+                break;
+            f++;
+        }
+        m++;
+    }
+            
 }
 
 void overlay(cv::Mat &resultImage, cv::Mat &bottomImage, cv::Mat &topImage) { 

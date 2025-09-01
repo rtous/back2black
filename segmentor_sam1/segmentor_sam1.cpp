@@ -52,6 +52,16 @@ bool SAM1Segmentor::preprocessImage(sam_image_u8 & image_sam) {
     return true;
 }
 
+bool SAM1Segmentor::preprocessImage_and_remember(cv::Mat & opencv_image) {
+    //TODO
+    return true;
+}
+
+bool SAM1Segmentor::preprocessImage_and_remember(sam_image_u8 & image_sam) {
+    //TODO
+    return true;
+}
+
 //es pot eliminar:
 cv::Mat SAM1Segmentor::get_best_mask_at_point(int x, int y, cv::Mat& image_opencv) {
     //opencv image to sam
@@ -81,6 +91,15 @@ bool SAM1Segmentor::get_best_mask_at_point(int x, int y, sam_image_u8& image_sam
 bool SAM1Segmentor::get_best_mask_at_points(std::vector<MaskPoint>& points, sam_image_u8& image_sam, sam_image_u8& mask_sam) {
     //TODO
     return true;//TODO
+}
+
+bool SAM1Segmentor::get_best_mask_at_points_video(std::vector<MaskPoint>& points, sam_image_u8& image_sam, sam_image_u8& mask_sam, int frame_idx) {
+    //TODO
+    return true;//TODO
+}
+
+void SAM1Segmentor::reset_memory() {
+    //TODO
 }
 
 void SAM1Segmentor::close() {

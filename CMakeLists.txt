@@ -3,6 +3,12 @@
 #cmake_minimum_required(VERSION 3.12)
 cmake_minimum_required(VERSION 3.16) #To avoid the error between RuntimeLibrary
 
+# required by xtensor, which is required by my sam2-c ###
+set(CMAKE_CXX_STANDARD 20)        
+set(CMAKE_CXX_STANDARD_REQUIRED ON) 
+set(CMAKE_CXX_EXTENSIONS OFF)
+##########
+
 project("back2black")
 
 if (NOT XCODE AND NOT MSVC AND NOT CMAKE_BUILD_TYPE)
@@ -35,6 +41,7 @@ add_subdirectory(common)
 add_subdirectory(segmentor)
 add_subdirectory(segmentor_sam1)
 add_subdirectory(segmentor_sam2)
+add_subdirectory(segmentor_sam21)
 ##add_subdirectory(test_sam) CONSIDER DUPLICATE OF test_segmentor_sam1
 add_subdirectory(simplify)
 add_subdirectory(cli_simplify)
@@ -49,4 +56,5 @@ add_subdirectory(test_onnx)
 add_subdirectory(test_segmentor)
 add_subdirectory(test_segmentor_sam1)
 #add_subdirectory(test_segmentor_sam2)
+add_subdirectory(test_segmentor_sam21)
 

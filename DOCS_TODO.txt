@@ -6,15 +6,23 @@ Universitat Politecnica de Catalunya
 					back2black Developer's TODO
 
 
-TODO
+TODO CRITICAL
 
-- Diria que el save video i save video frames fa un resize innecessari que esborrona
-
+- get_best_mask_at_points_video super inefficient (computes prompt, etc.)
+- WARNING: Si faig single frame inference cal evitar que el memory bank es vagi omplint.
+- He afegit un set(CMAKE_CXX_STANDARD 20) al CMakeLists.txt general per veure si puc fer servir xtensor. Sembla funcionar però caldria verificar tot.
+- Quan crea una nova màscara amb l'id d'una màscara que existia convé que recordi el color. És important per corregir errors.
 - windows
 - Check if initial path in filedialog also works in windows
+- RELEASE RESOURCES
+
+TODO IMPORTANT
+
+- Remove the sam images and masks and go full OpenCV, there are hundreds of conversions
+- Es pot treure CMAKE_CXX_STANDARD 20 ja que no faré servir xtensor
 - BUG: si fas un propagate amb tres màscares i després, al primer frame esborres totes, crees una (amb punts positius i negatius) i tornes a fer propagate peta
-- faces save??
 - imgui.ini per tot arreu
+- Diria que el save video i save video frames fa un resize innecessari que esborrona
 
 TODO/PERFORMANCE/REFACTORING
 

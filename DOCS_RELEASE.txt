@@ -20,7 +20,8 @@ Universitat Politecnica de Catalunya
     - Es pot executar fent doble click o amb open (mirar més avall)
 - IMPORTANT: Per veure els logs cal executar desde terminal així:
 
-    open build_macos/bin/test_applebundle.app/Contents/MacOS/test_applebundle 
+    open build_macos/bin/test_applebundle.app/Contents/MacOS/test_applebundle
+    open build_macos/bin/Lester.app/Contents/MacOS/Lester 
 
 - Per accedir als fitxers dins l'aplicació cal fer-ho amb una llibreria (mirar segmentor_sam2.cpp). 
 
@@ -81,7 +82,10 @@ Les icones són problemàtiques:
 [Beta release](https://github.com/rtous/lester-release/raw/refs/heads/main/Lester-Installer.dmg?download=).
 
 
+4) Per poder comptar downloads:
 
+    - Cal fer un release a github
+    - Amb la API es poden veure el número de downloads
 
 
 

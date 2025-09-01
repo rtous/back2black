@@ -14,6 +14,15 @@ if(APPLE)
     set(resource_files3
         ${CMAKE_SOURCE_DIR}/macos_release_assets/lester.icns
     )
+    set(resource_files4
+        ${CMAKE_SOURCE_DIR}/checkpoints/ailia_sam21_tiny/image_encoder_hiera_t_2.1.onnx
+        ${CMAKE_SOURCE_DIR}/checkpoints/ailia_sam21_tiny/mask_decoder_hiera_t_2.1.onnx
+        ${CMAKE_SOURCE_DIR}/checkpoints/ailia_sam21_tiny/memory_attention_hiera_t_2.1.opt.onnx
+        ${CMAKE_SOURCE_DIR}/checkpoints/ailia_sam21_tiny/memory_encoder_hiera_t_2.1.onnx
+        ${CMAKE_SOURCE_DIR}/checkpoints/ailia_sam21_tiny/mlp_hiera_t_2.1.onnx
+        ${CMAKE_SOURCE_DIR}/checkpoints/ailia_sam21_tiny/obj_ptr_tpos_proj_hiera_t_2.1.onnx
+        ${CMAKE_SOURCE_DIR}/checkpoints/ailia_sam21_tiny/prompt_encoder_hiera_t_2.1.onnx
+    )
     set_source_files_properties(
         ${resource_files}
         PROPERTIES
@@ -29,6 +38,11 @@ if(APPLE)
         PROPERTIES
         MACOSX_PACKAGE_LOCATION "Resources"
     )
+    set_source_files_properties(
+        ${resource_files4}
+        PROPERTIES
+        MACOSX_PACKAGE_LOCATION "Resources/checkpoints/ailia_sam21_tiny"
+    )
     
 endif()
 
@@ -39,6 +53,7 @@ if(APPLE)
         "${resource_files}" #for the apple bundle
         "${resource_files2}" #for the apple bundle
         "${resource_files3}" #for the apple bundle
+        "${resource_files4}" #for the apple bundle
         colors.cpp
         gui_utils.cpp
         main.cpp
@@ -93,6 +108,7 @@ target_link_libraries(${EXAMPLE_TARGET} PRIVATE
     segmentor 
     segmentor_sam1
     segmentor_sam2 
+    segmentor_sam21
     sam 
     simplify 
     face 
