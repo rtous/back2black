@@ -75,14 +75,33 @@ inline Ort::Value getTensorCopy(TensorCopy& tcopy, Ort::MemoryInfo& memory_info)
   */
     //Fix: to avoid passing a pointer to a local variable (tmp)
     } else if (tcopy.info.type == ONNX_TENSOR_ELEMENT_DATA_TYPE_BOOL) {
+        // Prefer existing bool_storage (e.g., from make_bool_mask)
+        if (tcopy.bool_storage.size() == static_cast<size_t>(tcopy.size)) {
+            return Ort::Value::CreateTensor<bool>(
+                memory_info,
+                reinterpret_cast<bool*>(tcopy.bool_storage.data()),
+                tcopy.bool_storage.size(),
+                tcopy.info.shape.data(),
+                tcopy.info.shape.size()
+            );
+        }
+
+        // Otherwise, build bool_storage from float data (legacy path)
+        if (tcopy.data.size() != static_cast<size_t>(tcopy.size)) {
+            printf("ERROR: BOOL tensor has neither bool_storage nor float data of correct size.\n");
+            exit(-1);
+        }
         tcopy.bool_storage.resize(tcopy.size);
-        for (int i = 0; i < tcopy.size; ++i)
-          tcopy.bool_storage[i] = (tcopy.data[i] != 0.0f) ? uint8_t(1) : uint8_t(0);
+        for (int i = 0; i < tcopy.size; ++i) {
+            tcopy.bool_storage[i] = (tcopy.data[i] != 0.0f) ? uint8_t(1) : uint8_t(0);
+        }
         return Ort::Value::CreateTensor<bool>(
-          memory_info, reinterpret_cast<bool*>(tcopy.bool_storage.data()),
-          tcopy.bool_storage.size(),
-          tcopy.info.shape.data(), 
-          tcopy.info.shape.size());
+            memory_info,
+            reinterpret_cast<bool*>(tcopy.bool_storage.data()),
+            tcopy.bool_storage.size(),
+            tcopy.info.shape.data(),
+            tcopy.info.shape.size()
+        );
   } else {
     printf("ERROR: Trying to use setTensorCopy with a non-float or non-bool tensor.\n");
     exit(-1);
@@ -200,6 +219,7 @@ inline TensorCopy concat_seq_axis0(std::vector<TensorCopy>& xs) {
 }
 
 // ---- make bool mask [len,1] (data stored as 1.0/0.0 in TensorCopy)
+//AI suggests it's wrong
 inline TensorCopy make_bool_mask(int64_t len, bool value) {
     TensorCopy out;
     out.info.type  = ONNX_TENSOR_ELEMENT_DATA_TYPE_BOOL;  // important
@@ -210,5 +230,31 @@ inline TensorCopy make_bool_mask(int64_t len, bool value) {
     std::fill(out.data.begin(), out.data.end(), f);
     return out;
 }
+
+//new version (it's not working fine with the ball)
+/*
+inline TensorCopy make_bool_mask(int64_t len) {
+    TensorCopy out;
+    out.info.type  = ONNX_TENSOR_ELEMENT_DATA_TYPE_BOOL;
+
+    if (len <= 0) {
+        // Dummy placeholder: [1,1], all masked (true)
+        out.info.shape = {1, 1};
+        out.size = 1;
+        out.bool_storage.resize(1);
+        out.bool_storage[0] = true;
+        out.data.clear();
+    } else {
+        // Real mask: [len,1], all valid (false = keep)
+        out.info.shape = {len, 1};
+        out.size = len;
+        out.bool_storage.resize(len);
+        std::fill(out.bool_storage.begin(), out.bool_storage.end(), false);
+        out.data.clear();
+    }
+
+    return out;
+}
+*/
 
 #endif

@@ -433,7 +433,9 @@ cv::Mat SAM21::inference_frame(cv::Mat image,
       // 1) curr and curr_pos from this frame
       printf("\tcurr and curr_pos...\n");
       auto curr_seq     = flatten_nchw_to_hw1c(inference_state.vision_features);           // [4096,1,256]
-      auto curr_pos_seq = flatten_nchw_to_hw1c(inference_state.prompt_encoder_out_dense_pe); // [4096,1,256]
+      //auto curr_pos_seq = flatten_nchw_to_hw1c(inference_state.prompt_encoder_out_dense_pe); // [4096,1,256]
+      //suggested change by IA (does not impact)
+      auto curr_pos_seq = flatten_nchw_to_hw1c(inference_state.dense_pe);  // image encoder's vision_pos_enc_2
 
       // 2) memory_1 and memory_pos_1 from the memory bank
       printf("\tmemory_1 and memory_pos_1 from the memory bank (and attention_mask_1)...\n");
@@ -451,6 +453,9 @@ cv::Mat SAM21::inference_frame(cv::Mat image,
       int64_t len_mem1 = getTensorCopy(memory_1, memory_info).GetTensorTypeAndShapeInfo().GetShape()[0];
       bool have_mem1 = !inference_state.maskmem_features_BC64x64.empty();
       auto attention_mask_1 = make_bool_mask(len_mem1, have_mem1);
+      //suggested change
+      //auto attention_mask_1 = make_bool_mask(len_mem1);
+
 
       // 3) memory_2 and memory_pos_2 (object-pointer path) — placeholder bootstrap
       //    For now: provide a single dummy row with mask=false.
@@ -497,6 +502,8 @@ cv::Mat SAM21::inference_frame(cv::Mat image,
       auto memory_2     = concat_seq_axis0(ptr_feats);   // [-1,1,64]
       auto memory_pos_2 = concat_seq_axis0(ptr_poses);   // [-1,1,64]
       auto attention_mask_2 = make_bool_mask(Nptr, true);
+      //suggested change
+      //auto attention_mask_2 = make_bool_mask(Nptr);
 
       // 4) Pack inputs and run     
       mem_attention_input_tensor.push_back(getTensorCopy(curr_seq, memory_info));       // curr     
@@ -610,6 +617,7 @@ cv::Mat SAM21::inference_frame(cv::Mat image,
   std::vector<Ort::Value> img_decoder_out  = img_decoder.run(img_decoder_input_tensor);
 
   if (frame_num == 0) {
+  //if (1==1) {
       //Compute the best mask 
       int img_decoder_out_iou_predictions_idx = img_decoder.outputIdxByName(const_cast<char*>("iou_pred")); 
       inference_state.maxScoreIdx = 0;
@@ -637,7 +645,10 @@ cv::Mat SAM21::inference_frame(cv::Mat image,
   // Build high-res mask for memory: logits → (sigmoid or binarize) → [1,1,1024,1024]
   std::vector<float> mask_for_mem; 
   bool binarize_from_points = !keep_memory; // set true if this mask came purely from point prompts and you want hard masks
-  float sigmoid_scale = 1.0f, sigmoid_bias = 0.0f;
+  //float sigmoid_scale = 1.0f, sigmoid_bias = 0.0f;
+  //suggested change
+  float sigmoid_scale = 20.0f;
+  float sigmoid_bias  = -10.0f;
   make_mask_for_memory_from_logits(lowres_logits, 1024, mask_for_mem, binarize_from_points, sigmoid_scale, sigmoid_bias);
 
   if (keep_memory) {

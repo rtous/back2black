@@ -265,3 +265,4 @@ Universitat Politecnica de Catalunya
 		- Initialize SAM21::memory_info in the constructor.
 
 	- provant amb la samarreta no traqueja bé...
+	- cal debugar si maxScoreIdx cal actualitzar-ho
