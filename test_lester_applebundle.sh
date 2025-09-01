@@ -1,0 +1,1 @@
+open build_macos/bin/Lester.app/Contents/MacOS/Lester 

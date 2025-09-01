@@ -253,3 +253,15 @@ Universitat Politecnica de Catalunya
 	- Tried to harcode but an unknown problem appears
 	- WARNING: Hi ha poc espai al disc, que no sigui això l'error
 	- He esborrat el directori onnxruntime. El tornaré a descarregar (mirar instruccions al manual per assegurar versió 20)
+
+	Also worked on Macos version. Increased MASK_MEM to 16 and solved the problem.
+	Checked with chatgpt:
+
+	I have migrated SAM2 model (video segmentation) to C++. The original SAM2 repo is in https://github.com/facebookresearch/sam2 but I've migrated the ailia version here https://github.com/axinc-ai/ailia-models/tree/master/image_segmentation/segment-anything-2. I attach the files of my C++ implementation. It apparently works, but there are some optional things and I simplified things a lot so I'm not sure if I missed something. Could you check it please?
+
+	detected some errors that I should check:
+		- Parse device robustly; actually use threadsNumber.
+		- Stop leaking names (use std::string or add a destructor).
+		- Initialize SAM21::memory_info in the constructor.
+
+	- provant amb la samarreta no traqueja bé...

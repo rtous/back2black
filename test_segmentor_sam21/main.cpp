@@ -11,6 +11,14 @@
 #include "common1.h"
 //#include "sam21.h"
 
+/*
+
+    IMPORTANT: To run (on Macos) change SAM21Segmentor::SAM21Segmentor() 
+    in segmentor_sam21.cpp
+    to: sam21(SAM21(modelsPath(false), "t"))
+
+*/
+
 inline cv::Mat overlayMask(const cv::Mat& image, const cv::Mat& maskProb, 
                     const cv::Scalar& color = cv::Scalar(0,0,255), // red (BGR)
                     double alpha = 0.5) 
@@ -44,7 +52,9 @@ inline cv::Mat overlayMask(const cv::Mat& image, const cv::Mat& maskProb,
 }
 
 void test_without_segmentor_parent() {
+    printf("Creating models...\n");
     SAM21 sam21 = SAM21("checkpoints/ailia_sam21_tiny", "t");
+    printf("calling sam21.test()\n");
     sam21.test();
 }
 
@@ -84,8 +94,8 @@ void test_single() {
      //Click #2
 
     mask_points.clear();
-    p.x = 485;//600
-    p.y = 355;//450
+    p.x = 485;
+    p.y = 355;
     p.positive = true;
     mask_points.push_back(p);
 
@@ -241,6 +251,7 @@ void test_video_presaving_all_embeddings() {
 }
 
 int main(int argc, char** argv) {
+    printf("calling test_without_segmentor_parent()...\n");
 	test_without_segmentor_parent();
     //test_video_without_presaving_all_embeddings();
 }

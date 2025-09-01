@@ -18,6 +18,7 @@ TODO CRITICAL
 
 TODO IMPORTANT
 
+- MAX_MEM configurable in sam21.cpp
 - Remove the sam images and masks and go full OpenCV, there are hundreds of conversions
 - Es pot treure CMAKE_CXX_STANDARD 20 ja que no faré servir xtensor
 - BUG: si fas un propagate amb tres màscares i després, al primer frame esborres totes, crees una (amb punts positius i negatius) i tornes a fer propagate peta

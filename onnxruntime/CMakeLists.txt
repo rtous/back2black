@@ -19,8 +19,14 @@ message("RUBEN ONNXRUNTIME_DIR set to ${ONNXRUNTIME_DIR}")
 
 
 set(ONNXRUNTIME_INCLUDES "")
-list(APPEND ONNXRUNTIME_INCLUDES ${ONNXRUNTIME_DIR_INSTALL}/include/onnxruntime/core/session) #Cause onnxruntime_cxx_api.h here
-#list(APPEND ONNXRUNTIME_INCLUDES ${CMAKE_CURRENT_SOURCE_DIR}/../../onnxruntime/include) #Discarded trying to avoid the API version mismatch problem
+if(MSVC)
+	list(APPEND ONNXRUNTIME_INCLUDES ${ONNXRUNTIME_DIR_INSTALL}/include/onnxruntime/core/session) #Cause onnxruntime_cxx_api.h here
+	#list(APPEND ONNXRUNTIME_INCLUDES ${CMAKE_CURRENT_SOURCE_DIR}/../../onnxruntime/include) #Discarded trying to avoid the API version mismatch problem
+else()
+	#list(APPEND ONNXRUNTIME_INCLUDES ${ONNXRUNTIME_DIR}/include/onnxruntime/core/session) 
+	list(APPEND ONNXRUNTIME_INCLUDES ${CMAKE_CURRENT_SOURCE_DIR}/../../onnxruntime/include/onnxruntime/core/session) #Cause onnxruntime_cxx_api.h here
+endif()
+
 
 message("RUBEN ONNXRUNTIME_INCLUDES set to ${ONNXRUNTIME_INCLUDES}")
 

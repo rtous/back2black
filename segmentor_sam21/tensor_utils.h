@@ -15,6 +15,7 @@ class TensorCopy {
 public:
   InputOutput info;
   std::vector<float> data; //bools will be stored as 1.0/0.0 
+  std::vector<uint8_t> bool_storage;
   int size;
 };
 
@@ -60,7 +61,7 @@ inline Ort::Value getTensorCopy(TensorCopy& tcopy, Ort::MemoryInfo& memory_info)
                   tcopy.info.shape.size()
                   );
       return tensor;
-  } else if (tcopy.info.type == ONNX_TENSOR_ELEMENT_DATA_TYPE_BOOL) {
+  /*} else if (tcopy.info.type == ONNX_TENSOR_ELEMENT_DATA_TYPE_BOOL) {
       std::vector<uint8_t> tmp(tcopy.size);
       for (int i = 0; i < tcopy.size; ++i)
             tmp[i] = (tcopy.data[i] != 0.0f) ? uint8_t(1) : uint8_t(0);
@@ -71,6 +72,17 @@ inline Ort::Value getTensorCopy(TensorCopy& tcopy, Ort::MemoryInfo& memory_info)
             tcopy.info.shape.data(),
             tcopy.info.shape.size()
       );
+  */
+    //Fix: to avoid passing a pointer to a local variable (tmp)
+    } else if (tcopy.info.type == ONNX_TENSOR_ELEMENT_DATA_TYPE_BOOL) {
+        tcopy.bool_storage.resize(tcopy.size);
+        for (int i = 0; i < tcopy.size; ++i)
+          tcopy.bool_storage[i] = (tcopy.data[i] != 0.0f) ? uint8_t(1) : uint8_t(0);
+        return Ort::Value::CreateTensor<bool>(
+          memory_info, reinterpret_cast<bool*>(tcopy.bool_storage.data()),
+          tcopy.bool_storage.size(),
+          tcopy.info.shape.data(), 
+          tcopy.info.shape.size());
   } else {
     printf("ERROR: Trying to use setTensorCopy with a non-float or non-bool tensor.\n");
     exit(-1);

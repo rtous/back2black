@@ -87,7 +87,7 @@ void make_mask_for_memory_from_logits(
     int I,                                // 1024
     std::vector<float>& out_mask_B1I2I2,  // filled as [1,1,I,I]
     bool binarize=false,                  // true if you want hard mask for point prompts
-    float scale=1.0f, float bias=0.0f
+    float scale=20.0f, float bias=-10.0f     // float scale=1.0f, float bias=0.0f
 ){
     // 1) resize 256x256 logits -> 1024x1024 logits
     cv::Mat m256(256, 256, CV_32FC1, const_cast<float*>(lowres_logits_256x256));
@@ -101,8 +101,16 @@ void make_mask_for_memory_from_logits(
         const float* row = mI.ptr<float>(y);
         for (int x=0; x<I; ++x){
             float v = row[x];
-            float p = binarize ? (v > 0.0f ? 1.0f : 0.0f) : sigmoidf(v);
-            p = p * scale + bias;
+            //float p = binarize ? (v > 0.0f ? 1.0f : 0.0f) : sigmoidf(v);
+            //p = p * scale + bias;
+            float p;
+            //fix suggested but no effective change noticed.
+            if (binarize) {
+                p = (v > 0.0f ? 1.0f : 0.0f);
+            } else {
+                float z = scale * v + bias;
+                p = 1.0f / (1.0f + expf(-z)); // scaled sigmoid
+            }
             dst[y * I + x] = p; // NCHW with N=C=1 means we can write row-major directly
         }
     }
@@ -710,13 +718,20 @@ cv::Mat SAM21::inference_frame(cv::Mat image,
       //int img_encoder_out_vision_features_idx = img_encoder.outputIdxByName("vision_features");
       //mem_encoder_input_tensor.push_back(std::move(img_encoder_out[img_encoder_out_vision_features_idx])); 
       //mem_encoder_input_tensor.push_back(std::move(getTensorCopy(img_encoder_out_vision_features, memory_info))); 
-      mem_encoder_input_tensor.push_back(getTensorCopy(inference_state.vision_features, memory_info));
+      
+
+      //mem_encoder_input_tensor.push_back(getTensorCopy(inference_state.vision_features, memory_info));
+      
       /*if (frame_num == 0) {
         mem_encoder_input_tensor.push_back(getTensorCopy(img_encoder_out_vision_features, memory_info));
       } else {
         //For frames>0 the input of the memory encoder is the output of the memory attention 
         mem_encoder_input_tensor.push_back(getTensorCopy(pix_feat_nchw_for_decoder, memory_info));
       }*/
+      if (frame_num == 0)
+        mem_encoder_input_tensor.push_back(getTensorCopy(inference_state.vision_features, memory_info));
+      else
+        mem_encoder_input_tensor.push_back(getTensorCopy(pix_feat_nchw_for_decoder, memory_info));
 
       //[masks] (We work with a copy as we will use img_decoder_out_masks later)
       //the original mask is upscaled (with a function called interpolated)
@@ -812,7 +827,7 @@ cv::Mat SAM21::inference_frame(cv::Mat image,
       inference_state.maskmem_posenc_BC64x64.push_back(std::move(maskmem_posenc));
 
       //if you never pop old ones, the bank will grow forever. You may need to keep only the latest N frames (like SAM2’s "sliding memory"). Example:
-      const int MAX_MEM = 4; // tune
+      const int MAX_MEM = 8; // tune
       if (inference_state.maskmem_features_BC64x64.size() > MAX_MEM) {
         inference_state.maskmem_features_BC64x64.erase(inference_state.maskmem_features_BC64x64.begin());
         inference_state.maskmem_posenc_BC64x64.erase(inference_state.maskmem_posenc_BC64x64.begin());
@@ -884,6 +899,8 @@ cv::Mat SAM21::inference_frame(cv::Mat image,
 void SAM21::test()
 {
  
+  printf("DIRECT TEST (without Segmentor/Segmentor21\n");
+
   SAM21 sam21("checkpoints/ailia_sam21_tiny", "t");
 
   printf("Reading video...\n");
@@ -893,11 +910,10 @@ void SAM21::test()
   if (!capture.isOpened()) return;
 
   std::vector<PromptPoint> promptPoints = {
-    //{550.0f, 250.0f, 1},  // positive point
-    {485.0f, 355.0f, 1},  // positive point
-    //{470.0f, 350.0f, 1},  // positive point
-    //{500.0f, 330.0f, 1},  // positive point
+    //{550.0f, 250.0f, 1},  // tshirt
+    {485.0f, 355.0f, 1},  // ball
   };
+  printf("TRACKING POINT %d, %d\n", promptPoints[0].x, promptPoints[0].y);
 
   //prompt
   /*std::vector<float> inputPointValues;
