@@ -7,6 +7,10 @@ add_library(${SEGMENTOR_SAM21}
     sam21.h 
     tensor_utils.h 
     onnxruntime_utils.h)
+	
+#find_package(onnxruntime REQUIRED CONFIG PATHS ${CMAKE_CURRENT_SOURCE_DIR}/../../onnxruntime/install/lib/cmake/onnxruntime)
+#target_link_libraries(my_target PRIVATE onnxruntime_static)
+
 
 target_include_directories(${SEGMENTOR_SAM21} PUBLIC 
     . 
@@ -17,6 +21,9 @@ target_include_directories(${SEGMENTOR_SAM21} PUBLIC
 set(OpenCV_STATIC ON)
 set(OpenCV_DIR "${CMAKE_CURRENT_SOURCE_DIR}/../../opencv/build")
 find_package(OpenCV REQUIRED) 
+
+#gflags stuff (required by onnxruntime?)
+#find_package(gflags REQUIRED)
 
 install(TARGETS ${SEGMENTOR_SAM21} RUNTIME)
 
@@ -29,6 +36,7 @@ target_link_libraries(${SEGMENTOR_SAM21} PRIVATE
     imgui-sdl2 #dependency of common
     common 
     #${PROTOBUF_LINK_LIBRARIES_GLOBAL}
+	#onnxruntime_static
     ${ONNXRUNTIME_LINK_LIBRARIES_GLOBAL}
     )
 

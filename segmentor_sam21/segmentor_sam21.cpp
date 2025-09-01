@@ -13,6 +13,7 @@ namespace fs = std::filesystem;
 
 Segmentor& get_sam21_segmentor() 
 {
+	printf("get_sam21_segmentor()\n");
     static SAM21Segmentor s21;
     return s21;
 }
@@ -140,6 +141,12 @@ static std::string modelsPath(bool release) {
         } else {
             models_absolutepath = models_relativepath;
         }
+		printf("models_absolutepath = %s\n", models_absolutepath.c_str());
+		
+		if (!fs::exists(models_absolutepath))
+                printf("ERROR: SAM 2.1 models path wrong (setup in segmentor_sam21.cpp): %s\n", models_absolutepath.c_str());
+		else
+				printf("Model folder exists.\n");
         return models_absolutepath;
 }
 
@@ -201,7 +208,8 @@ bool SAM21Segmentor::preprocessImage_and_remember(sam_image_u8 & image_sam) {
 //es pot eliminar:
 //one point, image opencv format
 cv::Mat SAM21Segmentor::get_best_mask_at_point(int x, int y, cv::Mat& image_opencv) {
-    /*
+    cv::Mat mask_opencv;
+	/*
     std::vector<MaskPoint> mask_points;
     MaskPoint mask_point;
     mask_point.x = x;
@@ -210,6 +218,7 @@ cv::Mat SAM21Segmentor::get_best_mask_at_point(int x, int y, cv::Mat& image_open
     mask_points.push_back(mask_point);
     return get_best_mask_at_points(mask_points, image_opencv);
     */
+	return mask_opencv;
 }
 
 //multiple points, image opencv format
@@ -248,6 +257,7 @@ bool SAM21Segmentor::get_best_mask_at_point(int x, int y, sam_image_u8& image_sa
     mask_points.push_back(mask_point);
     return get_best_mask_at_points(mask_points, image_sam, mask_sam);
     */
+	return true;
 }
 
 //multiple points, image sam format

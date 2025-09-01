@@ -56,5 +56,5 @@ add_subdirectory(test_onnx)
 add_subdirectory(test_segmentor)
 add_subdirectory(test_segmentor_sam1)
 #add_subdirectory(test_segmentor_sam2)
-add_subdirectory(test_segmentor_sam21)
+#add_subdirectory(test_segmentor_sam21)
 

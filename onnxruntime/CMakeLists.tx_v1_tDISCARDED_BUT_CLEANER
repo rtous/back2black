@@ -7,8 +7,6 @@ if(MSVC)
 	message(STATUS "RUBEN: MSVC DETECTED")
 	#set(ONNXRUNTIME_DIR "${CMAKE_CURRENT_SOURCE_DIR}/../../onnxruntime/build/Windows/Debug" )
 	set(ONNXRUNTIME_DIR "${CMAKE_CURRENT_SOURCE_DIR}/../../onnxruntime/install" )
-	set(ONNXRUNTIME_DIR_INSTALL "${CMAKE_CURRENT_SOURCE_DIR}/../../onnxruntime/install" )
-	set(ONNXRUNTIME_DIR_DEBUG "${CMAKE_CURRENT_SOURCE_DIR}/../../onnxruntime/build/Windows/Debug" )
 else()
 	message(STATUS "RUBEN: NO MSVC DETECTED")
 	set(ONNXRUNTIME_DIR "${CMAKE_CURRENT_SOURCE_DIR}/../../onnxruntime/build/MacOS/RelWithDebInfo" )
@@ -19,8 +17,11 @@ message("RUBEN ONNXRUNTIME_DIR set to ${ONNXRUNTIME_DIR}")
 
 
 set(ONNXRUNTIME_INCLUDES "")
-list(APPEND ONNXRUNTIME_INCLUDES ${ONNXRUNTIME_DIR_INSTALL}/include/onnxruntime/core/session) #Cause onnxruntime_cxx_api.h here
-#list(APPEND ONNXRUNTIME_INCLUDES ${CMAKE_CURRENT_SOURCE_DIR}/../../onnxruntime/include) #Discarded trying to avoid the API version mismatch problem
+list(APPEND ONNXRUNTIME_INCLUDES ${ONNXRUNTIME_DIR}/include/onnxruntime/core/session)
+#list(APPEND ONNXRUNTIME_INCLUDES ${CMAKE_CURRENT_SOURCE_DIR}/../../onnxruntime/include)
+#Cause onnxruntime_cxx_api.h here:
+#C:\Users\rtous\DockerVolume\onnxruntime\include\onnxruntime\core\session
+#C:\Users\rtous\DockerVolume\onnxruntime\include\onnxruntime\core\session
 
 message("RUBEN ONNXRUNTIME_INCLUDES set to ${ONNXRUNTIME_INCLUDES}")
 
@@ -28,77 +29,24 @@ message("RUBEN ONNXRUNTIME_INCLUDES set to ${ONNXRUNTIME_INCLUDES}")
 set(ONNXRUNTIME_INCLUDES_GLOBAL ${ONNXRUNTIME_INCLUDES} PARENT_SCOPE)
 #Need another variable with PARENT_SCOPE visibility
 
+#set(PROTOBUF_LINK_LIBRARIES "")
+#list(APPEND PROTOBUF_LINK_LIBRARIES ${ONNXRUNTIME_DIR}/_deps/protobuf-build/libprotobuf-lite.a)
+
 set(ONNXRUNTIME_LINK_LIBRARIES "")
 
+
 if(MSVC)
-	#Using libs from the install folder (after running cmake --install build\Windows\Debug --config Debug --prefix install):
-	#list(APPEND ONNXRUNTIME_LINK_LIBRARIES ${ONNXRUNTIME_DIR_INSTALL}/lib/onnxruntime_common.lib)
-	#list(APPEND ONNXRUNTIME_LINK_LIBRARIES ${ONNXRUNTIME_DIR_INSTALL}/lib/onnxruntime_flatbuffers.lib)
-	#list(APPEND ONNXRUNTIME_LINK_LIBRARIES ${ONNXRUNTIME_DIR_INSTALL}/lib/onnxruntime_framework.lib)
-	#list(APPEND ONNXRUNTIME_LINK_LIBRARIES ${ONNXRUNTIME_DIR_INSTALL}/lib/onnxruntime_graph.lib)
-	#list(APPEND ONNXRUNTIME_LINK_LIBRARIES ${ONNXRUNTIME_DIR_INSTALL}/lib/onnxruntime_lora.lib)
-	#list(APPEND ONNXRUNTIME_LINK_LIBRARIES ${ONNXRUNTIME_DIR_INSTALL}/lib/onnxruntime_mlas.lib)
-	#list(APPEND ONNXRUNTIME_LINK_LIBRARIES ${ONNXRUNTIME_DIR_INSTALL}/lib/onnxruntime_optimizer.lib)
-	#list(APPEND ONNXRUNTIME_LINK_LIBRARIES ${ONNXRUNTIME_DIR_INSTALL}/lib/onnxruntime_providers.lib)
-	#list(APPEND ONNXRUNTIME_LINK_LIBRARIES ${ONNXRUNTIME_DIR_INSTALL}/lib/onnxruntime_providers_shared.lib)
-	#list(APPEND ONNXRUNTIME_LINK_LIBRARIES ${ONNXRUNTIME_DIR_INSTALL}/lib/onnxruntime_session.lib)
-	#list(APPEND ONNXRUNTIME_LINK_LIBRARIES ${ONNXRUNTIME_DIR_INSTALL}/lib/onnxruntime_util.lib)
-	
-	#Libs that can be find in the Debug folder but also in the install folder:
-	list(APPEND ONNXRUNTIME_LINK_LIBRARIES ${ONNXRUNTIME_DIR_DEBUG}/Debug/onnxruntime.lib)
-
-	list(APPEND ONNXRUNTIME_LINK_LIBRARIES ${ONNXRUNTIME_DIR_DEBUG}/Debug/onnxruntime_optimizer.lib)
-	list(APPEND ONNXRUNTIME_LINK_LIBRARIES ${ONNXRUNTIME_DIR_DEBUG}/Debug/onnxruntime_providers.lib)
-	list(APPEND ONNXRUNTIME_LINK_LIBRARIES ${ONNXRUNTIME_DIR_DEBUG}/Debug/onnxruntime_util.lib)
-	list(APPEND ONNXRUNTIME_LINK_LIBRARIES ${ONNXRUNTIME_DIR_DEBUG}/Debug/onnxruntime_framework.lib)
-	list(APPEND ONNXRUNTIME_LINK_LIBRARIES ${ONNXRUNTIME_DIR_DEBUG}/Debug/onnxruntime_graph.lib)
-	list(APPEND ONNXRUNTIME_LINK_LIBRARIES ${ONNXRUNTIME_DIR_DEBUG}/Debug/onnxruntime_mlas.lib)
-	list(APPEND ONNXRUNTIME_LINK_LIBRARIES ${ONNXRUNTIME_DIR_DEBUG}/Debug/onnxruntime_common.lib)
-	list(APPEND ONNXRUNTIME_LINK_LIBRARIES ${ONNXRUNTIME_DIR_DEBUG}/Debug/onnxruntime_flatbuffers.lib)
-	list(APPEND ONNXRUNTIME_LINK_LIBRARIES ${ONNXRUNTIME_DIR_DEBUG}/Debug/onnxruntime_lora.lib)
-	
-	#Libs that can only be found in the debug folder:
-	list(APPEND ONNXRUNTIME_LINK_LIBRARIES ${ONNXRUNTIME_DIR_DEBUG}/Debug/onnxruntime_mocked_allocator.lib)
-	list(APPEND ONNXRUNTIME_LINK_LIBRARIES ${ONNXRUNTIME_DIR_DEBUG}/_deps/onnx-build/Debug/onnx_proto.lib)
-	list(APPEND ONNXRUNTIME_LINK_LIBRARIES ${ONNXRUNTIME_DIR_DEBUG}/_deps/onnx-build/Debug/onnx.lib)
-	list(APPEND ONNXRUNTIME_LINK_LIBRARIES ${ONNXRUNTIME_DIR_DEBUG}/_deps/protobuf-build/Debug/libprotobuf-lited.lib)
-	list(APPEND ONNXRUNTIME_LINK_LIBRARIES ${ONNXRUNTIME_DIR_DEBUG}/_deps/re2-build/Debug/re2.lib)
-	#abseil
-	list(APPEND ONNXRUNTIME_LINK_LIBRARIES ${ONNXRUNTIME_DIR_DEBUG}/_deps/abseil_cpp-build/absl/base/Debug/absl_base.lib)
-	list(APPEND ONNXRUNTIME_LINK_LIBRARIES ${ONNXRUNTIME_DIR_DEBUG}/_deps/abseil_cpp-build/absl/base/Debug/absl_throw_delegate.lib)
-	list(APPEND ONNXRUNTIME_LINK_LIBRARIES ${ONNXRUNTIME_DIR_DEBUG}/_deps/abseil_cpp-build/absl/base/Debug/absl_spinlock_wait.lib)
-	list(APPEND ONNXRUNTIME_LINK_LIBRARIES ${ONNXRUNTIME_DIR_DEBUG}/_deps/abseil_cpp-build/absl/base/Debug/absl_raw_logging_internal.lib)
-	list(APPEND ONNXRUNTIME_LINK_LIBRARIES ${ONNXRUNTIME_DIR_DEBUG}/_deps/abseil_cpp-build/absl/base/Debug/absl_strerror.lib)
-	list(APPEND ONNXRUNTIME_LINK_LIBRARIES ${ONNXRUNTIME_DIR_DEBUG}/_deps/abseil_cpp-build/absl/base/Debug/absl_malloc_internal.lib)
-	list(APPEND ONNXRUNTIME_LINK_LIBRARIES ${ONNXRUNTIME_DIR_DEBUG}/_deps/abseil_cpp-build/absl/base/Debug/absl_log_severity.lib)
-	list(APPEND ONNXRUNTIME_LINK_LIBRARIES ${ONNXRUNTIME_DIR_DEBUG}/_deps/abseil_cpp-build/absl/container/Debug/absl_raw_hash_set.lib)
-	list(APPEND ONNXRUNTIME_LINK_LIBRARIES ${ONNXRUNTIME_DIR_DEBUG}/_deps/abseil_cpp-build/absl/debugging/Debug/absl_decode_rust_punycode.lib)
-	list(APPEND ONNXRUNTIME_LINK_LIBRARIES ${ONNXRUNTIME_DIR_DEBUG}/_deps/abseil_cpp-build/absl/debugging/Debug/absl_demangle_internal.lib)
-	list(APPEND ONNXRUNTIME_LINK_LIBRARIES ${ONNXRUNTIME_DIR_DEBUG}/_deps/abseil_cpp-build/absl/debugging/Debug/absl_demangle_rust.lib)
-	list(APPEND ONNXRUNTIME_LINK_LIBRARIES ${ONNXRUNTIME_DIR_DEBUG}/_deps/abseil_cpp-build/absl/debugging/Debug/absl_examine_stack.lib)
-	list(APPEND ONNXRUNTIME_LINK_LIBRARIES ${ONNXRUNTIME_DIR_DEBUG}/_deps/abseil_cpp-build/absl/debugging/Debug/absl_stacktrace.lib)
-	list(APPEND ONNXRUNTIME_LINK_LIBRARIES ${ONNXRUNTIME_DIR_DEBUG}/_deps/abseil_cpp-build/absl/debugging/Debug/absl_symbolize.lib)
-	list(APPEND ONNXRUNTIME_LINK_LIBRARIES ${ONNXRUNTIME_DIR_DEBUG}/_deps/abseil_cpp-build/absl/debugging/Debug/absl_utf8_for_code_point.lib)
-	list(APPEND ONNXRUNTIME_LINK_LIBRARIES ${ONNXRUNTIME_DIR_DEBUG}/_deps/abseil_cpp-build/absl/hash/Debug/absl_hash.lib)
-	list(APPEND ONNXRUNTIME_LINK_LIBRARIES ${ONNXRUNTIME_DIR_DEBUG}/_deps/abseil_cpp-build/absl/hash/Debug/absl_low_level_hash.lib)
-	list(APPEND ONNXRUNTIME_LINK_LIBRARIES ${ONNXRUNTIME_DIR_DEBUG}/_deps/abseil_cpp-build/absl/hash/Debug/absl_city.lib)
-	list(APPEND ONNXRUNTIME_LINK_LIBRARIES ${ONNXRUNTIME_DIR_DEBUG}/_deps/abseil_cpp-build/absl/log/Debug/absl_log_globals.lib)
-	list(APPEND ONNXRUNTIME_LINK_LIBRARIES ${ONNXRUNTIME_DIR_DEBUG}/_deps/abseil_cpp-build/absl/log/Debug/absl_log_internal_format.lib)
-	list(APPEND ONNXRUNTIME_LINK_LIBRARIES ${ONNXRUNTIME_DIR_DEBUG}/_deps/abseil_cpp-build/absl/log/Debug/absl_log_internal_globals.lib)
-	list(APPEND ONNXRUNTIME_LINK_LIBRARIES ${ONNXRUNTIME_DIR_DEBUG}/_deps/abseil_cpp-build/absl/log/Debug/absl_log_internal_log_sink_set.lib)
-	list(APPEND ONNXRUNTIME_LINK_LIBRARIES ${ONNXRUNTIME_DIR_DEBUG}/_deps/abseil_cpp-build/absl/log/Debug/absl_log_internal_message.lib)
-	list(APPEND ONNXRUNTIME_LINK_LIBRARIES ${ONNXRUNTIME_DIR_DEBUG}/_deps/abseil_cpp-build/absl/log/Debug/absl_log_internal_proto.lib)
-	list(APPEND ONNXRUNTIME_LINK_LIBRARIES ${ONNXRUNTIME_DIR_DEBUG}/_deps/abseil_cpp-build/absl/log/Debug/absl_log_sink.lib)
-	list(APPEND ONNXRUNTIME_LINK_LIBRARIES ${ONNXRUNTIME_DIR_DEBUG}/_deps/abseil_cpp-build/absl/numeric/Debug/absl_int128.lib)
-	list(APPEND ONNXRUNTIME_LINK_LIBRARIES ${ONNXRUNTIME_DIR_DEBUG}/_deps/abseil_cpp-build/absl/strings/Debug/absl_cordz_info.lib)
-	list(APPEND ONNXRUNTIME_LINK_LIBRARIES ${ONNXRUNTIME_DIR_DEBUG}/_deps/abseil_cpp-build/absl/strings/Debug/absl_str_format_internal.lib)
-	list(APPEND ONNXRUNTIME_LINK_LIBRARIES ${ONNXRUNTIME_DIR_DEBUG}/_deps/abseil_cpp-build/absl/strings/Debug/absl_strings.lib)
-	list(APPEND ONNXRUNTIME_LINK_LIBRARIES ${ONNXRUNTIME_DIR_DEBUG}/_deps/abseil_cpp-build/absl/synchronization/Debug/absl_kernel_timeout_internal.lib)
-	list(APPEND ONNXRUNTIME_LINK_LIBRARIES ${ONNXRUNTIME_DIR_DEBUG}/_deps/abseil_cpp-build/absl/synchronization/Debug/absl_synchronization.lib)
-	list(APPEND ONNXRUNTIME_LINK_LIBRARIES ${ONNXRUNTIME_DIR_DEBUG}/_deps/abseil_cpp-build/absl/time/Debug/absl_time_zone.lib)
-	list(APPEND ONNXRUNTIME_LINK_LIBRARIES ${ONNXRUNTIME_DIR_DEBUG}/_deps/abseil_cpp-build/absl/time/Debug/absl_time.lib)
-	list(APPEND ONNXRUNTIME_LINK_LIBRARIES ${ONNXRUNTIME_DIR_DEBUG}/_deps/pytorch_cpuinfo-build/Debug/cpuinfo.lib)
-
+	list(APPEND ONNXRUNTIME_LINK_LIBRARIES ${ONNXRUNTIME_DIR}/lib/onnxruntime_common.lib)
+	list(APPEND ONNXRUNTIME_LINK_LIBRARIES ${ONNXRUNTIME_DIR}/lib/onnxruntime_flatbuffers.lib)
+	list(APPEND ONNXRUNTIME_LINK_LIBRARIES ${ONNXRUNTIME_DIR}/lib/onnxruntime_framework.lib)
+	list(APPEND ONNXRUNTIME_LINK_LIBRARIES ${ONNXRUNTIME_DIR}/lib/onnxruntime_graph.lib)
+	list(APPEND ONNXRUNTIME_LINK_LIBRARIES ${ONNXRUNTIME_DIR}/lib/onnxruntime_lora.lib)
+	list(APPEND ONNXRUNTIME_LINK_LIBRARIES ${ONNXRUNTIME_DIR}/lib/onnxruntime_mlas.lib)
+	list(APPEND ONNXRUNTIME_LINK_LIBRARIES ${ONNXRUNTIME_DIR}/lib/onnxruntime_optimizer.lib)
+	list(APPEND ONNXRUNTIME_LINK_LIBRARIES ${ONNXRUNTIME_DIR}/lib/onnxruntime_providers.lib)
+	list(APPEND ONNXRUNTIME_LINK_LIBRARIES ${ONNXRUNTIME_DIR}/lib/onnxruntime_providers_shared.lib)
+	list(APPEND ONNXRUNTIME_LINK_LIBRARIES ${ONNXRUNTIME_DIR}/lib/onnxruntime_session.lib)
+	list(APPEND ONNXRUNTIME_LINK_LIBRARIES ${ONNXRUNTIME_DIR}/lib/onnxruntime_util.lib)
 else()
 	#ONNXRUNTIME
 	list(APPEND ONNXRUNTIME_LINK_LIBRARIES "-framework Foundation")

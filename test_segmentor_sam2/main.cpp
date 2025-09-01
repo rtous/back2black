@@ -2,6 +2,7 @@
 #define STRIP_FLAG_HELP 1
 #ifdef _WIN32 //WIN32
 	//
+	#include <gflags/gflags.h>
 #else
 	#include <gflags/gflags.h>
 #endif

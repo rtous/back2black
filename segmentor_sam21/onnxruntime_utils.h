@@ -71,22 +71,39 @@ public:
         session_options_.SetIntraOpNumThreads(2);
         session_options_.SetGraphOptimizationLevel(GraphOptimizationLevel::ORT_ENABLE_ALL);
         
+		printf("ONNX checking device...\n");
         if (device == "cpu") {
+			printf("CPU detected\n");
             //Do nothing
         } else if (device == "cuda") {
+			printf("CUDA detected\n");
             int gpuDeviceId = std::stoi(device.substr(5));
             OrtCUDAProviderOptions options;
             options.device_id = gpuDeviceId;
             session_options_.AppendExecutionProvider_CUDA(options);
         }
-        session_ = std::make_unique<Ort::Session>(env_, model_path.c_str(), session_options_);
-
+		
+		
+		#ifdef _WIN32 //WIN32
+			std::wstring model_path_widestr = std::wstring(model_path.begin(), model_path.end());
+			//printf("Creating session (WINDOWS) with model path %s...\n", model_path_widestr.c_str());
+			wprintf(L"Creating session (WINDOWS) with model path %ls...\n", model_path_widestr.c_str());
+			session_ = std::make_unique<Ort::Session>(env_, model_path_widestr.c_str(), session_options_);
+		#else
+			printf("Creating session (MACOS) with model path %s...\n", model_path.c_str());
+			session_ = std::make_unique<Ort::Session>(env_, model_path.c_str(), session_options_);
+		#endif
+		
+		
         load_io_info();
     }
     
 
     // Run with inputs (Ort::Value). Returns vector<Ort::Value> outputs
     std::vector<Ort::Value> run(const std::vector<Ort::Value>& inputs) {
+		
+		printf("running ort model...\n");
+		
         Ort::RunOptions run_options;
 
         std::vector<const char*> input_names = getInputNames();

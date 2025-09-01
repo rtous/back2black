@@ -775,6 +775,7 @@ int propagate_masks(std::vector<Frame> & frames, Segmentor & segmentor, int from
         }
         m++;
     }
+	return 0;
             
 }
 

@@ -246,3 +246,10 @@ Universitat Politecnica de Catalunya
 			- Perd la pilota al frame 30 o així (motion blur)
 		- IMPORTANT: Assegurar que sempre agafa la millor màscara...
 		- IMPORTANT: Quina és la finestra de la memòria a l'original?? (jo ara tinc 4) 
+
+01/9/2025
+	- Working in the Windows problems with ONNX
+	- Detected that the problem is that I'm building against 1.17.1 libs but including a header file which says it's version 20
+	- Tried to harcode but an unknown problem appears
+	- WARNING: Hi ha poc espai al disc, que no sigui això l'error
+	- He esborrat el directori onnxruntime. El tornaré a descarregar (mirar instruccions al manual per assegurar versió 20)
